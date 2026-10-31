@@ -16,11 +16,15 @@ target:
   architecture:
     adrs: []
 characterization:
-  tier: B
+  tier: A
   reason: >-
-    Provisional. The source builds from public Maven Central artifacts and targets Payara 4 with embedded
-    Derby, so tier A (a running legacy app in a container) is likely; the Bootstrapper verifies A vs B
-    in its first ticket and updates this.
+    Verified with Java 8 and Payara Server 4.1.2.181: a scratch build of the
+    pinned source was deployed and GET /cargo-tracker/ returned HTTP 200.
+    `characterization/legacy-runtime/run-payara.sh` reproduces the probe using
+    Maven Central only. The default Maven profile's Payara Arquillian test
+    dependencies include five unavailable `2.29.payara-p3` Jersey artifacts;
+    the runner disables that profile for packaging, and the full remote test
+    suite remains blocked by those dependencies.
 graph:
   tool: understand-anything
   commit: 4e6d3299017a7432da15957874992837a315c5b4

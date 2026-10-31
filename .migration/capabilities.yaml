@@ -1,12 +1,20 @@
 # Capability checklist (ADR-0012), written by bootstrap. A gap blocks Phase 2 until its ticket is resolved.
 harness_version: 0.2.0
-checked_at: '2026-10-31T16:01:35Z'
+checked_at: '2026-10-31T17:01:34Z'
 characterization:
-  legacy_environment: unknown
-  source_builds: unknown
-  tier: B
-  reason: Public Maven Central dependencies only; Payara 4 + embedded Derby. To verify (A vs B) in the Bootstrapper's
-    first ticket.
+  legacy_environment: available
+  source_builds: partial
+  blockers:
+  - org.glassfish.jersey.inject:jersey-hk2:jar:2.29.payara-p3 (test)
+  - org.glassfish.jersey.media:jersey-media-sse:jar:2.29.payara-p3 (test)
+  - org.glassfish.jersey.media:jersey-media-multipart:jar:2.29.payara-p3 (test)
+  - org.glassfish.jersey.media:jersey-media-json-processing:jar:2.29.payara-p3 (test)
+  - org.glassfish.jersey.media:jersey-media-json-jackson:jar:2.29.payara-p3 (test)
+  tier: A
+  reason: >-
+    Payara Server 4.1.2.181 ran on Java 8 and served the scratch-built WAR; GET
+    /cargo-tracker/ returned HTTP 200. The reproducible runner excludes the
+    unavailable Payara Arquillian test profile dependencies from the build.
 capabilities:
 - id: code-graph
   applies_to: both
@@ -18,15 +26,35 @@ capabilities:
 - id: build-run
   applies_to: source
   status: met
-  notes: Maven build from Maven Central; runtime Payara 4.1 (cargo-maven2-plugin / container). Verify in the first
-    ticket.
+  notes: >-
+    The default `mvn -s characterization/legacy-runtime/maven-settings.xml -B
+    package -DskipTests` fails because the five test-scope Jersey
+    `2.29.payara-p3` artifacts listed above are absent from Central. Their
+    upstream `2.29` Central artifacts were confirmed available. Packaging
+    succeeds from a writable scratch copy with `mvn -P '!payara' -s
+    characterization/legacy-runtime/maven-settings.xml -B package -DskipTests`.
+    `characterization/legacy-runtime/run-payara.sh` repeats that build, starts
+    Payara 4.1.2.181, deploys the WAR, and verifies the HTTP 200 response.
+    Evidence: `.migration/runs/4/20261031T165513416305Z-source-build.log`
+    (default build failure), `.migration/runs/4/20261031T165611512057Z-source-build-central-equivalents.log`
+    (scratch package success), and
+    `.migration/runs/4/20261031T170130051434Z-reproducible-tier-a-final.log`
+    (complete reproducible build, Payara version, and HTTP 200 response).
   provided_by:
   - kind: tool
     name: maven
 - id: characterization-harness
   applies_to: source
   status: met
-  notes: The source ships JUnit 4 + Arquillian tests (11 files) — inventory them as legacy-test evidence.
+  notes: >-
+    The pinned source has nine test classes. Five non-container domain test
+    classes passed (24 tests) with the Payara profile disabled; see
+    `.migration/runs/4/20261031T165935331372Z-isolated-domain-tests.log`.
+    Attempting `BookingServiceTest` without that profile failed because no
+    Arquillian deployable-container provider was present. The full remote
+    Arquillian suite cannot be run with the Central-only mirror because the
+    Payara adapter requires the five unavailable patched Jersey artifacts
+    listed under characterization blockers.
   provided_by:
   - kind: skill
     name: java-junit
