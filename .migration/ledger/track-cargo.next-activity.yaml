@@ -17,6 +17,5 @@ evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::nextActivityAfterLoadAndUnload"
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
   - "characterization/track-cargo/golden/abc123.json"
-  - ".migration/quirks/itinerary-test-next-expected.md"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Tier-B cases cover progression, claim, off-track and unrouted states. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see .migration/quirks/itinerary-test-next-expected.md."
+notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Tier-B cases cover progression, claim, off-track and unrouted states. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence."

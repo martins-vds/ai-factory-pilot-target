@@ -17,6 +17,6 @@ evidence:
   - "characterization/track-cargo/test_tracking.py::test_quirk_claimed_cargo_retains_past_eta"
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/mno456.json"
-  - ".migration/quirks/claimed-cargo-past-eta.md"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "Delivery supplies an ETA while routed and not misdirected, including after CLAIM; MNO456 shows the scheduled date 28 days in the past. This unexpected behavior is recorded in .migration/quirks/claimed-cargo-past-eta.md. The date formatter uses the JVM default locale/time zone."
+notes: "Delivery supplies an ETA while routed and not misdirected, including after CLAIM; MNO456 shows the scheduled date 28 days in the past. This unexpected behavior is recorded in martins-vds/ai-factory-pilot-target#17. The date formatter uses the JVM default locale/time zone."
+quirks: [martins-vds/ai-factory-pilot-target#17]

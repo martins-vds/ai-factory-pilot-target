@@ -17,7 +17,6 @@ evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::nextActivityAfterLoadAndUnload"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
-  - ".migration/quirks/itinerary-test-next-expected.md"
-  - ".migration/quirks/claimed-cargo-past-eta.md"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see .migration/quirks/claimed-cargo-past-eta.md. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see .migration/quirks/itinerary-test-next-expected.md. Risk is calculateNextExpectedActivity."
+notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity."
+quirks: [martins-vds/ai-factory-pilot-target#17]
