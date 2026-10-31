@@ -10,6 +10,12 @@ boundary: "For a found cargo, embed public/mapFrame.xhtml with status, last-know
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
+  - "characterization/track-cargo/golden/abc123.json"
+  - "characterization/track-cargo/golden/def789.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "No frame is rendered when cargo is empty. The page uses the common public.xhtml template, which loads css/app.css, the logo and Font Awesome CDN; messages.properties is not referenced. Risk is the getStatusCode parameter supplier; coverage input unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#14]

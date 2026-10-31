@@ -10,5 +10,11 @@ boundary: "HandlingEvent.findByTrackingId reads event rows for a cargo; fields u
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[mno456]"
+  - "characterization/track-cargo/golden/mno456.json"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testNewWithCarrierMovement"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "The entity also maps id and registration, which this display does not use. JpaHandlingEventRepository wraps results in HandlingHistory. HandlingEventTest and HandlingHistoryTest cover event and history rules; HandlingEventServiceTest covers adjacent registration, not the public query. Coverage input unavailable."

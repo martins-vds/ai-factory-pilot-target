@@ -10,5 +10,11 @@ boundary: "Cargo's embedded itinerary reads ordered Leg rows and their voyage, l
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::nextActivityAfterLoadAndUnload"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/ItineraryTest.java::testCargoOnTrack"
+  - "characterization/track-cargo/golden/abc123.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Leg table fields: id, cargo_id (Itinerary join), voyage_id, load_location_id, unload_location_id, load_time and unload_time. Itinerary orders by loadTime. ItineraryTest and CargoTest cover related domain rules; risk is Itinerary.isExpected, coverage input unavailable."

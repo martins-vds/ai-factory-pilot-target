@@ -10,6 +10,12 @@ boundary: "The public result sentence displays In port {destination}, Onboard vo
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_quirk13_in_port_names_route_destination"
+  - "characterization/track-cargo/golden/abc123.json"
+  - "characterization/track-cargo/golden/jkl567.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "IN_PORT uses the route destination name, not lastKnownLocation; see martins-vds/ai-factory-pilot-target#13. Similar cargo.status.* strings exist in messages.properties but this page uses adapter literals, not that bundle. CargoTest covers domain transport/routing state; no adapter test edge. Risk is getStatusText; coverage input unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#13]

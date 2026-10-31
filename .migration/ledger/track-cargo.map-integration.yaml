@@ -10,6 +10,12 @@ boundary: "The embedded map loads Leaflet from unpkg, marker assets from raw.git
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_quirk14_map_offsets_are_random_and_in_range"
+  - "characterization/track-cargo/golden/abc123.json"
+  - "characterization/track-cargo/golden/jkl567.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Map frame reads status/origin/destination/last-known query parameters; fixed LOCODE coordinate tables determine markers. The common public template also loads Font Awesome from a CDN. See martins-vds/ai-factory-pilot-target#14. Risk is the Java status-code supplier; embedded XHTML/JavaScript is not included in the Java lizard run; coverage input unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#14]

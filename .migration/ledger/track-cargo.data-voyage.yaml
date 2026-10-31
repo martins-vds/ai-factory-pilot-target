@@ -10,5 +10,11 @@ boundary: "Voyage rows supply the voyage number displayed for onboard status and
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
+  - "characterization/track-cargo/golden/jkl567.json"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testCurrentLocationLoadEvent"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Voyage table fields used are id and embedded voyage_number, referenced by Delivery.current_voyage_id, Leg.voyage_id, HandlingEvent.voyage_id and next_expected_voyage_id. Schedule/carrier movements are not read by this page. Risk is CargoTrackingViewAdapter.getStatusText; coverage input unavailable."

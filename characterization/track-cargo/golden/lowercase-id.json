@@ -1,0 +1,14 @@
+{
+  "input": "abc123",
+  "predicted": "Tracking IDs remain case-sensitive; the cargo is not found.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "submitted_id": "abc123",
+    "result": null,
+    "history": {
+      "empty_label": "There are no events recorded for the tracking ID .",
+      "rows": []
+    },
+    "map_query": null
+  }
+}

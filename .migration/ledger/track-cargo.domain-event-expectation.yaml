@@ -10,5 +10,12 @@ boundary: "The event list marks RECEIVE at first-leg origin, matching LOAD/UNLOA
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::emptyItineraryAcceptsEveryHandlingType"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/ItineraryTest.java::testCargoOnTrack"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
+  - "characterization/track-cargo/golden/jkl567.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "This rule drives the public history markers and Delivery misdirection. ItineraryTest::testCargoOnTrack and testNextExpectedEvent plus CargoTest::testIsMisdirected cover related cases; graph tested_by edges link Delivery to CargoTest and ItineraryTest. Risk is isExpected; coverage input unavailable."

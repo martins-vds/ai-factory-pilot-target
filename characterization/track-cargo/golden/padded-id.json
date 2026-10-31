@@ -1,0 +1,45 @@
+{
+  "input": " ABC123 ",
+  "predicted": "The backing bean trims surrounding whitespace and finds ABC123.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "submitted_id": "ABC123",
+    "result": {
+      "tracking_id": "ABC123",
+      "status_text": "In port Helsinki",
+      "destination": "Helsinki",
+      "eta": "<TODAY+14> 12:00 AM UTC",
+      "next_activity": "Next expected activity is to load cargo onto voyage 0200T in New York",
+      "misdirected": false
+    },
+    "history": {
+      "empty_label": null,
+      "rows": [
+        {
+          "expected": true,
+          "description": "Received in Hong Kong",
+          "time": "<TODAY-10> 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Loaded onto voyage 0100S in Hong Kong",
+          "time": "<TODAY-7> 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Unloaded off voyage 0100S in New York",
+          "time": "<TODAY-1> 12:00 AM UTC"
+        }
+      ]
+    },
+    "map_query": {
+      "statusCode": "IN_PORT",
+      "lastKnownLocationCode": "USNYC",
+      "lastKnownLocationName": "New York",
+      "originCode": "CNHKG",
+      "originName": "Hong Kong",
+      "destinationCode": "FIHEL",
+      "destinationName": "Helsinki"
+    }
+  }
+}
