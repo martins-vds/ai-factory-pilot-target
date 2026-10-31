@@ -1,0 +1,4 @@
+# Pinned, read-only migration source. Written by bootstrap; change only through a new setup PR.
+repo: eclipse-ee4j/cargotracker
+sha: f3beacf78de4f6d34edc4971ac87e38a5c6fe59d
+path: 

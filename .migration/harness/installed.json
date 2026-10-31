@@ -1,0 +1,1101 @@
+{
+  "harness_version": "0.2.0",
+  "harness_commit": "f109f4a8ce67e1c4a91161cc0b6c50299ed171c8",
+  "installed_at": "2026-10-31T16:01:30Z",
+  "entries": [
+    {
+      "path": ".github/agents/afs-analyst.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-analyst.agent.md": "033e49f276ed21ec3797ea3570c786d303d5020d13973b59c5672c318a25e6d3"
+      }
+    },
+    {
+      "path": ".github/agents/afs-auditor.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-auditor.agent.md": "7ab87807ba30d1eee352023d5a75244c5687a4b8504b893d435f7799b0144b86"
+      }
+    },
+    {
+      "path": ".github/agents/afs-bootstrapper.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-bootstrapper.agent.md": "ee0fafdfa10b1d35626133c48fad3a6752df2ba87aa282b4572a352d4bcb5242"
+      }
+    },
+    {
+      "path": ".github/agents/afs-characterizer.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-characterizer.agent.md": "0e740d6d8c96f6f9f798d06f996b229ac86157e71284aa9edf1de42e8f4af331"
+      }
+    },
+    {
+      "path": ".github/agents/afs-migrator.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-migrator.agent.md": "c33c478169a1ea2df923c081b2eb35a78f66b6000186897009dc4df684a81c15"
+      }
+    },
+    {
+      "path": ".github/agents/afs-planner.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-planner.agent.md": "80a62afdcc8a64a1bd7f1eed9c38070a56ca30e3a32487a72861d3f3df6028f4"
+      }
+    },
+    {
+      "path": ".github/agents/afs-program-orchestrator.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-program-orchestrator.agent.md": "ac3ccaeb99760a1d353ffa8d5e7eb606a7f1cadb00001bcb4e8165584be70edc"
+      }
+    },
+    {
+      "path": ".github/agents/afs-slice-coordinator.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-slice-coordinator.agent.md": "d37bab16d79b1ba835d165fc409effda8f4ee5c954a4747734bef27176b92e7f"
+      }
+    },
+    {
+      "path": ".github/agents/afs-specialist-migrator.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-specialist-migrator.agent.md": "69d95679085da45e16fe17edf67dac0d1d65ba19db88a2a6b6b4b79c499457a0"
+      }
+    },
+    {
+      "path": ".github/agents/afs-verifier.agent.md",
+      "kind": "agent",
+      "files": {
+        ".github/agents/afs-verifier.agent.md": "e071ae41e690001a09d520452dd9ab00a762cdc7c54d0d48352b09cd0567d54a"
+      }
+    },
+    {
+      "path": ".github/skills/afs-migration-contract",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "harness",
+      "files": {
+        ".github/skills/afs-migration-contract/SKILL.md": "2575ac4a59ff15bad70a968d82ce21f543a29547692d0d864e9a2930f4ddf81e",
+        ".github/skills/afs-migration-contract/references/capability-coverage.md": "a0b43baddc3a0e2be7396e68361704d9db49761698c10c3753545038c8782ffd",
+        ".github/skills/afs-migration-contract/references/characterization.md": "59bedbcabd36825d268b1362596e8215e5363c0fec308fc2cd58981bebbe3d07",
+        ".github/skills/afs-migration-contract/references/final-verification.md": "847e361034d3f5a7f0ddcf26a0602183588b752cb91206c298c55c4c3cfcb12b",
+        ".github/skills/afs-migration-contract/references/gates.md": "442cc01f926ebf4a02a2e9b3fc2c5ce8634d8a151497cc233b56f164a5f8634a",
+        ".github/skills/afs-migration-contract/references/lifecycle.md": "02be45d223d8faefea4ce2b4d5c5041317c7449669b19a1302f6f50f1cfd7642"
+      }
+    },
+    {
+      "path": ".github/skills/afs-setup-check",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "harness",
+      "files": {
+        ".github/skills/afs-setup-check/SKILL.md": "9d008899a7dd02e4208c7b6d2398022689d2d672ac7e0c7b1c67672ead13cb4d"
+      }
+    },
+    {
+      "path": ".github/skills/afs-handoff",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "harness",
+      "files": {
+        ".github/skills/afs-handoff/SKILL.md": "b45e9df6fb3447bd3dae722ca5f85063279d968811f0169e0b9e91c070815289"
+      }
+    },
+    {
+      "path": ".github/skills/afs-ledger",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "harness",
+      "files": {
+        ".github/skills/afs-ledger/SKILL.md": "cc7e624874709dee2a16e01be5206e5db6f20241c7bbaff251058a96523fe4b2"
+      }
+    },
+    {
+      "path": ".github/skills/afs-evidence",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "harness",
+      "files": {
+        ".github/skills/afs-evidence/SKILL.md": "8b2e9c364e26cb71ef569326233756df5abdc9aa33fe9f17487ac17c3aed122a"
+      }
+    },
+    {
+      "path": ".github/skills/afs-quirk-ticket",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "harness",
+      "files": {
+        ".github/skills/afs-quirk-ticket/SKILL.md": "64c71d8da4d107633db3b9beba881a589ef0bb01328f19b9797fc55ca790f38c"
+      }
+    },
+    {
+      "path": ".github/skills/wayfinder",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/wayfinder",
+      "files": {
+        ".github/skills/wayfinder/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/wayfinder/PROVENANCE.md": "8eed9ca6b66a0bc042f8e76a3da568af91da6f783bfe01147301558f2b7e5ef3",
+        ".github/skills/wayfinder/SKILL.md": "0c9fa96791aebf3b7d654cf35c6aadde97d81f57c17b07d13b27c14d9c46561f",
+        ".github/skills/wayfinder/agents/openai.yaml": "88bc81a11a6d52ac67aeaa76b8b619e387020d47c5133a4dd4927fd15c4ad073"
+      }
+    },
+    {
+      "path": ".github/skills/afs-wayfinder",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "vendored",
+      "files": {
+        ".github/skills/afs-wayfinder/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/afs-wayfinder/PROVENANCE.md": "6626c73f544da4632c2d47d041b2f4c0f73028218a271a6635ce78df265d34d7",
+        ".github/skills/afs-wayfinder/SKILL.md": "bbe706766b9bae179c76e2c2808e7e0c24213c2b98bbe67f407a3bf09ed6190b",
+        ".github/skills/afs-wayfinder/agents/openai.yaml": "88bc81a11a6d52ac67aeaa76b8b619e387020d47c5133a4dd4927fd15c4ad073"
+      }
+    },
+    {
+      "path": ".github/skills/to-tickets",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/to-tickets",
+      "files": {
+        ".github/skills/to-tickets/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/to-tickets/PROVENANCE.md": "12dc2966650db20bfb7dca678d6211df2a6bbc20a125bb0f7408f67b583bde6c",
+        ".github/skills/to-tickets/SKILL.md": "56ec23c5b2782785d4e65bff9e315b6d3aeb4ef977c174a219e99489fada1995",
+        ".github/skills/to-tickets/agents/openai.yaml": "21bc6215fffcd7614e9f772bb1760e87cc5fc7dcc707e7d282bc9414267a6090"
+      }
+    },
+    {
+      "path": ".github/skills/afs-to-tickets",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "vendored",
+      "files": {
+        ".github/skills/afs-to-tickets/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/afs-to-tickets/PROVENANCE.md": "b485a2be767840f804c0df563f68b7924dc389ac31452806cdbc6d73e875d550",
+        ".github/skills/afs-to-tickets/SKILL.md": "bde448b5218ef4472facb529146b12ea11b737510a9206181a40ff36fe5fe600",
+        ".github/skills/afs-to-tickets/agents/openai.yaml": "21bc6215fffcd7614e9f772bb1760e87cc5fc7dcc707e7d282bc9414267a6090"
+      }
+    },
+    {
+      "path": ".github/skills/to-spec",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/to-spec",
+      "files": {
+        ".github/skills/to-spec/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/to-spec/PROVENANCE.md": "78f975e260ece05458232c39d2748cbcbb6bd60c9ea440864c50cf6845651ac2",
+        ".github/skills/to-spec/SKILL.md": "43ad9cf318e5e7d3d1fa360253a37021796dc87a0c2e595ad262661a10f85088",
+        ".github/skills/to-spec/agents/openai.yaml": "1c5b4d1e3d8e52287ef19cc2742fdbbfae1914ac75d33af3e4c8174f08cc55bb"
+      }
+    },
+    {
+      "path": ".github/skills/grilling",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/productivity/grilling",
+      "files": {
+        ".github/skills/grilling/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/grilling/PROVENANCE.md": "71846c1b8e629f45f75bed99e303cac8e43f38520417dc35d393eb4f6778ba76",
+        ".github/skills/grilling/SKILL.md": "a146842ed93ca43d833550fa9adf02e58cb63c83fea9d4b4522995b82242d4e2",
+        ".github/skills/grilling/agents/openai.yaml": "1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b"
+      }
+    },
+    {
+      "path": ".github/skills/setup-matt-pocock-skills",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/setup-matt-pocock-skills",
+      "files": {
+        ".github/skills/setup-matt-pocock-skills/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/setup-matt-pocock-skills/PROVENANCE.md": "5e2f9af2b6ccb346d1876d57cb5037d3e4a702659d1b3469929303ab9624c0ff",
+        ".github/skills/setup-matt-pocock-skills/SKILL.md": "b01e05bfe8c323171275c6ceec78b12f1bd4c62dfd26c2cfe8be806d3883f1ed",
+        ".github/skills/setup-matt-pocock-skills/agents/openai.yaml": "9527de0110541c45712319025155aeab8dc7d77c6ed6e5e83271bab1851ab939",
+        ".github/skills/setup-matt-pocock-skills/domain.md": "593a7042218689f1d24df89df14eaf0a20e19e0d0a7d479a01947ac78f0784b9",
+        ".github/skills/setup-matt-pocock-skills/issue-tracker-github.md": "6fdb3e9b00b7b0b115ecac3b1c00e3790f637f190abf598815368722c0a94692",
+        ".github/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md": "947602d33a80f98f939fb990995b8f95a3459b114b919c4221d08bd75d7cffe0",
+        ".github/skills/setup-matt-pocock-skills/issue-tracker-local.md": "7dcda20a2eb4bdc89b95d1143423c0691309921cadae3132e6424f371030506e",
+        ".github/skills/setup-matt-pocock-skills/triage-labels.md": "ae512af838c78b8750471c42cd2b20fa32319553e61d84c9a23d171b40ce14aa"
+      }
+    },
+    {
+      "path": ".github/skills/domain-modeling",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/domain-modeling",
+      "files": {
+        ".github/skills/domain-modeling/ADR-FORMAT.md": "944c92aa790e8fbdc9199640b170979abb8a34ba8d0fe18c2a01a63bce140ca0",
+        ".github/skills/domain-modeling/GLOSSARY-FORMAT.md": "21dcc40cdec8e151a829b98ab1517c1867bc444e3665134a98c6983411996801",
+        ".github/skills/domain-modeling/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/domain-modeling/PROVENANCE.md": "faa871135db046004669c451fc75306fded9f7ecf20baa37627f30b95b07c110",
+        ".github/skills/domain-modeling/SKILL.md": "7b925d7b1e341a2eeae33ad68a8a8c0ab889a38ddd22a7598e4c240e5a7556a3",
+        ".github/skills/domain-modeling/agents/openai.yaml": "f6bf2aa996c6e6f53fdd0708e18a0d16a56aed8322cca59fedbe3c0d2c75f06b"
+      }
+    },
+    {
+      "path": ".github/skills/codebase-design",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/codebase-design",
+      "files": {
+        ".github/skills/codebase-design/DEEPENING.md": "f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1",
+        ".github/skills/codebase-design/DESIGN-IT-TWICE.md": "c222ab5a82e0405672eb9062d62496139a08828e45d07fc5f18e4952c10fac1a",
+        ".github/skills/codebase-design/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/codebase-design/PROVENANCE.md": "0cd5878fea2a7b07f70e62eb5f962f54620a89ea8190bf82c9613c2931fcbb76",
+        ".github/skills/codebase-design/SKILL.md": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
+        ".github/skills/codebase-design/agents/openai.yaml": "edebc9e4fcfe102114012575eaa9600b9b5fd08c311664f389c36e7bc717740f"
+      }
+    },
+    {
+      "path": ".github/skills/improve-codebase-architecture",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/improve-codebase-architecture",
+      "files": {
+        ".github/skills/improve-codebase-architecture/HTML-REPORT.md": "581e8bb5a521e46bbda8ca7e19b15948bed882187108092ebb90c62513b77528",
+        ".github/skills/improve-codebase-architecture/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/improve-codebase-architecture/PROVENANCE.md": "756cd0ad17b3b3ef31d780ca5b4f6f026498653383b943a8e56998edccc64361",
+        ".github/skills/improve-codebase-architecture/SKILL.md": "35b03a3db61e0f5aa333ea59b54963e45a3d2ace6649b2ef4f9576603e2582a6",
+        ".github/skills/improve-codebase-architecture/agents/openai.yaml": "c8cb20f68ebf0edb4e497bc11ae5fcaa196004e661cd189015b04f4109ced7f1"
+      }
+    },
+    {
+      "path": ".github/skills/architecture-patterns",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "wshobson/agents",
+      "commit": "7e2fb559cf4b824b27f1fec49fe88f7511066d26",
+      "upstream_path": "plugins/backend-development/skills/architecture-patterns",
+      "files": {
+        ".github/skills/architecture-patterns/LICENSE": "f89abb55d9f073f38f1703e4518f0613c788c6174be7f13b8dfe48a1c076c746",
+        ".github/skills/architecture-patterns/PROVENANCE.md": "138faf04d05ef62ce8f059803b4e7fe2a2ae51159917d25af650bd5a625729fa",
+        ".github/skills/architecture-patterns/SKILL.md": "350caf22b856b7d2908a10a69a8cc13e743c757ba9838716051b4e29fc1d7595",
+        ".github/skills/architecture-patterns/references/advanced-patterns.md": "a3513435c141f177ae6603697e1fbbaeec404943ea89dab14c6b76a0b51b03e3",
+        ".github/skills/architecture-patterns/references/details.md": "a53411600b253b343247db9d86140f3136ee7bd26a67aa8411962bcc1f5ff981"
+      }
+    },
+    {
+      "path": ".github/skills/architecture-blueprint-generator",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/architecture-blueprint-generator",
+      "files": {
+        ".github/skills/architecture-blueprint-generator/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/architecture-blueprint-generator/PROVENANCE.md": "556ab2f42a7c8614afb567794e06eabcf571ca809cd597dd3901de01af053724",
+        ".github/skills/architecture-blueprint-generator/SKILL.md": "a6a6f7a3b7a8210a9a391f2da3f3945bf86505341fd677eb2eb62e599520f512"
+      }
+    },
+    {
+      "path": ".github/skills/clean-architecture",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "clean-architecture",
+      "files": {
+        ".github/skills/clean-architecture/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/clean-architecture/PROVENANCE.md": "4c855e6cf26a6cb645ad513ff4e73ea44920be4fc54912d2451ecacad94c1f5f",
+        ".github/skills/clean-architecture/SKILL.md": "74578ca50e06263d314d20f349e451634ee48587bb43ad2561c7a900614b26cd",
+        ".github/skills/clean-architecture/clean-architecture.md": "1f0366be1720989c63df6da8f15f12e78f8786f6e712eeb16cf3690b4dab6cc4",
+        ".github/skills/clean-architecture/clean-architecture.mini.md": "fbead04fa4479bc0d23b8df92e1d04f555e85b9e27994a60209eb311bf342e63",
+        ".github/skills/clean-architecture/clean-architecture.nano.md": "75170a4ed69ff9f251d7c55bcd801de5ff092389cb7bc1e63975c0ea2780604f"
+      }
+    },
+    {
+      "path": ".github/skills/domain-driven-design",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "domain-driven-design",
+      "files": {
+        ".github/skills/domain-driven-design/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/domain-driven-design/PROVENANCE.md": "3e9f4c2c550cabb0c68cc32abd37f12cb3a602b40ceb04b21d63134f80f6b67f",
+        ".github/skills/domain-driven-design/SKILL.md": "2e50a4156197de93b5a8cda0eddb159cccb4f05833bc725ea38369e57c3f104b",
+        ".github/skills/domain-driven-design/domain-driven-design.md": "de806ceb828df4408e452361ab587d81f213443ad057017b1f6bed2334d5aaa6",
+        ".github/skills/domain-driven-design/domain-driven-design.mini.md": "ed6febaa19d3b8c59a67ce61ee6e950e472743f0aa6655a6fed5d6d1d1e8691a",
+        ".github/skills/domain-driven-design/domain-driven-design.nano.md": "ad703ce23f4cbb4715bd48d3142fe0bf1137e1bdb154c67cd3c3d5be1d7ab3ac"
+      }
+    },
+    {
+      "path": ".github/skills/patterns-of-enterprise-application-architecture",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "patterns-of-enterprise-application-architecture",
+      "files": {
+        ".github/skills/patterns-of-enterprise-application-architecture/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/patterns-of-enterprise-application-architecture/PROVENANCE.md": "ecf5f4b5b7055a8533dce19ba00dda18a78a8e11b879d18d2c1608c1552fb459",
+        ".github/skills/patterns-of-enterprise-application-architecture/SKILL.md": "fa705698efa8ef9d02296c853a3fcdc026b87d67417fbbc243adc6d7cf56339a",
+        ".github/skills/patterns-of-enterprise-application-architecture/patterns-of-enterprise-application-architecture.md": "e7f30e7d65005924ec29cc0c6f032aedd0b1bffa22223d5386c5a3140cd76af0",
+        ".github/skills/patterns-of-enterprise-application-architecture/patterns-of-enterprise-application-architecture.mini.md": "f4ffcc47f78c524195ea687a7030d5629cc2761bd86cfb9948533e4212a01f4d",
+        ".github/skills/patterns-of-enterprise-application-architecture/patterns-of-enterprise-application-architecture.nano.md": "0bca8dc3c5a3b9af6d0d5f93d8439d3ea1f41716ced0bee9e13190774f0e8aea"
+      }
+    },
+    {
+      "path": ".github/skills/refactoring",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "refactoring",
+      "files": {
+        ".github/skills/refactoring/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/refactoring/PROVENANCE.md": "fb7c20abe6de9dcfc4df0209781e71fa2266ccbd5d2906821e3ad88a6afdcead",
+        ".github/skills/refactoring/SKILL.md": "d21cd1a2c17a92a44ec073a8ed341ed2a14986b01d09b9b27a61e5513130517c",
+        ".github/skills/refactoring/refactoring.md": "d7b9cf2b5ca26f3576943ff59cdeee61b65138213777b0e03bfe1075cbd966fc",
+        ".github/skills/refactoring/refactoring.mini.md": "dc3dc62dad43d9178a57aa768cab7be909bf48bbeb0f040401f90a22cd7c8c2c",
+        ".github/skills/refactoring/refactoring.nano.md": "ce32dbb86b42fa948106ebea928cbe2996d61b7bf8ab0370824fc2c32cc0ab5b"
+      }
+    },
+    {
+      "path": ".github/skills/refactoring-guru",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "refactoring-guru",
+      "files": {
+        ".github/skills/refactoring-guru/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/refactoring-guru/PROVENANCE.md": "93035dba63fab5de316ee66af8618ac4e216b33e7e5c52a867b71a43e14e30cd",
+        ".github/skills/refactoring-guru/SKILL.md": "66c509c4c9977e3bc5de880968030861325698603a3e9472609a2873b2434228",
+        ".github/skills/refactoring-guru/refactoring-guru.md": "c92bdfcb8fc5d64a21f10fe268a02bf6a9a9ce6228f83ac85743905cba4b2497",
+        ".github/skills/refactoring-guru/refactoring-guru.mini.md": "c7c752b794400cbc0527c5a721c323531dfe3c0e963ab95f7c92c51603006054",
+        ".github/skills/refactoring-guru/refactoring-guru.nano.md": "ee7982dedb94d827d2c9462074d3949687d25b7cfd1c98c644be334cd33ba9b4"
+      }
+    },
+    {
+      "path": ".github/skills/clean-code",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "clean-code",
+      "files": {
+        ".github/skills/clean-code/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/clean-code/PROVENANCE.md": "a0fd5b046be07078cfb13add7602884d6a6a2a28de55409d92c8f273c412dbcd",
+        ".github/skills/clean-code/SKILL.md": "9723272b5f87735b736abde08edaef220b194ec698968192405d70baf4518a0d",
+        ".github/skills/clean-code/clean-code.md": "0ec945c383144e2eeb52bdd18cc87668bff73c13421e17cc6e4ba3fc5905965e",
+        ".github/skills/clean-code/clean-code.mini.md": "a2cd7e30a03376037e441056a5615e7a15c396642daf16f7875a0f5139b65e67",
+        ".github/skills/clean-code/clean-code.nano.md": "67dfb781498c7c32a52ddeedc31b4bd971f04089cd65cbd57d15b0ec4535b018"
+      }
+    },
+    {
+      "path": ".github/skills/working-effectively-with-legacy-code",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "ciembor/agent-rules-books",
+      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
+      "upstream_path": "working-effectively-with-legacy-code",
+      "files": {
+        ".github/skills/working-effectively-with-legacy-code/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
+        ".github/skills/working-effectively-with-legacy-code/PROVENANCE.md": "4fedea43f5f51152f88831b2833553b8d73a7876b4bcc25702a15ca7b60b1895",
+        ".github/skills/working-effectively-with-legacy-code/SKILL.md": "02bdaf78eb4c8eb28eda674d8d31e31d7ec3c272bd928935daeb6c0869038daa",
+        ".github/skills/working-effectively-with-legacy-code/working-effectively-with-legacy-code.md": "8b22bfc3d2851509d4cd8e05fbb9aca9e934f4b6915cb65fe8d6d9d241393fce",
+        ".github/skills/working-effectively-with-legacy-code/working-effectively-with-legacy-code.mini.md": "44eb9d44b7fd51cac342348c65f099deb806729d40edacd43b96fb435fa31051",
+        ".github/skills/working-effectively-with-legacy-code/working-effectively-with-legacy-code.nano.md": "79aa642e76188755df1972f972800f3d0e2713daa0e6fc2bf763edaaf5a88128"
+      }
+    },
+    {
+      "path": ".github/skills/tdd",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/tdd",
+      "files": {
+        ".github/skills/tdd/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/tdd/PROVENANCE.md": "c5501ed58773df81ac8a49d2c11981513a9eb65d0f060a139152a899d694ea59",
+        ".github/skills/tdd/SKILL.md": "5505d25bbaa8fc14a79e4d20163936958992a2995b7f1dd1d6197edc9ed722e0",
+        ".github/skills/tdd/agents/openai.yaml": "ea6f01cf1b8c06a4b0f5b649d74b1b8ce8685e72af1b38d70d877693e092af0b",
+        ".github/skills/tdd/mocking.md": "3ceb807fdf4a47d6a93d4d9a891e5ba6d362a6247bd08adc451feebfc17361ef",
+        ".github/skills/tdd/tests.md": "859f9e592c188fda4fc7277dd180e4ce9c7a2e13f6efe1f6f29eccc9d28c106a"
+      }
+    },
+    {
+      "path": ".github/skills/afs-implement",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "vendored",
+      "files": {
+        ".github/skills/afs-implement/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/afs-implement/PROVENANCE.md": "e4e1d46a71ae316079de98db7027ce0b8ed44f73a8828abb2aad3a638c98e40d",
+        ".github/skills/afs-implement/SKILL.md": "29c26b528fcdb5bbcc25e77d6519eba3abafa48f9e8345157bbb2482a71a31ec",
+        ".github/skills/afs-implement/agents/openai.yaml": "8970a8596ade0c28ab427f41a4ea242d6bdf6186c59ebf55e1238dbecaab79dc"
+      }
+    },
+    {
+      "path": ".github/skills/verification-before-completion",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "obra/superpowers",
+      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "upstream_path": "skills/verification-before-completion",
+      "files": {
+        ".github/skills/verification-before-completion/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+        ".github/skills/verification-before-completion/PROVENANCE.md": "aa800bcb71c543d4bcda8c8d1bee6c9f86422fa647960ceadaa371ffb4a7c0ad",
+        ".github/skills/verification-before-completion/SKILL.md": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
+      }
+    },
+    {
+      "path": ".github/skills/code-review",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/code-review",
+      "files": {
+        ".github/skills/code-review/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/code-review/PROVENANCE.md": "69ea09257aabd5da248d89351a8e01cb24e1439fd71d1c094f9eefd46bf983ee",
+        ".github/skills/code-review/SKILL.md": "9c921a8d88138a41401d8897ca1bb852088ab1b7b605cdd04edc13e3e8aab6dd",
+        ".github/skills/code-review/agents/openai.yaml": "8229ca854e11dc8e6aef2131ee03f31fb1561cf905fab9ccc325180cf3331352"
+      }
+    },
+    {
+      "path": ".github/skills/pr",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/pr",
+      "files": {
+        ".github/skills/pr/CREDITS.md": "a7a087127665d7298a72280ef6e19c41ad8404523712a788c8dc3ab414bc2497",
+        ".github/skills/pr/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/pr/PROVENANCE.md": "de1cf0fa433f1d40fc0d02e9599652d5b71323ba823a1ec0721fa9958b861919",
+        ".github/skills/pr/SKILL.md": "ab63f1cf78647389edcd386c9427c5dfca27ed2836930c24773ffee834c19bcd",
+        ".github/skills/pr/agents/openai.yaml": "2295b586624db4ef546f3fd4695492f039d941a46d8a1593a702ce3ca511b8ad"
+      }
+    },
+    {
+      "path": ".github/skills/receiving-code-review",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "obra/superpowers",
+      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "upstream_path": "skills/receiving-code-review",
+      "files": {
+        ".github/skills/receiving-code-review/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+        ".github/skills/receiving-code-review/PROVENANCE.md": "1076fc88c6cc5e2e05f848337b36eacad4ef3c73deb5eeb0250e1e62c43c4833",
+        ".github/skills/receiving-code-review/SKILL.md": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
+      }
+    },
+    {
+      "path": ".github/skills/diagnosing-bugs",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/diagnosing-bugs",
+      "files": {
+        ".github/skills/diagnosing-bugs/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/diagnosing-bugs/PROVENANCE.md": "f9312808fc967adcc74164b42dc3c29dc8882dcd0f0cd1afb653ba80899ce84a",
+        ".github/skills/diagnosing-bugs/SKILL.md": "849198df88cdb65fd0d97236604c1fca7ff2f22d2f705f9724a800d0266b118d",
+        ".github/skills/diagnosing-bugs/agents/openai.yaml": "3e430dbe4334a87597488c060cb3dc3786bb00c9182877d6f5ec41f62490e90b",
+        ".github/skills/diagnosing-bugs/scripts/hitl-loop.template.sh": "35103539fc36873eea36074769ad454f9379d6fc8b2dc0e26ce987fd3bfe5503"
+      }
+    },
+    {
+      "path": ".github/skills/dispatching-parallel-agents",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "obra/superpowers",
+      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "upstream_path": "skills/dispatching-parallel-agents",
+      "files": {
+        ".github/skills/dispatching-parallel-agents/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+        ".github/skills/dispatching-parallel-agents/PROVENANCE.md": "91d6096d8795da84aa5317672b93d5c218a042f0e1f55b2acccd7017c9fc9178",
+        ".github/skills/dispatching-parallel-agents/SKILL.md": "1968923066f3b707eb01d1992cdf4c42284c3855f70253b9cd5000ff45fca13c"
+      }
+    },
+    {
+      "path": ".github/skills/using-git-worktrees",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "obra/superpowers",
+      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "upstream_path": "skills/using-git-worktrees",
+      "files": {
+        ".github/skills/using-git-worktrees/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+        ".github/skills/using-git-worktrees/PROVENANCE.md": "25d9672b8dd78b18b76708121649c63ac42d4679809f5f80eabce04111c6842e",
+        ".github/skills/using-git-worktrees/SKILL.md": "8cfb86f121269e8f7f12361e6795c4f6738828340e28964c9229d365666c9edd"
+      }
+    },
+    {
+      "path": ".github/skills/docker-expert",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "sickn33/antigravity-awesome-skills",
+      "commit": "6844ad2b0e3724caad0c50fa974fbaf475cf80a3",
+      "upstream_path": "skills/docker-expert",
+      "files": {
+        ".github/skills/docker-expert/LICENSE": "af98370a7edc0f00ec46979d049517833c9a7fa2ba74e3cf8cc42f7db557299d",
+        ".github/skills/docker-expert/PROVENANCE.md": "2b46074252568e9c6e2a2201526c5d44ec7d100af180a9232191816e610cbbd8",
+        ".github/skills/docker-expert/SKILL.md": "b207e304eb6772c5bb2f890086d3b7712b958699bddf7f198cabefbc91c16301"
+      }
+    },
+    {
+      "path": ".github/skills/multi-stage-dockerfile",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/multi-stage-dockerfile",
+      "files": {
+        ".github/skills/multi-stage-dockerfile/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/multi-stage-dockerfile/PROVENANCE.md": "437664424a91b0790946628494448c2686fd6f618eeb89320460e4b1a0b4a949",
+        ".github/skills/multi-stage-dockerfile/SKILL.md": "7dfea7d31f3744930cb07869e15a79f90dbd47d2ddc56d165715fbd257db9ba7"
+      }
+    },
+    {
+      "path": ".github/skills/docker-compose-orchestration",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "manutej/luxor-claude-marketplace",
+      "commit": "1861cc9720d5656410415e5c19b06bef3e4609e8",
+      "upstream_path": "plugins/luxor-devops-suite/skills/docker-compose-orchestration",
+      "files": {
+        ".github/skills/docker-compose-orchestration/.skill-info.txt": "be6716d9c9c95517ca04330b73e7d1adb7a655e50e92aae4ab4b78ce0ef06331",
+        ".github/skills/docker-compose-orchestration/EXAMPLES.md": "b20bb36f7a249243ff84d0c8204febd0feb85bc80e87029eb0864c2afbea3c51",
+        ".github/skills/docker-compose-orchestration/PROVENANCE.md": "788fdde491cc87025dbbf6afe54b22657432c920d0abd2e690bf589d294f86eb",
+        ".github/skills/docker-compose-orchestration/README.md": "0e4bb5616ad29b3f8152063039c98cd91b24eba9b98cd436072abe7e1c79c50d",
+        ".github/skills/docker-compose-orchestration/SKILL.md": "4a82fa60618d56b3da046454630757db994b278393ffcdcaffc8483c35dcf6b5"
+      }
+    },
+    {
+      "path": ".github/skills/ui-ux-pro-max",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "commit": "9a3f14f7423037ccb8feeb4fee7482291b9c820e",
+      "upstream_path": ".claude/skills/ui-ux-pro-max",
+      "files": {
+        ".github/skills/ui-ux-pro-max/LICENSE": "738f69dfa83db5c347c678fb9d90e560877059f0de93a327c39001bff92dc014",
+        ".github/skills/ui-ux-pro-max/PROVENANCE.md": "4a13f0fe1247150fab63e3a2c88f4533f5be37eb6ee53e19a66d308b4f1cb161",
+        ".github/skills/ui-ux-pro-max/SKILL.md": "ea087c341bfb5b23195c7302027268ede86da802554c18a5c4896a6017b439f9",
+        ".github/skills/ui-ux-pro-max/data/app-interface.csv": "331e7cf2c0b222d80c566c5f255c63cb339f65bfd02e471a720f28e4864a9f08",
+        ".github/skills/ui-ux-pro-max/data/catalog-summary.json": "6638da97231c07fb5cef3cd9d3ce483ca7b2f9748980f8c27490eb03968d8894",
+        ".github/skills/ui-ux-pro-max/data/charts.csv": "4115cf1120680f2cedef0676cb648f30c7ef4699e2a947535d4113e71ed3b12a",
+        ".github/skills/ui-ux-pro-max/data/colors.csv": "8162429222bce22df62b564085946a30d07cc9722c58d0a3a494bd0d1d00841c",
+        ".github/skills/ui-ux-pro-max/data/data-provenance.json": "e82fb33ed49375a300e93d9c11ccd1c1493c999e84ee7ee295e527634786e2e0",
+        ".github/skills/ui-ux-pro-max/data/google-font-licenses.json": "35688523f2955795caa1a47c53b83099e60c1708461476f9cc3a050cf3b0148a",
+        ".github/skills/ui-ux-pro-max/data/google-fonts.csv": "1c8c3b2ea1faf6a1012da463756def8b3889db33f2226f0343bb4daa80307d03",
+        ".github/skills/ui-ux-pro-max/data/icons.csv": "50816c6012030178195a16ee481ebf58b47bd985d70e8ec58886cc83f6eddafc",
+        ".github/skills/ui-ux-pro-max/data/landing.csv": "9a2edd3bb676c2a58f00ade7a062e285222d4297bfd847c8d5b056f0dbbf52d0",
+        ".github/skills/ui-ux-pro-max/data/motion.csv": "381affe8df8ea1f66fbbda2598827f9f54299107bbe6a1b4e9b68f6b62091ceb",
+        ".github/skills/ui-ux-pro-max/data/phosphor-icons-upstream.json": "2399325233b277b5c97a80e6a5e8941154f5d057beee4e7613db87c87d700236",
+        ".github/skills/ui-ux-pro-max/data/products.csv": "42473f75e8dde5987bdf89ce55d8c168091b80a356cae691dd60247d80720b70",
+        ".github/skills/ui-ux-pro-max/data/react-performance.csv": "3d925802539abac5afeb63ae8aa1960b7229ad271b3a47caed40ab2d97ad0734",
+        ".github/skills/ui-ux-pro-max/data/stacks/angular.csv": "704be83f2bad30c7e6de01afb113ffa01e0c458762f48b7102f31ba2367b5553",
+        ".github/skills/ui-ux-pro-max/data/stacks/astro.csv": "2c2f55fadaafc05e04cc321c8194a1a28b656e6757fe2ba316f41b16428299c6",
+        ".github/skills/ui-ux-pro-max/data/stacks/avalonia.csv": "442fca14675a020683473e7e49f08abb27b9df0765c80efe54aef61f1a4ac258",
+        ".github/skills/ui-ux-pro-max/data/stacks/flutter.csv": "64dba0ac17349f28bce517a0f5f48c54d9ed2e487ec0c0258303463b382f41a0",
+        ".github/skills/ui-ux-pro-max/data/stacks/html-tailwind.csv": "d05a581d20af57b8ca0104a6d31d90a07c437d500662a96c3029fc2f9a4678ee",
+        ".github/skills/ui-ux-pro-max/data/stacks/javafx.csv": "2e819b8d5abdd23ad4dae0991650fdb57af497aabd68b37463aa9c442944c869",
+        ".github/skills/ui-ux-pro-max/data/stacks/jetpack-compose.csv": "699de218b286948eaec7d15767b6e1350ee299167e49bf476d82e3ff58724e0a",
+        ".github/skills/ui-ux-pro-max/data/stacks/laravel.csv": "854ea4daa5fc61292d22235ad33b49ba3fe22423c3de8d3cb03758ffed3b59f9",
+        ".github/skills/ui-ux-pro-max/data/stacks/nextjs.csv": "ecd2c27b2ea0127d203ae726060efcdd7335b5e83f96b99e4f3befbbfeebd5a4",
+        ".github/skills/ui-ux-pro-max/data/stacks/nuxt-ui.csv": "fce682a338cfcdbf35d318d20e5befbe7b5d81b05abc37f87677a6d9cde84dc6",
+        ".github/skills/ui-ux-pro-max/data/stacks/nuxtjs.csv": "3d9b54ed2d151bd9c86e9e5609b8a6f88a00c4c52fa601a30af96c49b2c4d176",
+        ".github/skills/ui-ux-pro-max/data/stacks/react-native.csv": "ba31dd9c0c04da6bc02a74448bf121f9c0728ae5ba3b4d47b487778b0a1135b5",
+        ".github/skills/ui-ux-pro-max/data/stacks/react.csv": "4dd176a9787e5c6306b5df94158d75955adcdc6edab41ce5286641a5842303c1",
+        ".github/skills/ui-ux-pro-max/data/stacks/shadcn.csv": "e56cfde5b74907836ac3582a4779d5b7f3d206a702ab81b8669a1b668c3eeb51",
+        ".github/skills/ui-ux-pro-max/data/stacks/svelte.csv": "f6e379ba802941ba26b01d4ffbe3cd39120f2587659a1d93851c707f66bc13db",
+        ".github/skills/ui-ux-pro-max/data/stacks/swiftui.csv": "bdd9231ff3ad658f4e7c063e1eb49df2fd09ac8d90631a86df899b39833b9623",
+        ".github/skills/ui-ux-pro-max/data/stacks/threejs.csv": "155d583b9c64da0df4b6c6cb060c02eab222505e0734d6353da02c9e2b5d982b",
+        ".github/skills/ui-ux-pro-max/data/stacks/uno.csv": "a0474363e4225b5367214d5675fd3e075f137026f9500f0d04357882ef4f6d48",
+        ".github/skills/ui-ux-pro-max/data/stacks/uwp.csv": "c409f08c1fbba1f1029f1acaa554e7b4471cc85517a5751c9f2e62465badcd5c",
+        ".github/skills/ui-ux-pro-max/data/stacks/vue.csv": "b655f1ebb9dff2652d15981f31b1784c8a6d4759efd2815a14f3088257569f95",
+        ".github/skills/ui-ux-pro-max/data/stacks/winui.csv": "e676dc1c13ee6c205c40b0746f1335150a346c7a49a0616d2545bc3d2c930c85",
+        ".github/skills/ui-ux-pro-max/data/stacks/wpf.csv": "9781a9950b20333637b30a02e498b7efca21b618a3eeb8665836f3ac6e974da7",
+        ".github/skills/ui-ux-pro-max/data/styles.csv": "a93a4d9d7025856575d7b7583bda020be9043013432c5af7c58af9dbdfb206b7",
+        ".github/skills/ui-ux-pro-max/data/typography.csv": "321fc446e89024488ebae96dda93efc4d2307bd8bddb240857ad51364f6782c8",
+        ".github/skills/ui-ux-pro-max/data/ui-reasoning.csv": "f0774dd741cecdad5eec842034bd6d5e9ea50e9f220a1910069748daa0bb8e9a",
+        ".github/skills/ui-ux-pro-max/data/ux-guidelines.csv": "ff81ec613f70ba9fc3fcce52dbe4ae35d44b2079dbe6dc066d2d6e38c28facd5",
+        ".github/skills/ui-ux-pro-max/references/pro-rules.md": "d28442d61c310b49c054a4ea736f89fb3008beebdbbc38c4b3a540b8f7fadf23",
+        ".github/skills/ui-ux-pro-max/references/quick-reference.md": "0609bc7c89dacb40472465d8fc14257b56b2c43439660fc8d6fa3b8c022e1876",
+        ".github/skills/ui-ux-pro-max/scripts/core.py": "dfb34cbca66a704a5bfae48c1ab5f82d2a6573b9509c5accceb3d248715a18f6",
+        ".github/skills/ui-ux-pro-max/scripts/design_system.py": "e7d1c94c4b2eada17c5551157668362659ccf9626d34dbd58e68142410f90103",
+        ".github/skills/ui-ux-pro-max/scripts/reasoning_contract.py": "b8bac1af82aa280d3e06f00aabaeac4337e632996b07fed874e2b6ee6e9c5913",
+        ".github/skills/ui-ux-pro-max/scripts/search.py": "d6aeb52ed42b158cb0c1bb47c9ef931f3bb4daf413bcf2390320b13f887e69fd",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-api.json": "22d8dc81a7d6827b7e8b64b53e7d184210fb9759e8e294e0d5133c81cc460176",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-catalog.json": "c608ad5c4084ebc50a4bbbfb69ea2456c01fd5519c457e18410fffd250ae948f",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-existing.csv": "4e0761b839dc6b2187a370e82eddc0aed8a7ff10c09e28dd814bb3656dac595b",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-metadata.json": "30bffc29ae348416a2de2f9c6c418e768e4578f136b0f4bac5d2f70124f2e9ba",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/google-overrides.json": "6243a48a4619986768c4628e2d0c98ff195beba71ba9be5df8f0c52fc6d90c0b",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/icons-curated.csv": "68362c9a700c13b96f000784a0198c1c7e117a7088a01c85744e44233038fe9d",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-core.json": "ae4d0bb076240824e1b643c2270d1f8cc0952a69502ec1e622b7dedd85b930bb",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-package.json": "500588c757d6de03e3d7e69b27a8b8b1f88ccf6bb0333e4c1e9b0d6a4f112475",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-exports.json": "d79f2ee0afdbc2f87776733e145df3538a16a25d7c2fba0056bb48295dad0ded",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/catalogs/phosphor-react-package.json": "1c57a1d76bcc0cdd3632d4c18b9c0e79576b4591df39831c9607e5d0eb4f2cec",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-baseline.json": "0df200fc54c1cb97a52d6775e7f501509163cea8f8b73fd7268429bc1f835afe",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-cases.json": "e77d36eebbf6ddc2860946a02cdb659351da6c09f2688f1ed30939a418099646",
+        ".github/skills/ui-ux-pro-max/scripts/tests/fixtures/relevance-thresholds.json": "1fbe8623fe3e49c8d828139bca9df69043746e488e8bf09d93dfb9cbc31f5cef",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_catalog_refresh.py": "3e2ca5d12702318f641ae62d0c14f22a3bcc84d84e79b863c0e947d475604adb",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_catalog_summary_line_endings.py": "fa6ff09f0ec2c99013588c77397f5082dddebe8f467e94c5f8378ec9595f4989",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_core.py": "3527fe2f4b852f69f07c17ddc0d615d9a6e025c924e45a33985579a94a8d2118",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_core_data_quality.py": "3ffc6b4905c9ea26d7ac4527ab154d153584231aee71b2ae4bd017977fa09cc5",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_data_contracts.py": "0360d6e10080c0bca214f2b0bbad582ba50702a542ce21013351aca54938df3a",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_design_system_mode.py": "95ad2c154349f7021f55a558f8dcdd71df1a24fcf531a4364a8e49526a0865ef",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_design_system_stack.py": "83d09ffe8cfbf7b265f362129f061dfe8e5e167ce5db43adaead197cabc9ca38",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_native_desktop_stack_freshness.py": "3942845712b9a829323cd3568511483135f2a8c7cd79ccf61679da4b0f624dbb",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_relevance_evaluator.py": "2fe56a4d6fe5fff15ff592274b0eeaba925146cefea6c0fa29d8f1b77c9aca1f",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_skill_script_paths.py": "7cec24b94be771bc60bc84f8993e614bb16d4047930e1dd3d3bed91628311d44",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_style_taxonomy.py": "cd14d0092e8a454d213aa104b53e4e70ba698491fa00fde9fdec5ca8a3d70011",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_text_layout_resilience.py": "b51d32ee8a15505b87cb81957fb2d1b385e041e8beb4463c311d236bfd29ebd4",
+        ".github/skills/ui-ux-pro-max/scripts/tests/test_web_stack_freshness.py": "cba3dd79b3bd7ed9479e8cd0e7efb0594d998160bc712f9865fb0ab6e29dda5a",
+        ".github/skills/ui-ux-pro-max/scripts/validate_data.py": "a599aa256049cf30954d1f164721b99e453eb7e4cb8241bcab2d5573e6cf58b8"
+      }
+    },
+    {
+      "path": ".github/skills/agent-browser",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "vercel-labs/agent-browser",
+      "commit": "28898e4cc2d3ee47c7080ab653b4ad29340cef57",
+      "upstream_path": "skills/agent-browser",
+      "files": {
+        ".github/skills/agent-browser/LICENSE": "014bb31e83d5c2e76aea1cc6e82217346ab41362f32cb355ad0f5c10aa0aeaff",
+        ".github/skills/agent-browser/PROVENANCE.md": "cbabbc5cf2d71caa978b3e2b7d374be6952c1b9ead89ded3d370702b85a78a95",
+        ".github/skills/agent-browser/SKILL.md": "fd4ddd37ddb69f37ebc62e086566fcf606bbd09a5b4e4e7d7a6c4f0f94fdee47"
+      }
+    },
+    {
+      "path": ".github/skills/documentation-writer",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/documentation-writer",
+      "files": {
+        ".github/skills/documentation-writer/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/documentation-writer/PROVENANCE.md": "ac133ec95c7e8705a3a4aafaac8ff9b57f8e0cb428023f2237f458d2ca7553fd",
+        ".github/skills/documentation-writer/SKILL.md": "7e8244988c9f4eb63bf8c0edf160578544621eb96e5e51e2d848f1401c5de8f1"
+      }
+    },
+    {
+      "path": ".github/skills/research",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/research",
+      "files": {
+        ".github/skills/research/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/research/PROVENANCE.md": "cd7ac9d6cf71cf8cf311447c3a04be77f27d830af577ac03493c9d29732b861d",
+        ".github/skills/research/SKILL.md": "1f629e18ab899412683bc6a1c4efb4339999e27c2fdac328f26ee10a8c031d33",
+        ".github/skills/research/agents/openai.yaml": "9b4c470d63221c1f68f22df70b83e2f12401b317babe0d1b7b5f24a974474d0d"
+      }
+    },
+    {
+      "path": ".github/skills/find-skills",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "vercel-labs/skills",
+      "commit": "92a9a34ac3bf88e695e468b90c7bf32f163d32c8",
+      "upstream_path": "skills/find-skills",
+      "files": {
+        ".github/skills/find-skills/LICENSE": "661142e53c313d2bb5e1b055f5c0a39001450ff1b5e27b89dc4bc7de9a6352ca",
+        ".github/skills/find-skills/PROVENANCE.md": "aff644ec1bb2333e70b1881822417419ad0cbd94a490cd39ef5f0390b1947481",
+        ".github/skills/find-skills/SKILL.md": "c00eeea0e13e74fe4a9d84ba0a8542205a1b736d65f13134fe1a6647eb14976f"
+      }
+    },
+    {
+      "path": ".github/skills/skill-creator",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "anthropics/skills",
+      "commit": "ca45fc496a3436251f191354091d557da31c15b5",
+      "upstream_path": "skills/skill-creator",
+      "files": {
+        ".github/skills/skill-creator/LICENSE.txt": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362",
+        ".github/skills/skill-creator/PROVENANCE.md": "1fe1bb64e8d356f989ded82862c9c1a5192f4a65fb3181ad28205479b2f7817a",
+        ".github/skills/skill-creator/SKILL.md": "dcd4803e61e913e6fc27294184cd3a71f09f5e924ff20c8a9a20173e7b3c2bcf",
+        ".github/skills/skill-creator/agents/analyzer.md": "bf68f4cac5a56c673a928c2e6d619586c5b93ea364026ab37547772cb45a663a",
+        ".github/skills/skill-creator/agents/comparator.md": "fe1fc9787c495d864c5d6eada47396478572325fde1b33a96d78bf4b849b7a3e",
+        ".github/skills/skill-creator/agents/grader.md": "57134da0c1a4eea33fbd74a1c9c44aa814f07d6bc64de303edb586f941e5d21a",
+        ".github/skills/skill-creator/assets/eval_review.html": "ce477dcc74dc1c0d1d3352646a79167b5a63634e936b1019160025065974e452",
+        ".github/skills/skill-creator/eval-viewer/generate_review.py": "fc9d1b9243fe5ab6012ebd579bd76d0035de1b79fd3b969de114defab26478fb",
+        ".github/skills/skill-creator/eval-viewer/viewer.html": "a53213426ee1100441d701a3a0d49cda7a842f992d2c36463f4d3cc0258575fa",
+        ".github/skills/skill-creator/references/schemas.md": "8e8876180a8989b406a4d3edddf875b04cdfd5805cc8616686d552b11ce4455f",
+        ".github/skills/skill-creator/scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        ".github/skills/skill-creator/scripts/aggregate_benchmark.py": "123ef128ea5ccc01a4b1ac212ef5567f21e9c13d3d240609780beeb3200c49aa",
+        ".github/skills/skill-creator/scripts/generate_report.py": "13df7118a3c50c83c4c3250a606d5f2b20b25a3d44cbc392b3d669ec75281453",
+        ".github/skills/skill-creator/scripts/improve_description.py": "87d864570220b699fac52da309d2d6efdb060647bfebc74f768128e646accf80",
+        ".github/skills/skill-creator/scripts/package_skill.py": "1a33059b0db1ef73375d46d513e5ea81369d2e8838c970597b0d52ddef8d1c0f",
+        ".github/skills/skill-creator/scripts/quick_validate.py": "67cf5703402013936c8fb75ad6a1afecd8841d45cc5e606b634eb05825fde365",
+        ".github/skills/skill-creator/scripts/run_eval.py": "43e3b8f80dbf69c343967ba77e268fae991d9fa3ed68b32a0ff02532cd48657f",
+        ".github/skills/skill-creator/scripts/run_loop.py": "7bd6f674203168520517eec94c55f493c0d154339b061b4d7c0f0dad187d0f21",
+        ".github/skills/skill-creator/scripts/utils.py": "3af8ae62c40c73ab712207436a0d9a981e845f25c5a7040229eb189cc8e45bb1"
+      }
+    },
+    {
+      "path": ".github/skills/lessons-learned",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "martins-vds/code-migration-hackathon",
+      "commit": "ac530c35aac8f64257b0eafa4cc43b33595d8190",
+      "upstream_path": ".agents/skills/lessons-learned",
+      "files": {
+        ".github/skills/lessons-learned/LICENSE": "43f4182004e8468d2e64d6fc04f8f38def151cbef704d9f42af6715e09f98423",
+        ".github/skills/lessons-learned/PROVENANCE.md": "394737f80d33b97630d0923e56a97f960ad7c9c995825773af67e3e13c6c5aad",
+        ".github/skills/lessons-learned/SKILL.md": "0a04374dae2bf90aa004f050dfb63cc478216f789ad187137895c66a6800d12e",
+        ".github/skills/lessons-learned/references/card-template.md": "1c69ddd73accad69c185f7a02fe1c58b61392de6398f81b1733b11c89c62e652",
+        ".github/skills/lessons-learned/references/linking-heuristics.md": "9403f15faf7f001e3ab69d70b6b45b03ef68545e920861fafbb2a1a47a4aa8cc"
+      }
+    },
+    {
+      "path": ".github/skills/self-learning",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "martins-vds/code-migration-hackathon",
+      "commit": "ac530c35aac8f64257b0eafa4cc43b33595d8190",
+      "upstream_path": ".agents/skills/self-learning",
+      "files": {
+        ".github/skills/self-learning/LICENSE": "43f4182004e8468d2e64d6fc04f8f38def151cbef704d9f42af6715e09f98423",
+        ".github/skills/self-learning/PROVENANCE.md": "83c1241711550eaf66a38f1ee0c95afba8759997a80b5f7c72e8af35e2e812a3",
+        ".github/skills/self-learning/SKILL.md": "77be959251143412117b63946e00e9224e9d256da90dd70739e4eb08434df548"
+      }
+    },
+    {
+      "path": ".github/skills/db-seed",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "martins-vds/code-migration-hackathon",
+      "commit": "ac530c35aac8f64257b0eafa4cc43b33595d8190",
+      "upstream_path": ".agents/skills/db-seed",
+      "files": {
+        ".github/skills/db-seed/LICENSE": "43f4182004e8468d2e64d6fc04f8f38def151cbef704d9f42af6715e09f98423",
+        ".github/skills/db-seed/PROVENANCE.md": "9f61f0f4594804cffc9985f917078282e3f351289f7b4ce56fb5673c6c66bf2e",
+        ".github/skills/db-seed/SKILL.md": "689abc50d49eb642d1966b6352f470b827887b4b52c1ac6ee76353c891ebdc5c",
+        ".github/skills/db-seed/references/mssql.md": "8adbd52c2d5c726d7f0b726dd7c470d9e8b3ba75fbd3b48e6fb97c3364817cb7",
+        ".github/skills/db-seed/references/oracle.md": "89813ea5c10e9e32b04224a30dadcc695f4f3cabc8f26f1a342d402c8f32d797",
+        ".github/skills/db-seed/references/python-faker.md": "398d6ed4173142c7f99ef995ad8b910e3b72be8bd11d3d0cf16f1a8ae0d5f302"
+      }
+    },
+    {
+      "path": ".github/skills/java-docs",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/java-docs",
+      "files": {
+        ".github/skills/java-docs/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/java-docs/PROVENANCE.md": "fda222ee7a28bd3bf2575b376c13cf3296300b415c9feb7e9ef45b044f9c5637",
+        ".github/skills/java-docs/SKILL.md": "efc6ef95b4af71c8cf1a4f127c06e9f260e314dda81ba1862f140eef09956cec"
+      }
+    },
+    {
+      "path": ".github/skills/java-junit",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/java-junit",
+      "files": {
+        ".github/skills/java-junit/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/java-junit/PROVENANCE.md": "62cc58fa87ac348deef23f7fd6fc1a2da3793f7d62018e6a6f4241e7af58c5cc",
+        ".github/skills/java-junit/SKILL.md": "836790283679a14b3e1c78ff2f5f596361f4b8155077355f4afa343a4355c537",
+        ".github/skills/java-junit/references/assertj-and-mockito.md": "57ba321cde1b425f9a40ecf377f395d29dce922891f6c54b22f4ccb3e76b7482",
+        ".github/skills/java-junit/references/build-setup.md": "97193e9a1fca184a222811c0b9051f842fc8f1502bb7caa31929dbcad868e439"
+      }
+    },
+    {
+      "path": ".github/skills/django-patterns",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "affaan-m/everything-claude-code",
+      "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
+      "upstream_path": "skills/django-patterns",
+      "files": {
+        ".github/skills/django-patterns/LICENSE": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+        ".github/skills/django-patterns/PROVENANCE.md": "f84708983c7d7871b556ede04fcf51b7deaf41f1271dc5eec877161f71222ce6",
+        ".github/skills/django-patterns/SKILL.md": "14abe2b635054dff872c07d4993057e614b48ac718c0431f1299931be7d69516"
+      }
+    },
+    {
+      "path": ".github/skills/django-security",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "affaan-m/everything-claude-code",
+      "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
+      "upstream_path": "skills/django-security",
+      "files": {
+        ".github/skills/django-security/LICENSE": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+        ".github/skills/django-security/PROVENANCE.md": "6a3e5522ae3495e1a8d35aa07d092bb597bca8c661c5ee4c24722ce6fcf77dab",
+        ".github/skills/django-security/SKILL.md": "9bee68f0fd5ae193693745c1fdc99b6335d30f9b113aebe171fe3d675cf5ad8e"
+      }
+    },
+    {
+      "path": ".github/skills/django-tdd",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "affaan-m/everything-claude-code",
+      "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
+      "upstream_path": "skills/django-tdd",
+      "files": {
+        ".github/skills/django-tdd/LICENSE": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+        ".github/skills/django-tdd/PROVENANCE.md": "7d9fa344d38e482347058d3fcf5577be595d208464b471f89824e586233c040e",
+        ".github/skills/django-tdd/SKILL.md": "20bd5378fb9b76b396916daa8781dd45eef6336e5d4b3a46edb0c3e4eefaf074"
+      }
+    },
+    {
+      "path": ".github/skills/django-verification",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "affaan-m/everything-claude-code",
+      "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
+      "upstream_path": "skills/django-verification",
+      "files": {
+        ".github/skills/django-verification/LICENSE": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+        ".github/skills/django-verification/PROVENANCE.md": "a7a3f5b1d0d6da1a0ca6b1ad0da9ca02e1c98ce3d59fa3b5b215d3528fd00245",
+        ".github/skills/django-verification/SKILL.md": "01d2d2a8382737fefff259fe7624e1928e373a7772e220535dbea128373e81a2"
+      }
+    },
+    {
+      "path": ".github/skills/django-celery",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "affaan-m/everything-claude-code",
+      "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1",
+      "upstream_path": "skills/django-celery",
+      "files": {
+        ".github/skills/django-celery/LICENSE": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+        ".github/skills/django-celery/PROVENANCE.md": "bce0cf408dde49b6e8eb9241accd4842d702586c4300d865609b7f7d16e1b83d",
+        ".github/skills/django-celery/SKILL.md": "1f9189ece910eb90a5d2cd520a9a6238ccb89a3e48629ac1ad9b55ec3eb21f88"
+      }
+    },
+    {
+      "path": ".github/skills/pytest-coverage",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/pytest-coverage",
+      "files": {
+        ".github/skills/pytest-coverage/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/pytest-coverage/PROVENANCE.md": "81b5dd1fcca1d315d998570e5c6d2b27286ace30a80786536df19cec7f1a20f0",
+        ".github/skills/pytest-coverage/SKILL.md": "3778add8809c5aac585ab764090f46e7cfdb009ae3fc9fb308710538627970f9"
+      }
+    },
+    {
+      "path": ".github/skills/python-performance-optimization",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "wshobson/agents",
+      "commit": "7e2fb559cf4b824b27f1fec49fe88f7511066d26",
+      "upstream_path": "plugins/python-development/skills/python-performance-optimization",
+      "files": {
+        ".github/skills/python-performance-optimization/LICENSE": "f89abb55d9f073f38f1703e4518f0613c788c6174be7f13b8dfe48a1c076c746",
+        ".github/skills/python-performance-optimization/PROVENANCE.md": "7044d6f30c34bbde288582280aa7908b22fdeaeb1b334c5602425b6e414232fb",
+        ".github/skills/python-performance-optimization/SKILL.md": "807aa725cc2b46b4d68a11a52e5b345be0449e80b7f4b60c32bfd2c35345afb5",
+        ".github/skills/python-performance-optimization/references/advanced-patterns.md": "3109ef651c7591017505aeed1d171fbf9000ee522c1b4dac35f90192974b20f0",
+        ".github/skills/python-performance-optimization/references/details.md": "8643031fabcbaf555ae1b4e702f1b5159689a31a4b286280d4df2822c9731281"
+      }
+    },
+    {
+      "path": ".github/skills/reviewing-oracle-to-postgres-migration",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/reviewing-oracle-to-postgres-migration",
+      "files": {
+        ".github/skills/reviewing-oracle-to-postgres-migration/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/reviewing-oracle-to-postgres-migration/PROVENANCE.md": "744957ab6e6425b627da77cfcc683b55fa066681f8c374ac1f11961aff91efd6",
+        ".github/skills/reviewing-oracle-to-postgres-migration/SKILL.md": "54a4c6b3a31797c3fb9bd2c3fa684bbc5e80751d37585bd20784f9b75af2dbae",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/REFERENCE.md": "8f632e3967e09420d8c4330f4a7f0f92cb0e336d47cf045ce4ccbedc7c1f4a18",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/empty-strings-handling.md": "3a9dd47efaf90423c91a7413948697082c28f3b30ca16677205628e46734702f",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/no-data-found-exceptions.md": "5564a2d9185d07fe9480d311be53dfe049df903133518880336e8a1ae223d823",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-nvl-decode-functions.md": "7b9bdabef6c73078a46622208dc3a3ff3babb6a11d7092ef435550209cb6b0a3",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-parentheses-from-clause.md": "eb913cdcb7efdb58ea60a230bd313ff6be55131c8f672e2f8e03424f09c1bc24",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-rownum-pagination.md": "9b3c7ac9b577604b8a6cad5741d8843eabaf17f0f0cb329d54195ca3477ffd6c",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-sysdate-sequences-dual.md": "14ae2d526d75ce3b34f3ccbe7adae7b3058cdf652df8e9cea560acca008f486c",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-to-postgres-sorting.md": "17d53f407affa9a3e27f06596f07f51f6f15d3ff466ed6345e97e789522dd640",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-to-postgres-timestamp-timezone.md": "8f3ff56b8ae367c9c8c2f8afc6d5b8888bf6c43f9a9285771a61a3511640513b",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-to-postgres-to-char-numeric.md": "e4a89682b459b791384664865f1cf7338aeb73f1cb55fbe429d223c12e7d8b01",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/oracle-to-postgres-type-coercion.md": "5bd89db026bc38f73a4fa6eacb9f6a4a43f50cc561c3c3bd719f5e7be04f5982",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/postgres-concurrent-transactions.md": "c8a8c7ba8f0b369db2cc9514e8ac5458815f243a91aea5744cfbed5d9a8cec48",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/postgres-materialized-view-refresh.md": "66fa39928878d4f121cc33a097b5853247fa30bfff801af380d578b1e147d526",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/postgres-refcursor-handling.md": "f1145889a965f261b3a063f695f598bfdd294775716fe7f5da426668c1fc8ba4",
+        ".github/skills/reviewing-oracle-to-postgres-migration/references/postgres-union-all-planner.md": "ec06ce585362d904f43b2f29bc46452924736386185dc06942cd4d21d2d350db"
+      }
+    },
+    {
+      "path": ".github/skills/migrating-oracle-to-postgres-stored-procedures",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/migrating-oracle-to-postgres-stored-procedures",
+      "files": {
+        ".github/skills/migrating-oracle-to-postgres-stored-procedures/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/migrating-oracle-to-postgres-stored-procedures/PROVENANCE.md": "834b03d59b9b1ece69ef8a841ed87bdcfae8ce2a46ca18cdc88992e7c3a8bd1f",
+        ".github/skills/migrating-oracle-to-postgres-stored-procedures/SKILL.md": "9e4b7233a4ec43e0581d5511ce07a3d6607cdfb8a36b22f884e72c7b7e69f1a5"
+      }
+    },
+    {
+      "path": ".github/skills/planning-oracle-to-postgres-migration-integration-testing",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/planning-oracle-to-postgres-migration-integration-testing",
+      "files": {
+        ".github/skills/planning-oracle-to-postgres-migration-integration-testing/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/planning-oracle-to-postgres-migration-integration-testing/PROVENANCE.md": "b968672abf3868183b606dea0241c82daa5045008c0c201b4b872ed8cf8687e5",
+        ".github/skills/planning-oracle-to-postgres-migration-integration-testing/SKILL.md": "9462c7d627ab958a8c55b7b972b3e187dea779c000350453b6ad04d2260c7696"
+      }
+    },
+    {
+      "path": ".github/skills/creating-oracle-to-postgres-migration-bug-report",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/creating-oracle-to-postgres-migration-bug-report",
+      "files": {
+        ".github/skills/creating-oracle-to-postgres-migration-bug-report/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/creating-oracle-to-postgres-migration-bug-report/PROVENANCE.md": "0447788b0990a86a825a8e5f998df50eade5edb2d65471fdfe7a89fccf157793",
+        ".github/skills/creating-oracle-to-postgres-migration-bug-report/SKILL.md": "993ffe2426a60038b6917068d52a8784eda3aa90d9894e3e840b3c7f289cbb41",
+        ".github/skills/creating-oracle-to-postgres-migration-bug-report/references/BUG-REPORT-TEMPLATE.md": "ea743a9f4e256a3a982521f3910c446096c55e0bf809707e8ba21259f7032fc8"
+      }
+    },
+    {
+      "path": ".github/skills/postgresql-code-review",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/postgresql-code-review",
+      "files": {
+        ".github/skills/postgresql-code-review/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/postgresql-code-review/PROVENANCE.md": "10c1b5135a28cd8caeca452731350ea89bd9a50cecedbd689b52ca65292f677d",
+        ".github/skills/postgresql-code-review/SKILL.md": "5c2f68120440692ae4b030b17e2a3553c1204d63ee871d6d994c6925b1f874cb"
+      }
+    },
+    {
+      "path": ".github/skills/postgresql-optimization",
+      "kind": "skill",
+      "origin": "stack:java-ee-to-python-django",
+      "install": "upstream",
+      "repo": "github/awesome-copilot",
+      "commit": "5269f7ea2d6c3a9bfda5ed878b6726cf509121fd",
+      "upstream_path": "skills/postgresql-optimization",
+      "files": {
+        ".github/skills/postgresql-optimization/LICENSE": "e32449d23085399adc1222f7a17408b730550258e51627c153cb108ca9955823",
+        ".github/skills/postgresql-optimization/PROVENANCE.md": "281c05aa1efe569f817e8313ab118f321c77d75cd076b14a87468242a50c40fd",
+        ".github/skills/postgresql-optimization/SKILL.md": "9b511a7d706302761a7700cd6b87df9793650fa7f7f3299fe33243fc339e3c9f"
+      }
+    },
+    {
+      "path": ".github/hooks/rtk-rewrite.json",
+      "kind": "hook",
+      "files": {
+        ".github/hooks/rtk-rewrite.json": "b78094233bcd1a1c422a393cad98943474a7ee06fd69945905b7769fb3080c9a"
+      }
+    },
+    {
+      "path": ".migration/harness/tools",
+      "kind": "tools",
+      "files": {
+        ".migration/harness/tools/afs-run": "6d3da986831c79e42c71163f8ef7d5b4097a0013b932c89f5b67112d38dab057",
+        ".migration/harness/tools/check_graph.py": "cc8eed36d5cf5268aad307f1b1762f4eb62b6402f855df9ff97ee165ba980670",
+        ".migration/harness/tools/check_installed.py": "f36c5de45ed2cde2298d7f04b4918c2e6afe27daaabe5cf73bdf6166e8266066",
+        ".migration/harness/tools/crap.py": "d89cf44db04788640d6b1ed5a55e755d4f1b029d419a65682b94000fb1975803",
+        ".migration/harness/tools/extract_slice.py": "9a1eddec8179b03ce3702bbdaa5e818d38d52484beaa2d9925433e245e538d5c",
+        ".migration/harness/tools/understand.py": "43c91ba8f5c0a075dd7269746ebe054b2f4313ca79cc477a7757e7f7fc65cb3c",
+        ".migration/harness/tools/validate.py": "d2f133858679a5ecae152d6d8c8666d40540fda9415d2ae4e46ef570377afd1e"
+      }
+    },
+    {
+      "path": ".migration/harness/schemas",
+      "kind": "schemas",
+      "files": {
+        ".migration/harness/schemas/capabilities.schema.json": "711c200ccf43a3718618991a0df9430ed28ad125b2b2cd7dd0bc195813de779c",
+        ".migration/harness/schemas/ledger-entry.schema.json": "494d09f8ddf4c713aa95e45b3c10833eefb57097efa3f427deb146a1a7d60ab0",
+        ".migration/harness/schemas/profile.schema.json": "d637dd50d4af783f6fd8daf24ef6920039a3248ae7e27c5f9ee03951140c4581"
+      }
+    },
+    {
+      "path": ".migration/harness/patches",
+      "kind": "patches",
+      "files": {
+        ".migration/harness/patches/understand-anything/argument-hint.patch": "244d7cff77725a1cde603a684046d6d0e3728062cda8972c5d90d7b2d1aa8eaa"
+      }
+    }
+  ]
+}
