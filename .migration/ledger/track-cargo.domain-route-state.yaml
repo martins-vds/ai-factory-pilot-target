@@ -1,0 +1,14 @@
+id: track-cargo.domain-route-state
+kind: behavioral
+title: Derive routing, misdirection, arrival and next activity
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java:248-330
+  risk: {crap: 156, complexity: 12, coverage: 0.0}
+boundary: "Delivery derives route status, misdirection, unloaded-at-destination, ETA and next activity from the route specification, itinerary and latest event."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "ETA/next activity exist only when routed and not misdirected. Unloaded means the latest event is UNLOAD at the route destination. CargoTest::testRoutingStatus, testIsMisdirected, testIsUnloadedAtFinalDestination; ItineraryTest::testCargoOnTrack and testNextExpectedEvent; RouteSpecificationTest; and CargoLifecycleScenarioTest cover related rules. Risk is calculateNextExpectedActivity, the hottest method in this capability; coverage input unavailable."

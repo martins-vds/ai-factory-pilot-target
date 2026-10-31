@@ -1,0 +1,14 @@
+id: track-cargo.misdirected-indicator
+kind: ui
+title: Show the misdirected warning
+source:
+  graph_node: file:src/main/webapp/public/track.xhtml
+  flow: Track Cargo
+  location: src/main/webapp/public/track.xhtml:50-55
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "A misdirected cargo result shows the red warning icon and the text Cargo is misdirected."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Rendered only when CargoTrackingViewAdapter.isMisdirected is true. CargoTest::testIsMisdirected covers the source domain rule; no UI/adapter test edge. Risk is Delivery.calculateMisdirectionStatus; coverage input unavailable."

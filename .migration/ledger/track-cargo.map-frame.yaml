@@ -1,0 +1,14 @@
+id: track-cargo.map-frame
+kind: ui
+title: Show the cargo map frame
+source:
+  graph_node: file:src/main/webapp/public/track.xhtml
+  flow: Track Cargo
+  location: src/main/webapp/public/track.xhtml:91-96
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "For a found cargo, embed public/mapFrame.xhtml with status, last-known location, origin and destination codes/names as query parameters."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "No frame is rendered when cargo is empty. The page uses the common public.xhtml template, which loads css/app.css, the logo and Font Awesome CDN; messages.properties is not referenced. Risk is the getStatusCode parameter supplier; coverage input unavailable."

@@ -1,0 +1,14 @@
+id: track-cargo.data-leg
+kind: data
+title: Read itinerary legs
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:22-48
+  risk: {crap: 182, complexity: 13, coverage: 0.0}
+boundary: "Cargo's embedded itinerary reads ordered Leg rows and their voyage, load/unload locations and times for route state, expected events, ETA and next activity."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Leg table fields: id, cargo_id (Itinerary join), voyage_id, load_location_id, unload_location_id, load_time and unload_time. Itinerary orders by loadTime. ItineraryTest and CargoTest cover related domain rules; risk is Itinerary.isExpected, coverage input unavailable."

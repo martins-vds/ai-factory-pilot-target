@@ -1,0 +1,14 @@
+id: track-cargo.domain-event-expectation
+kind: behavioral
+title: Compare handling events with the itinerary
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java:56-105
+  risk: {crap: 182, complexity: 13, coverage: 0.0}
+boundary: "The event list marks RECEIVE at first-leg origin, matching LOAD/UNLOAD location and voyage, and CLAIM at final-leg destination as expected; CUSTOMS and empty itineraries are always expected."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "This rule drives the public history markers and Delivery misdirection. ItineraryTest::testCargoOnTrack and testNextExpectedEvent plus CargoTest::testIsMisdirected cover related cases; graph tested_by edges link Delivery to CargoTest and ItineraryTest. Risk is isExpected; coverage input unavailable."

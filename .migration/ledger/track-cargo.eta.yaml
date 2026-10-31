@@ -1,0 +1,14 @@
+id: track-cargo.eta
+kind: ui
+title: Display the estimated arrival
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java:104-112
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "The public result displays ? when ETA is unknown; otherwise it formats the date as MM/dd/yyyy hh:mm a z."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Delivery supplies an ETA only while on track; the date formatter uses the JVM default locale/time zone. CargoTest and ItineraryTest exercise routing-derived delivery state, but no adapter test edge. Risk is getEta; coverage input unavailable."

@@ -1,0 +1,14 @@
+id: track-cargo.map-status-code
+kind: ui
+title: Select the public map status
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java:62-76
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "The map marker state is NOT_ROUTED for an empty itinerary, AT_DESTINATION when unloaded at destination, MISDIRECTED when off itinerary, otherwise the transport-status enum name."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Branch precedence is empty itinerary, unloaded-at-destination, misdirected, then transport status. CargoTest::testRoutingStatus, testIsMisdirected, and testIsUnloadedAtFinalDestination cover parts of the underlying rules; no adapter test edge. Risk is getStatusCode; coverage input unavailable."
