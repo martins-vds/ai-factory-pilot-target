@@ -11,4 +11,5 @@ slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
 verification: pending
-notes: "The view-scoped public.track bean trims surrounding whitespace in setTrackingId; blank input is JSF-required. No messages component renders required-validation feedback; see .migration/quirks/track-cargo-not-found-message.md. No legacy test edge covers the bean or page. Risk is Track.setTrackingId; coverage input was unavailable."
+notes: "The view-scoped public.track bean trims surrounding whitespace in setTrackingId; blank input is JSF-required. No messages component renders required-validation feedback; see martins-vds/ai-factory-pilot-target#12. No legacy test edge covers the bean or page. Risk is Track.setTrackingId; coverage input was unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#12]

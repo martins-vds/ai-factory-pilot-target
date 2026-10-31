@@ -12,3 +12,4 @@ tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
 verification: pending
 notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; HandlingEventTest covers event behavior; no page/adapter test edge. Risk is HandlingEventViewAdapter.getDescription; coverage input unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#12]

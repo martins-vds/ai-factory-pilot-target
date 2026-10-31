@@ -11,4 +11,5 @@ slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
 verification: pending
-notes: "IN_PORT uses the route destination name, not lastKnownLocation; see .migration/quirks/track-cargo-in-port-text.md. Similar cargo.status.* strings exist in messages.properties but this page uses adapter literals, not that bundle. CargoTest covers domain transport/routing state; no adapter test edge. Risk is getStatusText; coverage input unavailable."
+notes: "IN_PORT uses the route destination name, not lastKnownLocation; see martins-vds/ai-factory-pilot-target#13. Similar cargo.status.* strings exist in messages.properties but this page uses adapter literals, not that bundle. CargoTest covers domain transport/routing state; no adapter test edge. Risk is getStatusText; coverage input unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#13]

@@ -11,4 +11,5 @@ slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
 verification: pending
-notes: "Map frame reads status/origin/destination/last-known query parameters; fixed LOCODE coordinate tables determine markers. The common public template also loads Font Awesome from a CDN. See .migration/quirks/track-cargo-map-random-offset.md. Risk is the Java status-code supplier; embedded XHTML/JavaScript is not included in the Java lizard run; coverage input unavailable."
+notes: "Map frame reads status/origin/destination/last-known query parameters; fixed LOCODE coordinate tables determine markers. The common public template also loads Font Awesome from a CDN. See martins-vds/ai-factory-pilot-target#14. Risk is the Java status-code supplier; embedded XHTML/JavaScript is not included in the Java lizard run; coverage input unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#14]

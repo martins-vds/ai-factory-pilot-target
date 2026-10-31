@@ -12,3 +12,4 @@ tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
 verification: pending
 notes: "No frame is rendered when cargo is empty. The page uses the common public.xhtml template, which loads css/app.css, the logo and Font Awesome CDN; messages.properties is not referenced. Risk is the getStatusCode parameter supplier; coverage input unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#14]
