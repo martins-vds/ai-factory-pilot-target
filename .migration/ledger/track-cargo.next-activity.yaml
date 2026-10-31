@@ -1,0 +1,14 @@
+id: track-cargo.next-activity
+kind: ui
+title: Display the next expected activity
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java:114-133
+  risk: {crap: 30, complexity: 5, coverage: 0.0}
+boundary: "When an expected activity exists, display its type, location and voyage where applicable; otherwise hide the paragraph."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Delivery returns no activity off-track, after CLAIM, or when no matching leg exists. ItineraryTest::testNextExpectedEvent covers domain predictions; no adapter test edge. Risk is getNextExpectedActivity; coverage input unavailable."

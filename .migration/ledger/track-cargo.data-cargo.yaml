@@ -1,0 +1,14 @@
+id: track-cargo.data-cargo
+kind: data
+title: Read cargo and embedded delivery data
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:57-79
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "Cargo.findByTrackingId loads the matched Cargo row and mapped route/delivery fields used to render tracking state."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Default Cargo table fields include id/tracking_id and origin_id; embedded RouteSpecification uses spec_origin_id, spec_destination_id, spec_arrival_deadline. Embedded Delivery maps transport_status, last_known_location_id, current_voyage_id, misdirected, eta, next_expected_handling_event_type, next_expected_location_id, next_expected_voyage_id, unloaded_at_dest, routing_status, calculated_at, last_event_id. The page uses all listed delivery fields except calculated_at/last_event_id; JpaCargoRepository.find uses Cargo.findByTrackingId. persistence.xml configures CargoTrackerUnit with java:app/jdbc/CargoTrackerDatabase and schema generation action create. Related tests: CargoTest, RouteSpecificationTest and CargoLifecycleScenarioTest; no direct tracking repository test edge. Risk is JpaCargoRepository.find; coverage input unavailable."

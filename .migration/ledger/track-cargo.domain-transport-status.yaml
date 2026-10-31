@@ -1,0 +1,14 @@
+id: track-cargo.domain-transport-status
+kind: behavioral
+title: Derive the transport status
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java:213-230
+  risk: {crap: 56, complexity: 7, coverage: 0.0}
+boundary: "The last handling event maps to NOT_RECEIVED when absent; LOAD to ONBOARD_CARRIER; UNLOAD, RECEIVE and CUSTOMS to IN_PORT; CLAIM to CLAIMED; otherwise UNKNOWN."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "CargoTest and CargoLifecycleScenarioTest exercise delivery progression; graph tested_by links Delivery to CargoTest. Risk is calculateTransportStatus; coverage input unavailable."

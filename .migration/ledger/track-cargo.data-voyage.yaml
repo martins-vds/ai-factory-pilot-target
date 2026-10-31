@@ -1,0 +1,14 @@
+id: track-cargo.data-voyage
+kind: data
+title: Read voyage identifiers
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:13-35
+  risk: {crap: 42, complexity: 6, coverage: 0.0}
+boundary: "Voyage rows supply the voyage number displayed for onboard status and for LOAD/UNLOAD history or next activity."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Voyage table fields used are id and embedded voyage_number, referenced by Delivery.current_voyage_id, Leg.voyage_id, HandlingEvent.voyage_id and next_expected_voyage_id. Schedule/carrier movements are not read by this page. Risk is CargoTrackingViewAdapter.getStatusText; coverage input unavailable."

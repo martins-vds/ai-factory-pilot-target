@@ -1,0 +1,15 @@
+id: track-cargo.not-found
+kind: ui
+title: Handle an unknown tracking ID
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java:65-78
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "Unknown tracking lookup adds an ERROR FacesMessage, clears the current cargo view, and leaves the entered ID."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Chain: public.track EL resolves the @Named/@ViewScoped Track bean; CDI injects CargoRepository/JpaCargoRepository and HandlingEventRepository/JpaHandlingEventRepository, which return Cargo and HandlingHistory for CargoTrackingViewAdapter. JpaCargoRepository.find returns null when Cargo.findByTrackingId has no result. The page/template have no h:messages component; its empty-events label is also eligible to render when cargo is null while its value references cargo.trackingId. See martins-vds/ai-factory-pilot-target#12. No legacy UI/bean test edge; risk is Track.onTrackById, coverage input unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#12]

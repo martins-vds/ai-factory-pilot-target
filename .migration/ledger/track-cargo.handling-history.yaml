@@ -1,0 +1,15 @@
+id: track-cargo.handling-history
+kind: ui
+title: Render the handling-history list
+source:
+  graph_node: file:src/main/webapp/public/track.xhtml
+  flow: Track Cargo
+  location: src/main/webapp/public/track.xhtml:60-88
+  risk: {crap: 42, complexity: 6, coverage: 0.0}
+boundary: "Show the empty-history sentence or completion-time-ordered event descriptions with formatted times and expected/unexpected markers."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; HandlingEventTest covers event behavior; no page/adapter test edge. Risk is HandlingEventViewAdapter.getDescription; coverage input unavailable."
+quirks: [martins-vds/ai-factory-pilot-target#12]

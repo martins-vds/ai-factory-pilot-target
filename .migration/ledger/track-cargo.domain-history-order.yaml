@@ -1,0 +1,14 @@
+id: track-cargo.domain-history-order
+kind: behavioral
+title: Deduplicate and order handling history
+source:
+  graph_node: file:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java
+  flow: Track Cargo
+  location: src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java:28-50
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Tracking history removes duplicate events, sorts by completion time ascending, exposes an unmodifiable list, and selects the final event as most recent."
+slice: track-cargo
+tickets: [martins-vds/ai-factory-pilot-target#10]
+status: pending
+verification: pending
+notes: "HandlingHistoryTest::testDistinctEventsByCompletionTime and testMostRecentlyCompletedEvent cover these rules; graph tested_by links HandlingHistory to HandlingHistoryTest. Equal-time tie ordering is not further specified. Coverage input unavailable."

@@ -1,0 +1,138 @@
+crap,ccn,coverage,file,function,start,end
+182.0,13,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::isExpected( HandlingEvent event),56,105
+156.0,12,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,"Delivery::calculateNextExpectedActivity( RouteSpecification routeSpecification , Itinerary itinerary)",264,309
+56.0,7,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::calculateTransportStatus(),213,230
+42.0,6,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getStatusText(),81,98
+42.0,6,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::HandlingEventViewAdapter::getDescription(),164,181
+30.0,5,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getNextExpectedActivity(),114,133
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getStatusCode(),62,76
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,"Delivery::calculateRoutingStatus( Itinerary itinerary , RouteSpecification routeSpecification)",311,321
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::equals( Object o),343,354
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::equals( Object obj),82,96
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::equals( Object o),152,163
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::equals( Object o),91,102
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::isSatisfiedBy( Itinerary itinerary),71,75
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::equals( Object o),84,95
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::equals( Object o),35,46
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::equals( Object o),58,68
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::equals( Object o),54,65
+20.0,4,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::equals( Object o),31,45
+12.0,3,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::calculateCurrentVoyage(),240,246
+12.0,3,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::calculateUnloadedAtDestination( RouteSpecification routeSpecification),323,326
+12.0,3,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::isEmpty(),98,108
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java,Track::setTrackingId( String trackingId),49,55
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java,Track::onTrackById(),65,79
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,"CargoTrackingViewAdapter::CargoTrackingViewAdapter( Cargo cargo , List<HandlingEvent> handlingEvents)",24,31
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getLastKnownLocationName(),53,56
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getEta(),104,112
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getEstimatedTimeOfArrival(),171,177
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::calculateLastKnownLocation(),232,238
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::calculateMisdirectionStatus( Itinerary itinerary),248,254
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::calculateEta( Itinerary itinerary),256,262
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::onTrack(),328,330
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::sameValueAs( Delivery other),332,340
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::sameValueAs( HandlingActivity other),71,74
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::getInitialDepartureLocation(),107,113
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::getFinalArrivalLocation(),115,121
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::getFinalArrivalDate(),126,134
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::getLastLeg(),139,145
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::sameValueAs( Itinerary other),147,149
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::sameValueAs( Leg other),84,88
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::sameValueAs( RouteSpecification other),77,81
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::sameValueAs( TrackingId other),53,55
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::getMostRecentlyCompletedEvent(),43,51
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::sameValueAs( HandlingHistory other),53,55
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::sameValueAs( UnLocode other),72,74
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::sameValueAs( VoyageNumber other),52,54
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java,JpaCargoRepository::find( TrackingId trackingId),32,44
+6.0,2,0.00,source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java,JpaCargoRepository::store( Cargo cargo),47,54
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java,Track::getTrackingId(),45,47
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java,Track::getCargo(),57,59
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java,Track::setCargo( CargoTrackingViewAdapter cargo),61,63
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getTrackingId(),33,35
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getOriginName(),37,39
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getOriginCode(),41,43
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getDestinationName(),45,47
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getDestinationCode(),49,51
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getLastKnownLocationCode(),58,60
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::isMisdirected(),100,102
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::getEvents(),138,140
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::HandlingEventViewAdapter::HandlingEventViewAdapter( HandlingEvent handlingEvent),149,151
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::HandlingEventViewAdapter::getTime(),156,158
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java,CargoTrackingViewAdapter::HandlingEventViewAdapter::isExpected(),160,162
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::JoinColumn( name = 'last_known_location_id'),53,81
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,"Delivery::Delivery( HandlingEvent lastEvent , Itinerary itinerary , RouteSpecification routeSpecification)",83,95
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,"Delivery::updateOnRouting( RouteSpecification routeSpecification , Itinerary itinerary)",102,106
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,"Delivery::derivedFrom( RouteSpecification routeSpecification , Itinerary itinerary , HandlingHistory handlingHistory)",117,125
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getTransportStatus(),127,129
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setTransportStatus( TransportStatus transportStatus),131,133
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getLastKnownLocation(),135,137
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setLastKnownLocation( Location lastKnownLocation),139,141
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setLastEvent( HandlingEvent lastEvent),143,145
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getCurrentVoyage(),147,149
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::isMisdirected(),163,165
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setMisdirected( boolean misdirected),167,169
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getNextExpectedActivity(),179,181
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::isUnloadedAtDestination(),186,188
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setUnloadedAtDestination( boolean isUnloadedAtDestination),190,192
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getRoutingStatus(),194,196
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setRoutingStatus( RoutingStatus routingStatus),198,200
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::getCalculatedAt(),205,207
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::setCalculatedAt( Date calculatedAt),209,211
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java,Delivery::hashCode(),357,361
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::JoinColumn( name = 'next_expected_location_id'),32,39
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,"HandlingActivity::HandlingActivity( HandlingEvent . Type type , Location location)",41,47
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,"HandlingActivity::HandlingActivity( HandlingEvent . Type type , Location location , Voyage voyage)",49,57
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::getType(),59,61
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::getLocation(),63,65
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::getVoyage(),67,69
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/HandlingActivity.java,HandlingActivity::hashCode(),77,79
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::Size( min = 1),35,40
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::Itinerary( List<Leg> legs),42,47
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::getLegs(),49,51
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::hashCode(),166,168
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java,Itinerary::toString(),171,173
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::Leg(),50,52
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,"Leg::Leg( Voyage voyage , Location loadLocation , Location unloadLocation , Date loadTime , Date unloadTime)",54,62
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::getVoyage(),64,66
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::getLoadLocation(),68,70
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::getUnloadLocation(),72,74
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::getLoadTime(),76,78
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::getUnloadTime(),80,82
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::hashCode(),105,108
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java,Leg::toString(),111,114
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,"RouteSpecification::JoinColumn( name = 'spec_origin_id' , updatable = false)",29,40
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,"RouteSpecification::RouteSpecification( Location origin , Location destination , Date arrivalDeadline)",47,56
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::getOrigin(),58,60
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::getDestination(),62,64
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::getArrivalDeadline(),66,68
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java,RouteSpecification::hashCode(),98,101
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::TrackingId(),22,23
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::TrackingId( String id),25,28
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::getIdString(),30,32
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::hashCode(),49,51
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TrackingId.java,TrackingId::toString(),58,60
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/TransportStatus.java,sameValueAs( TransportStatus other),7,9
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/RoutingStatus.java,sameValueAs( RoutingStatus other),7,9
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::HandlingHistory( Collection<HandlingEvent> handlingEvents),18,22
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::getAllHandlingEvents(),24,26
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::getDistinctEventsByCompletionTime(),32,37
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,HandlingHistory::hashCode(),71,73
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java,"HandlingHistory::compare( HandlingEvent he1 , HandlingEvent he2)",77,79
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::Pattern( regexp = '[a-zA-Z]{2}[a-zA-Z2-9]{3}'),26,33
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::UnLocode( String countryAndLocation),38,44
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::getIdString(),49,51
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::hashCode(),68,70
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/location/UnLocode.java,UnLocode::toString(),77,79
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java,"Voyage::Builder::Builder( VoyageNumber voyageNumber , Location departureLocation)",98,104
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java,"Voyage::Builder::addMovement( Location arrivalLocation , Date departureTime , Date arrivalTime)",106,113
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java,Voyage::Builder::build(),115,117
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::VoyageNumber(),20,22
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::VoyageNumber( String number),24,28
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::hashCode(),48,50
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::toString(),57,59
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageNumber.java,VoyageNumber::getIdString(),61,63
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java,JpaCargoRepository::nextTrackingId(),57,61
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java,JpaCargoRepository::findAll(),64,66
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaHandlingEventRepository.java,JpaHandlingEventRepository::store( HandlingEvent event),23,25
+2.0,1,0.00,source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaHandlingEventRepository.java,JpaHandlingEventRepository::lookupHandlingHistoryOfCargo( TrackingId trackingId),28,31
