@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_htmx',
     'cargotracker.location.apps.LocationConfig',
     'cargotracker.voyage.apps.VoyageConfig',
+    'cargotracker.cargo.apps.CargoConfig',
 ]
 
 MIDDLEWARE = [

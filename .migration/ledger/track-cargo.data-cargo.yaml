@@ -9,11 +9,33 @@ source:
 boundary: "Cargo.findByTrackingId loads the matched Cargo row and mapped route/delivery fields used to render tracking state."
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "Default Cargo table fields include id/tracking_id and origin_id; embedded RouteSpecification uses spec_origin_id, spec_destination_id, spec_arrival_deadline. Embedded Delivery maps transport_status, last_known_location_id, current_voyage_id, misdirected, eta, next_expected_handling_event_type, next_expected_location_id, next_expected_voyage_id, unloaded_at_dest, routing_status, calculated_at, last_event_id. The page uses all listed delivery fields except calculated_at/last_event_id; JpaCargoRepository.find uses Cargo.findByTrackingId. persistence.xml configures CargoTrackerUnit with java:app/jdbc/CargoTrackerDatabase and schema generation action create. Related tests: CargoTest, RouteSpecificationTest and CargoLifecycleScenarioTest; no direct tracking repository test edge. Risk is JpaCargoRepository.find; coverage input unavailable."
+  - "tests/cargo/test_domain.py::test_tracking_id_is_an_immutable_value_object"
+  - "tests/cargo/test_domain.py::test_tracking_id_rejects_non_string_values"
+  - "tests/cargo/test_domain.py::test_route_specification_validates_identity_and_normalizes_deadline_to_utc"
+  - "tests/cargo/test_domain.py::test_route_specification_rejects_invalid_fields"
+  - "tests/cargo/test_domain.py::test_cargo_identity_is_its_tracking_id_and_origin_defaults_from_route"
+  - "tests/cargo/test_domain.py::test_cargo_rejects_invalid_components"
+  - "tests/cargo/test_domain.py::test_delivery_rejects_invalid_fields"
+  - "tests/cargo/test_domain.py::test_delivery_status_values_match_source_enums"
+  - "tests/cargo/test_repository.py::test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations"
+  - "tests/cargo/test_repository.py::test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id"
+  - "tests/cargo/test_repository.py::test_repository_maps_cargo_without_optional_delivery_relations_or_legs"
+  - ".migration/evidence/runs/TC-04.md"
+target:
+  components:
+    - cargotracker.cargo.domain.tracking_id.TrackingId
+    - cargotracker.cargo.domain.route_specification.RouteSpecification
+    - cargotracker.cargo.domain.handling_activity.HandlingActivity
+    - cargotracker.cargo.domain.delivery.Delivery
+    - cargotracker.cargo.domain.cargo.Cargo
+    - cargotracker.cargo.domain.repository.CargoRepository
+    - cargotracker.cargo.infrastructure.models.CargoRecord
+    - cargotracker.cargo.infrastructure.repository.DjangoCargoRepository
+notes: "Default Cargo table fields include id/tracking_id and origin_id; embedded RouteSpecification uses spec_origin_id, spec_destination_id, spec_arrival_deadline. Embedded Delivery maps transport_status, last_known_location_id, current_voyage_id, misdirected, eta, next_expected_handling_event_type, next_expected_location_id, next_expected_voyage_id, unloaded_at_dest, routing_status, calculated_at, last_event_id. The page uses all listed delivery fields except calculated_at/last_event_id; JpaCargoRepository.find uses Cargo.findByTrackingId. persistence.xml configures CargoTrackerUnit with java:app/jdbc/CargoTrackerDatabase and schema generation action create. Target date-only values are represented as UTC midnight. The last_event_id column is present as a scalar in TC-04; TC-05 must add its foreign-key relation when the handling-event model is introduced."
