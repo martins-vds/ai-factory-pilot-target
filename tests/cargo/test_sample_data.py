@@ -17,6 +17,13 @@ from cargotracker.voyage.infrastructure.models import VoyageRecord
 @pytest.mark.django_db
 def test_seed_sample_data_is_idempotent_and_supports_golden_lookups():
     call_command('seed_sample_data')
+    for event in HandlingEventRecord.objects.all():
+        event.completion_time -= timedelta(days=1)
+        event.save(update_fields=['completion_time'])
+    for leg in LegRecord.objects.all():
+        leg.load_time -= timedelta(days=1)
+        leg.unload_time -= timedelta(days=1)
+        leg.save(update_fields=['load_time', 'unload_time'])
     call_command('seed_sample_data')
 
     today = datetime.now(UTC).date()

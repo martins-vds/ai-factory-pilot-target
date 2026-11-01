@@ -28,5 +28,7 @@ target:
     - cargotracker.location.domain.repository.LocationRepository
     - cargotracker.location.infrastructure.models.LocationRecord
     - cargotracker.location.infrastructure.repository.DjangoLocationRepository
+    - cargotracker.cargo.application.sample_data.SampleDataSeeder
+    - cargotracker.cargo.infrastructure.sample_data_repository.DjangoSampleDataRepository
     - cargotracker.cargo.management.commands.seed_sample_data.Command
 notes: "Location table fields used are id, embedded unlocode and name; associations are Cargo origin/spec locations, Delivery last-known and next-activity locations, Leg locations and HandlingEvent location. Location.UNKNOWN uses code XXXXX and displays Unknown for its name in the adapter. CargoTest tests last-known-location cases; no page test edge. Coverage input unavailable."

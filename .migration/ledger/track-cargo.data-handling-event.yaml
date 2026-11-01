@@ -31,5 +31,7 @@ target:
     - cargotracker.handling.infrastructure.models.HandlingEventRecord
     - cargotracker.handling.infrastructure.repository.DjangoHandlingEventRepository
     - cargotracker.cargo.infrastructure.models.CargoRecord.last_event
+    - cargotracker.cargo.application.sample_data.SampleDataSeeder
+    - cargotracker.cargo.infrastructure.sample_data_repository.DjangoSampleDataRepository
     - cargotracker.cargo.management.commands.seed_sample_data.Command
 notes: "The entity also maps id and registration, which this display does not use. JpaHandlingEventRepository wraps results in HandlingHistory. HandlingEventTest and HandlingHistoryTest cover event and history rules; HandlingEventServiceTest covers adjacent registration, not the public query. Coverage input unavailable."
