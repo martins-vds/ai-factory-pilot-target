@@ -10,5 +10,39 @@
     id="cargo-result"
   >
     <h2 class="card-title text-lg font-semibold">Cargo {{ cargo.tracking_id.value }}</h2>
+    <p id="status-text">{{ status_text }}</p>
+    {% if eta is not None %}
+      <p id="eta">ETA: {{ eta }}</p>
+    {% endif %}
+    {% if next_activity_text %}
+      <p id="next-expected-activity">{{ next_activity_text }}</p>
+    {% endif %}
+    {% if misdirected %}
+      <p class="text-red-700" id="misdirected-warning" role="alert">
+        <span aria-hidden="true">⚑</span> Cargo is misdirected
+      </p>
+    {% endif %}
+    <section aria-labelledby="handling-history-heading" id="handling-history">
+      <h3 id="handling-history-heading">Handling history</h3>
+      {% if history_rows %}
+        <ol>
+          {% for row in history_rows %}
+            <li data-expectation="{% if row.expected %}expected{% else %}unexpected{% endif %}">
+              <span aria-hidden="true">{% if row.expected %}✓{% else %}⚑{% endif %}</span>
+              <span>{{ row.description }}</span>
+              <time>{{ row.time }}</time>
+            </li>
+          {% endfor %}
+        </ol>
+      {% else %}
+        <p>There are no events recorded for the tracking ID {{ cargo.tracking_id.value }}.</p>
+      {% endif %}
+    </section>
+    <iframe
+      id="tracking-map"
+      loading="lazy"
+      src="{{ map_url }}"
+      title="Cargo tracking map"
+    ></iframe>
   </section>
 {% endif %}

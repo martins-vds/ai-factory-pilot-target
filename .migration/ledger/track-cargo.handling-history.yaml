@@ -8,8 +8,8 @@ source:
   risk: {crap: 42, complexity: 6, coverage: 0.0}
 boundary: "Show the empty-history sentence or completion-time-ordered event descriptions with formatted times and expected/unexpected markers."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#33]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -19,5 +19,13 @@ evidence:
   - "characterization/track-cargo/golden/def789.json"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; HandlingEventTest covers event behavior; no page/adapter test edge. Risk is HandlingEventViewAdapter.getDescription; coverage input unavailable."
+  - "tests/cargo/interfaces/test_tracking_result.py::test_tracking_result_renders_ordered_history_with_utc_times_and_expectation_markers"
+  - "tests/cargo/interfaces/test_tracking_result.py::test_empty_history_and_absent_next_activity_are_rendered"
+  - ".migration/evidence/runs/TC-13.md"
+target:
+  components:
+    - cargotracker.cargo.application.tracking.TrackingLookup.find_handling_history
+    - cargotracker.cargo.interfaces.tracking.history.get_history_rows
+    - templates.tracking.result
+notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; the TC-13 view tests cover ordered rows, event markers, UTC formatting and empty history."
 quirks: [martins-vds/ai-factory-pilot-target#12]

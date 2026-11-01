@@ -8,8 +8,8 @@ source:
   risk: {crap: 30, complexity: 5, coverage: 0.0}
 boundary: "When an expected activity exists, display its type, location and voyage where applicable; otherwise hide the paragraph."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#33]
+status: migrated
 verification: characterized
 characterization_tier: B
 evidence:
@@ -18,5 +18,14 @@ evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Tier-B cases cover progression, claim, off-track and unrouted states. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence."
+  - "tests/cargo/interfaces/test_tracking_result.py::test_tracking_result_renders_status_eta_map_and_next_activity"
+  - "tests/cargo/interfaces/test_tracking_result.py::test_misdirected_warning_and_absent_next_activity"
+  - "tests/cargo/interfaces/test_tracking_result.py::test_next_activity_text_matches_source_descriptions"
+  - "tests/cargo/test_domain_calculations.py::test_quirk52_next_activity_uses_first_matching_location"
+  - ".migration/evidence/runs/TC-13.md"
+target:
+  components:
+    - cargotracker.cargo.interfaces.tracking.next_activity.get_next_activity_text
+    - templates.tracking.result
+notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Tier-B cases cover progression, claim, off-track and unrouted states. Quirk #52's repeated-location behavior is preserved as approved and pinned by test."
 quirks: [martins-vds/ai-factory-pilot-target#52]
