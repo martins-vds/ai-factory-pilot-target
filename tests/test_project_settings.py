@@ -9,9 +9,10 @@ import cargotracker.settings as project_settings
 
 def test_database_defaults_to_postgresql():
     configured_database = {
-        key: project_settings._postgres_database_configuration()['default'][key]
+        key: settings.DATABASES['default'][key]
         for key in ('ENGINE', 'NAME', 'USER', 'PASSWORD', 'HOST', 'PORT')
     }
+    configured_database['NAME'] = configured_database['NAME'].removeprefix('test_')
     assert configured_database == {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('POSTGRES_DB', 'cargotracker'),
