@@ -23,10 +23,12 @@ evidence:
   - "tests/cargo/test_domain_calculations.py::test_delivery_keeps_transport_status_when_latest_event_is_misdirected"
   - "tests/cargo/test_domain_calculations.py::test_delivery_calculates_next_activity_after_latest_event"
   - "tests/cargo/test_domain_calculations.py::test_delivery_matches_golden_states_for_abc_jkl_def_and_mno"
+  - "tests/cargo/test_domain_calculations.py::test_quirk52_next_activity_uses_first_matching_location"
+  - ".migration/evidence/runs/TC-13.md"
   - ".migration/evidence/runs/TC-08.md"
 target:
   components:
     - cargotracker.cargo.domain.delivery.Delivery.derived_from
     - cargotracker.cargo.domain.route_specification.RouteSpecification.is_satisfied_by
-notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity. The committed source graph was analyzed at a8cdf52effc852af7a9218b40bedb98b8451d4ae, not the pinned f3beacf78de4f6d34edc4971ac87e38a5c6fe59d; inspected pinned source calculation methods agree with the design. A source-only repeated-location next-activity quirk draft is in .migration/quirks/next-activity-repeated-location.md."
+notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity. The committed source graph was analyzed at a8cdf52effc852af7a9218b40bedb98b8451d4ae, not the pinned f3beacf78de4f6d34edc4971ac87e38a5c6fe59d; inspected pinned source calculation methods agree with the design. The repeated-location behavior is preserved per approved quirk #52 and pinned by test."
 quirks: [martins-vds/ai-factory-pilot-target#17, martins-vds/ai-factory-pilot-target#52]

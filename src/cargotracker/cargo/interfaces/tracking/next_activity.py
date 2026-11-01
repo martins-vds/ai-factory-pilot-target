@@ -3,7 +3,7 @@ from cargotracker.cargo.domain.handling_activity import HandlingActivity
 _ACTIVITY_DESCRIPTIONS = {
     'RECEIVE': 'receive cargo in {location}',
     'LOAD': 'load cargo onto voyage {voyage} in {location}',
-    'UNLOAD': 'unload cargo from voyage {voyage} in {location}',
+    'UNLOAD': 'unload cargo off of {voyage} in {location}',
     'CLAIM': 'claim cargo in {location}',
 }
 

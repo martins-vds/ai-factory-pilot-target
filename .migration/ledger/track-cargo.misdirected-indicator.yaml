@@ -9,7 +9,7 @@ source:
 boundary: "A misdirected cargo result shows the red warning icon and the text Cargo is misdirected."
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,4 +17,10 @@ evidence:
   - "characterization/track-cargo/golden/jkl567.json"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "Rendered only when CargoTrackingViewAdapter.isMisdirected is true. CargoTest::testIsMisdirected covers the source domain rule; no UI/adapter test edge. Risk is Delivery.calculateMisdirectionStatus; coverage input unavailable."
+  - "tests/cargo/interfaces/test_tracking_result.py::test_misdirected_warning_and_absent_next_activity"
+  - ".migration/evidence/runs/TC-13.md"
+target:
+  components:
+    - cargotracker.cargo.interfaces.tracking.views.create_tracking_view
+    - templates.tracking.result
+notes: "The result template renders the warning only when the delivery is misdirected; the TC-13 view test covers both presence and absence."
