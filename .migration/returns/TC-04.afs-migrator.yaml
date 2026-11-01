@@ -1,0 +1,16 @@
+role: afs-migrator
+ticket: TC-04
+issue: martins-vds/ai-factory-pilot-target#24
+pr: null
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+evidence_logs: []
+ledger_updated: []
+quirk_tickets: []
+new_tickets: []
+handoff: .migration/handoffs/TC-04.md
