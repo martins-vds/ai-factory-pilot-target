@@ -5,7 +5,7 @@ frontmatter fields are validated during capture — keep them well-formed.
 
 ```markdown
 ---
-id: <semantic-kebab-case-slug>          # equals the filename, without .md
+id: <YYYYMMDD>-<semantic-slug>-<4hex>   # equals the filename, without .md
 date: <YYYY-MM-DD>                       # ISO date the lesson was captured
 scope: <project | module | feature>      # applicability
 tags: [<tag-1>, <tag-2>, <tag-3>]        # 3-6 lowercase tags for recall matching
