@@ -1,0 +1,14 @@
+{% if message %}
+  <p
+    class="alert alert-error mt-4 rounded-md border border-red-300 bg-red-50 p-4 text-red-800"
+    role="alert"
+  >{{ message }}</p>
+{% endif %}
+{% if cargo %}
+  <section
+    class="card mt-6 rounded-lg border border-slate-200 bg-white p-6 shadow"
+    id="cargo-result"
+  >
+    <h2 class="card-title text-lg font-semibold">Cargo {{ cargo.tracking_id.value }}</h2>
+  </section>
+{% endif %}

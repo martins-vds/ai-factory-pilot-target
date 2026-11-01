@@ -8,8 +8,8 @@ source:
   risk: {crap: 6, complexity: 2, coverage: 0.0}
 boundary: "Unknown tracking lookup adds an ERROR FacesMessage, clears the current cargo view, and leaves the entered ID."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#29]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -18,5 +18,18 @@ evidence:
   - "characterization/track-cargo/golden/unknown-id.json"
   - "characterization/track-cargo/golden/empty-id.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/cargo/test_tracking.py::test_empty_and_unknown_ids_show_messages_without_cargo_result_or_map"
+  - "tests/cargo/test_tracking.py::test_lowercase_tracking_id_remains_case_sensitive"
+  - ".migration/evidence/runs/TC-09.md"
 notes: "Chain: public.track EL resolves the @Named/@ViewScoped Track bean; CDI injects CargoRepository/JpaCargoRepository and HandlingEventRepository/JpaHandlingEventRepository, which return Cargo and HandlingHistory for CargoTrackingViewAdapter. JpaCargoRepository.find returns null when Cargo.findByTrackingId has no result. The page/template have no h:messages component; its empty-events label is also eligible to render when cargo is null while its value references cargo.trackingId. See martins-vds/ai-factory-pilot-target#12. No legacy UI/bean test edge; risk is Track.onTrackById, coverage input unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#12]
+target:
+  components:
+    - cargotracker.cargo.application.tracking.TrackingLookup
+    - cargotracker.cargo.composition.compose_tracking_view
+    - cargotracker.cargo.interfaces.tracking.create_tracking_view
+    - templates/tracking/result.html
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#12
+  reason: "Fix the approved not-found feedback quirk and suppress cargo-dependent content without a cargo."
