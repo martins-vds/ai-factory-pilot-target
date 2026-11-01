@@ -20,17 +20,18 @@ evidence:
   - "characterization/track-cargo/golden/lowercase-id.json"
   - "characterization/track-cargo/golden/empty-id.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
-  - "tests/test_tracking.py::test_tracking_page_has_a_progressive_tracking_form"
-  - "tests/test_tracking.py::test_padded_tracking_id_is_trimmed_in_htmx_lookup"
-  - "tests/test_tracking.py::test_lowercase_tracking_id_remains_case_sensitive"
+  - "tests/cargo/test_tracking.py::test_tracking_page_has_a_progressive_tracking_form"
+  - "tests/cargo/test_tracking.py::test_padded_tracking_id_is_trimmed_in_htmx_lookup"
+  - "tests/cargo/test_tracking.py::test_lowercase_tracking_id_remains_case_sensitive"
   - ".migration/evidence/runs/TC-09.md"
 notes: "The view-scoped public.track bean trims surrounding whitespace in setTrackingId; blank input is JSF-required. No messages component renders required-validation feedback; see martins-vds/ai-factory-pilot-target#12. No legacy test edge covers the bean or page. Risk is Track.setTrackingId; coverage input was unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#12]
 target:
   components:
     - cargotracker.cargo.application.tracking.TrackingLookup
+    - cargotracker.cargo.composition.compose_tracking_view
     - cargotracker.cargo.interfaces.forms.TrackingForm
-    - cargotracker.cargo.interfaces.tracking.track
+    - cargotracker.cargo.interfaces.tracking.create_tracking_view
     - templates/tracking/track.html
 approval:
   by: martins-vds

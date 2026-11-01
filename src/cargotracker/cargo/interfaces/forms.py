@@ -10,8 +10,7 @@ class TrackingForm(forms.Form):
             attrs={
                 'autocomplete': 'off',
                 'class': (
-                    'input input-bordered block w-full rounded-md border border-slate-300 '
-                    'px-3 py-2'
+                    'input input-bordered block w-full rounded-md border border-slate-300 px-3 py-2'
                 ),
                 'placeholder': 'XYZ789',
             }

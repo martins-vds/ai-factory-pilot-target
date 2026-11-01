@@ -18,9 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from cargotracker.cargo.interfaces.tracking import track
+from cargotracker.cargo.composition import compose_tracking_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', track, name='track'),
+    path('', compose_tracking_view(), name='track'),
 ]

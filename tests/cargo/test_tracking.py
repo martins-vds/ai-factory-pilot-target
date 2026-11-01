@@ -8,9 +8,15 @@ def test_tracking_page_has_a_progressive_tracking_form(client):
     assert response.status_code == 200
     assert b'<form' in response.content
     assert b'method="post"' in response.content
-    assert b'hx-post=' in response.content
+    assert b'action="/"' in response.content
+    assert b'hx-post="/"' in response.content
     assert b'hx-target="#tracking-result"' in response.content
+    assert b'hx-swap="innerHTML"' in response.content
     assert b'name="tracking_id"' in response.content
+    assert b'required' in response.content
+    assert b'placeholder="XYZ789"' in response.content
+    assert b'Tracking ID' in response.content
+    assert b'Track!' in response.content
 
 
 @pytest.mark.django_db
