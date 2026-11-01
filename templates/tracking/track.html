@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Track a cargo | Cargo Tracker{% endblock %}
+
+{% block content %}
+  <main class="container mx-auto max-w-3xl p-4">
+    <h1 class="mb-6 text-3xl font-bold">Track your cargo</h1>
+    <form
+      id="tracking-form"
+      method="post"
+      action="{% url 'track' %}"
+      hx-post="{% url 'track' %}"
+      hx-target="#tracking-result"
+      hx-swap="innerHTML"
+      class="flex flex-col gap-3 sm:flex-row"
+    >
+      {% csrf_token %}
+      <div class="grow">
+        <label class="label" for="{{ form.tracking_id.id_for_label }}">{{ form.tracking_id.label }}</label>
+        {{ form.tracking_id }}
+      </div>
+      <button
+        class="btn btn-primary self-end rounded-md bg-blue-700 px-5 py-2 font-semibold text-white"
+        type="submit"
+      >Track!</button>
+    </form>
+    <div id="tracking-result" aria-live="polite">
+      {% include "tracking/result.html" %}
+    </div>
+  </main>
+{% endblock %}
