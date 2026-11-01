@@ -1,0 +1,19 @@
+role: afs-migrator
+ticket: TC-03
+issue: martins-vds/ai-factory-pilot-target#23
+pr: martins-vds/ai-factory-pilot-target#40
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 1.0
+  mutation_full: 1.0
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TC-03.md
+ledger_updated:
+  - track-cargo.data-voyage
+quirk_tickets: []
+new_tickets: []
+handoff: null
