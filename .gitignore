@@ -2,3 +2,9 @@
 .migration/runs/
 __pycache__/
 .pytest_cache/
+.coverage
+coverage.lcov
+htmlcov/
+.mutmut-cache
+/assets/css/tailwind.css
+/staticfiles/
