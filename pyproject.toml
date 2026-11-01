@@ -22,7 +22,7 @@ include = ["manage.py", "src/**/*.py", "tests/**/*.py"]
 quote-style = "single"
 
 [tool.mutmut]
-paths_to_mutate = "src/cargotracker/location/,src/cargotracker/voyage/,src/cargotracker/cargo/"
+paths_to_mutate = "src/cargotracker/location/,src/cargotracker/voyage/,src/cargotracker/cargo/,src/cargotracker/handling/"
 paths_to_exclude = "migrations"
 tests_dir = "tests/"
 runner = "python -m pytest -q --continue-on-collection-errors"

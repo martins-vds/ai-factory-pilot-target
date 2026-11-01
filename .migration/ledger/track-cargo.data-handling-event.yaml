@@ -8,8 +8,8 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "HandlingEvent.findByTrackingId reads event rows for a cargo; fields used include type, voyage_id, location_id, completionTime and cargo_id."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#25]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,4 +17,16 @@ evidence:
   - "characterization/track-cargo/golden/mno456.json"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testNewWithCarrierMovement"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/handling/test_repository.py::test_handling_event_schema_matches_source_jpa_mapping"
+  - "tests/handling/test_repository.py::test_repository_reads_and_orders_deduplicated_handling_history"
+  - "tests/handling/test_repository.py::test_repository_stores_event_relations_and_completion_dates"
+  - ".migration/evidence/runs/TC-05.md"
+target:
+  components:
+    - cargotracker.handling.domain.handling_event.HandlingEvent
+    - cargotracker.handling.domain.handling_event.HandlingEventType
+    - cargotracker.handling.domain.repository.HandlingEventRepository
+    - cargotracker.handling.infrastructure.models.HandlingEventRecord
+    - cargotracker.handling.infrastructure.repository.DjangoHandlingEventRepository
+    - cargotracker.cargo.infrastructure.models.CargoRecord.last_event
 notes: "The entity also maps id and registration, which this display does not use. JpaHandlingEventRepository wraps results in HandlingHistory. HandlingEventTest and HandlingHistoryTest cover event and history rules; HandlingEventServiceTest covers adjacent registration, not the public query. Coverage input unavailable."
