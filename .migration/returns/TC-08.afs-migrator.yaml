@@ -15,6 +15,7 @@ ledger_updated:
   - track-cargo.domain-event-expectation
   - track-cargo.domain-route-state
   - track-cargo.domain-transport-status
-quirk_tickets: []
+quirk_tickets:
+  - .migration/quirks/next-activity-repeated-location.md
 new_tickets: []
 handoff: none

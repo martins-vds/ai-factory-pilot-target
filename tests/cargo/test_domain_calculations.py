@@ -26,7 +26,7 @@ CALCULATED_AT = datetime(2026, 11, 1, tzinfo=UTC)
 DEADLINE = datetime(2026, 12, 1, tzinfo=UTC)
 
 
-def _route():
+def _two_leg_route():
     legs = (
         Leg(
             FIRST_VOYAGE,
@@ -88,7 +88,7 @@ def _derive_delivery(route_specification, itinerary, event_data=None):
 
 @pytest.mark.parametrize('event_type', tuple(HandlingEventType))
 def test_empty_itinerary_accepts_every_declared_handling_type(event_type):
-    route_specification, _ = _route()
+    route_specification, _ = _two_leg_route()
     cargo = _cargo(route_specification, Itinerary.EMPTY)
     voyage = FIRST_VOYAGE if event_type.requires_voyage else None
     event = _event(cargo, event_type, ORIGIN, voyage)
@@ -115,14 +115,14 @@ def test_empty_itinerary_accepts_every_declared_handling_type(event_type):
 def test_itinerary_matches_only_expected_event_location_and_voyage(
     event_type, location, voyage, expected
 ):
-    route_specification, itinerary = _route()
+    route_specification, itinerary = _two_leg_route()
     cargo = _cargo(route_specification, itinerary)
 
     assert itinerary.is_expected(_event(cargo, event_type, location, voyage)) is expected
 
 
 def test_route_specification_requires_matching_endpoints_and_strictly_early_arrival():
-    route_specification, itinerary = _route()
+    route_specification, itinerary = _two_leg_route()
     arrival = itinerary.legs[-1].unload_time
 
     assert route_specification.is_satisfied_by(itinerary)
@@ -149,14 +149,14 @@ def test_route_specification_requires_matching_endpoints_and_strictly_early_arri
 def test_delivery_derives_transport_status_from_latest_event(
     event_type, location, voyage, expected
 ):
-    route_specification, itinerary = _route()
+    route_specification, itinerary = _two_leg_route()
     event_data = (event_type, location, voyage) if event_type is not None else None
 
     assert _derive_delivery(route_specification, itinerary, event_data).transport_status is expected
 
 
 def test_delivery_derives_routing_eta_and_first_activity_without_events():
-    route_specification, itinerary = _route()
+    route_specification, itinerary = _two_leg_route()
 
     delivery = _derive_delivery(route_specification, itinerary)
 
@@ -181,7 +181,7 @@ def test_delivery_derives_routing_eta_and_first_activity_without_events():
         ),
         (
             RouteSpecification(TRANSFER, DESTINATION, DEADLINE),
-            _route()[1],
+            _two_leg_route()[1],
             RoutingStatus.MISROUTED,
         ),
     ],
@@ -197,7 +197,7 @@ def test_delivery_has_no_eta_or_activity_when_unrouted_or_route_misses_specifica
 
 
 def test_delivery_keeps_transport_status_when_latest_event_is_misdirected():
-    route_specification, itinerary = _route()
+    route_specification, itinerary = _two_leg_route()
 
     delivery = _derive_delivery(
         route_specification,
@@ -256,7 +256,7 @@ def test_delivery_keeps_transport_status_when_latest_event_is_misdirected():
 def test_delivery_calculates_next_activity_after_latest_event(
     event_type, location, voyage, expected_activity, unloaded
 ):
-    route_specification, itinerary = _route()
+    route_specification, itinerary = _two_leg_route()
 
     delivery = _derive_delivery(
         route_specification,
