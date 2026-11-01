@@ -1,6 +1,6 @@
 # Track Cargo slice plan
 
-**Status:** Draft for human approval; no tickets have been published
+**Status:** Approved by martins-vds on 2026-11-01, then published as sub-issues of #9
 **Slice epic:** `martins-vds/ai-factory-pilot-target#9`
 **Decision map:** `martins-vds/ai-factory-pilot-target#3`
 **Anchor:** tracking form → cargo lookup → tracking result, history, and map
@@ -235,17 +235,13 @@ blocking edges; unlisted relationships are not blockers.
 | `track-cargo.status-text` | TC-10 |
 | `track-cargo.tracking-id-entry` | TC-09 |
 
-## Open questions for the Program Orchestrator
+## Resolved questions (2026-11-01)
 
-1. Can the source code and domain graph JSON artifacts be regenerated/provided before dispatch?
-   Neither is present in this checkout; current ticket edges use ledger graph-node/flow references,
-   ADRs, and the risk map.
-2. Which target locale/time-zone policy should format displayed dates? The source adapter uses the
-   JVM default locale/time zone; the characterization normalizes dates but does not choose a target
-   deployment setting.
-3. Is a Derby-to-PostgreSQL production-data import still required by capability ticket #1, or is
-   that a separate future slice? This plan only seeds the characterized sample data required by the
-   Track Cargo goldens.
+1. **Graphs:** both are committed on `main` at `.migration/graphs/source/full/knowledge-graph.json`
+   and `domain-graph.json` (#7). Tickets should read them there.
+2. **Dates (martins-vds):** display times in **UTC** in the source's format, matching the golden files.
+3. **Data (martins-vds):** no production data exists. The target regenerates the sample data as
+   fixtures (TC-06), and `data-migration` is not applicable for this pilot (#1 closed).
 
 ## Planner return contract
 
