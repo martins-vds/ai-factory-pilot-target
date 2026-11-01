@@ -15,7 +15,11 @@ def test_tracking_page_has_a_progressive_tracking_form(client):
     assert b'name="tracking_id"' in response.content
     assert b'required' in response.content
     assert b'placeholder="XYZ789"' in response.content
-    assert b'Tracking ID' in response.content
+    assert b'>Tracking ID</label>' in response.content
+    assert (
+        b'class="input input-bordered block w-full rounded-md border border-slate-300 px-3 py-2"'
+        in response.content
+    )
     assert b'Track!' in response.content
 
 
@@ -24,11 +28,11 @@ def test_empty_and_unknown_ids_show_messages_without_cargo_result_or_map(client)
     call_command('seed_sample_data')
 
     empty_response = client.post('/', {'tracking_id': ''})
-    assert b'tracking ID is required' in empty_response.content
+    assert b'>tracking ID is required</p>' in empty_response.content
     assert b'id="tracking-form"' in empty_response.content
 
     unknown_response = client.post('/', {'tracking_id': 'UNKNOWN'})
-    assert b'Cargo with tracking ID UNKNOWN not found.' in unknown_response.content
+    assert b'>Cargo with tracking ID UNKNOWN not found.</p>' in unknown_response.content
     assert b'id="tracking-form"' in unknown_response.content
 
     for response in (empty_response, unknown_response):
@@ -72,3 +76,9 @@ def test_regular_form_submission_renders_found_cargo(client):
     assert b'id="tracking-form"' in response.content
     assert b'id="cargo-result"' in response.content
     assert b'Cargo DEF789' in response.content
+
+
+def test_tracking_route_does_not_change_the_admin_login_path(client):
+    response = client.get('/admin/login/')
+
+    assert response.status_code == 200

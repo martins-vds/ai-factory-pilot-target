@@ -7,7 +7,7 @@ gates:
   behavior: 0
   idiom: 0
   crap: 0
-  mutation_changed: 0.703
+  mutation_changed: 1.0
   regression: 0
 evidence_logs:
   - .migration/evidence/runs/TC-09.md
@@ -17,4 +17,4 @@ ledger_updated:
 quirk_tickets:
   - martins-vds/ai-factory-pilot-target#12
 new_tickets: []
-handoff: .migration/handoffs/TC-09.md
+handoff: null

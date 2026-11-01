@@ -8,4 +8,4 @@ class TrackingLookup:
         self._cargos = cargos
 
     def find_cargo(self, tracking_id: str) -> Cargo | None:
-        return self._cargos.find(TrackingId(tracking_id.strip()))
+        return self._cargos.find(TrackingId(tracking_id))

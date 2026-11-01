@@ -8,7 +8,6 @@ class TrackingForm(forms.Form):
         strip=True,
         widget=forms.TextInput(
             attrs={
-                'autocomplete': 'off',
                 'class': (
                     'input input-bordered block w-full rounded-md border border-slate-300 px-3 py-2'
                 ),
