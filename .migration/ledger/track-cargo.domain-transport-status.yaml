@@ -10,5 +10,12 @@ boundary: "The last handling event maps to NOT_RECEIVED when absent; LOAD to ONB
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
-notes: "CargoTest and CargoLifecycleScenarioTest exercise delivery progression; graph tested_by links Delivery to CargoTest. Risk is calculateTransportStatus; coverage input unavailable."
+verification: characterized
+characterization_tier: B
+evidence:
+  - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::transportStatusUsesTheLastEventType"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testConstruction"
+  - "characterization/track-cargo/golden/abc123.json"
+  - "characterization/track-cargo/golden/mno456.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
+notes: "Focused tier-B cases observed NOT_RECEIVED, ONBOARD_CARRIER, IN_PORT and CLAIMED. The switch default is unreachable with the five declared HandlingEvent.Type values. Risk is calculateTransportStatus."

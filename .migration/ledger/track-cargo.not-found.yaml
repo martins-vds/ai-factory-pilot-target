@@ -10,6 +10,13 @@ boundary: "Unknown tracking lookup adds an ERROR FacesMessage, clears the curren
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_quirk12_unknown_id_message_is_not_rendered"
+  - "characterization/track-cargo/test_tracking.py::test_empty_tracking_id_is_rejected_by_required_validation"
+  - "characterization/track-cargo/golden/unknown-id.json"
+  - "characterization/track-cargo/golden/empty-id.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Chain: public.track EL resolves the @Named/@ViewScoped Track bean; CDI injects CargoRepository/JpaCargoRepository and HandlingEventRepository/JpaHandlingEventRepository, which return Cargo and HandlingHistory for CargoTrackingViewAdapter. JpaCargoRepository.find returns null when Cargo.findByTrackingId has no result. The page/template have no h:messages component; its empty-events label is also eligible to render when cargo is null while its value references cargo.trackingId. See martins-vds/ai-factory-pilot-target#12. No legacy UI/bean test edge; risk is Track.onTrackById, coverage input unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#12]

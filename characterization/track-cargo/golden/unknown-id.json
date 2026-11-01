@@ -1,0 +1,14 @@
+{
+  "input": "NOPE000",
+  "predicted": "The cargo is not found; the FacesMessage is not rendered by this page.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "submitted_id": "NOPE000",
+    "result": null,
+    "history": {
+      "empty_label": "There are no events recorded for the tracking ID .",
+      "rows": []
+    },
+    "map_query": null
+  }
+}

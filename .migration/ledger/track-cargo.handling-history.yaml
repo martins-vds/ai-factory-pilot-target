@@ -10,6 +10,14 @@ boundary: "Show the empty-history sentence or completion-time-ordered event desc
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[mno456]"
+  - "characterization/track-cargo/test_tracking.py::test_empty_history_for_unrouted_seed"
+  - "characterization/track-cargo/golden/mno456.json"
+  - "characterization/track-cargo/golden/def789.json"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; HandlingEventTest covers event behavior; no page/adapter test edge. Risk is HandlingEventViewAdapter.getDescription; coverage input unavailable."
 quirks: [martins-vds/ai-factory-pilot-target#12]

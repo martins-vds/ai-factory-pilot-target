@@ -10,5 +10,12 @@ boundary: "Tracking history removes duplicate events, sorts by completion time a
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[mno456]"
+  - "characterization/track-cargo/golden/mno456.json"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testMostRecentlyCompletedEvent"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "HandlingHistoryTest::testDistinctEventsByCompletionTime and testMostRecentlyCompletedEvent cover these rules; graph tested_by links HandlingHistory to HandlingHistoryTest. Equal-time tie ordering is not further specified. Coverage input unavailable."

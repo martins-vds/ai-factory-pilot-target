@@ -10,5 +10,10 @@ boundary: "Cargo.findByTrackingId loads the matched Cargo row and mapped route/d
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
+  - "characterization/track-cargo/golden/abc123.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Default Cargo table fields include id/tracking_id and origin_id; embedded RouteSpecification uses spec_origin_id, spec_destination_id, spec_arrival_deadline. Embedded Delivery maps transport_status, last_known_location_id, current_voyage_id, misdirected, eta, next_expected_handling_event_type, next_expected_location_id, next_expected_voyage_id, unloaded_at_dest, routing_status, calculated_at, last_event_id. The page uses all listed delivery fields except calculated_at/last_event_id; JpaCargoRepository.find uses Cargo.findByTrackingId. persistence.xml configures CargoTrackerUnit with java:app/jdbc/CargoTrackerDatabase and schema generation action create. Related tests: CargoTest, RouteSpecificationTest and CargoLifecycleScenarioTest; no direct tracking repository test edge. Risk is JpaCargoRepository.find; coverage input unavailable."

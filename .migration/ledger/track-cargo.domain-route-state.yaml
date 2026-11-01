@@ -10,5 +10,13 @@ boundary: "Delivery derives route status, misdirection, unloaded-at-destination,
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
-notes: "ETA/next activity exist only when routed and not misdirected. Unloaded means the latest event is UNLOAD at the route destination. CargoTest::testRoutingStatus, testIsMisdirected, testIsUnloadedAtFinalDestination; ItineraryTest::testCargoOnTrack and testNextExpectedEvent; RouteSpecificationTest; and CargoLifecycleScenarioTest cover related rules. Risk is calculateNextExpectedActivity, the hottest method in this capability; coverage input unavailable."
+verification: characterized
+characterization_tier: B
+evidence:
+  - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::offTrackAndUnroutedCargoHaveNoNextActivity"
+  - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::nextActivityAfterLoadAndUnload"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
+  - ".migration/evidence/track-cargo/characterization/report.md"
+notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity."
+quirks: [martins-vds/ai-factory-pilot-target#17]

@@ -50,3 +50,7 @@ printf 'GET http://localhost:8080/cargo-tracker/ -> HTTP %s\n' "$status"
 test "$status" = 200
 grep -q 'Public Tracking Interface' "$response_body"
 grep -m1 -o 'Public Tracking Interface' "$response_body"
+
+if (($#)); then
+  "$@"
+fi

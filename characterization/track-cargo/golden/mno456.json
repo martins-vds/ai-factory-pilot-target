@@ -1,0 +1,56 @@
+{
+  "input": "MNO456",
+  "predicted": "Found and claimed; ETA unknown; no next activity; the five handling events are ordered by completion time.",
+  "prediction_matches_observation": false,
+  "finding": "The page displays the itinerary's scheduled final-arrival date even after the last event is CLAIM; this observation was initially predicted as no ETA.",
+  "observed": {
+    "submitted_id": "MNO456",
+    "result": {
+      "tracking_id": "MNO456",
+      "status_text": "Claimed",
+      "destination": "Dallas",
+      "eta": "<TODAY-28> 12:00 AM UTC",
+      "next_activity": null,
+      "misdirected": false
+    },
+    "history": {
+      "empty_label": null,
+      "rows": [
+        {
+          "expected": true,
+          "description": "Received in New York",
+          "time": "<TODAY-37> 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Loaded onto voyage 0200T in New York",
+          "time": "<TODAY-34> 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Unloaded off voyage 0200T in Dallas",
+          "time": "<TODAY-28> 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Cleared customs in Dallas",
+          "time": "<TODAY-27> 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Claimed in Dallas",
+          "time": "<TODAY-26> 12:00 AM UTC"
+        }
+      ]
+    },
+    "map_query": {
+      "statusCode": "CLAIMED",
+      "lastKnownLocationCode": "USDAL",
+      "lastKnownLocationName": "Dallas",
+      "originCode": "USNYC",
+      "originName": "New York",
+      "destinationCode": "USDAL",
+      "destinationName": "Dallas"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "input": "DEF789",
+  "predicted": "Found with no itinerary or history; not received; ETA unknown; no next activity; map status is NOT_ROUTED.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "submitted_id": "DEF789",
+    "result": {
+      "tracking_id": "DEF789",
+      "status_text": "Not received",
+      "destination": "Melbourne",
+      "eta": "?",
+      "next_activity": null,
+      "misdirected": false
+    },
+    "history": {
+      "empty_label": "There are no events recorded for the tracking ID DEF789.",
+      "rows": []
+    },
+    "map_query": {
+      "statusCode": "NOT_ROUTED",
+      "lastKnownLocationCode": "XXXXX",
+      "lastKnownLocationName": "Unknown",
+      "originCode": "CNHKG",
+      "originName": "Hong Kong",
+      "destinationCode": "AUMEL",
+      "destinationName": "Melbourne"
+    }
+  }
+}

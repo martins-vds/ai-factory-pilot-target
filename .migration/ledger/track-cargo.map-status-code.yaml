@@ -10,5 +10,12 @@ boundary: "The map marker state is NOT_ROUTED for an empty itinerary, AT_DESTINA
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[jkl567]"
+  - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[mno456]"
+  - "characterization/track-cargo/golden/jkl567.json"
+  - "characterization/track-cargo/golden/mno456.json"
+  - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "Branch precedence is empty itinerary, unloaded-at-destination, misdirected, then transport status. CargoTest::testRoutingStatus, testIsMisdirected, and testIsUnloadedAtFinalDestination cover parts of the underlying rules; no adapter test edge. Risk is getStatusCode; coverage input unavailable."
