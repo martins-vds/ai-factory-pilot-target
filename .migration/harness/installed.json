@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "1293c948a39847879c0d73d50f2ba7897a26be88",
-  "installed_at": "2026-11-01T19:07:41Z",
+  "harness_commit": "aa20d0c0c09937f9e00add95fcbf83ba32e48d8b",
+  "installed_at": "2026-11-01T20:54:31Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -93,7 +93,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-setup-check/SKILL.md": "9c66408a5dc672baaa4e87dd12c44d9fca97d0437f734744277d0c844c629183"
+        ".github/skills/afs-setup-check/SKILL.md": "a5efce55d0240077a50aa2d4f470aff1f338d6ed91f842c8b56657809555b29a"
       }
     },
     {
@@ -120,7 +120,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-evidence/SKILL.md": "2c9a5fd9840ae788b71400cf1b4f2b643e7049e032f95064242ac8a2cf40d250"
+        ".github/skills/afs-evidence/SKILL.md": "3eeb2e01a016f7b537bc93f9c9064e1cd1794b97ef3ae69964aca28eec080890"
       }
     },
     {
