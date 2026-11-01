@@ -12,6 +12,7 @@ from cargotracker.cargo.domain.route_specification import RouteSpecification
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
+from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.location.domain.location import Location
 from cargotracker.location.domain.un_locode import UnLocode
 from cargotracker.location.infrastructure.models import LocationRecord
@@ -80,14 +81,13 @@ def test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations():
     assert CargoRecord._meta.get_field('spec_arrival_deadline').get_internal_type() == 'DateField'
     assert CargoRecord._meta.get_field('eta').get_internal_type() == 'DateField'
     assert CargoRecord._meta.get_field('calculated_at').get_internal_type() == 'DateTimeField'
-    assert CargoRecord._meta.get_field('last_event_id').get_internal_type() == 'BigIntegerField'
-    assert CargoRecord._meta.get_field('last_event_id').null
     expected_cargo_relations = {
         'origin': ('origin_id', LocationRecord),
         'spec_origin': ('spec_origin_id', LocationRecord),
         'spec_destination': ('spec_destination_id', LocationRecord),
         'last_known_location': ('last_known_location_id', LocationRecord),
         'current_voyage': ('current_voyage_id', VoyageRecord),
+        'last_event': ('last_event_id', HandlingEventRecord),
         'next_expected_location': ('next_expected_location_id', LocationRecord),
         'next_expected_voyage': ('next_expected_voyage_id', VoyageRecord),
     }
@@ -102,6 +102,7 @@ def test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations():
             'last_known_location',
             'current_voyage',
             'eta',
+            'last_event',
             'next_expected_handling_event_type',
             'next_expected_location',
             'next_expected_voyage',
@@ -110,6 +111,7 @@ def test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations():
         'last_known_location': True,
         'current_voyage': True,
         'eta': True,
+        'last_event': True,
         'next_expected_handling_event_type': True,
         'next_expected_location': True,
         'next_expected_voyage': True,
@@ -153,7 +155,6 @@ def test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id():
         unloaded_at_dest=False,
         routing_status='MISROUTED',
         calculated_at=datetime(2026, 11, 1, 10, tzinfo=UTC),
-        last_event_id=42,
     )
     LegRecord.objects.create(
         cargo=cargo_record,
@@ -171,6 +172,16 @@ def test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id():
         load_time=datetime(2026, 11, 1, 10, tzinfo=UTC),
         unload_time=datetime(2026, 11, 2, 10, tzinfo=UTC),
     )
+    last_event = HandlingEventRecord.objects.create(
+        cargo=cargo_record,
+        location=last_known_record,
+        voyage=voyage_record,
+        event_type='UNLOAD',
+        completion_time=date(2026, 11, 2),
+        registration_time=date(2026, 11, 2),
+    )
+    cargo_record.last_event = last_event
+    cargo_record.save(update_fields=['last_event'])
 
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
 
@@ -195,7 +206,7 @@ def test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id():
             unloaded_at_destination=False,
             routing_status=RoutingStatus.MISROUTED,
             calculated_at=datetime(2026, 11, 1, 10, tzinfo=UTC),
-            last_event_id=42,
+            last_event_id=last_event.pk,
         ),
         itinerary=Itinerary(
             (
@@ -234,7 +245,7 @@ def test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id():
     assert not cargo.delivery.unloaded_at_destination
     assert cargo.delivery.routing_status is RoutingStatus.MISROUTED
     assert cargo.delivery.calculated_at == datetime(2026, 11, 1, 10, tzinfo=UTC)
-    assert cargo.delivery.last_event_id == 42
+    assert cargo.delivery.last_event_id == last_event.pk
     assert [leg.load_time for leg in cargo.itinerary.legs] == [
         datetime(2026, 11, 1, 10, tzinfo=UTC),
         datetime(2026, 11, 3, 10, tzinfo=UTC),
