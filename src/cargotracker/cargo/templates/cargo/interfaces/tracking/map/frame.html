@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
+    {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cargo map</title>
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -21,8 +23,13 @@
     ></script>
   </head>
   <body>
-    <p id="map-status">Status: {{ map_data.statusCode }}</p>
-    <div id="map" role="application" aria-label="Cargo location map"></div>
+    <p class="px-2 py-1 text-sm text-gray-700">Status: {{ map_data.statusCode }}</p>
+    <div
+      id="map"
+      class="h-[600px] w-full border-8 border-white"
+      role="application"
+      aria-label="Cargo location map"
+    ></div>
     {{ map_data|json_script:"map-data" }}
     <script>
       window.addEventListener('load', function () {

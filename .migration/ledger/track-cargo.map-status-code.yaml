@@ -22,5 +22,5 @@ evidence:
   - ".migration/evidence/runs/TC-12.md"
 target:
   components:
-    - cargotracker.cargo.interfaces.tracking.map.adapter.map_status_code
+    - cargotracker.cargo.application.map_status.map_status_code
 notes: "Branch precedence is empty itinerary, unloaded-at-destination, misdirected, then transport status. CargoTest::testRoutingStatus, testIsMisdirected, and testIsUnloadedAtFinalDestination cover parts of the underlying rules; no adapter test edge. Risk is getStatusCode; coverage input unavailable."

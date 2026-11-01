@@ -18,6 +18,7 @@ evidence:
   - "characterization/track-cargo/golden/jkl567.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
   - "tests/cargo/interfaces/test_map.py::test_map_markers_use_exact_configured_coordinates"
+  - "tests/cargo/interfaces/test_map.py::test_map_frame_url_uses_unknown_location_for_cargo_without_history"
   - ".migration/evidence/runs/TC-12.md"
 target:
   components:

@@ -24,6 +24,7 @@ target:
     - cargotracker.cargo.interfaces.tracking.map.adapter.map_frame_url
     - cargotracker.cargo.interfaces.tracking.map.views.map_frame
     - cargotracker.cargo.interfaces.tracking.map.urls
+    - src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html
 quirks: [martins-vds/ai-factory-pilot-target#14]
 approval:
   by: martins-vds

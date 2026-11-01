@@ -93,6 +93,28 @@ def test_map_frame_url_carries_status_and_cargo_locations():
 
 
 @pytest.mark.django_db
+def test_map_frame_url_uses_unknown_location_for_cargo_without_history():
+    call_command('seed_sample_data')
+    cargo = DjangoCargoRepository().find(TrackingId('DEF789'))
+
+    map_url = map_frame_url(cargo)
+    query = parse_qs(urlsplit(map_url).query, keep_blank_values=True)
+    assert query['lastKnownLocationCode'] == ['XXXXX']
+    assert query['lastKnownLocationName'] == ['Unknown']
+
+    map_data = _rendered_map_data(Client().get(map_url))
+    assert map_data['statusCode'] == 'NOT_ROUTED'
+    assert map_data['lastKnownLocation'] == {'code': 'XXXXX', 'name': 'Unknown'}
+    assert {
+        'role': 'lastKnownLocation',
+        'code': 'XXXXX',
+        'name': 'Unknown',
+        'coordinates': [38.4667, -28.4],
+        'color': 'grey',
+    } in map_data['markers']
+
+
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ('tracking_id', 'expected_status'),
     [
