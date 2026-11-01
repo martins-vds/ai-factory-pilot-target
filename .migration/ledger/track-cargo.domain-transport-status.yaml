@@ -10,7 +10,7 @@ boundary: "The last handling event maps to NOT_RECEIVED when absent; LOAD to ONB
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#28]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: B
 evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::transportStatusUsesTheLastEventType"
@@ -18,6 +18,8 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/mno456.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/test_domain_calculations.py::test_delivery_derives_transport_status_from_latest_event"
   - "tests/cargo/test_domain_calculations.py::test_delivery_keeps_transport_status_when_latest_event_is_misdirected"
   - ".migration/evidence/runs/TC-08.md"

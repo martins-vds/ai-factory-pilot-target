@@ -10,7 +10,7 @@ boundary: "Show the empty-history sentence or completion-time-ordered event desc
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#33]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[mno456]"
@@ -19,6 +19,8 @@ evidence:
   - "characterization/track-cargo/golden/def789.json"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/interfaces/test_tracking_result.py::test_tracking_result_renders_ordered_history_with_utc_times_and_expectation_markers"
   - "tests/cargo/interfaces/test_tracking_result.py::test_empty_history_and_absent_next_activity_are_rendered"
   - ".migration/evidence/runs/TC-13.md"

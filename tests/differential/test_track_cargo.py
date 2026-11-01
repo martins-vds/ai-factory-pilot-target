@@ -88,8 +88,7 @@ def _observe(client, tracking_id, htmx=False):
         ]
         if not history_rows:
             empty_label = (
-                f'There are no events recorded for the tracking ID '
-                f'{cargo.tracking_id.value}.'
+                f'There are no events recorded for the tracking ID {cargo.tracking_id.value}.'
             )
             if empty_label not in content:
                 empty_label = None
@@ -121,6 +120,12 @@ def _check_field(mismatches, field, actual, expected):
 def _check_map_frame(mismatches, actual, golden_map):
     _check_field(
         mismatches,
+        'map_frame.fields',
+        sorted(actual),
+        ['destination', 'lastKnownLocation', 'markers', 'origin', 'statusCode'],
+    )
+    _check_field(
+        mismatches,
         'map_frame.statusCode',
         actual.get('statusCode'),
         golden_map['statusCode'],
@@ -132,6 +137,12 @@ def _check_map_frame(mismatches, actual, golden_map):
     }
     for role, (code_key, name_key) in role_keys.items():
         observed_location = actual.get(role, {})
+        _check_field(
+            mismatches,
+            f'map_frame.{role}.fields',
+            sorted(observed_location),
+            ['code', 'name'],
+        )
         _check_field(
             mismatches,
             f'map_frame.{role}.code',
@@ -152,9 +163,7 @@ def _check_map_frame(mismatches, actual, golden_map):
             'name': golden_map[name_key],
             'coordinates': EXPECTED_COORDINATES[golden_map[code_key]],
             'color': (
-                STATUS_COLORS[golden_map['statusCode']]
-                if role == 'lastKnownLocation'
-                else 'black'
+                STATUS_COLORS[golden_map['statusCode']] if role == 'lastKnownLocation' else 'black'
             ),
         }
         for role, (code_key, name_key) in role_keys.items()
@@ -170,6 +179,12 @@ def _check_map_frame(mismatches, actual, golden_map):
     for expected_marker in expected_markers:
         role = expected_marker['role']
         actual_marker = actual_markers.get(role, {})
+        _check_field(
+            mismatches,
+            f'map_frame.markers[{role}].fields',
+            sorted(actual_marker),
+            ['code', 'color', 'coordinates', 'name', 'role'],
+        )
         for field in ('code', 'name', 'color'):
             _check_field(
                 mismatches,
@@ -310,6 +325,12 @@ def test_tracking_page_matches_each_normalized_golden_case(client, golden_path):
     for index in range(max(len(actual_rows), len(expected_rows))):
         actual_row = actual_rows[index] if index < len(actual_rows) else {}
         expected_row = expected_rows[index] if index < len(expected_rows) else {}
+        _check_field(
+            mismatches,
+            f'history.rows[{index}].fields',
+            sorted(actual_row),
+            sorted(expected_row),
+        )
         for field, expected_value in expected_row.items():
             _check_field(
                 mismatches,

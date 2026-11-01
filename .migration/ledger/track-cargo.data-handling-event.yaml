@@ -10,13 +10,15 @@ boundary: "HandlingEvent.findByTrackingId reads event rows for a cargo; fields u
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#25, martins-vds/ai-factory-pilot-target#26]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[mno456]"
   - "characterization/track-cargo/golden/mno456.json"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testNewWithCarrierMovement"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/handling/test_repository.py::test_handling_event_schema_matches_source_jpa_mapping"
   - "tests/handling/test_repository.py::test_repository_reads_and_orders_deduplicated_handling_history"
   - "tests/handling/test_repository.py::test_repository_stores_event_relations_and_completion_dates"

@@ -10,7 +10,7 @@ boundary: "When an expected activity exists, display its type, location and voya
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#33]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: B
 evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::nextActivityForNoEventAndReceive"
@@ -18,6 +18,8 @@ evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/interfaces/test_tracking_result.py::test_tracking_result_renders_status_eta_map_and_next_activity"
   - "tests/cargo/interfaces/test_tracking_result.py::test_misdirected_warning_and_absent_next_activity"
   - "tests/cargo/interfaces/test_tracking_result.py::test_next_activity_text_matches_source_descriptions"

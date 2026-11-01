@@ -10,13 +10,15 @@ boundary: "Cargo's embedded itinerary reads ordered Leg rows and their voyage, l
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#26]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: B
 evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::nextActivityAfterLoadAndUnload"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/ItineraryTest.java::testCargoOnTrack"
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/test_domain.py::test_leg_normalizes_times_to_utc_and_itinerary_copies_ordered_legs"
   - "tests/cargo/test_domain.py::test_leg_rejects_invalid_fields"
   - "tests/cargo/test_domain.py::test_naive_leg_times_are_treated_as_utc"

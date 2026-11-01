@@ -10,7 +10,7 @@ boundary: "The event list marks RECEIVE at first-leg origin, matching LOAD/UNLOA
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#28]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: B
 evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::emptyItineraryAcceptsEveryHandlingType"
@@ -18,6 +18,8 @@ evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
   - "characterization/track-cargo/golden/jkl567.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/test_domain_calculations.py::test_empty_itinerary_accepts_every_declared_handling_type"
   - "tests/cargo/test_domain_calculations.py::test_itinerary_matches_only_expected_event_location_and_voyage"
   - ".migration/evidence/runs/TC-08.md"

@@ -1,0 +1,35 @@
+role: afs-verifier
+ticket: TC-14
+issue: martins-vds/ai-factory-pilot-target#34
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/61
+verdict: changes-required
+gates:
+  build: 0
+  behavior: 1
+  idiom: 0
+  crap: 14
+  mutation_changed: "n/a — gate exited 0; no mutable code changed"
+  regression: 1
+evidence_logs:
+  - .migration/evidence/runs/TC-14.md
+findings:
+  - severity: blocker
+    where: src/cargotracker/cargo/application/map_status.py:7-8
+    what: "MNO456 map query and frame report AT_DESTINATION; golden status is CLAIMED."
+tests_added:
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[abc123]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[def789]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[jkl567]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[mno456]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[padded-id]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[lowercase-id]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[empty-id]"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case[unknown-id]"
+ledger_issues:
+  - "track-cargo.map-status-code has a differential mismatch: its target behavior reports AT_DESTINATION for MNO456 while the golden expects CLAIMED."
+quirk_tickets:
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/12
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/13
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/14
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/17
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/52

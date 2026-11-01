@@ -10,7 +10,7 @@ boundary: "Unknown tracking lookup adds an ERROR FacesMessage, clears the curren
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#29]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_quirk12_unknown_id_message_is_not_rendered"
@@ -18,6 +18,8 @@ evidence:
   - "characterization/track-cargo/golden/unknown-id.json"
   - "characterization/track-cargo/golden/empty-id.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/test_tracking.py::test_empty_and_unknown_ids_show_messages_without_cargo_result_or_map"
   - "tests/cargo/test_tracking.py::test_lowercase_tracking_id_remains_case_sensitive"
   - ".migration/evidence/runs/TC-09.md"
