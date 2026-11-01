@@ -36,12 +36,12 @@ def test_voyage_builder_chains_movements_and_normalizes_times_to_utc():
     helsinki = Location(UnLocode('FIHEL'), 'Helsinki')
     builder = VoyageBuilder(VoyageNumber('CM001'), new_york)
 
-    result = builder.add_movement(
+    chained_builder = builder.add_movement(
         rotterdam,
         datetime(2026, 11, 1, 12, tzinfo=timezone(timedelta(hours=2))),
         datetime(2026, 11, 2, 8, tzinfo=UTC),
     )
-    result.add_movement(
+    chained_builder.add_movement(
         helsinki,
         datetime(2026, 11, 2, 10, tzinfo=UTC),
         datetime(2026, 11, 3, 10, tzinfo=UTC),
