@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone
 
 import pytest
 
@@ -37,12 +37,12 @@ def test_voyage_builder_chains_movements_and_normalizes_times_to_utc():
     result = builder.add_movement(
         rotterdam,
         datetime(2026, 11, 1, 12, tzinfo=timezone(timedelta(hours=2))),
-        datetime(2026, 11, 2, 8, tzinfo=timezone.utc),
+        datetime(2026, 11, 2, 8, tzinfo=UTC),
     )
     result.add_movement(
         helsinki,
-        datetime(2026, 11, 2, 10, tzinfo=timezone.utc),
-        datetime(2026, 11, 3, 10, tzinfo=timezone.utc),
+        datetime(2026, 11, 2, 10, tzinfo=UTC),
+        datetime(2026, 11, 3, 10, tzinfo=UTC),
     )
     voyage = builder.build()
 
@@ -51,14 +51,14 @@ def test_voyage_builder_chains_movements_and_normalizes_times_to_utc():
         CarrierMovement(
             new_york,
             rotterdam,
-            datetime(2026, 11, 1, 10, tzinfo=timezone.utc),
-            datetime(2026, 11, 2, 8, tzinfo=timezone.utc),
+            datetime(2026, 11, 1, 10, tzinfo=UTC),
+            datetime(2026, 11, 2, 8, tzinfo=UTC),
         ),
         CarrierMovement(
             rotterdam,
             helsinki,
-            datetime(2026, 11, 2, 10, tzinfo=timezone.utc),
-            datetime(2026, 11, 3, 10, tzinfo=timezone.utc),
+            datetime(2026, 11, 2, 10, tzinfo=UTC),
+            datetime(2026, 11, 3, 10, tzinfo=UTC),
         ),
     )
     assert voyage == Voyage(VoyageNumber('CM001'), voyage.schedule)
