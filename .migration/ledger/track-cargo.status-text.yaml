@@ -6,10 +6,10 @@ source:
   flow: Track Cargo
   location: src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java:81-98
   risk: {crap: 42, complexity: 6, coverage: 0.0}
-boundary: "The public result sentence displays In port {destination}, Onboard voyage {number}, Claimed, Not received, Unknown, or [Unknown status]."
+boundary: "The public result sentence displays In port {last-known location}, Onboard voyage {number}, Claimed, Not received, Unknown, or [Unknown status]; the route destination remains unchanged."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#30]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,5 +17,17 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/jkl567.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "IN_PORT uses the route destination name, not lastKnownLocation; see martins-vds/ai-factory-pilot-target#13. Similar cargo.status.* strings exist in messages.properties but this page uses adapter literals, not that bundle. CargoTest covers domain transport/routing state; no adapter test edge. Risk is getStatusText; coverage input unavailable."
+  - "tests/cargo/interfaces/test_status_text.py::test_in_port_status_names_last_known_location"
+  - "tests/cargo/interfaces/test_status_text.py::test_onboard_status_names_current_voyage"
+  - "tests/cargo/interfaces/test_status_text.py::test_not_received_status_text"
+  - "tests/cargo/interfaces/test_status_text.py::test_claimed_status_text"
+  - ".migration/evidence/runs/TC-10.md"
+target:
+  components:
+    - cargotracker.cargo.interfaces.tracking.status_text.get_status_text
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#13
+  reason: "Decision map #3 rules quirk #13 as a fix: IN_PORT names the last-known location."
+notes: "The source names the route destination for IN_PORT; the target uses Delivery.last_known_location under approved quirk #13. The route destination remains available for destination and map fields."
 quirks: [martins-vds/ai-factory-pilot-target#13]
