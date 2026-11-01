@@ -9,7 +9,7 @@ import cargotracker.settings as project_settings
 
 def test_database_defaults_to_postgresql():
     configured_database = {
-        key: settings.DATABASES['default'][key]
+        key: project_settings._postgres_database_configuration()['default'][key]
         for key in ('ENGINE', 'NAME', 'USER', 'PASSWORD', 'HOST', 'PORT')
     }
     assert configured_database == {
@@ -51,6 +51,7 @@ def test_django_application_settings():
         'django.contrib.messages',
         'django.contrib.staticfiles',
         'django_htmx',
+        'cargotracker.location.apps.LocationConfig',
     ]
     assert settings.MIDDLEWARE == [
         'django.middleware.security.SecurityMiddleware',

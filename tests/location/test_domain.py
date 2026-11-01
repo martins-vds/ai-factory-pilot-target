@@ -18,6 +18,11 @@ def test_un_locode_rejects_invalid_codes(value):
         UnLocode(value)
 
 
+def test_un_locode_rejects_non_string_values():
+    with pytest.raises(TypeError):
+        UnLocode(None)
+
+
 def test_location_identity_uses_un_locode_and_preserves_name():
     first = Location(UnLocode('USNYC'), 'New York')
     renamed = Location(UnLocode('USNYC'), 'New York City')
@@ -37,3 +42,8 @@ def test_location_is_immutable():
 
     with pytest.raises(AttributeError):
         location.name = 'New York City'
+
+
+def test_location_requires_a_non_null_name():
+    with pytest.raises(TypeError):
+        Location(UnLocode('USNYC'), None)

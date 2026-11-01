@@ -19,9 +19,12 @@ def test_repository_round_trips_source_location_fields():
 @pytest.mark.django_db
 def test_location_schema_uses_source_table_and_columns():
     with connection.cursor() as cursor:
-        columns = connection.introspection.get_table_description(cursor, 'location')
+        description = connection.introspection.get_table_description(cursor, 'location')
 
-    assert [column.name for column in columns] == ['id', 'unlocode', 'name']
+    columns = {column.name: column for column in description}
+    assert list(columns) == ['id', 'unlocode', 'name']
+    assert columns['unlocode'].display_size == 255
+    assert columns['name'].display_size == 255
 
 
 @pytest.mark.django_db
