@@ -5,11 +5,9 @@ from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus, Transpor
 from cargotracker.cargo.domain.handling_activity import HandlingActivity
 from cargotracker.cargo.domain.route_specification import RouteSpecification
 from cargotracker.cargo.domain.tracking_id import TrackingId
+from cargotracker.cargo.interfaces.tracking.eta import format_eta
 from cargotracker.location.domain.location import Location
 from cargotracker.location.domain.un_locode import UnLocode
-
-from cargotracker.cargo.interfaces.tracking.eta import format_eta
-
 
 ORIGIN = Location(UnLocode('USNYC'), 'New York')
 DESTINATION = Location(UnLocode('USDAL'), 'Dallas')
