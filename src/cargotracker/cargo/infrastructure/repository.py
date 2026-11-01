@@ -13,11 +13,9 @@ from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
 from cargotracker.location.domain.location import Location
 from cargotracker.location.domain.un_locode import UnLocode
-from cargotracker.location.infrastructure.models import LocationRecord
 from cargotracker.voyage.domain.schedule import Schedule
 from cargotracker.voyage.domain.voyage import Voyage
 from cargotracker.voyage.domain.voyage_number import VoyageNumber
-from cargotracker.voyage.infrastructure.models import VoyageRecord
 
 
 class DjangoCargoRepository(CargoRepository):
@@ -169,9 +167,11 @@ class DjangoCargoRepository(CargoRepository):
         return Voyage(VoyageNumber(record.voyage_number), Schedule.EMPTY)
 
     @staticmethod
-    def _location_record(location: Location) -> LocationRecord:
-        return LocationRecord.objects.get(unlocode=location.unlocode.value)
+    def _location_record(location: Location):
+        location_model = CargoRecord._meta.get_field('origin').remote_field.model
+        return location_model.objects.get(unlocode=location.unlocode.value)
 
     @staticmethod
-    def _voyage_record(voyage: Voyage) -> VoyageRecord:
-        return VoyageRecord.objects.get(voyage_number=voyage.voyage_number.value)
+    def _voyage_record(voyage: Voyage):
+        voyage_model = CargoRecord._meta.get_field('current_voyage').remote_field.model
+        return voyage_model.objects.get(voyage_number=voyage.voyage_number.value)
