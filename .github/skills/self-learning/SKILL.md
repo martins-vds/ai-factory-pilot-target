@@ -1,6 +1,6 @@
 ---
 name: self-learning
-description: Autonomous skill generator that researches a technology from the web and turns it into a reusable local skill. Use this skill whenever the user wants to learn, research, or document a new library, framework, API, CLI, or tool; asks to "create a skill for X", "learn X", or invokes the `/learn` command with a topic; or needs current usage patterns synthesized from official documentation. It uses VS Code web-fetch and browser tools to discover and extract authoritative docs, then delegates skill authoring to the skill-creator skill.
+description: Autonomous skill generator that researches a technology from the web and turns it into a reusable local skill. Use this skill whenever the user wants to learn, research, or document a new library, framework, API, CLI, or tool; asks to "create a skill for X", "learn X", or invokes the `/learn` command with a topic; or needs current usage patterns synthesized from official documentation. It uses the host's web-fetch and browser tools (VS Code, Copilot CLI, Copilot coding agent and others) to discover and extract authoritative docs, then delegates skill authoring to the skill-creator skill.
 ---
 
 # Self-Learning Skill Generator
@@ -9,9 +9,10 @@ Autonomously research and learn a new technology from the web, then generate a
 reusable skill that captures what was learned. The goal is to transform official
 documentation into a self-contained skill another agent can trigger later.
 
-This is a local, VS Code-native adaptation: all research uses VS Code tools, and
-all skill-authoring standards come from the **skill-creator** skill rather than a
-bundled guide. Nothing here depends on services outside VS Code.
+It works in any agent host. Steps name the *capability* they need (fetch a web
+page, render a page in a browser, write a file); use whichever tool your host
+provides for it (see the tool table). All skill-authoring standards come from the
+**skill-creator** skill rather than a bundled guide.
 
 ## Usage
 
@@ -21,7 +22,9 @@ bundled guide. Nothing here depends on services outside VS Code.
 
 If `<topic>` is missing, show this usage. If the topic is ambiguous, ask one
 clarifying question before researching, because researching the wrong target
-wastes time and produces a misleading skill:
+wastes time and produces a misleading skill. In an unattended session (no one to
+answer), pick the most likely reading, state it at the top of the generated
+skill, and say so in your summary:
 
 - "react" → "React for web, React Native, or a specific library like react-query?"
 - "apollo" → "Apollo GraphQL client, Apollo Server, or Apollo Federation?"
@@ -42,10 +45,9 @@ description so the generated skill triggers reliably.
 
 ### 2. Discover sources
 
-Find authoritative documentation. In VS Code, use `fetch_webpage` to pull search
-results or known documentation pages, and fall back to the integrated browser
-(`open_browser_page` + `read_page`) or the `agent-browser` skill for interactive
-search when needed.
+Find authoritative documentation with your host's **web-fetch** tool (search
+results or known documentation pages). Fall back to a **browser** (the host's
+browser tools or the `agent-browser` skill) for interactive search when needed.
 
 **Search queries to try:**
 
@@ -66,17 +68,16 @@ instead of guessing.
 
 ### 3. Extract content
 
-For each selected URL, call `fetch_webpage` with a focused query describing what
-to pull out. Extract only the sections that make the skill useful:
+For each selected URL, call the **web-fetch** tool with a focused query describing
+what to pull out. Extract only the sections that make the skill useful:
 
 **Keep:** installation / setup, core concepts, API reference / key functions,
 common patterns and examples, version information.
 
 **Skip:** navigation, ads, login prompts, unrelated sidebars, comments, forums.
 
-If `fetch_webpage` fails or returns little (common on JavaScript-heavy sites),
-fall back to the integrated browser tools (`open_browser_page`, `navigate_page`,
-`read_page`, `screenshot_page`) or the `agent-browser` skill to render the page
+If web-fetch fails or returns little (common on JavaScript-heavy sites), render
+the page in a **browser** (the host's browser tools or the `agent-browser` skill)
 and read its main content.
 
 Record the scrape date for each source (current date, `YYYY-MM-DD`) so the
@@ -85,8 +86,9 @@ generated skill carries provenance and can be refreshed later.
 ### 4. Generate the skill
 
 **Invoke the `skill-creator` skill and follow it as the single source of truth for
-skill structure and quality.** Read it from
-`.agents/skills/skill-creator/SKILL.md` and apply its guidance on anatomy,
+skill structure and quality.** Load it through your host's skill mechanism (or
+read `skill-creator/SKILL.md` from the skills directory found in step 5) and apply
+its guidance on anatomy,
 frontmatter, description writing, progressive disclosure, and what *not* to
 include. Do not embed or duplicate skill-authoring rules here — the skill-creator
 skill owns those standards so they stay consistent across every generated skill.
@@ -104,19 +106,28 @@ Then synthesize the extracted information into the new skill:
 - **Format:** Ensure valid YAML frontmatter (`name`, `description` only) and a
   proper folder structure.
 
-### 5. Save the skill locally
+### 5. Save the skill
 
-Save the generated skill into the workspace skills directory so VS Code can
-discover it:
+Decide **where** first, in this order:
 
-```
-.agents/skills/<topic>/SKILL.md
-```
+1. **The repository says where.** If the repo's agent instructions name a location
+   for new or generated skills (for example `.github/copilot-instructions.md`,
+   `AGENTS.md` or `CLAUDE.md`; an AI Factory Swarm target says
+   `.migration/skills-proposed/`), save there. Such repos often pin their skill
+   folders and reject edits to them; a proposal folder is reviewed and promoted by
+   a human.
+2. **Otherwise, the project skills folder your host loads:**
+   - GitHub Copilot (CLI, coding agent, VS Code): `.github/skills/<topic>/`
+   - Claude Code: `.claude/skills/<topic>/`
+   - Other hosts that read `.agents/skills/`: `.agents/skills/<topic>/`
 
-Use `create_directory` for the folder (and any `references/` subfolder), then
-`create_file` for each file. Before writing, check whether
-`.agents/skills/<topic>/` already exists (`list_dir` or `file_search`); if it
-does, warn the user and confirm before overwriting their existing skill.
+   If more than one exists in the repo, use the one the repo already uses for its
+   own skills.
+
+Then create `<skills-folder>/<topic>/SKILL.md` (and any `references/` subfolder)
+with your host's file-writing tool. If `<topic>/` already exists, do not overwrite
+it: ask the user, or in an unattended session save as `<topic>-<YYYYMMDD>/` and say
+so in the summary.
 
 ### 6. Confirm to the user
 
@@ -125,24 +136,21 @@ Report a concise summary:
 ```
 ✓ Created skill: <topic>
   Sources scraped: <N> (as of <YYYY-MM-DD>)
-  Saved to: .agents/skills/<topic>/SKILL.md
+  Saved to: <skills-folder>/<topic>/SKILL.md
   This skill will trigger when working with <topic>.
 ```
 
-## VS Code Tool Reference
+## Tool Reference
 
-Use only tools available in VS Code. This skill assumes no external CLIs or
-services beyond VS Code itself.
+Use the tool your host provides for each capability. Examples:
 
-| Purpose | VS Code tool |
-| --- | --- |
-| Discover documentation URLs | `fetch_webpage` (search-results or doc URLs); integrated browser (`open_browser_page` + `read_page`) or the `agent-browser` skill for interactive search |
-| Extract content from static pages | `fetch_webpage` |
-| Extract content from JS-heavy / interactive sites | Integrated browser (`open_browser_page`, `navigate_page`, `read_page`, `screenshot_page`) or the `agent-browser` skill |
-| Author the skill to standard | The `skill-creator` skill (`.agents/skills/skill-creator/SKILL.md`) |
-| Create folders | `create_directory` |
-| Save the generated skill | `create_file` |
-| Check for an existing skill before overwriting | `list_dir` / `file_search` / `read_file` |
+| Capability | VS Code | Copilot CLI / coding agent | Other hosts |
+| --- | --- | --- | --- |
+| Fetch a web page or search results | `fetch_webpage` | `web_fetch` | the host's web-fetch tool |
+| Render a JS-heavy page | integrated browser (`open_browser_page`, `read_page`) | `agent-browser` skill | browser tool or `agent-browser` |
+| Author the skill to standard | `skill-creator` skill | `skill-creator` skill | `skill-creator` skill |
+| Create folders and files | `create_directory`, `create_file` | `create` / shell | the host's file-writing tool |
+| Check for an existing skill | `list_dir`, `file_search`, `read_file` | `view` / shell | the host's file tools |
 
 ## Critical Rules
 
@@ -153,8 +161,9 @@ services beyond VS Code itself.
 3. **Ask for URLs when discovery fails.** If automated search turns up nothing
    credible, request specific URLs from the user.
 4. **Verify sources.** Prefer official documentation over third-party tutorials.
-5. **Stay within VS Code.** Use only the tools listed above; do not rely on
-   external tooling or services.
+5. **Use the host's own tools.** Use only the capabilities listed above, through
+   the tools your host provides; do not install external tooling or call other
+   services.
 6. **Delegate authoring standards.** Let the `skill-creator` skill define skill
    structure and quality; do not restate or fork those rules here.
 7. **Record provenance.** Note the scrape date so the generated skill can be

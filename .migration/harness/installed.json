@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "e6cf1fe19e3f4031fb8ee6049d42af548fe3a821",
-  "installed_at": "2026-11-01T17:34:05Z",
+  "harness_commit": "aa00d7fbb4f28c2dbfa5e2f06b29f5d9320459be",
+  "installed_at": "2026-11-01T17:50:12Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -790,13 +790,13 @@
       "origin": "menu",
       "install": "upstream",
       "repo": "martins-vds/code-migration-hackathon",
-      "commit": "ac530c35aac8f64257b0eafa4cc43b33595d8190",
+      "commit": "4de661a9a830aaef70ff55e879c0cc540599cad8",
       "upstream_path": ".agents/skills/lessons-learned",
       "files": {
         ".github/skills/lessons-learned/LICENSE": "43f4182004e8468d2e64d6fc04f8f38def151cbef704d9f42af6715e09f98423",
-        ".github/skills/lessons-learned/PROVENANCE.md": "394737f80d33b97630d0923e56a97f960ad7c9c995825773af67e3e13c6c5aad",
-        ".github/skills/lessons-learned/SKILL.md": "0a04374dae2bf90aa004f050dfb63cc478216f789ad187137895c66a6800d12e",
-        ".github/skills/lessons-learned/references/card-template.md": "1c69ddd73accad69c185f7a02fe1c58b61392de6398f81b1733b11c89c62e652",
+        ".github/skills/lessons-learned/PROVENANCE.md": "902d8a9692408ad20e13f3fab3a0be1c42576c679193d80f140c9e6c648cde41",
+        ".github/skills/lessons-learned/SKILL.md": "09e3cd61414b6e9409d05d253e26e720d83d3e487a2fb5bfa83de0794566edbf",
+        ".github/skills/lessons-learned/references/card-template.md": "263cccc962b1f616bce188b6021a7bfda178c39ae033fda75f8413f344cb319c",
         ".github/skills/lessons-learned/references/linking-heuristics.md": "9403f15faf7f001e3ab69d70b6b45b03ef68545e920861fafbb2a1a47a4aa8cc"
       }
     },
@@ -806,12 +806,12 @@
       "origin": "menu",
       "install": "upstream",
       "repo": "martins-vds/code-migration-hackathon",
-      "commit": "ac530c35aac8f64257b0eafa4cc43b33595d8190",
+      "commit": "4de661a9a830aaef70ff55e879c0cc540599cad8",
       "upstream_path": ".agents/skills/self-learning",
       "files": {
         ".github/skills/self-learning/LICENSE": "43f4182004e8468d2e64d6fc04f8f38def151cbef704d9f42af6715e09f98423",
-        ".github/skills/self-learning/PROVENANCE.md": "83c1241711550eaf66a38f1ee0c95afba8759997a80b5f7c72e8af35e2e812a3",
-        ".github/skills/self-learning/SKILL.md": "77be959251143412117b63946e00e9224e9d256da90dd70739e4eb08434df548"
+        ".github/skills/self-learning/PROVENANCE.md": "898094d83c0160de7f77aa6e11eef5474b9a83bc22fb6a330b76431bb124c12e",
+        ".github/skills/self-learning/SKILL.md": "68be505b00cb6cc05a78c589b6ce72cff46abe39865003f818123a4faa959392"
       }
     },
     {
@@ -820,11 +820,11 @@
       "origin": "menu",
       "install": "upstream",
       "repo": "martins-vds/code-migration-hackathon",
-      "commit": "ac530c35aac8f64257b0eafa4cc43b33595d8190",
+      "commit": "4de661a9a830aaef70ff55e879c0cc540599cad8",
       "upstream_path": ".agents/skills/db-seed",
       "files": {
         ".github/skills/db-seed/LICENSE": "43f4182004e8468d2e64d6fc04f8f38def151cbef704d9f42af6715e09f98423",
-        ".github/skills/db-seed/PROVENANCE.md": "9f61f0f4594804cffc9985f917078282e3f351289f7b4ce56fb5673c6c66bf2e",
+        ".github/skills/db-seed/PROVENANCE.md": "b5c60824e51b14273a24352d7b6259e9ac4e2670c889e45e1dce4ce51a2d4e3c",
         ".github/skills/db-seed/SKILL.md": "689abc50d49eb642d1966b6352f470b827887b4b52c1ac6ee76353c891ebdc5c",
         ".github/skills/db-seed/references/mssql.md": "8adbd52c2d5c726d7f0b726dd7c470d9e8b3ba75fbd3b48e6fb97c3364817cb7",
         ".github/skills/db-seed/references/oracle.md": "89813ea5c10e9e32b04224a30dadcc695f4f3cabc8f26f1a342d402c8f32d797",
@@ -1075,7 +1075,7 @@
         ".migration/harness/tools/afs-mutation": "bf50d8a8e604c3b797850544c26225c5af786101799cb60c6e0e3493e03bcb39",
         ".migration/harness/tools/afs-run": "cc193db95716df9a4eee2363142494bd481666bb46da2ea60d9b678d280ddb55",
         ".migration/harness/tools/check_graph.py": "cc8eed36d5cf5268aad307f1b1762f4eb62b6402f855df9ff97ee165ba980670",
-        ".migration/harness/tools/check_inputs.py": "7e55b9c7c10c4e0246ce7b0e7d2cb513843831e9ce4f33eeec8c76fe111dfcd5",
+        ".migration/harness/tools/check_inputs.py": "f2e4a36e46633857273fdfb5eac9fe3594b7c8e6ccbe94ff0d80676f1a24944c",
         ".migration/harness/tools/check_installed.py": "f36c5de45ed2cde2298d7f04b4918c2e6afe27daaabe5cf73bdf6166e8266066",
         ".migration/harness/tools/check_return_contract.py": "3866fdd9a0b878600fd0a019b8e175e9a2d3b44774fa8b955465efd7df8a0437",
         ".migration/harness/tools/crap.py": "d89cf44db04788640d6b1ed5a55e755d4f1b029d419a65682b94000fb1975803",
