@@ -1,7 +1,7 @@
 from datetime import UTC, date, datetime
 
 import pytest
-from django.db import connection
+from django.db import connection, models
 
 from cargotracker.cargo.domain.cargo import Cargo
 from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus, TransportStatus
@@ -63,9 +63,25 @@ def test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations():
     }
     assert CargoRecord._meta.db_table == 'cargo'
     assert CargoRecord._meta.get_field('tracking_id').unique
+    assert {
+        field: CargoRecord._meta.get_field(field).max_length
+        for field in (
+            'tracking_id',
+            'transport_status',
+            'next_expected_handling_event_type',
+            'routing_status',
+        )
+    } == {
+        'tracking_id': 255,
+        'transport_status': 255,
+        'next_expected_handling_event_type': 255,
+        'routing_status': 255,
+    }
     assert CargoRecord._meta.get_field('spec_arrival_deadline').get_internal_type() == 'DateField'
     assert CargoRecord._meta.get_field('eta').get_internal_type() == 'DateField'
     assert CargoRecord._meta.get_field('calculated_at').get_internal_type() == 'DateTimeField'
+    assert CargoRecord._meta.get_field('last_event_id').get_internal_type() == 'BigIntegerField'
+    assert CargoRecord._meta.get_field('last_event_id').null
     expected_cargo_relations = {
         'origin': ('origin_id', LocationRecord),
         'spec_origin': ('spec_origin_id', LocationRecord),
@@ -79,6 +95,25 @@ def test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations():
         field = CargoRecord._meta.get_field(field_name)
         assert field.db_column == db_column
         assert field.remote_field.model is related_model
+        assert field.remote_field.on_delete is models.PROTECT
+    assert {
+        field: CargoRecord._meta.get_field(field).null
+        for field in (
+            'last_known_location',
+            'current_voyage',
+            'eta',
+            'next_expected_handling_event_type',
+            'next_expected_location',
+            'next_expected_voyage',
+        )
+    } == {
+        'last_known_location': True,
+        'current_voyage': True,
+        'eta': True,
+        'next_expected_handling_event_type': True,
+        'next_expected_location': True,
+        'next_expected_voyage': True,
+    }
     assert LegRecord._meta.db_table == 'leg'
     expected_leg_relations = {
         'cargo': ('cargo_id', CargoRecord),
@@ -90,6 +125,8 @@ def test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations():
         field = LegRecord._meta.get_field(field_name)
         assert field.db_column == db_column
         assert field.remote_field.model is related_model
+        on_delete = models.CASCADE if field_name == 'cargo' else models.PROTECT
+        assert field.remote_field.on_delete is on_delete
     assert LegRecord._meta.ordering == ('load_time',)
 
 
@@ -205,8 +242,37 @@ def test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id():
     assert cargo.itinerary.legs[0].load_location == Location(UnLocode('USNYC'), 'New York')
     assert cargo.itinerary.legs[0].unload_location == Location(UnLocode('NLRTM'), 'Rotterdam')
     assert cargo.itinerary.legs[0].voyage == Voyage(VoyageNumber('CM001'), Schedule.EMPTY)
+    assert DjangoCargoRepository().find_all() == [cargo]
 
 
 @pytest.mark.django_db
 def test_repository_returns_none_for_unknown_tracking_id():
     assert DjangoCargoRepository().find(TrackingId('NOPE000')) is None
+
+
+@pytest.mark.django_db
+def test_repository_maps_cargo_without_optional_delivery_relations_or_legs():
+    origin = LocationRecord.objects.create(unlocode='USNYC', name='New York')
+    destination = LocationRecord.objects.create(unlocode='FIHEL', name='Helsinki')
+    CargoRecord.objects.create(
+        tracking_id='DEF789',
+        origin=origin,
+        spec_origin=origin,
+        spec_destination=destination,
+        spec_arrival_deadline=date(2026, 11, 12),
+        transport_status='NOT_RECEIVED',
+        misdirected=False,
+        unloaded_at_dest=False,
+        routing_status='NOT_ROUTED',
+        calculated_at=datetime(2026, 11, 1, tzinfo=UTC),
+    )
+
+    cargo = DjangoCargoRepository().find(TrackingId('DEF789'))
+
+    assert cargo is not None
+    assert cargo.delivery.last_known_location is None
+    assert cargo.delivery.current_voyage is None
+    assert cargo.delivery.eta is None
+    assert cargo.delivery.next_expected_activity is HandlingActivity.EMPTY
+    assert cargo.delivery.last_event_id is None
+    assert cargo.itinerary is Itinerary.EMPTY

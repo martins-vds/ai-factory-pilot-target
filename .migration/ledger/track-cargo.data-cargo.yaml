@@ -17,10 +17,16 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
   - "tests/cargo/test_domain.py::test_tracking_id_is_an_immutable_value_object"
+  - "tests/cargo/test_domain.py::test_tracking_id_rejects_non_string_values"
   - "tests/cargo/test_domain.py::test_route_specification_validates_identity_and_normalizes_deadline_to_utc"
+  - "tests/cargo/test_domain.py::test_route_specification_rejects_invalid_fields"
   - "tests/cargo/test_domain.py::test_cargo_identity_is_its_tracking_id_and_origin_defaults_from_route"
+  - "tests/cargo/test_domain.py::test_cargo_rejects_invalid_components"
+  - "tests/cargo/test_domain.py::test_delivery_rejects_invalid_fields"
+  - "tests/cargo/test_domain.py::test_delivery_status_values_match_source_enums"
   - "tests/cargo/test_repository.py::test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations"
   - "tests/cargo/test_repository.py::test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id"
+  - "tests/cargo/test_repository.py::test_repository_maps_cargo_without_optional_delivery_relations_or_legs"
   - ".migration/evidence/runs/TC-04.md"
 target:
   components:

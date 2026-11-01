@@ -45,13 +45,12 @@ class DjangoCargoRepository(CargoRepository):
             )
         )
 
-    @classmethod
-    def _to_domain(cls, record: CargoRecord) -> Cargo:
+    def _to_domain(self, record: CargoRecord) -> Cargo:
         itinerary_legs = tuple(
             Leg(
-                cls._to_voyage(leg.voyage),
-                cls._to_location(leg.load_location),
-                cls._to_location(leg.unload_location),
+                self._to_voyage(leg.voyage),
+                self._to_location(leg.load_location),
+                self._to_location(leg.unload_location),
                 leg.load_time,
                 leg.unload_time,
             )
@@ -65,30 +64,30 @@ class DjangoCargoRepository(CargoRepository):
         else:
             activity = HandlingActivity(
                 event_type,
-                cls._to_location(location) if location is not None else None,
-                cls._to_voyage(voyage) if voyage is not None else None,
+                self._to_location(location) if location is not None else None,
+                self._to_voyage(voyage) if voyage is not None else None,
             )
         return Cargo(
             tracking_id=TrackingId(record.tracking_id),
             route_specification=RouteSpecification(
-                cls._to_location(record.spec_origin),
-                cls._to_location(record.spec_destination),
-                cls._as_utc_datetime(record.spec_arrival_deadline),
+                self._to_location(record.spec_origin),
+                self._to_location(record.spec_destination),
+                self._as_utc_datetime(record.spec_arrival_deadline),
             ),
             delivery=Delivery(
                 transport_status=TransportStatus(record.transport_status),
                 last_known_location=(
-                    cls._to_location(record.last_known_location)
+                    self._to_location(record.last_known_location)
                     if record.last_known_location is not None
                     else None
                 ),
                 current_voyage=(
-                    cls._to_voyage(record.current_voyage)
+                    self._to_voyage(record.current_voyage)
                     if record.current_voyage is not None
                     else None
                 ),
                 misdirected=record.misdirected,
-                eta=(cls._as_utc_datetime(record.eta) if record.eta is not None else None),
+                eta=(self._as_utc_datetime(record.eta) if record.eta is not None else None),
                 next_expected_activity=activity,
                 unloaded_at_destination=record.unloaded_at_dest,
                 routing_status=RoutingStatus(record.routing_status),
@@ -96,7 +95,7 @@ class DjangoCargoRepository(CargoRepository):
                 last_event_id=record.last_event_id,
             ),
             itinerary=Itinerary(itinerary_legs) if itinerary_legs else Itinerary.EMPTY,
-            origin=cls._to_location(record.origin),
+            origin=self._to_location(record.origin),
         )
 
     @staticmethod

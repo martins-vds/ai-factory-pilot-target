@@ -18,8 +18,11 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
   - "tests/cargo/test_domain.py::test_leg_normalizes_times_to_utc_and_itinerary_copies_ordered_legs"
+  - "tests/cargo/test_domain.py::test_leg_rejects_invalid_fields"
+  - "tests/cargo/test_domain.py::test_naive_leg_times_are_treated_as_utc"
   - "tests/cargo/test_repository.py::test_cargo_and_leg_schema_matches_source_jpa_tables_and_relations"
   - "tests/cargo/test_repository.py::test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id"
+  - "tests/cargo/test_repository.py::test_repository_maps_cargo_without_optional_delivery_relations_or_legs"
   - ".migration/evidence/runs/TC-04.md"
 target:
   components:
