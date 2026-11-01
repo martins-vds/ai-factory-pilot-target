@@ -69,6 +69,15 @@ def test_map_markers_use_exact_configured_coordinates():
             }
         ]
 
+    cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
+    response = client.get(map_frame_url(cargo))
+    markers = _rendered_map_data(response)['markers']
+    assert {(marker['role'], marker['code']): marker['coordinates'] for marker in markers} == {
+        ('origin', 'CNHKG'): EXPECTED_COORDINATES['CNHKG'],
+        ('destination', 'FIHEL'): EXPECTED_COORDINATES['FIHEL'],
+        ('lastKnownLocation', 'USNYC'): EXPECTED_COORDINATES['USNYC'],
+    }
+
 
 @pytest.mark.django_db
 def test_map_frame_url_carries_status_and_cargo_locations():

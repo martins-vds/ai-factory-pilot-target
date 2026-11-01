@@ -39,6 +39,11 @@
           grey: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
           red: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'
         };
+        const tooltipLabels = {
+          origin: 'Origin',
+          destination: 'Destination',
+          lastKnownLocation: 'Last known location'
+        };
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
@@ -46,7 +51,7 @@
         L.control.scale().addTo(map);
         data.markers.forEach(function (marker) {
           const tooltip = document.createElement('span');
-          tooltip.textContent = marker.role + ': ' + marker.name;
+          tooltip.textContent = tooltipLabels[marker.role] + ': ' + marker.name;
           const icon = L.icon({
             iconUrl: iconUrls[marker.color] || iconUrls.red,
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
