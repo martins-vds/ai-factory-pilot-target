@@ -1,0 +1,21 @@
+role: afs-migrator
+ticket: TC-07
+issue: martins-vds/ai-factory-pilot-target#27
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/48
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+evidence_logs:
+  - .migration/evidence/runs/setup-check.md
+ledger_updated: []
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#12
+  - martins-vds/ai-factory-pilot-target#13
+  - martins-vds/ai-factory-pilot-target#14
+  - martins-vds/ai-factory-pilot-target#17
+new_tickets: []
+handoff: none
