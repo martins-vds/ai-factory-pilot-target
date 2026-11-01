@@ -5,7 +5,7 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 from django.core.management import call_command
 from django.test import Client
-from django.urls import reverse
+from django.urls import resolve, reverse
 
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
@@ -37,6 +37,11 @@ def _rendered_map_data(response):
     )
     assert match is not None
     return json.loads(match.group(1))
+
+
+def test_map_route_is_registered_without_displacing_admin():
+    assert reverse('cargo_map_frame') == '/tracking/map/'
+    assert resolve('/admin/').namespace == 'admin'
 
 
 @pytest.mark.django_db
