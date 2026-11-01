@@ -8,8 +8,8 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Tracking history removes duplicate events, sorts by completion time ascending, exposes an unmodifiable list, and selects the final event as most recent."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#25]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -18,4 +18,10 @@ evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testMostRecentlyCompletedEvent"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/handling/test_domain.py::test_handling_history_deduplicates_and_orders_events_by_completion_time"
+  - "tests/handling/test_repository.py::test_repository_reads_and_orders_deduplicated_handling_history"
+  - ".migration/evidence/runs/TC-05.md"
+target:
+  components:
+    - cargotracker.handling.domain.handling_history.HandlingHistory
 notes: "HandlingHistoryTest::testDistinctEventsByCompletionTime and testMostRecentlyCompletedEvent cover these rules; graph tested_by links HandlingHistory to HandlingHistoryTest. Equal-time tie ordering is not further specified. Coverage input unavailable."
