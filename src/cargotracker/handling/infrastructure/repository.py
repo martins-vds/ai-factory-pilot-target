@@ -31,6 +31,23 @@ class DjangoHandlingEventRepository(HandlingEventRepository):
             registration_time=event.registration_time.date(),
         )
 
+    def upsert(self, event: HandlingEvent) -> int:
+        record, _ = HandlingEventRecord.objects.update_or_create(
+            cargo=CargoRecord.objects.get(tracking_id=event.cargo.tracking_id.value),
+            location=LocationRecord.objects.get(unlocode=event.location.unlocode.value),
+            voyage=(
+                VoyageRecord.objects.get(voyage_number=event.voyage.voyage_number.value)
+                if event.voyage is not None
+                else None
+            ),
+            event_type=event.event_type.value,
+            defaults={
+                'completion_time': event.completion_time.date(),
+                'registration_time': event.registration_time.date(),
+            },
+        )
+        return record.pk
+
     def lookup_handling_history_of_cargo(self, tracking_id: TrackingId) -> HandlingHistory:
         records = HandlingEventRecord.objects.select_related('cargo', 'location', 'voyage').filter(
             cargo__tracking_id=tracking_id.value

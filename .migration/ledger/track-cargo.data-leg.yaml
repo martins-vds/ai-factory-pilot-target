@@ -33,6 +33,5 @@ target:
     - cargotracker.cargo.infrastructure.models.LegRecord
     - cargotracker.cargo.infrastructure.repository.DjangoCargoRepository
     - cargotracker.cargo.application.sample_data.SampleDataSeeder
-    - cargotracker.cargo.infrastructure.sample_data_repository.DjangoSampleDataRepository
     - cargotracker.cargo.management.commands.seed_sample_data.Command
 notes: "Leg table fields: id, cargo_id (Itinerary join), voyage_id, load_location_id, unload_location_id, load_time and unload_time. The target maps these columns and returns legs in load-time order. Itinerary.isExpected remains for TC-08."

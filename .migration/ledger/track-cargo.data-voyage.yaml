@@ -43,6 +43,5 @@ target:
     - cargotracker.voyage.infrastructure.models.VoyageRecord
     - cargotracker.voyage.infrastructure.repository.DjangoVoyageRepository
     - cargotracker.cargo.application.sample_data.SampleDataSeeder
-    - cargotracker.cargo.infrastructure.sample_data_repository.DjangoSampleDataRepository
     - cargotracker.cargo.management.commands.seed_sample_data.Command
 notes: "Voyage rows supply the id and voyage_number to the tracking flow. The JPA-compatible target model maps those fields; the domain builder models carrier movements, which this capability does not read. Voyage identifiers are referenced by Delivery.current_voyage_id, Leg.voyage_id, HandlingEvent.voyage_id and next_expected_voyage_id. Risk is CargoTrackingViewAdapter.getStatusText; coverage input unavailable."
