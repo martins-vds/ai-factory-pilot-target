@@ -1,0 +1,20 @@
+role: afs-migrator
+ticket: TC-05
+issue: martins-vds/ai-factory-pilot-target#25
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/45
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.845
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TC-05.md
+ledger_updated:
+  - track-cargo.data-handling-event
+  - track-cargo.domain-history-order
+  - track-cargo.data-cargo
+quirk_tickets: []
+new_tickets: []
+handoff: null
