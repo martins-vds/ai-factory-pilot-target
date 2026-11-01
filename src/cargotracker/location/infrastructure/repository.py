@@ -5,6 +5,12 @@ from cargotracker.location.infrastructure.models import LocationRecord
 
 
 class DjangoLocationRepository(LocationRepository):
+    def upsert(self, location: Location) -> None:
+        LocationRecord.objects.update_or_create(
+            unlocode=location.unlocode.value,
+            defaults={'name': location.name},
+        )
+
     def find(self, unlocode: UnLocode) -> Location:
         record = LocationRecord.objects.get(unlocode=unlocode.value)
         return self._to_domain(record)

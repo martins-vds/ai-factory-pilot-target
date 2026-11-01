@@ -8,7 +8,7 @@ source:
   risk: {crap: 42, complexity: 6, coverage: 0.0}
 boundary: "Voyage rows supply the voyage number displayed for onboard status and for LOAD/UNLOAD history or next activity."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#26]
 status: migrated
 verification: characterized
 characterization_tier: A
@@ -30,6 +30,8 @@ evidence:
   - ".migration/runs/TC-03/20261101T160257027037Z-final2-mutation-full.log"
   - ".migration/runs/TC-03/20261101T160239444186Z-final2-migration-check.log"
   - ".migration/runs/TC-03/20261101T160239252906Z-final2-ledger-check.log"
+  - "tests/cargo/test_sample_data.py::test_seed_sample_data_is_idempotent_and_supports_golden_lookups"
+  - ".migration/evidence/runs/TC-06.md"
 target:
   components:
     - cargotracker.voyage.domain.voyage_number.VoyageNumber
@@ -40,4 +42,6 @@ target:
     - cargotracker.voyage.domain.repository.VoyageRepository
     - cargotracker.voyage.infrastructure.models.VoyageRecord
     - cargotracker.voyage.infrastructure.repository.DjangoVoyageRepository
+    - cargotracker.cargo.application.sample_data.SampleDataSeeder
+    - cargotracker.cargo.management.commands.seed_sample_data.Command
 notes: "Voyage rows supply the id and voyage_number to the tracking flow. The JPA-compatible target model maps those fields; the domain builder models carrier movements, which this capability does not read. Voyage identifiers are referenced by Delivery.current_voyage_id, Leg.voyage_id, HandlingEvent.voyage_id and next_expected_voyage_id. Risk is CargoTrackingViewAdapter.getStatusText; coverage input unavailable."

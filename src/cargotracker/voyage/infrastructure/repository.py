@@ -6,6 +6,12 @@ from cargotracker.voyage.infrastructure.models import VoyageRecord
 
 
 class DjangoVoyageRepository(VoyageRepository):
+    def upsert(self, voyage: Voyage) -> None:
+        VoyageRecord.objects.update_or_create(
+            voyage_number=voyage.voyage_number.value,
+            defaults={},
+        )
+
     def find(self, voyage_number: VoyageNumber) -> Voyage:
         record = VoyageRecord.objects.get(voyage_number=voyage_number.value)
         return self._to_domain(record)

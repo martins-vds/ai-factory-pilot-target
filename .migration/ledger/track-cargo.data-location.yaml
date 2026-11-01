@@ -8,7 +8,7 @@ source:
   risk: {crap: 6, complexity: 2, coverage: 0.0}
 boundary: "Location data supplies names and UN/LOCODEs for origin, destination, last-known location, handling events and next activity."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#26]
 status: migrated
 verification: characterized
 characterization_tier: A
@@ -19,6 +19,8 @@ evidence:
   - ".migration/evidence/track-cargo/characterization/report.md"
   - "tests/location/test_domain.py"
   - "tests/location/test_repository.py"
+  - "tests/cargo/test_sample_data.py::test_seed_sample_data_is_idempotent_and_supports_golden_lookups"
+  - ".migration/evidence/runs/TC-06.md"
 target:
   components:
     - cargotracker.location.domain.location.Location
@@ -26,4 +28,6 @@ target:
     - cargotracker.location.domain.repository.LocationRepository
     - cargotracker.location.infrastructure.models.LocationRecord
     - cargotracker.location.infrastructure.repository.DjangoLocationRepository
+    - cargotracker.cargo.application.sample_data.SampleDataSeeder
+    - cargotracker.cargo.management.commands.seed_sample_data.Command
 notes: "Location table fields used are id, embedded unlocode and name; associations are Cargo origin/spec locations, Delivery last-known and next-activity locations, Leg locations and HandlingEvent location. Location.UNKNOWN uses code XXXXX and displays Unknown for its name in the adapter. CargoTest tests last-known-location cases; no page test edge. Coverage input unavailable."
