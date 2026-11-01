@@ -1,0 +1,11 @@
+# Backfilled by the orchestrator from the agent's contract in PR #38 (written before return files existed).
+role: afs-migrator
+ticket: TC-02
+issue: martins-vds/ai-factory-pilot-target#22
+pr: martins-vds/ai-factory-pilot-target#38
+gates: {build: 0, behavior: 0, idiom: 0, crap: 0, mutation_changed: 1.0, regression: 0}
+evidence_logs: []   # raw .migration/runs logs did not survive the session; run journals start with TC-03
+ledger_updated: [track-cargo.data-location]
+quirk_tickets: []
+new_tickets: []
+handoff: null
