@@ -59,7 +59,9 @@ def test_handling_event_schema_matches_source_jpa_mapping():
     assert HandlingEventRecord._meta.get_field('completion_time').db_column == 'completionTime'
     assert HandlingEventRecord._meta.get_field('completion_time').get_internal_type() == 'DateField'
     assert HandlingEventRecord._meta.get_field('registration_time').db_column == 'registration'
-    assert HandlingEventRecord._meta.get_field('registration_time').get_internal_type() == 'DateField'
+    assert (
+        HandlingEventRecord._meta.get_field('registration_time').get_internal_type() == 'DateField'
+    )
     for field_name, db_column, related_model in (
         ('cargo', 'cargo_id', CargoRecord),
         ('location', 'location_id', LocationRecord),
@@ -99,9 +101,7 @@ def test_repository_reads_and_orders_deduplicated_handling_history():
         registration_time=date(2026, 11, 2),
     )
 
-    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(
-        TrackingId('ABC123')
-    )
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
 
     assert [event.event_type for event in history.events] == [
         HandlingEventType.RECEIVE,

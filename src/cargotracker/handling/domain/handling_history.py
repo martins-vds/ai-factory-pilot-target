@@ -1,5 +1,6 @@
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import ClassVar, Iterable
+from typing import ClassVar
 
 from cargotracker.handling.domain.handling_event import HandlingEvent
 

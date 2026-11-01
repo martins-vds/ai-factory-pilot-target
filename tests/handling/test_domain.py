@@ -10,9 +10,6 @@ from cargotracker.handling.domain.handling_event import HandlingEvent, HandlingE
 from cargotracker.handling.domain.handling_history import HandlingHistory
 from cargotracker.location.domain.location import Location
 from cargotracker.location.domain.un_locode import UnLocode
-from cargotracker.voyage.domain.schedule import Schedule
-from cargotracker.voyage.domain.voyage import Voyage
-from cargotracker.voyage.domain.voyage_number import VoyageNumber
 
 
 def _cargo():
