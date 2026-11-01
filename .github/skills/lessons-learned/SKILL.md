@@ -1,6 +1,6 @@
 ---
 name: lessons-learned
-description: Maintain a lightweight project memory loop: capture lessons learned during work as atomic, reusable cards under docs/lessons/ (with an auto-maintained index) to enrich the local documentation, and recall them before related work. Use at task start to recall prior lessons before implementing; during a task when the user corrects your approach, says "make a note so this doesn't happen again", or a bug fix reveals a reusable pattern; at task end to auto-capture qualifying lessons; and to update or retire a lesson that's gone stale. Invoke whenever you finish non-trivial work, fix a non-obvious bug, uncover hidden constraints/ordering/config/env quirks, or the user says "remember this", "capture this lesson", "recall lessons", or "document what we learned" — even if they don't name the skill. Skip one-off factual or library/concept questions, pure explanation, docstrings/doc lookups, formatting-only or administrative edits, and non-reproducible context.
+description: Maintain a lightweight project memory loop: capture lessons learned during work as atomic, reusable cards under docs/lessons/ (one self-describing file per lesson, no shared index) to enrich the local documentation, and recall them before related work. Use at task start to recall prior lessons before implementing; during a task when the user corrects your approach, says "make a note so this doesn't happen again", or a bug fix reveals a reusable pattern; at task end to auto-capture qualifying lessons; and to update or retire a lesson that's gone stale. Invoke whenever you finish non-trivial work, fix a non-obvious bug, uncover hidden constraints/ordering/config/env quirks, or the user says "remember this", "capture this lesson", "recall lessons", or "document what we learned" — even if they don't name the skill. Skip one-off factual or library/concept questions, pure explanation, docstrings/doc lookups, formatting-only or administrative edits, and non-reproducible context.
 ---
 
 # Lessons Learned
@@ -38,13 +38,25 @@ Store all lesson artifacts under `docs/lessons/` at the project root:
 
 ```
 docs/lessons/
-├── _index.md
-├── api-timeout-retry-pattern.md
-├── db-migration-run-order.md
-└── null-check-before-save.md
+├── 20260605-api-timeout-retry-pattern-7f3a.md
+├── 20260611-db-migration-run-order-c21e.md
+└── 20260702-null-check-before-save-9b04.md
 ```
 
 Each lesson card is one atomic Zettelkasten note. Keep one reusable lesson per card.
+
+**No shared index.** Every card carries its own metadata in frontmatter, and recall
+reads the frontmatter directly. There is no `_index.md` to keep in sync, so agents
+working in parallel branches never edit the same file. (If an old `_index.md`
+exists, ignore it; do not update it.)
+
+**Collision-proof IDs.** A card's `id` (and filename) is
+`<YYYYMMDD>-<semantic-kebab-slug>-<4 hex>`, for example
+`20260605-api-timeout-retry-pattern-7f3a`. The date sorts cards chronologically,
+the slug says what the lesson is, and the 4 random hex characters (e.g. from
+`python -c "import secrets;print(secrets.token_hex(2))"` or `openssl rand -hex 2`)
+keep two agents capturing the same lesson on the same day from colliding. Existing
+cards keep their IDs.
 
 ## Canonical Limits
 
@@ -66,13 +78,14 @@ Run this phase before writing code.
 1. Extract task keywords (technology, failure mode, domain terms).
 2. Determine whether lesson storage exists:
    - If `docs/lessons/` does not exist, treat this as first-run state and skip recall.
-   - If `docs/lessons/` exists but `_index.md` does not, read existing card frontmatter directly for this recall pass and warn that `_index.md` should be rebuilt during the next capture/update maintenance pass.
 3. Determine working scope from the task context:
    - `project` for cross-cutting or repo-wide concerns
    - `module` for package/directory-level concerns
    - `feature` for a specific flow or component
-4. Read `docs/lessons/_index.md`.
-5. Build candidates for normal recall from cards in `docs/lessons/`.
+4. Read the frontmatter of the cards in `docs/lessons/*.md` (only the block between
+   the `---` lines; for example `grep -A8 -m1 '^---' docs/lessons/*.md`, or search
+   for your keywords in the `tags:` lines first when there are many cards).
+5. Build candidates for normal recall from those cards.
    - Exclude only cards that explicitly set `confidence: 0.0`.
    - Cards with missing confidence remain eligible and use legacy fallback.
    - Cards with `confidence: 0.0` remain in `docs/lessons/` for explicit historical lookup.
@@ -95,7 +108,6 @@ If no cards match, continue work without lesson constraints.
 Treat these as non-blocking and continue:
 
 - `docs/lessons/` is missing on first run.
-- `_index.md` is missing, so this recall pass used direct card metadata.
 - A loaded card is missing confidence and needs legacy fallback.
 - A related target is missing.
 
@@ -159,7 +171,7 @@ These skip rules apply to creating a new card. They do not block corrective upda
 
 ### Step 2 — Write the Zettel card
 
-Generate a semantic kebab-case ID that describes the lesson (e.g., `api-timeout-retry-pattern`) when creating a new card.
+Generate a collision-proof ID when creating a new card: `<YYYYMMDD>-<semantic-kebab-slug>-<4 hex>` (see Storage), e.g. `20260605-api-timeout-retry-pattern-7f3a`.
 
 Before writing or updating a card, check for a semantically similar existing card and make the decision explicit:
 
@@ -207,14 +219,14 @@ When current work weakens a recalled or related card:
 Minimal correction-capture example:
 
 ```
-Lessons capture report: decision=update, updated=1 (db-migration-run-order), confidence=0.7->0.6 (weaker applicability in current config), skipped=0
+Lessons capture report: decision=update, updated=1 (20260611-db-migration-run-order-c21e), confidence=0.7->0.6 (weaker applicability in current config), skipped=0
 ```
 
 Card fields:
 
 | Field | Purpose |
 |---|---|
-| `id` | Semantic kebab-case slug, also the filename |
+| `id` | `<YYYYMMDD>-<semantic-slug>-<4 hex>`, also the filename |
 | `date` | ISO date when the lesson was captured |
 | `scope` | project / module / feature applicability |
 | `tags` | 3–6 lowercase tags for recall matching |
@@ -234,30 +246,7 @@ Task-end behavior:
 - For normal user-facing output, prefer a short capture summary.
 - Do not reproduce the full card body unless the user asks to inspect it.
 
-### Step 3 — Update the index
-
-Upsert one row in `docs/lessons/_index.md` per card ID.
-
-If `_index.md` does not exist, create it with this structure:
-
-```markdown
-# Lessons Index
-
-> Auto-generated by lessons-learned skill. Do not edit manually.
-
-| Card | Scope | Tags | Date |
-|---|---|---|---|
-```
-
-Each row's **Card** cell is the bare card `id` wrapped in backticks (not a `[[wikilink]]`), and **Tags** are comma-separated, so the index stays easy to scan and parse. Example row:
-
-```markdown
-| `api-timeout-retry-pattern` | project | `api`, `timeout`, `retry` | 2026-06-05 |
-```
-
-Then keep rows sorted by Date descending (newest first).
-
-### Step 4 — Confirm with user
+### Step 3 — Confirm with user
 
 Tell the user what was captured using a compact report, e.g.:
 
@@ -281,7 +270,7 @@ Lessons capture report: decision=update, updated=1 (`db-migration-run-order`), c
 Lessons capture report: decision=update, updated=1 (`legacy-bootstrap-flow`), confidence=0.1->0.0 (excluded from normal recall)
 ```
 
-Keep this confirmation short. Prefer the decision, the affected card ID, and a one-line rule summary. Avoid dumping the full markdown card or index contents in normal output.
+Keep this confirmation short. Prefer the decision, the affected card ID, and a one-line rule summary. Avoid dumping the full markdown card in normal output.
 
 ## Linking Rule
 
@@ -317,15 +306,15 @@ Broken related targets are non-blocking:
 
 Apply these checks during capture or update. These are blocking failures unless explicitly listed as warnings elsewhere.
 
-- Card filename equals `id` slug.
+- Card filename equals `id`, and `id` matches `<YYYYMMDD>-<slug>-<4 hex>` (cards created before this
+  rule keep their IDs).
 - `date` format is ISO `YYYY-MM-DD`.
 - `scope` is one of `project`, `module`, `feature`.
 - `tags` count is 3–6.
 - `source` is valid enum.
 - `confidence` is numeric and in range 0.0-0.9.
 - `related` count is 0–2 and every target resolves to an existing card.
-- Index row exists and matches card metadata, including scope.
-- `_index.md` rows are ordered by Date descending (newest first).
+- Each capture or update changes only the card files it creates or updates (no shared files).
 
 ## Integration Guide
 
