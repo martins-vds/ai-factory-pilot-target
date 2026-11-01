@@ -8,7 +8,7 @@ source:
   risk: {crap: 30, complexity: 5, coverage: 0.0}
 boundary: "When an expected activity exists, display its type, location and voyage where applicable; otherwise hide the paragraph."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#33]
 status: migrated
 verification: characterized
 characterization_tier: B
