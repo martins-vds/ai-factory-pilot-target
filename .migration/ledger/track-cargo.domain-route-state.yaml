@@ -8,8 +8,8 @@ source:
   risk: {crap: 156, complexity: 12, coverage: 0.0}
 boundary: "Delivery derives route status, misdirection, unloaded-at-destination, ETA and next activity from the route specification, itinerary and latest event."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#28]
+status: migrated
 verification: characterized
 characterization_tier: B
 evidence:
@@ -18,5 +18,15 @@ evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity."
+  - "tests/cargo/test_domain_calculations.py::test_delivery_derives_routing_eta_and_first_activity_without_events"
+  - "tests/cargo/test_domain_calculations.py::test_delivery_has_no_eta_or_activity_when_unrouted_or_route_misses_specification"
+  - "tests/cargo/test_domain_calculations.py::test_delivery_keeps_transport_status_when_latest_event_is_misdirected"
+  - "tests/cargo/test_domain_calculations.py::test_delivery_calculates_next_activity_after_latest_event"
+  - "tests/cargo/test_domain_calculations.py::test_delivery_matches_golden_states_for_abc_jkl_def_and_mno"
+  - ".migration/evidence/runs/TC-08.md"
+target:
+  components:
+    - cargotracker.cargo.domain.delivery.Delivery.derived_from
+    - cargotracker.cargo.domain.route_specification.RouteSpecification.is_satisfied_by
+notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity. The committed source graph was analyzed at a8cdf52effc852af7a9218b40bedb98b8451d4ae, not the pinned f3beacf78de4f6d34edc4971ac87e38a5c6fe59d; inspected pinned source calculation methods agree with the design."
 quirks: [martins-vds/ai-factory-pilot-target#17]

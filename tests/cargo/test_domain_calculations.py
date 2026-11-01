@@ -17,7 +17,6 @@ from cargotracker.voyage.domain.schedule import Schedule
 from cargotracker.voyage.domain.voyage import Voyage
 from cargotracker.voyage.domain.voyage_number import VoyageNumber
 
-
 ORIGIN = Location(UnLocode('USNYC'), 'New York')
 TRANSFER = Location(UnLocode('NLRTM'), 'Rotterdam')
 DESTINATION = Location(UnLocode('FIHEL'), 'Helsinki')
@@ -127,6 +126,7 @@ def test_route_specification_requires_matching_endpoints_and_strictly_early_arri
     arrival = itinerary.legs[-1].unload_time
 
     assert route_specification.is_satisfied_by(itinerary)
+    assert not route_specification.is_satisfied_by(Itinerary.EMPTY)
     assert not RouteSpecification(TRANSFER, DESTINATION, DEADLINE).is_satisfied_by(itinerary)
     assert not RouteSpecification(ORIGIN, TRANSFER, DEADLINE).is_satisfied_by(itinerary)
     assert not RouteSpecification(ORIGIN, DESTINATION, arrival).is_satisfied_by(itinerary)
@@ -174,7 +174,11 @@ def test_delivery_derives_routing_eta_and_first_activity_without_events():
 @pytest.mark.parametrize(
     ('route_specification', 'itinerary', 'expected_status'),
     [
-        (RouteSpecification(ORIGIN, DESTINATION, DEADLINE), Itinerary.EMPTY, RoutingStatus.NOT_ROUTED),
+        (
+            RouteSpecification(ORIGIN, DESTINATION, DEADLINE),
+            Itinerary.EMPTY,
+            RoutingStatus.NOT_ROUTED,
+        ),
         (
             RouteSpecification(TRANSFER, DESTINATION, DEADLINE),
             _route()[1],
@@ -266,34 +270,94 @@ def test_delivery_calculates_next_activity_after_latest_event(
 
 
 def test_delivery_matches_golden_states_for_abc_jkl_def_and_mno():
-    route_specification, itinerary = _route()
+    hong_kong = Location(UnLocode('CNHKG'), 'Hong Kong')
+    new_york = Location(UnLocode('USNYC'), 'New York')
+    helsinki = Location(UnLocode('FIHEL'), 'Helsinki')
+    hangzhou = Location(UnLocode('CNHGH'), 'Hangzhou')
+    stockholm = Location(UnLocode('SESTO'), 'Stockholm')
+    dallas = Location(UnLocode('USDAL'), 'Dallas')
+    melbourne = Location(UnLocode('AUMEL'), 'Melbourne')
+    voyage_0100s = Voyage(VoyageNumber('0100S'), Schedule.EMPTY)
+    voyage_0200t = Voyage(VoyageNumber('0200T'), Schedule.EMPTY)
+    abc_arrival = CALCULATED_AT + timedelta(days=14)
+    abc_specification = RouteSpecification(hong_kong, helsinki, abc_arrival + timedelta(days=1))
+    abc_itinerary = Itinerary(
+        (
+            Leg(
+                voyage_0100s,
+                hong_kong,
+                new_york,
+                CALCULATED_AT,
+                CALCULATED_AT + timedelta(days=9),
+            ),
+            Leg(
+                voyage_0200t,
+                new_york,
+                helsinki,
+                CALCULATED_AT + timedelta(days=10),
+                abc_arrival,
+            ),
+        )
+    )
     abc = _derive_delivery(
-        route_specification,
-        itinerary,
-        (HandlingEventType.UNLOAD, TRANSFER, FIRST_VOYAGE),
+        abc_specification,
+        abc_itinerary,
+        (HandlingEventType.UNLOAD, new_york, voyage_0100s),
+    )
+    jkl_arrival = CALCULATED_AT + timedelta(days=20)
+    jkl_specification = RouteSpecification(hangzhou, stockholm, jkl_arrival + timedelta(days=1))
+    jkl_itinerary = Itinerary(
+        (
+            Leg(
+                voyage_0100s,
+                hangzhou,
+                new_york,
+                CALCULATED_AT,
+                CALCULATED_AT + timedelta(days=12),
+            ),
+            Leg(
+                voyage_0200t,
+                new_york,
+                stockholm,
+                CALCULATED_AT + timedelta(days=13),
+                jkl_arrival,
+            ),
+        )
     )
     jkl = _derive_delivery(
-        route_specification,
-        itinerary,
-        (HandlingEventType.LOAD, TRANSFER, FIRST_VOYAGE),
+        jkl_specification,
+        jkl_itinerary,
+        (HandlingEventType.LOAD, new_york, voyage_0100s),
     )
-    def_route_specification = RouteSpecification(
-        ORIGIN, DESTINATION, DEADLINE
+    def_specification = RouteSpecification(hong_kong, melbourne, CALCULATED_AT + timedelta(days=30))
+    def_delivery = _derive_delivery(def_specification, Itinerary.EMPTY)
+    mno_arrival = CALCULATED_AT - timedelta(days=28)
+    mno_specification = RouteSpecification(new_york, dallas, CALCULATED_AT + timedelta(days=1))
+    mno_itinerary = Itinerary(
+        (
+            Leg(
+                voyage_0200t,
+                new_york,
+                dallas,
+                mno_arrival - timedelta(days=5),
+                mno_arrival,
+            ),
+        )
     )
-    def_delivery = _derive_delivery(def_route_specification, Itinerary.EMPTY)
     mno = _derive_delivery(
-        route_specification,
-        itinerary,
-        (HandlingEventType.CLAIM, DESTINATION, None),
+        mno_specification,
+        mno_itinerary,
+        (HandlingEventType.CLAIM, dallas, None, 26),
     )
 
     assert abc.transport_status is TransportStatus.IN_PORT
-    assert abc.last_known_location == TRANSFER
+    assert abc.last_known_location == new_york
     assert not abc.misdirected
-    assert abc.next_expected_activity == HandlingActivity('LOAD', TRANSFER, SECOND_VOYAGE)
-    assert abc.eta == itinerary.legs[-1].unload_time
+    assert abc.next_expected_activity == HandlingActivity('LOAD', new_york, voyage_0200t)
+    assert abc.eta == abc_arrival
 
     assert jkl.transport_status is TransportStatus.ONBOARD_CARRIER
+    assert jkl.current_voyage == voyage_0100s
     assert jkl.misdirected
     assert jkl.eta is None
     assert jkl.next_expected_activity is HandlingActivity.EMPTY
@@ -305,6 +369,6 @@ def test_delivery_matches_golden_states_for_abc_jkl_def_and_mno():
 
     assert mno.transport_status is TransportStatus.CLAIMED
     assert not mno.misdirected
-    assert mno.eta == itinerary.legs[-1].unload_time
+    assert mno.eta == mno_arrival
     assert mno.eta < mno.calculated_at
     assert mno.next_expected_activity is HandlingActivity.EMPTY

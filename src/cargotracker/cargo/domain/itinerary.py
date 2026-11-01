@@ -43,8 +43,7 @@ class Itinerary:
 
     def _load_matches_leg(self, event: 'HandlingEvent') -> bool:
         return any(
-            leg.load_location == event.location and leg.voyage == event.voyage
-            for leg in self.legs
+            leg.load_location == event.location and leg.voyage == event.voyage for leg in self.legs
         )
 
     def _unload_matches_leg(self, event: 'HandlingEvent') -> bool:

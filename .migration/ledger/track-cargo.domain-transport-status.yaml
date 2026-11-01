@@ -8,8 +8,8 @@ source:
   risk: {crap: 56, complexity: 7, coverage: 0.0}
 boundary: "The last handling event maps to NOT_RECEIVED when absent; LOAD to ONBOARD_CARRIER; UNLOAD, RECEIVE and CUSTOMS to IN_PORT; CLAIM to CLAIMED; otherwise UNKNOWN."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#28]
+status: migrated
 verification: characterized
 characterization_tier: B
 evidence:
@@ -18,4 +18,10 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/mno456.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/cargo/test_domain_calculations.py::test_delivery_derives_transport_status_from_latest_event"
+  - "tests/cargo/test_domain_calculations.py::test_delivery_keeps_transport_status_when_latest_event_is_misdirected"
+  - ".migration/evidence/runs/TC-08.md"
+target:
+  components:
+    - cargotracker.cargo.domain.delivery.Delivery.derived_from
 notes: "Focused tier-B cases observed NOT_RECEIVED, ONBOARD_CARRIER, IN_PORT and CLAIMED. The switch default is unreachable with the five declared HandlingEvent.Type values. Risk is calculateTransportStatus."

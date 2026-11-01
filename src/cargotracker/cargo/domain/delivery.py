@@ -50,26 +50,17 @@ class Delivery:
         handling_history: 'HandlingHistory',
         calculated_at: datetime | None = None,
     ) -> 'Delivery':
-        from cargotracker.handling.domain.handling_history import HandlingHistory
-
-        if not isinstance(route_specification, RouteSpecification):
-            raise TypeError('A delivery requires a route specification')
-        if not isinstance(itinerary, Itinerary):
-            raise TypeError('A delivery requires an itinerary')
-        if not isinstance(handling_history, HandlingHistory):
-            raise TypeError('A delivery requires a handling history')
+        cls._validate_derivation_inputs(route_specification, itinerary, handling_history)
 
         latest_event = handling_history.most_recent_event
         misdirected = cls._calculate_misdirection_status(itinerary, latest_event)
         routing_status = cls._calculate_routing_status(route_specification, itinerary)
         transport_status = cls._calculate_transport_status(latest_event)
-        on_track = routing_status is RoutingStatus.ROUTED and not misdirected
+        on_track = cls._is_on_track(routing_status, misdirected)
         return cls(
             transport_status=transport_status,
-            last_known_location=latest_event.location if latest_event else None,
-            current_voyage=(
-                latest_event.voyage if transport_status is TransportStatus.ONBOARD_CARRIER else None
-            ),
+            last_known_location=cls._calculate_last_known_location(latest_event),
+            current_voyage=cls._calculate_current_voyage(transport_status, latest_event),
             misdirected=misdirected,
             eta=cls._calculate_eta(itinerary, on_track),
             next_expected_activity=cls._calculate_next_expected_activity(
@@ -79,8 +70,41 @@ class Delivery:
                 route_specification, latest_event
             ),
             routing_status=routing_status,
-            calculated_at=calculated_at or datetime.now(UTC),
+            calculated_at=cls._calculate_time(calculated_at),
         )
+
+    @staticmethod
+    def _validate_derivation_inputs(
+        route_specification: RouteSpecification,
+        itinerary: Itinerary,
+        handling_history: 'HandlingHistory',
+    ) -> None:
+        from cargotracker.handling.domain.handling_history import HandlingHistory
+
+        if not isinstance(route_specification, RouteSpecification):
+            raise TypeError('A delivery requires a route specification')
+        if not isinstance(itinerary, Itinerary):
+            raise TypeError('A delivery requires an itinerary')
+        if not isinstance(handling_history, HandlingHistory):
+            raise TypeError('A delivery requires a handling history')
+
+    @staticmethod
+    def _calculate_time(calculated_at: datetime | None) -> datetime:
+        return calculated_at if calculated_at is not None else datetime.now(UTC)
+
+    @staticmethod
+    def _calculate_last_known_location(latest_event: 'HandlingEvent | None') -> Location | None:
+        return latest_event.location if latest_event is not None else None
+
+    @staticmethod
+    def _calculate_current_voyage(
+        transport_status: TransportStatus, latest_event: 'HandlingEvent | None'
+    ) -> Voyage | None:
+        return latest_event.voyage if transport_status is TransportStatus.ONBOARD_CARRIER else None
+
+    @staticmethod
+    def _is_on_track(routing_status: RoutingStatus, misdirected: bool) -> bool:
+        return routing_status is RoutingStatus.ROUTED and not misdirected
 
     def __post_init__(self):
         if not isinstance(self.transport_status, TransportStatus):
@@ -157,7 +181,11 @@ class Delivery:
             'UNLOAD': cls._after_unload,
         }
         calculator = calculators.get(latest_event.event_type)
-        return calculator(itinerary, latest_event) if calculator is not None else HandlingActivity.EMPTY
+        return (
+            calculator(itinerary, latest_event)
+            if calculator is not None
+            else HandlingActivity.EMPTY
+        )
 
     @staticmethod
     def _after_receive(itinerary: Itinerary, _latest_event: 'HandlingEvent') -> HandlingActivity:
