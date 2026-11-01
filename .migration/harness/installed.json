@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "1b046d9aaa41e6956063682f9f70eeb0160f13ce",
-  "installed_at": "2026-11-01T22:16:49Z",
+  "harness_commit": "959ba4484e1c90ae9af7e9f9c86afaed9f5becab",
+  "installed_at": "2026-11-01T23:29:33Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -49,14 +49,14 @@
       "path": ".github/agents/afs-program-orchestrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-program-orchestrator.agent.md": "250ca2486a30d60b2dac8f940f458317f3f4b93c894af6806ae916dbb5946837"
+        ".github/agents/afs-program-orchestrator.agent.md": "bbc11c3749fe83d0c600a9a03e58e54527ff15492664e70ba37766e1854f9cbf"
       }
     },
     {
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "fcde33b3aa2c8a7a104339ef1f9cc6faf6e93357578860af96ca32dec83f6d7b"
+        ".github/agents/afs-slice-coordinator.agent.md": "2b5e825aba2aa8a7613f46d8ff586266bba82ac4c9f8c70c266519ea55342404"
       }
     },
     {
