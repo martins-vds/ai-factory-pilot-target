@@ -49,7 +49,7 @@ def test_handling_history_deduplicates_and_orders_events_by_completion_time():
     )
     duplicate = HandlingEvent(
         cargo,
-        datetime(2026, 11, 1, tzinfo=timezone(timedelta(hours=2))),
+        datetime(2026, 11, 1, 2, tzinfo=timezone(timedelta(hours=2))),
         datetime(2026, 11, 2, tzinfo=UTC),
         HandlingEventType.RECEIVE,
         location,
@@ -65,3 +65,4 @@ def test_handling_history_deduplicates_and_orders_events_by_completion_time():
     history = HandlingHistory([later, duplicate, early])
 
     assert history.events == (early, later)
+    assert history.most_recent_event == later
