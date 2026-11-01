@@ -8,8 +8,8 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "The map marker state is NOT_ROUTED for an empty itinerary, AT_DESTINATION when unloaded at destination, MISDIRECTED when off itinerary, otherwise the transport-status enum name."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#32]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -18,4 +18,9 @@ evidence:
   - "characterization/track-cargo/golden/jkl567.json"
   - "characterization/track-cargo/golden/mno456.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/cargo/interfaces/test_map.py::test_map_status_code_preserves_source_branch_precedence"
+  - ".migration/evidence/runs/TC-12.md"
+target:
+  components:
+    - cargotracker.cargo.application.map_status.map_status_code
 notes: "Branch precedence is empty itinerary, unloaded-at-destination, misdirected, then transport status. CargoTest::testRoutingStatus, testIsMisdirected, and testIsUnloadedAtFinalDestination cover parts of the underlying rules; no adapter test edge. Risk is getStatusCode; coverage input unavailable."

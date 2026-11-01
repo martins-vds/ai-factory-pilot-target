@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cargo map</title>
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    >
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+      defer
+    ></script>
+  </head>
+  <body>
+    <p class="px-2 py-1 text-sm text-gray-700">Status: {{ map_data.statusCode }}</p>
+    <div
+      id="map"
+      class="h-[600px] w-full border-8 border-white"
+      role="application"
+      aria-label="Cargo location map"
+    ></div>
+    {{ map_data|json_script:"map-data" }}
+    <script>
+      window.addEventListener('load', function () {
+        const data = JSON.parse(document.getElementById('map-data').textContent);
+        const map = L.map('map').setView([0, 0], 2);
+        const iconUrls = {
+          black: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
+          gold: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
+          green: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+          grey: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png',
+          red: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'
+        };
+        const tooltipLabels = {
+          origin: 'Origin',
+          destination: 'Destination',
+          lastKnownLocation: 'Last known location'
+        };
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        }).addTo(map);
+        L.control.scale().addTo(map);
+        data.markers.forEach(function (marker) {
+          const tooltip = document.createElement('span');
+          tooltip.textContent = tooltipLabels[marker.role] + ': ' + marker.name;
+          const icon = L.icon({
+            iconUrl: iconUrls[marker.color] || iconUrls.red,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          });
+          L.marker(marker.coordinates, {icon: icon})
+            .bindTooltip(tooltip)
+            .addTo(map);
+        });
+      });
+    </script>
+  </body>
+</html>

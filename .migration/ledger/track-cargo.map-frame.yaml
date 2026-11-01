@@ -8,8 +8,8 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "For a found cargo, embed public/mapFrame.xhtml with status, last-known location, origin and destination codes/names as query parameters."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#32]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,5 +17,17 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/def789.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "No frame is rendered when cargo is empty. The page uses the common public.xhtml template, which loads css/app.css, the logo and Font Awesome CDN; messages.properties is not referenced. Risk is the getStatusCode parameter supplier; coverage input unavailable."
+  - "tests/cargo/interfaces/test_map.py::test_tracking_map_url_carries_status_and_cargo_locations"
+  - ".migration/evidence/runs/TC-12.md"
+target:
+  components:
+    - cargotracker.cargo.interfaces.tracking.map.adapter.map_frame_url
+    - cargotracker.cargo.interfaces.tracking.map.views.map_frame
+    - cargotracker.cargo.interfaces.tracking.map.urls
+    - src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html
 quirks: [martins-vds/ai-factory-pilot-target#14]
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#14
+  reason: "Fix ruling: map markers use exact configured coordinates without random offsets."
+notes: "The Django frame is available at /tracking/map/ and consumes the source-compatible query parameters. The parent tracking page will embed it through map_frame_url; TC-13 owns that page integration. Ruling #14 is the approved divergence from source marker offsets."
