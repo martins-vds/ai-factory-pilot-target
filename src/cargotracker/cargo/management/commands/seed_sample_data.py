@@ -137,11 +137,7 @@ def _cargo_defaults(seed, locations, voyages, today):
         'last_known_location': locations.get(seed.get('last_known_location')),
         'current_voyage': voyages.get(seed.get('current_voyage')),
         'misdirected': seed['misdirected'],
-        'eta': (
-            _date_with_offset(today, seed['eta_days'])
-            if 'eta_days' in seed
-            else None
-        ),
+        'eta': (_date_with_offset(today, seed['eta_days']) if 'eta_days' in seed else None),
         'next_expected_handling_event_type': next_event,
         'next_expected_location': locations.get(next_location),
         'next_expected_voyage': voyages.get(next_voyage),
@@ -190,15 +186,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         today = timezone.now().astimezone(UTC).date()
         locations = {
-            code: LocationRecord.objects.update_or_create(
-                unlocode=code, defaults={'name': name}
-            )[0]
+            code: LocationRecord.objects.update_or_create(unlocode=code, defaults={'name': name})[0]
             for code, name in LOCATIONS
         }
         voyages = {
-            number: VoyageRecord.objects.update_or_create(
-                voyage_number=number, defaults={}
-            )[0]
+            number: VoyageRecord.objects.update_or_create(voyage_number=number, defaults={})[0]
             for number in VOYAGES
         }
         for seed in SAMPLE_CARGOS:

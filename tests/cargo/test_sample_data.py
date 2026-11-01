@@ -25,6 +25,28 @@ def test_seed_sample_data_is_idempotent_and_supports_golden_lookups():
     assert CargoRecord.objects.count() == 4
     assert LegRecord.objects.count() == 7
     assert HandlingEventRecord.objects.count() == 12
+    assert set(LocationRecord.objects.values_list('unlocode', 'name')) == {
+        ('CNHKG', 'Hong Kong'),
+        ('AUMEL', 'Melbourne'),
+        ('SESTO', 'Stockholm'),
+        ('FIHEL', 'Helsinki'),
+        ('USCHI', 'Chicago'),
+        ('JNTKO', 'Tokyo'),
+        ('DEHAM', 'Hamburg'),
+        ('CNSHA', 'Shanghai'),
+        ('NLRTM', 'Rotterdam'),
+        ('SEGOT', 'Gothenburg'),
+        ('CNHGH', 'Hangzhou'),
+        ('USNYC', 'New York'),
+        ('USDAL', 'Dallas'),
+    }
+    assert set(VoyageRecord.objects.values_list('voyage_number', flat=True)) == {
+        '0100S',
+        '0200T',
+        '0300A',
+        '0400S',
+        '0301S',
+    }
 
     cargos = {
         tracking_id: DjangoCargoRepository().find(TrackingId(tracking_id))
@@ -38,18 +60,20 @@ def test_seed_sample_data_is_idempotent_and_supports_golden_lookups():
         'DEF789': ('CNHKG', 'AUMEL', TransportStatus.NOT_RECEIVED, False, None),
         'MNO456': ('USNYC', 'USDAL', TransportStatus.CLAIMED, False, -28),
     }
-    for tracking_id, (origin, destination, status, misdirected, eta_offset) in (
-        expected_cargo_data.items()
-    ):
+    for tracking_id, (
+        origin,
+        destination,
+        status,
+        misdirected,
+        eta_offset,
+    ) in expected_cargo_data.items():
         cargo = cargos[tracking_id]
         assert cargo.route_specification.origin.unlocode.value == origin
         assert cargo.route_specification.destination.unlocode.value == destination
         assert cargo.delivery.transport_status is status
         assert cargo.delivery.misdirected is misdirected
         assert cargo.delivery.eta == (
-            datetime.combine(
-                today + timedelta(days=eta_offset), datetime.min.time(), tzinfo=UTC
-            )
+            datetime.combine(today + timedelta(days=eta_offset), datetime.min.time(), tzinfo=UTC)
             if eta_offset is not None
             else None
         )
@@ -117,3 +141,11 @@ def test_seed_sample_data_is_idempotent_and_supports_golden_lookups():
             (event_type, location, voyage, today + timedelta(days=offset))
             for event_type, location, voyage, offset in expected_events
         ]
+        latest_event = (
+            HandlingEventRecord.objects.filter(cargo__tracking_id=tracking_id)
+            .order_by('completion_time')
+            .last()
+        )
+        assert cargos[tracking_id].delivery.last_event_id == (
+            latest_event.pk if latest_event else None
+        )
