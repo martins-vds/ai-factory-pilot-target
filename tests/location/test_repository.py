@@ -1,0 +1,36 @@
+import pytest
+from django.db import connection
+
+from cargotracker.location.domain.location import Location
+from cargotracker.location.domain.un_locode import UnLocode
+from cargotracker.location.infrastructure.models import LocationRecord
+from cargotracker.location.infrastructure.repository import DjangoLocationRepository
+
+
+@pytest.mark.django_db
+def test_repository_round_trips_source_location_fields():
+    LocationRecord.objects.create(unlocode='USNYC', name='New York')
+    repository = DjangoLocationRepository()
+
+    assert repository.find(UnLocode('usnyc')) == Location(UnLocode('USNYC'), 'New York')
+    assert repository.find_all() == [Location(UnLocode('USNYC'), 'New York')]
+
+
+@pytest.mark.django_db
+def test_location_schema_uses_source_table_and_columns():
+    with connection.cursor() as cursor:
+        description = connection.introspection.get_table_description(cursor, 'location')
+
+    columns = {column.name: column for column in description}
+    assert LocationRecord._meta.db_table == 'location'
+    assert LocationRecord._meta.get_field('unlocode').max_length == 255
+    assert LocationRecord._meta.get_field('name').max_length == 255
+    assert list(columns) == ['id', 'unlocode', 'name']
+    assert columns['unlocode'].display_size == 255
+    assert columns['name'].display_size == 255
+
+
+@pytest.mark.django_db
+def test_repository_missing_location_raises_model_does_not_exist():
+    with pytest.raises(LocationRecord.DoesNotExist):
+        DjangoLocationRepository().find(UnLocode('USNYC'))
