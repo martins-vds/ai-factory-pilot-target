@@ -27,7 +27,7 @@ target:
   components:
     - cargotracker.cargo.application.tracking.TrackingLookup
     - cargotracker.cargo.composition.compose_tracking_view
-    - cargotracker.cargo.interfaces.tracking.create_tracking_view
+    - cargotracker.cargo.interfaces.tracking.views.create_tracking_view
     - templates/tracking/result.html
 approval:
   by: martins-vds
