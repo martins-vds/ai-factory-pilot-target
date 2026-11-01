@@ -19,6 +19,56 @@ from cargotracker.voyage.domain.voyage_number import VoyageNumber
 
 
 class DjangoCargoRepository(CargoRepository):
+    def upsert(self, cargo: Cargo) -> None:
+        delivery = cargo.delivery
+        activity = delivery.next_expected_activity
+        cargo_record, _ = CargoRecord.objects.update_or_create(
+            tracking_id=cargo.tracking_id.value,
+            defaults={
+                'origin': self._location_record(cargo.origin),
+                'spec_origin': self._location_record(cargo.route_specification.origin),
+                'spec_destination': self._location_record(cargo.route_specification.destination),
+                'spec_arrival_deadline': cargo.route_specification.arrival_deadline.date(),
+                'transport_status': delivery.transport_status.value,
+                'last_known_location': (
+                    self._location_record(delivery.last_known_location)
+                    if delivery.last_known_location is not None
+                    else None
+                ),
+                'current_voyage': (
+                    self._voyage_record(delivery.current_voyage)
+                    if delivery.current_voyage is not None
+                    else None
+                ),
+                'misdirected': delivery.misdirected,
+                'eta': delivery.eta.date() if delivery.eta is not None else None,
+                'next_expected_handling_event_type': activity.event_type,
+                'next_expected_location': (
+                    self._location_record(activity.location)
+                    if activity.location is not None
+                    else None
+                ),
+                'next_expected_voyage': (
+                    self._voyage_record(activity.voyage) if activity.voyage is not None else None
+                ),
+                'unloaded_at_dest': delivery.unloaded_at_destination,
+                'routing_status': delivery.routing_status.value,
+                'calculated_at': delivery.calculated_at,
+                'last_event_id': delivery.last_event_id,
+            },
+        )
+        for leg in cargo.itinerary.legs:
+            LegRecord.objects.update_or_create(
+                cargo=cargo_record,
+                voyage=self._voyage_record(leg.voyage),
+                load_location=self._location_record(leg.load_location),
+                unload_location=self._location_record(leg.unload_location),
+                defaults={
+                    'load_time': leg.load_time,
+                    'unload_time': leg.unload_time,
+                },
+            )
+
     def find(self, tracking_id: TrackingId) -> Cargo | None:
         record = self._queryset().filter(tracking_id=tracking_id.value).first()
         return self._to_domain(record) if record is not None else None
@@ -115,3 +165,13 @@ class DjangoCargoRepository(CargoRepository):
     @staticmethod
     def _to_voyage(record) -> Voyage:
         return Voyage(VoyageNumber(record.voyage_number), Schedule.EMPTY)
+
+    @staticmethod
+    def _location_record(location: Location):
+        location_model = CargoRecord._meta.get_field('origin').remote_field.model
+        return location_model.objects.get(unlocode=location.unlocode.value)
+
+    @staticmethod
+    def _voyage_record(voyage: Voyage):
+        voyage_model = CargoRecord._meta.get_field('current_voyage').remote_field.model
+        return voyage_model.objects.get(voyage_number=voyage.voyage_number.value)
