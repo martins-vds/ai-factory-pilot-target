@@ -269,6 +269,46 @@ def test_delivery_calculates_next_activity_after_latest_event(
     assert delivery.eta == itinerary.legs[-1].unload_time
 
 
+def test_quirk52_next_activity_uses_first_matching_location():
+    voyage_1 = Voyage(VoyageNumber('V1'), Schedule.EMPTY)
+    voyage_2 = Voyage(VoyageNumber('V2'), Schedule.EMPTY)
+    voyage_3 = Voyage(VoyageNumber('V3'), Schedule.EMPTY)
+    location_a = Location(UnLocode('USNYC'), 'A')
+    location_b = Location(UnLocode('NLRTM'), 'B')
+    location_c = Location(UnLocode('FIHEL'), 'C')
+    itinerary = Itinerary(
+        (
+            Leg(voyage_1, location_a, location_b, CALCULATED_AT, CALCULATED_AT + timedelta(days=1)),
+            Leg(
+                voyage_2,
+                location_b,
+                location_a,
+                CALCULATED_AT + timedelta(days=2),
+                CALCULATED_AT + timedelta(days=3),
+            ),
+            Leg(
+                voyage_3,
+                location_a,
+                location_c,
+                CALCULATED_AT + timedelta(days=4),
+                CALCULATED_AT + timedelta(days=5),
+            ),
+        )
+    )
+    route_specification = RouteSpecification(
+        location_a, location_c, CALCULATED_AT + timedelta(days=6)
+    )
+
+    delivery = _derive_delivery(
+        route_specification,
+        itinerary,
+        (HandlingEventType.LOAD, location_a, voyage_3),
+    )
+
+    assert not delivery.misdirected
+    assert delivery.next_expected_activity == HandlingActivity('UNLOAD', location_b, voyage_1)
+
+
 def test_delivery_matches_golden_states_for_abc_jkl_def_and_mno():
     hong_kong = Location(UnLocode('CNHKG'), 'Hong Kong')
     new_york = Location(UnLocode('USNYC'), 'New York')
