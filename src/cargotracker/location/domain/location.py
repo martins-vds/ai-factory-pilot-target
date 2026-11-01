@@ -1,13 +1,13 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import ClassVar
 
 from cargotracker.location.domain.un_locode import UnLocode
 
 
-@dataclass(frozen=True, eq=False)
+@dataclass(frozen=True)
 class Location:
     unlocode: UnLocode
-    name: str
+    name: str = field(compare=False)
 
     UNKNOWN: ClassVar['Location']
 
@@ -16,14 +16,6 @@ class Location:
             raise TypeError('A location requires a UN/LOCODE')
         if not isinstance(self.name, str):
             raise TypeError('A location name must be a string')
-
-    def __eq__(self, other):
-        if not isinstance(other, Location):
-            return NotImplemented
-        return self.unlocode == other.unlocode
-
-    def __hash__(self):
-        return hash(self.unlocode)
 
     def __str__(self):
         return f'{self.name} [{self.unlocode}]'

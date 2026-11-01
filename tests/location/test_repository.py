@@ -22,6 +22,9 @@ def test_location_schema_uses_source_table_and_columns():
         description = connection.introspection.get_table_description(cursor, 'location')
 
     columns = {column.name: column for column in description}
+    assert LocationRecord._meta.db_table == 'location'
+    assert LocationRecord._meta.get_field('unlocode').max_length == 255
+    assert LocationRecord._meta.get_field('name').max_length == 255
     assert list(columns) == ['id', 'unlocode', 'name']
     assert columns['unlocode'].display_size == 255
     assert columns['name'].display_size == 255

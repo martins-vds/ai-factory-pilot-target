@@ -14,13 +14,17 @@ def test_un_locode_normalizes_valid_codes(value, expected):
 
 @pytest.mark.parametrize('value', ['USNY', 'USNYC1', 'U1NYC', 'USN0C', 'USN1C', ''])
 def test_un_locode_rejects_invalid_codes(value):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as error:
         UnLocode(value)
+
+    assert str(error.value) == f'{value!r} is not a valid UN/LOCODE'
 
 
 def test_un_locode_rejects_non_string_values():
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError) as error:
         UnLocode(None)
+
+    assert str(error.value) == 'A UN/LOCODE must be a string'
 
 
 def test_location_identity_uses_un_locode_and_preserves_name():
@@ -34,7 +38,8 @@ def test_location_identity_uses_un_locode_and_preserves_name():
 
 
 def test_unknown_location_matches_source_sentinel():
-    assert Location.UNKNOWN == Location(UnLocode('XXXXX'), 'Unknown location')
+    assert Location.UNKNOWN.unlocode == UnLocode('XXXXX')
+    assert Location.UNKNOWN.name == 'Unknown location'
 
 
 def test_location_is_immutable():
@@ -45,5 +50,14 @@ def test_location_is_immutable():
 
 
 def test_location_requires_a_non_null_name():
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError) as error:
         Location(UnLocode('USNYC'), None)
+
+    assert str(error.value) == 'A location name must be a string'
+
+
+def test_location_requires_un_locode():
+    with pytest.raises(TypeError) as error:
+        Location(None, 'New York')
+
+    assert str(error.value) == 'A location requires a UN/LOCODE'

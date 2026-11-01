@@ -23,6 +23,6 @@ quote-style = "single"
 
 [tool.mutmut]
 paths_to_mutate = "src/cargotracker/location/"
-paths_to_exclude = "src/cargotracker/location/migrations/"
+paths_to_exclude = "migrations"
 tests_dir = "tests/"
-runner = "python -m pytest -q"
+runner = "python -m pytest -q --continue-on-collection-errors"
