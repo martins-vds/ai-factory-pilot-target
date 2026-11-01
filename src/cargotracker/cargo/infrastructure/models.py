@@ -61,7 +61,13 @@ class CargoRecord(models.Model):
     unloaded_at_dest = models.BooleanField(db_column='unloaded_at_dest')
     routing_status = models.CharField(max_length=255, db_column='routing_status')
     calculated_at = models.DateTimeField(db_column='calculated_at')
-    last_event_id = models.BigIntegerField(db_column='last_event_id', null=True)
+    last_event = models.ForeignKey(
+        'handling.HandlingEventRecord',
+        db_column='last_event_id',
+        null=True,
+        on_delete=models.PROTECT,
+        related_name='+',
+    )
 
     class Meta:
         db_table = 'cargo'
