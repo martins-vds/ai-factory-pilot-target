@@ -6,7 +6,7 @@ source:
   flow: Track Cargo
   location: src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java:104-112
   risk: {crap: 6, complexity: 2, coverage: 0.0}
-boundary: "The public result displays ? when ETA is unknown; otherwise it formats the date as MM/dd/yyyy hh:mm a z."
+boundary: "The public result omits ETA for claimed cargo; otherwise it displays ? when unknown or formats the date as MM/dd/yyyy hh:mm a z in UTC."
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#31]
 status: migrated
