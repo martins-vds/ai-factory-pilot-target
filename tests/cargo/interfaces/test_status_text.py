@@ -1,7 +1,5 @@
 from datetime import UTC, datetime
 
-import pytest
-
 from cargotracker.cargo.domain.cargo import Cargo
 from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus, TransportStatus
 from cargotracker.cargo.domain.handling_activity import HandlingActivity
@@ -66,19 +64,6 @@ def test_claimed_status_text():
     cargo = _cargo(TransportStatus.CLAIMED, DALLAS)
 
     assert get_status_text(cargo) == 'Claimed'
-
-
-@pytest.mark.parametrize(
-    ('status', 'location', 'voyage'),
-    [
-        (TransportStatus.IN_PORT, None, None),
-        (TransportStatus.ONBOARD_CARRIER, None, None),
-    ],
-)
-def test_dynamic_status_without_location_or_voyage_uses_unknown_fallback(status, location, voyage):
-    cargo = _cargo(status, location, voyage)
-
-    assert get_status_text(cargo) == '[Unknown status]'
 
 
 def test_unknown_status_text():

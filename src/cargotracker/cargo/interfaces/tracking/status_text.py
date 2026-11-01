@@ -20,14 +20,8 @@ def get_status_text(cargo: Cargo) -> str:
 
 
 def _in_port_status_text(cargo: Cargo) -> str:
-    location = cargo.delivery.last_known_location
-    return f'In port {location.name}' if location is not None else UNKNOWN_STATUS_TEXT
+    return f'In port {cargo.delivery.last_known_location.name}'
 
 
 def _onboard_status_text(cargo: Cargo) -> str:
-    voyage = cargo.delivery.current_voyage
-    return (
-        f'Onboard voyage {voyage.voyage_number.value}'
-        if voyage is not None
-        else UNKNOWN_STATUS_TEXT
-    )
+    return f'Onboard voyage {cargo.delivery.current_voyage.voyage_number.value}'
