@@ -1,7 +1,7 @@
 role: afs-migrator
 ticket: TC-07
 issue: martins-vds/ai-factory-pilot-target#27
-pr: null
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/48
 gates:
   build: null
   behavior: null
