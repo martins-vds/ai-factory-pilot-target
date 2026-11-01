@@ -9,7 +9,7 @@ source:
 boundary: "Voyage rows supply the voyage number displayed for onboard status and for LOAD/UNLOAD history or next activity."
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,4 +17,27 @@ evidence:
   - "characterization/track-cargo/golden/jkl567.json"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testCurrentLocationLoadEvent"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "Voyage table fields used are id and embedded voyage_number, referenced by Delivery.current_voyage_id, Leg.voyage_id, HandlingEvent.voyage_id and next_expected_voyage_id. Schedule/carrier movements are not read by this page. Risk is CargoTrackingViewAdapter.getStatusText; coverage input unavailable."
+  - "tests/voyage/test_domain.py"
+  - "tests/voyage/test_repository.py"
+  - ".migration/runs/TC-03/20261101T154944481148Z-voyage-targeted-tests-final.log"
+  - ".migration/runs/TC-03/20261101T160239157400Z-final2-tests.log"
+  - ".migration/runs/TC-03/20261101T160239306600Z-final2-compileall.log"
+  - ".migration/runs/TC-03/20261101T160239114736Z-final2-django-check.log"
+  - ".migration/runs/TC-03/20261101T160239113430Z-final2-ruff-check.log"
+  - ".migration/runs/TC-03/20261101T160239328992Z-final2-ruff-format.log"
+  - ".migration/runs/TC-03/20261101T160245636982Z-final2-crap-threshold.log"
+  - ".migration/runs/TC-03/20261101T160250875842Z-final2-mutation-changed.log"
+  - ".migration/runs/TC-03/20261101T160257027037Z-final2-mutation-full.log"
+  - ".migration/runs/TC-03/20261101T160239444186Z-final2-migration-check.log"
+  - ".migration/runs/TC-03/20261101T160239252906Z-final2-ledger-check.log"
+target:
+  components:
+    - cargotracker.voyage.domain.voyage_number.VoyageNumber
+    - cargotracker.voyage.domain.carrier_movement.CarrierMovement
+    - cargotracker.voyage.domain.schedule.Schedule
+    - cargotracker.voyage.domain.voyage.Voyage
+    - cargotracker.voyage.domain.voyage_builder.VoyageBuilder
+    - cargotracker.voyage.domain.repository.VoyageRepository
+    - cargotracker.voyage.infrastructure.models.VoyageRecord
+    - cargotracker.voyage.infrastructure.repository.DjangoVoyageRepository
+notes: "Voyage rows supply the id and voyage_number to the tracking flow. The JPA-compatible target model maps those fields; the domain builder models carrier movements, which this capability does not read. Voyage identifiers are referenced by Delivery.current_voyage_id, Leg.voyage_id, HandlingEvent.voyage_id and next_expected_voyage_id. Risk is CargoTrackingViewAdapter.getStatusText; coverage input unavailable."
