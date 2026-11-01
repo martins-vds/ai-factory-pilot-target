@@ -5,7 +5,7 @@ from cargotracker.voyage.domain.schedule import Schedule
 from cargotracker.voyage.domain.voyage_number import VoyageNumber
 
 
-@dataclass(frozen=True, eq=False)
+@dataclass(frozen=True)
 class Voyage:
     voyage_number: VoyageNumber
     schedule: Schedule
