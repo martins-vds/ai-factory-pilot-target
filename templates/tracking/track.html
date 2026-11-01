@@ -19,8 +19,13 @@
         <label class="label" for="{{ form.tracking_id.id_for_label }}">{{ form.tracking_id.label }}</label>
         {{ form.tracking_id }}
       </div>
-      <button class="btn btn-primary self-end" type="submit">Track!</button>
+      <button
+        class="btn btn-primary self-end rounded-md bg-blue-700 px-5 py-2 font-semibold text-white"
+        type="submit"
+      >Track!</button>
     </form>
-    <div id="tracking-result" aria-live="polite"></div>
+    <div id="tracking-result" aria-live="polite">
+      {% include "tracking/result.html" %}
+    </div>
   </main>
 {% endblock %}
