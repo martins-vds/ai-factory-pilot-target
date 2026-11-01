@@ -7,7 +7,7 @@ gates:
   behavior: 0
   idiom: 0
   crap: 0
-  mutation_changed: 0.888
+  mutation_changed: 0.897
   regression: 0
 evidence_logs:
   - .migration/evidence/runs/TC-06.md
