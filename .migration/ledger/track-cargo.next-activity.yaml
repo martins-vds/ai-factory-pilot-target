@@ -19,3 +19,4 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
 notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Tier-B cases cover progression, claim, off-track and unrouted states. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; see legacy-test finding: ItineraryTest.testNextExpectedEvent is an empty TODO (no assertions); the tier-B cases replace it as evidence."
+quirks: [martins-vds/ai-factory-pilot-target#52]

@@ -16,6 +16,6 @@ ledger_updated:
   - track-cargo.domain-route-state
   - track-cargo.domain-transport-status
 quirk_tickets:
-  - .migration/quirks/next-activity-repeated-location.md
+  - martins-vds/ai-factory-pilot-target#52
 new_tickets: []
 handoff: none
