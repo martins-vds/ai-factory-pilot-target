@@ -8,8 +8,8 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "The embedded map loads Leaflet from unpkg, marker assets from raw.githubusercontent.com/cdnjs, and map tiles from OpenStreetMap."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#32]
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,5 +17,16 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/jkl567.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
-notes: "Map frame reads status/origin/destination/last-known query parameters; fixed LOCODE coordinate tables determine markers. The common public template also loads Font Awesome from a CDN. See martins-vds/ai-factory-pilot-target#14. Risk is the Java status-code supplier; embedded XHTML/JavaScript is not included in the Java lizard run; coverage input unavailable."
+  - "tests/cargo/interfaces/test_map.py::test_map_markers_use_exact_configured_coordinates"
+  - ".migration/evidence/runs/TC-12.md"
+target:
+  components:
+    - cargotracker.cargo.interfaces.tracking.map.coordinates.LOCATION_COORDINATES
+    - src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html
+    - Leaflet 1.7.1 with OpenStreetMap tiles
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#14
+  reason: "Fix ruling: map markers use exact configured coordinates without random offsets."
+notes: "Map frame reads the source-compatible query parameters and uses the configured LOCODE coordinate table. Ruling #14 approves the divergence from random source offsets; the template uses Leaflet and OpenStreetMap without an API key."
 quirks: [martins-vds/ai-factory-pilot-target#14]

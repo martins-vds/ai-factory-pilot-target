@@ -1,0 +1,16 @@
+LOCATION_COORDINATES = {
+    'XXXXX': (38.4667, -28.4),
+    'CNHKG': (22, 114),
+    'AUMEL': (-38, 145),
+    'SESTO': (59, 18),
+    'FIHEL': (60, 25),
+    'USCHI': (42, -88),
+    'JNTKO': (36, 140),
+    'DEHAM': (54, 10),
+    'CNSHA': (31, 121),
+    'NLRTM': (52, 5),
+    'SEGOT': (58, 12),
+    'CNHGH': (30, 120),
+    'USNYC': (41, -74),
+    'USDAL': (33, -97),
+}
