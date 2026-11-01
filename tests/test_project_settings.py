@@ -54,6 +54,7 @@ def test_django_application_settings():
         'django_htmx',
         'cargotracker.location.apps.LocationConfig',
         'cargotracker.voyage.apps.VoyageConfig',
+        'cargotracker.cargo.apps.CargoConfig',
     ]
     assert settings.MIDDLEWARE == [
         'django.middleware.security.SecurityMiddleware',
