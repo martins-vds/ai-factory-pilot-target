@@ -18,3 +18,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-02T04:12:34+00:00 | crap | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard` | `13717159e2ec6f9a` |  |  |
 | 2026-11-02T04:36:13+00:00 | mutation-full-after | 0 | 1387.77 | `python .migration/harness/tools/afs-mutation --all` | `400df51dc21b802b` |  |  |
 | 2026-11-02T13:46:12+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-02T14:04:03+00:00 | mutation-full | 0 | 1033.19 | `python .migration/harness/tools/afs-mutation --all` | `3803c3be97be4858` |  | gate=mutation score=0.822 threshold=0.8 killed=426 survived=92 files=53 base=all |
