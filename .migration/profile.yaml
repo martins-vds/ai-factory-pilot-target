@@ -68,4 +68,5 @@ data:
 services:
   compose: compose.yaml   # real test services (harness ADR-0016)
   test: [db]
+  env: {POSTGRES_DB: cargotracker}   # settings default; afs-mutation suffixes it per parallel worker
 translation_rules: .migration/translation-rules.md
