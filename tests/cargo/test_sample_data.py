@@ -3,6 +3,7 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from django.core.management import call_command
 
+from cargotracker.cargo.application.sample_data import SAMPLE_CARGOS
 from cargotracker.cargo.domain.delivery import TransportStatus
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
@@ -12,6 +13,13 @@ from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.handling.infrastructure.repository import DjangoHandlingEventRepository
 from cargotracker.location.infrastructure.models import LocationRecord
 from cargotracker.voyage.infrastructure.models import VoyageRecord
+
+
+def test_claimed_sample_cargo_is_not_marked_unloaded_at_destination():
+    seed = next(seed for seed in SAMPLE_CARGOS if seed.tracking_id == 'MNO456')
+
+    assert seed.events[-1].event_type is HandlingEventType.CLAIM
+    assert seed.unloaded_at_destination is False
 
 
 @pytest.mark.django_db
@@ -60,6 +68,7 @@ def test_seed_sample_data_is_idempotent_and_supports_golden_lookups():
         for tracking_id in ('ABC123', 'JKL567', 'DEF789', 'MNO456')
     }
     assert all(cargo is not None for cargo in cargos.values())
+    assert cargos['MNO456'].delivery.unloaded_at_destination is False
 
     expected_cargo_data = {
         'ABC123': ('CNHKG', 'FIHEL', TransportStatus.IN_PORT, False, 14),

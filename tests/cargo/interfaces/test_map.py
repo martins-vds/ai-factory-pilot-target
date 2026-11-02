@@ -133,7 +133,7 @@ def test_map_frame_url_uses_unknown_location_for_cargo_without_history():
     ('tracking_id', 'expected_status'),
     [
         ('DEF789', 'NOT_ROUTED'),
-        ('MNO456', 'AT_DESTINATION'),
+        ('MNO456', 'CLAIMED'),
         ('JKL567', 'MISDIRECTED'),
         ('ABC123', 'IN_PORT'),
     ],
