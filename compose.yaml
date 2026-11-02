@@ -1,0 +1,27 @@
+# Real services the tests run against (ADR-0016 in the harness; profile `services`).
+# Copilot setup steps and the CI gates start `db` with `.migration/harness/tools/afs-services up`;
+# locally: `docker compose up -d --wait db`, then run pytest as usual.
+# Credentials match the defaults in src/cargotracker/settings.py, so tests need no extra variables.
+name: cargotracker
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cargotracker}
+      POSTGRES_USER: ${POSTGRES_USER:-cargotracker}
+      # Test database only, reachable from this machine alone (port bound to 127.0.0.1). Settings default
+      # to an empty password; the default user is a superuser, so pytest and mutation shards can create
+      # their own databases.
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    # Throwaway data: tests create and drop their own databases, and tmpfs keeps them fast.
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 5s

@@ -14,7 +14,8 @@ with `python -m pip install -r requirements-dev.txt`.
 
 Configure PostgreSQL with `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and
 `POSTGRES_PORT`; defaults are `cargotracker`, `cargotracker`, an empty password, `localhost`, and
-`5432`. Set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG`, and `DJANGO_ALLOWED_HOSTS` for the deployment
+`5432`. For tests, `docker compose up -d --wait db` starts a matching PostgreSQL 17 from
+`compose.yaml` (the same one CI and agent sessions use). Set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG`, and `DJANGO_ALLOWED_HOSTS` for the deployment
 environment.
 
 Tailwind uses the standalone CLI and does not require Node.js: run `make tailwind-install`, then
