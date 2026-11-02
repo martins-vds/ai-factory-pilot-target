@@ -1,10 +1,11 @@
+from dataclasses import fields, replace
 from datetime import UTC, datetime, timedelta
 
 import pytest
 from django.core.management import call_command
 
 from cargotracker.cargo.application.sample_data import SAMPLE_CARGOS
-from cargotracker.cargo.domain.delivery import TransportStatus
+from cargotracker.cargo.domain.delivery import Delivery, TransportStatus
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
@@ -15,11 +16,40 @@ from cargotracker.location.infrastructure.models import LocationRecord
 from cargotracker.voyage.infrastructure.models import VoyageRecord
 
 
-def test_claimed_sample_cargo_is_not_marked_unloaded_at_destination():
-    seed = next(seed for seed in SAMPLE_CARGOS if seed.tracking_id == 'MNO456')
+def test_sample_cargo_definitions_do_not_include_delivery_snapshots():
+    delivery_snapshot_fields = {
+        'transport_status',
+        'routing_status',
+        'last_known_location',
+        'current_voyage',
+        'misdirected',
+        'eta_days',
+        'next_activity',
+        'unloaded_at_destination',
+    }
 
-    assert seed.events[-1].event_type is HandlingEventType.CLAIM
-    assert seed.unloaded_at_destination is False
+    assert delivery_snapshot_fields.isdisjoint(field.name for field in fields(SAMPLE_CARGOS[0]))
+
+
+@pytest.mark.django_db
+def test_seeded_deliveries_match_their_handling_histories():
+    call_command('seed_sample_data')
+    cargo_repository = DjangoCargoRepository()
+    handling_event_repository = DjangoHandlingEventRepository()
+
+    for seed in SAMPLE_CARGOS:
+        cargo = cargo_repository.find(TrackingId(seed.tracking_id))
+        history = handling_event_repository.lookup_handling_history_of_cargo(cargo.tracking_id)
+        derived_delivery = Delivery.derived_from(
+            cargo.route_specification,
+            cargo.itinerary,
+            history,
+            calculated_at=cargo.delivery.calculated_at,
+        )
+
+        assert (
+            replace(derived_delivery, last_event_id=cargo.delivery.last_event_id) == cargo.delivery
+        )
 
 
 @pytest.mark.django_db
