@@ -1,0 +1,39 @@
+{
+  "branch": "copilot/tc-15-accept-track-cargo-slice-yet-again",
+  "diagnostics": {
+    "event_types": {
+      "assistant.message": 89,
+      "assistant.turn_end": 59,
+      "assistant.turn_start": 59,
+      "external_tool.completed": 1,
+      "external_tool.requested": 1,
+      "hook.end": 190,
+      "hook.start": 191,
+      "permission.completed": 102,
+      "permission.requested": 102,
+      "session.start": 1,
+      "skill.invoked": 4,
+      "subagent.selected": 1,
+      "system.message": 1,
+      "tool.execution_complete": 113,
+      "tool.execution_start": 113,
+      "user.message": 5
+    },
+    "events": 1032,
+    "usage_fields": []
+  },
+  "event": "sessionEnd",
+  "log": "/home/runner/.copilot/session-state/aea058ed-dce6-45c3-b86f-c92f7c76e59f/events.jsonl",
+  "models": {
+    "unknown": {
+      "output": 35602,
+      "requests": 89
+    }
+  },
+  "prompt_head": null,
+  "recorded_at": "2026-11-02T22:12:12+00:00",
+  "schema": "afs-cost/1",
+  "session_id": "aea058ed-dce6-45c3-b86f-c92f7c76e59f",
+  "surface": "local",
+  "usage_source": "assistant.message (output only, partial)"
+}
