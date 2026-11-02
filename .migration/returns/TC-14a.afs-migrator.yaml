@@ -1,0 +1,19 @@
+role: afs-migrator
+ticket: TC-14a
+issue: martins-vds/ai-factory-pilot-target#62
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/63
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 1
+  mutation_changed: 0.903
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TC-14a.md
+ledger_updated:
+  - track-cargo.data-cargo
+  - track-cargo.map-status-code
+quirk_tickets: []
+new_tickets: []
+handoff: none

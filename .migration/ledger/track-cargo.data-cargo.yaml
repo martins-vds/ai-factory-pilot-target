@@ -30,7 +30,9 @@ evidence:
   - ".migration/evidence/runs/TC-04.md"
   - ".migration/evidence/runs/TC-05.md"
   - "tests/cargo/test_sample_data.py::test_seed_sample_data_is_idempotent_and_supports_golden_lookups"
+  - "tests/cargo/test_sample_data.py::test_claimed_sample_cargo_is_not_marked_unloaded_at_destination"
   - ".migration/evidence/runs/TC-06.md"
+  - ".migration/evidence/runs/TC-14a.md"
 target:
   components:
     - cargotracker.cargo.domain.tracking_id.TrackingId
@@ -43,4 +45,4 @@ target:
     - cargotracker.cargo.infrastructure.repository.DjangoCargoRepository
     - cargotracker.cargo.application.sample_data.SampleDataSeeder
     - cargotracker.cargo.management.commands.seed_sample_data.Command
-notes: "Default Cargo table fields include id/tracking_id and origin_id; embedded RouteSpecification uses spec_origin_id, spec_destination_id, spec_arrival_deadline. Embedded Delivery maps transport_status, last_known_location_id, current_voyage_id, misdirected, eta, next_expected_handling_event_type, next_expected_location_id, next_expected_voyage_id, unloaded_at_dest, routing_status, calculated_at, last_event_id. The page uses all listed delivery fields except calculated_at/last_event_id; JpaCargoRepository.find uses Cargo.findByTrackingId. persistence.xml configures CargoTrackerUnit with java:app/jdbc/CargoTrackerDatabase and schema generation action create. Target date-only values are represented as UTC midnight. TC-05 maps Delivery.lastEvent to the HandlingEventRecord foreign key on last_event_id."
+notes: "Default Cargo table fields include id/tracking_id and origin_id; embedded RouteSpecification uses spec_origin_id, spec_destination_id, spec_arrival_deadline. Embedded Delivery maps transport_status, last_known_location_id, current_voyage_id, misdirected, eta, next_expected_handling_event_type, next_expected_location_id, next_expected_voyage_id, unloaded_at_dest, routing_status, calculated_at, last_event_id. The page uses all listed delivery fields except calculated_at/last_event_id; JpaCargoRepository.find uses Cargo.findByTrackingId. persistence.xml configures CargoTrackerUnit with java:app/jdbc/CargoTrackerDatabase and schema generation action create. Target date-only values are represented as UTC midnight. TC-05 maps Delivery.lastEvent to the HandlingEventRecord foreign key on last_event_id. Seeded delivery snapshots must agree with the history: MNO456 ends in CLAIM and is not unloaded at destination."
