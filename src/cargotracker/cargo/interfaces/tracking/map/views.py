@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from cargotracker.cargo.interfaces.tracking.map.coordinates import LOCATION_COORDINATES
 
@@ -14,6 +15,7 @@ STATUS_COLORS = {
 }
 
 
+@xframe_options_sameorigin
 def map_frame(request):
     status_code = request.GET.get('statusCode', 'UNKNOWN')
     locations = {

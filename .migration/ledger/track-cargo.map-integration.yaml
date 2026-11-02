@@ -8,7 +8,7 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "The embedded map loads Leaflet from unpkg, marker assets from raw.githubusercontent.com/cdnjs, and map tiles from OpenStreetMap."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#32]
+tickets: [martins-vds/ai-factory-pilot-target#32, martins-vds/ai-factory-pilot-target#68]
 status: migrated
 verification: differential
 characterization_tier: A
@@ -21,7 +21,9 @@ evidence:
   - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/interfaces/test_map.py::test_map_markers_use_exact_configured_coordinates"
   - "tests/cargo/interfaces/test_map.py::test_map_frame_url_uses_unknown_location_for_cargo_without_history"
+  - "tests/cargo/interfaces/test_map.py::test_only_map_frame_allows_same_origin_framing"
   - ".migration/evidence/runs/TC-12.md"
+  - ".migration/evidence/runs/TC-15a.md"
 target:
   components:
     - cargotracker.cargo.interfaces.tracking.map.coordinates.LOCATION_COORDINATES
@@ -31,5 +33,5 @@ approval:
   by: martins-vds
   ref: martins-vds/ai-factory-pilot-target#14
   reason: "Fix ruling: map markers use exact configured coordinates without random offsets."
-notes: "Map frame reads the source-compatible query parameters and uses the configured LOCODE coordinate table. Ruling #14 approves the divergence from random source offsets; the template uses Leaflet and OpenStreetMap without an API key."
+notes: "Map frame reads the source-compatible query parameters and uses the configured LOCODE coordinate table. Its view-specific SAMEORIGIN framing policy allows embedding by the tracking page without relaxing the site-wide DENY default. Ruling #14 approves the divergence from random source offsets; the template uses Leaflet and OpenStreetMap without an API key."
 quirks: [martins-vds/ai-factory-pilot-target#14]
