@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "1e3cc15e46451eb2039950886a97ccbcff6031ce",
-  "installed_at": "2026-11-02T13:41:15Z",
+  "harness_commit": "dd84f4ad44a4c1f1dc46df9ce011157297f45a7e",
+  "installed_at": "2026-11-02T15:23:25Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1072,7 +1072,7 @@
       "path": ".migration/harness/tools",
       "kind": "tools",
       "files": {
-        ".migration/harness/tools/afs-mutation": "aa997100bfdf00f9c96eccbeaa2796cd70db984a2609c23b1ce5548a15bdf625",
+        ".migration/harness/tools/afs-mutation": "b1553245a263932248ff226f90a795d25fa2fd9d93fdaac958936cef6f03fb9b",
         ".migration/harness/tools/afs-run": "8750d974bc241a2ced3f79fadcbfaead5e25615231c73011f7e2d2298e704500",
         ".migration/harness/tools/afs-services": "27f71d1dd02319071da8348f150bb1e031573ffa846a1a124f961a628c780e64",
         ".migration/harness/tools/check_graph.py": "cc8eed36d5cf5268aad307f1b1762f4eb62b6402f855df9ff97ee165ba980670",
