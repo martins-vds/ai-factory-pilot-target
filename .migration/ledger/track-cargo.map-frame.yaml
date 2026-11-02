@@ -8,7 +8,7 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "For a found cargo, embed public/mapFrame.xhtml with status, last-known location, origin and destination codes/names as query parameters."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#32]
+tickets: [martins-vds/ai-factory-pilot-target#32, martins-vds/ai-factory-pilot-target#68]
 status: migrated
 verification: differential
 characterization_tier: A
@@ -19,8 +19,10 @@ evidence:
   - ".migration/evidence/track-cargo/characterization/report.md"
   - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
   - ".migration/evidence/track-cargo/differential/report.md"
-  - "tests/cargo/interfaces/test_map.py::test_tracking_map_url_carries_status_and_cargo_locations"
+  - "tests/cargo/interfaces/test_map.py::test_map_frame_url_carries_status_and_cargo_locations"
+  - "tests/cargo/interfaces/test_map.py::test_only_map_frame_allows_same_origin_framing"
   - ".migration/evidence/runs/TC-12.md"
+  - ".migration/evidence/runs/TC-15a.md"
 target:
   components:
     - cargotracker.cargo.interfaces.tracking.map.adapter.map_frame_url
@@ -32,4 +34,4 @@ approval:
   by: martins-vds
   ref: martins-vds/ai-factory-pilot-target#14
   reason: "Fix ruling: map markers use exact configured coordinates without random offsets."
-notes: "The Django frame is available at /tracking/map/ and consumes the source-compatible query parameters. The parent tracking page will embed it through map_frame_url; TC-13 owns that page integration. Ruling #14 is the approved divergence from source marker offsets."
+notes: "The parent tracking page embeds /tracking/map/ through map_frame_url with the source-compatible query parameters. Only the map view permits SAMEORIGIN framing; the tracking page retains DENY. Ruling #14 is the approved divergence from source marker offsets."

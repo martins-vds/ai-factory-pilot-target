@@ -1,0 +1,27 @@
+role: afs-migrator
+ticket: TC-15a
+issue: martins-vds/ai-factory-pilot-target#68
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/71
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.898
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TC-15a.md
+ledger_updated:
+  - track-cargo.map-frame
+  - track-cargo.map-integration
+quirk_tickets: []
+new_tickets: []
+handoff: null
+notes: >-
+  Red test reproduced DENY on the map response; the view-specific SAMEORIGIN
+  decorator makes it pass while the tracking page retains DENY. No global
+  clickjacking settings changed. Fixed the stale map-frame evidence symbol.
+  Changed-file mutation passed with 44 killed and 5 surviving mutants (89.8%);
+  explicit --paths targets the only changed production file.
+  Verification uses the available Python 3.12.15 and PostgreSQL 16 host runtime;
+  the target profile specifies Python 3.13 and PostgreSQL 17.
