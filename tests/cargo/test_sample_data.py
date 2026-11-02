@@ -12,10 +12,10 @@ from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
 from cargotracker.handling.domain.handling_event import HandlingEventType
 from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.handling.infrastructure.repository import DjangoHandlingEventRepository
-from cargotracker.location.infrastructure.repository import DjangoLocationRepository
 from cargotracker.location.infrastructure.models import LocationRecord
-from cargotracker.voyage.infrastructure.repository import DjangoVoyageRepository
+from cargotracker.location.infrastructure.repository import DjangoLocationRepository
 from cargotracker.voyage.infrastructure.models import VoyageRecord
+from cargotracker.voyage.infrastructure.repository import DjangoVoyageRepository
 
 
 def test_sample_cargo_definitions_do_not_include_delivery_snapshots():
