@@ -145,7 +145,7 @@ SAMPLE_CARGOS = (
         deadline_days=-24,
         last_known_location='USDAL',
         eta_days=-28,
-        unloaded_at_destination=True,
+        unloaded_at_destination=False,
     ),
 )
 
