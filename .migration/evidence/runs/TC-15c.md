@@ -19,3 +19,7 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-02T04:36:13+00:00 | mutation-full-after | 0 | 1387.77 | `python .migration/harness/tools/afs-mutation --all` | `400df51dc21b802b` |  |  |
 | 2026-11-02T13:46:12+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-02T14:04:03+00:00 | mutation-full | 0 | 1033.19 | `python .migration/harness/tools/afs-mutation --all` | `3803c3be97be4858` |  | gate=mutation score=0.822 threshold=0.8 killed=426 survived=92 files=53 base=all |
+
+## Mutation context
+
+The `mutation-full` row is the profile's full `--all` run, executed after `afs-services check` reported `services OK: db`; the Compose service is `postgres:17`. The gate result is copied exactly from `AFS-RESULT`: score 0.822 against 0.8, 426 killed and 92 survived across 53 files. The preceding run in this journal scored 0.810 (792 killed, 186 survived) on a manually started PostgreSQL 16 cluster; the issue cites the Auditor's 0.797 (779 killed, 198 survived). The mutant totals differ substantially, and no pre-test run was repeated on this same revision and PostgreSQL 17, so the exact cause of the score discrepancy cannot be isolated; the current full-run result is the comparable acceptance evidence available here.

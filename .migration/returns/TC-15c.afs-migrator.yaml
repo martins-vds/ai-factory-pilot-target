@@ -7,20 +7,20 @@ gates:
   behavior: 0
   idiom: 0
   crap: 0
-  mutation_changed: null
+  mutation_changed: 0.822
   regression: 0
 evidence_logs:
   - .migration/evidence/runs/TC-15c.md
 ledger_updated: []
 quirk_tickets: []
 new_tickets: []
-handoff: .migration/handoffs/TC-15c.md
+handoff: none
 notes: >-
-  Blocked on the review comment's compose-managed PostgreSQL prerequisite:
-  .migration/harness/tools/afs-services is not present, so no mutation rerun
-  was performed. mutation_changed remains null; the previous session's raw
-  full-run log reported 0.810 (792 killed, 186 survived), while the issue
-  reports 0.797 (779 killed, 198 survived). The previous run used a manually
-  started PostgreSQL 16 cluster rather than the requested compose environment;
-  that environment difference is verified, but its effect on the score is not
-  established. Do not treat the previous score as final evidence.
+  mutation_changed is the profile's full `afs-mutation --all` score, not a
+  changed-files run: 0.822, 426 killed, 92 survived, 53 files, threshold 0.8.
+  `afs-services check` reported `services OK: db` and Compose reports
+  PostgreSQL 17. The issue's Auditor score was 0.797 (779 killed, 198
+  survived); the earlier local run was 0.810 (792 killed, 186 survived) on
+  manually started PostgreSQL 16. The mutant totals differ, and a pre-test
+  run was not repeated on this same revision and PostgreSQL 17, so the exact
+  cause of the score discrepancy cannot be isolated.
