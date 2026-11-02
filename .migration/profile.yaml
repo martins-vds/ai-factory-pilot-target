@@ -73,4 +73,6 @@ services:
   compose: compose.yaml   # real test services (harness ADR-0016)
   test: [db]
   env: {POSTGRES_DB: cargotracker}   # settings default; afs-mutation suffixes it per parallel worker
+# costs:                     # ADR-0021: set to the account that pays for Copilot (operator-setup.md)
+#   billing: {scope: organization, account: <org>}
 translation_rules: .migration/translation-rules.md
