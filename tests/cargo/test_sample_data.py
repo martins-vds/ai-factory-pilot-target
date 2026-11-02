@@ -47,7 +47,9 @@ def test_seeded_deliveries_match_their_handling_histories():
             calculated_at=cargo.delivery.calculated_at,
         )
 
-        assert replace(derived_delivery, last_event_id=cargo.delivery.last_event_id) == cargo.delivery
+        assert (
+            replace(derived_delivery, last_event_id=cargo.delivery.last_event_id) == cargo.delivery
+        )
 
 
 @pytest.mark.django_db

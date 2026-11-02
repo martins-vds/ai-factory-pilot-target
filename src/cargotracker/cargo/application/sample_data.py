@@ -3,14 +3,14 @@ from dataclasses import dataclass, replace
 from datetime import UTC, date, datetime, time, timedelta
 
 from cargotracker.cargo.domain.cargo import Cargo
-from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus, TransportStatus
-from cargotracker.cargo.domain.handling_activity import HandlingActivity
+from cargotracker.cargo.domain.delivery import Delivery
 from cargotracker.cargo.domain.itinerary import Itinerary
 from cargotracker.cargo.domain.leg import Leg
 from cargotracker.cargo.domain.repository import CargoRepository
 from cargotracker.cargo.domain.route_specification import RouteSpecification
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.handling.domain.handling_event import HandlingEvent, HandlingEventType
+from cargotracker.handling.domain.handling_history import HandlingHistory
 from cargotracker.handling.domain.repository import HandlingEventRepository
 from cargotracker.location.domain.location import Location
 from cargotracker.location.domain.repository import LocationRepository
@@ -60,18 +60,10 @@ class _CargoSeed:
     tracking_id: str
     origin: str
     destination: str
-    transport_status: TransportStatus
-    routing_status: RoutingStatus
     legs: tuple[_LegSeed, ...]
     events: tuple[_EventSeed, ...]
     deadline_days: int | None = None
     deadline_months: int | None = None
-    last_known_location: str | None = None
-    current_voyage: str | None = None
-    misdirected: bool = False
-    eta_days: int | None = None
-    next_activity: tuple[HandlingEventType, str, str] | None = None
-    unloaded_at_destination: bool = False
 
 
 SAMPLE_CARGOS = (
@@ -79,8 +71,6 @@ SAMPLE_CARGOS = (
         'ABC123',
         'CNHKG',
         'FIHEL',
-        TransportStatus.IN_PORT,
-        RoutingStatus.ROUTED,
         (
             _LegSeed('0100S', 'CNHKG', 'USNYC', -7, -1),
             _LegSeed('0200T', 'USNYC', 'USDAL', 2, 6),
@@ -92,16 +82,11 @@ SAMPLE_CARGOS = (
             _EventSeed(HandlingEventType.UNLOAD, 'USNYC', '0100S', -1),
         ),
         deadline_days=15,
-        last_known_location='USNYC',
-        eta_days=14,
-        next_activity=(HandlingEventType.LOAD, 'USNYC', '0200T'),
     ),
     _CargoSeed(
         'JKL567',
         'CNHGH',
         'SESTO',
-        TransportStatus.ONBOARD_CARRIER,
-        RoutingStatus.ROUTED,
         (
             _LegSeed('0100S', 'CNHGH', 'USNYC', -10, -3),
             _LegSeed('0200T', 'USNYC', 'USDAL', -2, 2),
@@ -114,16 +99,11 @@ SAMPLE_CARGOS = (
             _EventSeed(HandlingEventType.LOAD, 'USNYC', '0100S', -2),
         ),
         deadline_days=18,
-        last_known_location='USNYC',
-        current_voyage='0100S',
-        misdirected=True,
     ),
     _CargoSeed(
         'DEF789',
         'CNHKG',
         'AUMEL',
-        TransportStatus.NOT_RECEIVED,
-        RoutingStatus.NOT_ROUTED,
         (),
         (),
         deadline_months=2,
@@ -132,8 +112,6 @@ SAMPLE_CARGOS = (
         'MNO456',
         'USNYC',
         'USDAL',
-        TransportStatus.CLAIMED,
-        RoutingStatus.ROUTED,
         (_LegSeed('0200T', 'USNYC', 'USDAL', -34, -28),),
         (
             _EventSeed(HandlingEventType.RECEIVE, 'USNYC', None, -37),
@@ -143,9 +121,6 @@ SAMPLE_CARGOS = (
             _EventSeed(HandlingEventType.CLAIM, 'USDAL', None, -26),
         ),
         deadline_days=-24,
-        last_known_location='USDAL',
-        eta_days=-28,
-        unloaded_at_destination=False,
     ),
 )
 
@@ -181,34 +156,22 @@ def _cargo_from_seed(seed, locations, voyages, today, calculated_at):
         )
         for leg in seed.legs
     )
-    next_activity = (
-        HandlingActivity(
-            seed.next_activity[0].value,
-            locations[seed.next_activity[1]],
-            voyages[seed.next_activity[2]],
-        )
-        if seed.next_activity is not None
-        else HandlingActivity.EMPTY
+    route_specification = RouteSpecification(
+        locations[seed.origin],
+        locations[seed.destination],
+        datetime.combine(deadline, time.min, tzinfo=UTC),
     )
+    itinerary = Itinerary(itinerary_legs) if itinerary_legs else Itinerary.EMPTY
     return Cargo(
         tracking_id=TrackingId(seed.tracking_id),
-        route_specification=RouteSpecification(
-            locations[seed.origin],
-            locations[seed.destination],
-            datetime.combine(deadline, time.min, tzinfo=UTC),
+        route_specification=route_specification,
+        delivery=Delivery.derived_from(
+            route_specification,
+            itinerary,
+            HandlingHistory.EMPTY,
+            calculated_at,
         ),
-        delivery=Delivery(
-            transport_status=seed.transport_status,
-            last_known_location=locations.get(seed.last_known_location),
-            current_voyage=voyages.get(seed.current_voyage),
-            misdirected=seed.misdirected,
-            eta=(_at_day_offset(today, seed.eta_days) if seed.eta_days is not None else None),
-            next_expected_activity=next_activity,
-            unloaded_at_destination=seed.unloaded_at_destination,
-            routing_status=seed.routing_status,
-            calculated_at=calculated_at,
-        ),
-        itinerary=Itinerary(itinerary_legs) if itinerary_legs else Itinerary.EMPTY,
+        itinerary=itinerary,
     )
 
 
@@ -250,6 +213,14 @@ class SampleDataSeeder:
                     voyages.get(event_seed.voyage),
                 )
                 last_event_id = self._handling_events.upsert(event)
-            if last_event_id is not None:
-                cargo.delivery = replace(cargo.delivery, last_event_id=last_event_id)
-                self._cargos.upsert(cargo)
+            history = self._handling_events.lookup_handling_history_of_cargo(cargo.tracking_id)
+            cargo.delivery = replace(
+                Delivery.derived_from(
+                    cargo.route_specification,
+                    cargo.itinerary,
+                    history,
+                    calculated_at,
+                ),
+                last_event_id=last_event_id,
+            )
+            self._cargos.upsert(cargo)
