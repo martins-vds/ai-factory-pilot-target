@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "fc61e589a41edf306ea86e23a457ed8d804150aa",
-  "installed_at": "2026-11-02T18:01:57Z",
+  "harness_commit": "bb0f9cacc79e7de2ee63bc8aadf75b8f098f5c83",
+  "installed_at": "2026-11-02T20:02:23Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1081,7 +1081,7 @@
         ".migration/harness/tools/check_installed.py": "f36c5de45ed2cde2298d7f04b4918c2e6afe27daaabe5cf73bdf6166e8266066",
         ".migration/harness/tools/check_return_contract.py": "ad8ba4d2f4f903c5f13443608c5c705950bdfa8f94ef6c17afcc0f754ae6d01c",
         ".migration/harness/tools/check_runtime.py": "5e4e258d5dace78d44bd93868d15c6df64e60f44db76e033c1d449563c786dc4",
-        ".migration/harness/tools/crap.py": "8540c260f0b1f80ca764de031d6f61c78fa0d6a6b0de0ed671f5ef310d2ff34b",
+        ".migration/harness/tools/crap.py": "4b566eb2699a481312b867f43be41efbef495f02d950507d9ccabbf9c10c0dfb",
         ".migration/harness/tools/extract_slice.py": "9a1eddec8179b03ce3702bbdaa5e818d38d52484beaa2d9925433e245e538d5c",
         ".migration/harness/tools/understand.py": "43c91ba8f5c0a075dd7269746ebe054b2f4313ca79cc477a7757e7f7fc65cb3c",
         ".migration/harness/tools/validate.py": "8735bd086c030bbb64d68657dc1e7d449ad1dd2c1d918fb23ddfca6ccd60acc3"
