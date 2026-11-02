@@ -24,5 +24,6 @@ gaps:
     ledger_id: null
     ticket: null
 graph_inconsistencies:
-  - No target graph artifact is present under .migration/graphs; only source knowledge/domain graphs are available.
+  - Source knowledge/domain graph metadata and graph-check.md record a8cdf52effc852af7a9218b40bedb98b8451d4ae, but SNAPSHOT.txt/source.lock pin f3beacf78de4f6d34edc4971ac87e38a5c6fe59d.
+  - No target graph artifact is present under .migration/graphs.
 verdict: gaps-remain

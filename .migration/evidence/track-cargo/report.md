@@ -7,10 +7,12 @@
 ## Verdict
 
 **Gaps remain.** Build, idiom, tests, CRAP and differential checks pass in the available
-environment. The browser check found a broken embedded-map flow, ledger approval metadata is
-incomplete for two approved rulings, and the declared Python 3.13 target could not be exercised
-because only Python 3.12.15 is installed. The human legacy/Django side-by-side comparison remains
-pending; its procedure and checklist are in [side-by-side-check.md](../../../docs/side-by-side-check.md).
+environment, but the configured full mutation run scores **0.797**, below the required 0.8. The
+browser check found a broken embedded-map flow, ledger approval metadata is incomplete for two
+approved rulings, and the source graph metadata does not match the pinned SHA. The declared Python
+3.13 target could not be exercised because only Python 3.12.15 is installed. The human
+legacy/Django side-by-side comparison remains pending; its procedure and checklist are in
+[side-by-side-check.md](../../../docs/side-by-side-check.md).
 
 ## Gates
 
@@ -26,15 +28,16 @@ All shell gates were run through `.migration/harness/tools/afs-run`. The committ
 | Differential | `python -m pytest -q tests/differential/test_track_cargo.py` | 0; **8 passed** | `differential` |
 | Approved rulings | Five named target tests for #12, #13, #14, #17 and #52 | 0; **5 passed** | `ruling-tests` |
 | Changed mutation | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | 0; no mutable code changed | `mutation-changed` |
-| Full mutation | `python .migration/harness/tools/afs-mutation --all` | Initial invocation: **0.602** (381 killed, 252 survived), below 0.8; configured rerun was in progress when this report was drafted | `mutation-full`, `mutation-full-configured` |
+| Full mutation | `python .migration/harness/tools/afs-mutation --all` | First invocation: **0.602** without DB variables; configured run: **0.797** (779 killed, 198 survived, 0 skipped; 53 files), exit 1 vs. 0.8 threshold | `mutation-full`, `mutation-full-configured` |
 | Browser / UI | Interactive browser check of the target tracking page and map iframe | **Fail:** tracking result renders; iframe request returns 200 with `X-Frame-Options: DENY`, so browser refuses the map | Browser observation below; no browser command is defined in `profile.yaml` |
 
 The first full-suite attempt could not connect to PostgreSQL; after starting PostgreSQL 17 and
 setting the local connection variables, the complete suite passed. The first mutation invocation
 did not inherit those database variables, so its score is not a clean measurement of database-backed
-mutants. The configured rerun is recorded separately rather than hiding that attempt. All automated
-gate commands used Python **3.12.15**; the profile specifies Python 3.13, which is not installed in
-this environment. Therefore the profile-runtime gate result remains unverified.
+mutants. The configured run inherited the PostgreSQL settings and is the authoritative full-run
+result; it missed the threshold by 0.003. All automated gate commands used Python **3.12.15**; the
+profile specifies Python 3.13, which is not installed in this environment. Therefore the
+profile-runtime gate result remains unverified.
 
 ## Characterization and differential evidence
 
@@ -110,7 +113,7 @@ block. These read-only audit findings were not silently repaired in the ledger.
 | `missing` | `track-cargo.handling-history` | #12 is listed as a quirk, but the approved divergence lacks an `approval` block. | #12 |
 | `missing` | `track-cargo.domain-route-state` | The preserved #52 ruling is listed as a quirk, but lacks an `approval` block. | #52 |
 | `missing` | `track-cargo.next-activity` | The preserved #52 ruling is listed as a quirk, but lacks an `approval` block. | #52 |
-| `untested` | — | Full mutation score and the Python 3.13 profile runtime are not yet proven in the required environment. The configured mutation run is still in progress; available Python is 3.12.15. | Follow-up not filed |
+| `untested` | — | The configured full mutation score is 0.797, below 0.8 (198 mutants survived); the Python 3.13 profile runtime is unavailable here. | Follow-up not filed |
 | `untested` | — | No human legacy/Django side-by-side comparison has been completed. The target browser run is not a substitute for that review. | Follow-up not filed |
 
 No missing target component or misplaced responsibility was found in the direct code/test audit.
@@ -128,6 +131,9 @@ the approved message with no cargo/history/map content. The map iframe's respons
 had `X-Frame-Options: DENY`, so its content was refused in the browser. The map-frame and
 map-integration human checks remain pending.
 
-No target graph artifact is present under `.migration/graphs`; the source knowledge and domain
-graphs are present. The target components and flows were therefore checked directly against code,
-tests, goldens and the differential run, but graph-to-target comparison could not be performed.
+The source knowledge/domain graph metadata and `graph-check.md` identify analyzed commit
+`a8cdf52effc852af7a9218b40bedb98b8451d4ae`, while `SNAPSHOT.txt` and `.migration/source.lock`
+identify the pinned source as `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`. The graph is therefore not
+fresh for the pinned source. No target graph artifact is present under `.migration/graphs`.
+Target components and flows were checked directly against code, tests, goldens and differential
+evidence; the graph discrepancy remains unresolved.
