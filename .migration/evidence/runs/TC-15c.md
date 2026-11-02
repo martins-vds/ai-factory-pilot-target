@@ -16,3 +16,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-02T04:12:28+00:00 | idiom-ruff-check-rerun | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |
 | 2026-11-02T04:12:29+00:00 | idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `1a9301f4cf03fa0d` |  |
 | 2026-11-02T04:12:34+00:00 | crap | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard` | `13717159e2ec6f9a` |  |
+| 2026-11-02T04:36:13+00:00 | mutation-full-after | 0 | 1387.77 | `python .migration/harness/tools/afs-mutation --all` | `400df51dc21b802b` |  |
