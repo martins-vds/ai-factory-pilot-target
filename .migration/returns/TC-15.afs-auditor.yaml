@@ -8,9 +8,5 @@ gaps:
   - class: untested
     ledger_id: null
     ticket: null
-  - class: untested
-    ledger_id: null
-    ticket: null
-graph_inconsistencies:
-  - Both graphs are fresh, but required endpoint/page/service and routes/reads_from/writes_to links are absent; check_graph.py finds no end-to-end tracking-to-data path.
-verdict: gaps-remain
+graph_inconsistencies: []
+verdict: complete

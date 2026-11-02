@@ -260,3 +260,103 @@ tracking flow through implementation and persistence to data, and the human side
 has not been recorded. The voyage evidence, runtime, browser flow and profile gates pass.
 **Verdict: gaps-remain.** The graph traceability finding and the pending human comparison prevent
 slice acceptance; no closure of issue #35 is implied.
+
+## Final audit (2) — 2026-11-02 UTC
+
+- Audited application revision: `9920205b7f660dfe311a9a6cb8826bcbc05a9cc2`; `src` tree:
+  `6efc436302abfc7837dade1e0cb712203be4c516`.
+- Pinned source and `.migration/source.lock`: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`.
+- Setup: source is read-only, `afs-services check` reports `services OK: db`, and
+  `check_runtime.py` reports Python 3.13.17. The source and target graphs are fresh.
+- Fresh gate records, exact mutation/CRAP results and log hashes are in
+  `.migration/evidence/runs/TC-15.md`; raw logs remain in the ignored `.migration/runs/TC-15/`.
+
+### Gates
+
+| Gate | Command | Exit / result |
+|---|---|---|
+| Build | `python -m compileall -q src`; `python manage.py check` | 0; 0 |
+| Idiom | `ruff check`; `ruff format --check` | 0; 0; 108 files already formatted |
+| Tests | `pytest -q` | 0; 188 passed |
+| CRAP coverage input | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | 0; 188 passed |
+| CRAP | `lizard --csv src > .migration/runs/lizard.csv`; `crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | 0; journal result `gate=crap max=14.0 threshold=30 over=0 methods=98` |
+| Changed mutation | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | 0; journal result `gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main` |
+| Full mutation | `python .migration/harness/tools/afs-mutation --all` | 0; journal result `gate=mutation score=0.817 threshold=0.8 killed=799 survived=179 files=53 base=all` |
+| Differential | `python -m pytest -q tests/differential/test_track_cargo.py` | 0; 8 passed |
+| Approved rulings | Named tests for #12, #13, #14, #17 and #52 | 0; 5 passed |
+| Graph freshness | `check_graph_fresh.py --require source,target` | 0; both graphs fresh |
+| Source graph | `graph_gate.py --side source` | 0; `gate=graph side=source verdict=pass failures=0 entry_points=26 reaching_data=17 enriched_edges=142` |
+| Target graph | `graph_gate.py --side target --require-graph` | 0; `gate=graph side=target verdict=pass failures=0 entry_points=4 reaching_data=1 enriched_edges=90` |
+| Target browser / end-to-end | Submit `ABC123` and `NOPE000`; inspect the embedded map | Pass; result and history render, Leaflet map and map assets load, and unknown ID shows not-found without cargo-dependent content |
+
+The CRAP gate's own full-suite coverage run preceded its complexity calculation. All profile gate
+commands were run through `afs-run --ticket TC-15`; the graph checks were also recorded in the same
+ticket journal.
+
+### A. Graph refresh
+
+`check_graph_fresh.py --require source,target` passes. Both directed graph gates pass and include
+the Track Cargo data-path anchors. The source graph traces:
+
+`public/track.xhtml → Track → CargoRepository ←implements JpaCargoRepository → Cargo`
+
+The target graph traces:
+
+`/ → compose_tracking_view → DjangoCargoRepository → cargo`
+
+### B. Top-down findings
+
+The browser check rendered the ABC123 result (`In port New York`), UTC history, ETA, next activity and
+the embedded Leaflet map with three markers. Requests for the map frame, Leaflet assets, marker assets
+and OpenStreetMap tiles succeeded. Submitting `NOPE000` rendered the not-found alert without a cargo
+result, history or map. The target browser run is not the human legacy-versus-target comparison.
+
+### C. Bottom-up findings and graph/code check
+
+The source page binds `#{public.track...}` (`.source/src/main/webapp/public/track.xhtml:19-23`);
+the named `Track` bean injects `CargoRepository` and calls `find`
+(`.source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java:31-40,65-71`).
+`JpaCargoRepository` implements that interface and uses the `Cargo.findByTrackingId` entity query
+(`.source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:20-43`);
+`Cargo` is the JPA entity
+(`.source/src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:57-61`).
+
+The target root URL routes to `compose_tracking_view` (`src/cargotracker/urls.py:21-26`), which passes
+`DjangoCargoRepository` to `TrackingLookup` (`src/cargotracker/cargo/composition.py:7-10`).
+`TrackingLookup.find_cargo` invokes the repository, and its `find` filters `CargoRecord`
+(`src/cargotracker/cargo/application/tracking.py:8-17`,
+`src/cargotracker/cargo/infrastructure/repository.py:72-74`); `CargoRecord` maps to the `cargo` table
+(`src/cargotracker/cargo/infrastructure/models.py:4-5,72-74`).
+
+The relevant enricher-added edges (`jsf-el`, `cdi-inject`, `java-implements`, `jpa-repository`,
+`django-url`, `python-call`, and `django-orm`) agree with these code paths; none was found incorrect.
+The target graph also lists `/tracking/map/` as an endpoint without a database path. Code confirms
+that route intentionally renders location/status values passed in the iframe query string
+(`src/cargotracker/cargo/interfaces/tracking/map/adapter.py:11-26`,
+`src/cargotracker/cargo/interfaces/tracking/map/views.py:18-41,44-49`); it is not a missing
+tracking-to-cargo persistence edge.
+
+### D. Capability coverage
+
+All 19 `track-cargo.*` ledger entries have `status: migrated`, implementation-ticket links,
+non-empty `target.components`, and evidence. The final `validate.py .migration` run reports 44 files
+checked and 0 errors, including the check that committed evidence references exist. The fresh
+differential run passed all 8 golden cases, and all
+five named tests for approved rulings #12, #13, #14, #17 and #52 passed.
+
+### E. Tickets and quirks
+
+No new source quirk or capability gap was found; no new ticket was required by this audit.
+
+### F. Final gap list
+
+The only pending item is the human legacy/Django side-by-side comparison documented in
+`docs/side-by-side-check.md`. Its capability and golden-case checklists remain unchecked. No
+capability mapping, graph traceability, profile gate, differential or target-browser item remains
+open.
+
+### G. Assessment
+
+All automated acceptance gates pass, and the two directed data paths are verified against code. The
+human side-by-side comparison is the one pending item; under the requested acceptance rule, the
+verdict is **complete**.
