@@ -137,3 +137,66 @@ identify the pinned source as `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`. The gr
 fresh for the pinned source. No target graph artifact is present under `.migration/graphs`.
 Target components and flows were checked directly against code, tests, goldens and differential
 evidence; the graph discrepancy remains unresolved.
+
+## Re-audit — 2026-11-02 UTC
+
+- Re-audited target revision: `1ff3974d115b42f19e6af77433f8f6ca85dd5d7e`
+- Source: `.source` and `.migration/source.lock` both resolve to
+  `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`; `afs-services check` reported `services OK: db`.
+- Fresh gate records are in `.migration/evidence/runs/TC-15.md`. The profile declares Python 3.13;
+  this environment executes Python 3.12.15 and has no `python3.13` executable.
+
+### Fresh gates
+
+| Gate | Profile command | Exit / result |
+|---|---|---|
+| Build: compile | `python -m compileall -q src` | 0 |
+| Build: Django | `python manage.py check` | 0 |
+| Idiom: lint | `ruff check` | 0 |
+| Idiom: format | `ruff format --check` | 0; 108 files already formatted |
+| Tests | `pytest -q` | 0; 188 passed |
+| CRAP | `lizard --csv src`; `crap.py .migration/runs/lizard.csv --lcov coverage.lcov --max 30` | 0; journal result `gate=crap max=14.0 threshold=30 over=0 methods=98` |
+| Changed mutation | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | 0; journal result `gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main` |
+| Full mutation | `python .migration/harness/tools/afs-mutation --all` | 0; journal result `gate=mutation score=0.815 threshold=0.8 killed=797 survived=181 files=53 base=all` |
+
+The mutation score is copied verbatim from the latest profile-command result in the journal. This
+fresh full run meets the 0.8 threshold. The differential replay also passed all 8 golden cases, and
+the five named tests for approved rulings #12, #13, #14, #17 and #52 passed.
+
+### Browser / end-to-end check
+
+After running the profile migrations, sample seed and Tailwind build through `afs-run`, the tracking
+page rendered in a browser with built static assets and no console errors. Submitting `ABC123`
+rendered the `In port New York` result, ETA, next activity and three history events. Its
+`/tracking/map/` iframe loaded with HTTP 200 and `X-Frame-Options: SAMEORIGIN`; the frame reached
+`document.readyState=complete`, rendered the Leaflet map with 3 markers, and loaded OpenStreetMap
+tiles and marker assets. An unknown ID showed the visible not-found alert without cargo-dependent
+content or a map. The frame route, response header and rendered map resolve the prior broken-flow and
+integration findings.
+
+### Earlier findings re-proved
+
+| Earlier finding | Re-audit outcome and evidence |
+|---|---|
+| Map iframe was blocked by `X-Frame-Options: DENY`; `/tracking/map/` was missing. | **Resolved.** `src/cargotracker/urls.py` routes `/tracking/map/`; `map_frame` has a view-scoped `xframe_options_sameorigin` decorator. Browser observed HTTP 200, `SAMEORIGIN`, Leaflet and 3 markers in the iframe. |
+| Ledger approval metadata and map evidence symbols were stale. | **Resolved for the cited entries.** `handling-history` has approval #12; `domain-route-state` and `next-activity` have approval #52. The map-frame and map-status-code symbols now match their test definitions. All 19 ledger entries have tickets, non-empty target components and evidence; all 72 target component references resolve, and no evidence test symbol was stale in the scan. |
+| Full mutation score was below 0.8. | **Resolved.** The fresh, configured `--all` run scored 0.815 (see the journal Result column above). |
+| `track-cargo.data-voyage` cited absent historical run logs. | **Partially unresolved.** Eleven `.migration/runs/TC-03/...` log paths in that entry do not exist. Its durable TC-03 journal, voyage domain/repository tests, current passing 188-test suite and differential run do exist, so the capability is verified now; the dead historical links remain incorrect ledger evidence. |
+| Python 3.13 profile runtime was unavailable. | **Still unverified.** Fresh gates ran on Python 3.12.15; the required 3.13 executable is absent. |
+| Human legacy/Django side-by-side comparison was pending. | **Still pending.** `docs/side-by-side-check.md` has unchecked capability and golden-case checklists and explicitly says it is not evidence of human completion. This browser check exercises only the target. |
+| Source graph freshness and target graph were unresolved. | **Still unresolved.** `SNAPSHOT.txt` now matches the pinned SHA, but both source graph JSON `project.gitCommitHash` values and `graph-check.md` still identify `a8cdf52effc852af7a9218b40bedb98b8451d4ae`. `check_graph.py` found no endpoint/screen/page/service nodes, no reads/writes/routes edges, and no path from `track.xhtml` or `CargoTrackingViewAdapter` to data. No target graph is tracked under `.migration/graphs`; the graph-refresh plugin and SDK are absent here. |
+
+### Re-audit gap list and verdict
+
+| Class | Ledger entry | Remaining gap |
+|---|---|---|
+| `untested` | `track-cargo.data-voyage` | Eleven historical raw-log links are dead, although current durable tests and journal evidence pass. |
+| `untested` | — | Python 3.13 profile runtime was not exercised; only Python 3.12.15 is available. |
+| `untested` | — | Human legacy-versus-target side-by-side review remains unchecked. |
+| `graph inconsistency` | — | Source graph metadata is stale against its snapshot marker; the target graph was not refreshed or produced. |
+
+No new source quirk was identified. All 19 capabilities have a target and passing current test or
+differential evidence; the browser flow now connects through the embedded map. **Slice gates pass,
+but the audit verdict remains gaps-remain** for the stale evidence links, unavailable profile
+runtime, pending human comparison and unresolved graph state. No tickets or quirk drafts were filed,
+as directed.
