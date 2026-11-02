@@ -1,0 +1,26 @@
+role: afs-migrator
+ticket: TC-15c
+issue: martins-vds/ai-factory-pilot-target#70
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/73
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: null
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TC-15c.md
+ledger_updated: []
+quirk_tickets: []
+new_tickets: []
+handoff: .migration/handoffs/TC-15c.md
+notes: >-
+  Blocked on the review comment's compose-managed PostgreSQL prerequisite:
+  .migration/harness/tools/afs-services is not present, so no mutation rerun
+  was performed. mutation_changed remains null; the previous session's raw
+  full-run log reported 0.810 (792 killed, 186 survived), while the issue
+  reports 0.797 (779 killed, 198 survived). The previous run used a manually
+  started PostgreSQL 16 cluster rather than the requested compose environment;
+  that environment difference is verified, but its effect on the score is not
+  established. Do not treat the previous score as final evidence.

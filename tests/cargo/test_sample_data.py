@@ -1,10 +1,10 @@
 from dataclasses import fields, replace
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 
 import pytest
 from django.core.management import call_command
 
-from cargotracker.cargo.application.sample_data import SAMPLE_CARGOS
+from cargotracker.cargo.application.sample_data import SAMPLE_CARGOS, SampleDataSeeder
 from cargotracker.cargo.domain.delivery import Delivery, TransportStatus
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
@@ -13,7 +13,9 @@ from cargotracker.handling.domain.handling_event import HandlingEventType
 from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.handling.infrastructure.repository import DjangoHandlingEventRepository
 from cargotracker.location.infrastructure.models import LocationRecord
+from cargotracker.location.infrastructure.repository import DjangoLocationRepository
 from cargotracker.voyage.infrastructure.models import VoyageRecord
+from cargotracker.voyage.infrastructure.repository import DjangoVoyageRepository
 
 
 def test_sample_cargo_definitions_do_not_include_delivery_snapshots():
@@ -195,3 +197,18 @@ def test_seed_sample_data_is_idempotent_and_supports_golden_lookups():
         assert cargos[tracking_id].delivery.last_event_id == (
             latest_event.pk if latest_event else None
         )
+
+
+@pytest.mark.django_db
+def test_month_based_deadline_rolls_over_leap_year_and_clamps_to_month_end():
+    SampleDataSeeder(
+        DjangoLocationRepository(),
+        DjangoVoyageRepository(),
+        DjangoCargoRepository(),
+        DjangoHandlingEventRepository(),
+    ).seed(date(2023, 12, 31))
+
+    cargo = DjangoCargoRepository().find(TrackingId('DEF789'))
+
+    assert cargo is not None
+    assert cargo.route_specification.arrival_deadline == datetime(2024, 2, 29, tzinfo=UTC)
