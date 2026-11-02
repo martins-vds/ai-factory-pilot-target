@@ -172,6 +172,49 @@ def test_delivery_derives_routing_eta_and_first_activity_without_events():
 
 
 @pytest.mark.parametrize(
+    ('route_specification', 'itinerary', 'handling_history', 'message'),
+    [
+        (
+            None,
+            Itinerary.EMPTY,
+            HandlingHistory.EMPTY,
+            'A delivery requires a route specification',
+        ),
+        (
+            _two_leg_route()[0],
+            None,
+            HandlingHistory.EMPTY,
+            'A delivery requires an itinerary',
+        ),
+        (
+            _two_leg_route()[0],
+            Itinerary.EMPTY,
+            None,
+            'A delivery requires a handling history',
+        ),
+    ],
+)
+def test_delivery_rejects_invalid_derivation_inputs(
+    route_specification, itinerary, handling_history, message
+):
+    with pytest.raises(TypeError, match=message):
+        Delivery.derived_from(route_specification, itinerary, handling_history, CALCULATED_AT)
+
+
+def test_delivery_uses_current_time_when_calculation_time_is_omitted():
+    route_specification, itinerary = _two_leg_route()
+    before = datetime.now(UTC)
+
+    delivery = Delivery.derived_from(
+        route_specification,
+        itinerary,
+        HandlingHistory.EMPTY,
+    )
+
+    assert before <= delivery.calculated_at <= datetime.now(UTC)
+
+
+@pytest.mark.parametrize(
     ('route_specification', 'itinerary', 'expected_status'),
     [
         (

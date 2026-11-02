@@ -1,0 +1,28 @@
+role: afs-migrator
+ticket: TC-15c
+issue: martins-vds/ai-factory-pilot-target#70
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/73
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.819
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TC-15c.md
+ledger_updated: []
+quirk_tickets: []
+new_tickets: []
+handoff: none
+notes: >-
+  mutation_changed is the profile's full `afs-mutation --all` score, not a
+  changed-files run: 0.819, 801 killed, 177 survived, 53 files (978 mutants),
+  threshold 0.8. `afs-services check` reported `services OK: db`; Compose
+  uses PostgreSQL 17. The issue's Auditor score was 0.797 (779 killed, 198
+  survived; 977 mutants); the earlier 0.810 run (792 killed, 186 survived;
+  978 mutants) used manually started PostgreSQL 16. The 0.822 result counted
+  only 518 mutants because failed mutmut files were omitted and worker
+  databases were not isolated; the merged harness fixes make these failures
+  visible and configure per-worker databases. The current score is the
+  corrected full-run evidence.
