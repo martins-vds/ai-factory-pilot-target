@@ -44,6 +44,50 @@ def test_map_route_is_registered_without_displacing_admin():
     assert resolve('/admin/').namespace == 'admin'
 
 
+@pytest.mark.parametrize(
+    ('url', 'expected_header'),
+    [('/tracking/map/', 'SAMEORIGIN'), ('/', 'DENY')],
+)
+def test_only_map_frame_allows_same_origin_framing(client, url, expected_header):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.headers['X-Frame-Options'] == expected_header
+
+
+@pytest.mark.parametrize(
+    ('status_code', 'expected_color'),
+    [
+        ('NOT_ROUTED', 'grey'),
+        ('NOT_RECEIVED', 'gold'),
+        ('IN_PORT', 'green'),
+        ('ONBOARD_CARRIER', 'green'),
+        ('MISDIRECTED', 'red'),
+        ('AT_DESTINATION', 'black'),
+        ('CLAIMED', 'black'),
+        ('UNKNOWN', 'red'),
+        ('UNRECOGNIZED', 'red'),
+    ],
+)
+def test_map_frame_uses_status_color_only_for_last_known_location(
+    client, status_code, expected_color
+):
+    response = client.get(
+        reverse('cargo_map_frame'),
+        {
+            'statusCode': status_code,
+            'originCode': 'CNHKG',
+            'destinationCode': 'FIHEL',
+            'lastKnownLocationCode': 'USNYC',
+        },
+    )
+
+    assert response.status_code == 200
+    assert {
+        marker['role']: marker['color'] for marker in _rendered_map_data(response)['markers']
+    } == {'origin': 'black', 'destination': 'black', 'lastKnownLocation': expected_color}
+
+
 @pytest.mark.django_db
 def test_map_markers_use_exact_configured_coordinates():
     call_command('seed_sample_data')
