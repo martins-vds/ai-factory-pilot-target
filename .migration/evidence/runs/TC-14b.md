@@ -18,3 +18,11 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-02T01:26:05+00:00 | crap-threshold | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov coverage.lcov --max 30` | `8e94dfa27054aa92` |  |
 | 2026-11-02T01:26:11+00:00 | mutation-changed | 0 | 1.35 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `75d8058f4db9f39b` |  |
 | 2026-11-02T01:26:26+00:00 | regression-full-suite | 0 | 7.89 | `pytest -q` | `a1c67c3430598b0d` |  |
+| 2026-11-02T01:31:11+00:00 | final-regression | 0 | 8.37 | `pytest -q` | `54c0d4c6d8130eda` |  |
+| 2026-11-02T01:31:25+00:00 | final-build-compile | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |
+| 2026-11-02T01:31:25+00:00 | final-build-check | 0 | 0.31 | `python manage.py check` | `1e3e63f221bde888` |  |
+| 2026-11-02T01:31:25+00:00 | final-ruff-check | 0 | 0.03 | `python -m ruff check` | `82b3e6a6c090a576` |  |
+| 2026-11-02T01:31:25+00:00 | final-ruff-format | 0 | 0.03 | `python -m ruff format --check` | `e540c8427c224fd6` |  |
+| 2026-11-02T01:31:30+00:00 | final-crap-lizard | 0 | 0.09 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |
+| 2026-11-02T01:31:30+00:00 | final-crap-threshold | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov coverage.lcov --max 30` | `8e94dfa27054aa92` |  |
+| 2026-11-02T01:31:31+00:00 | final-mutation-changed | 0 | 1.28 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `75d8058f4db9f39b` |  |
