@@ -6,15 +6,11 @@ report: .migration/evidence/track-cargo/report.md
 capabilities_checked: 19
 gaps:
   - class: untested
-    ledger_id: track-cargo.data-voyage
-    ticket: null
-  - class: untested
     ledger_id: null
     ticket: null
   - class: untested
     ledger_id: null
     ticket: null
 graph_inconsistencies:
-  - Source graph JSON and graph-check.md record a8cdf52effc852af7a9218b40bedb98b8451d4ae, while SNAPSHOT.txt and source.lock pin f3beacf78de4f6d34edc4971ac87e38a5c6fe59d.
-  - No target graph artifact is tracked under .migration/graphs, and this session could not refresh it.
+  - Both graphs are fresh, but required endpoint/page/service and routes/reads_from/writes_to links are absent; check_graph.py finds no end-to-end tracking-to-data path.
 verdict: gaps-remain

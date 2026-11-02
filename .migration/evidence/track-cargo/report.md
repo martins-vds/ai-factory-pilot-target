@@ -200,3 +200,63 @@ differential evidence; the browser flow now connects through the embedded map. *
 but the audit verdict remains gaps-remain** for the stale evidence links, unavailable profile
 runtime, pending human comparison and unresolved graph state. No tickets or quirk drafts were filed,
 as directed.
+
+## Final audit — 2026-11-02 UTC
+
+- Audited target revision: `2341eec2551f69e99950f93a3195a42bcac06bd4`; its `src` tree is
+  `6efc436302abfc7837dade1e0cb712203be4c516`.
+- Pinned source: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`.
+- Setup: source is read-only and pinned; services are healthy; `check_runtime.py` reports Python
+  **3.13.17**, matching the profile. The full test output also identifies Python 3.13.17.
+- Fresh gate records and log hashes: `.migration/evidence/runs/TC-15.md`. Raw logs remain under the
+  ignored `.migration/runs/TC-15/`.
+
+### Profile gates rerun
+
+| Gate | Profile command | Exit / result |
+|---|---|---|
+| Build | `python -m compileall -q src` | 0 |
+| Build | `python manage.py check` | 0; no issues |
+| Idiom | `ruff check` | 0 |
+| Idiom | `ruff format --check` | 0; 108 files formatted |
+| Tests | `pytest -q` | 0; **188 passed** |
+| CRAP input | `lizard --csv src > .migration/runs/lizard.csv` | 0 |
+| CRAP | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov coverage.lcov --max 30` | 0; journal result `gate=crap max=14.0 threshold=30 over=0 methods=98` |
+| Changed mutation | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | 0; journal result `gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main` |
+| Full mutation | `python .migration/harness/tools/afs-mutation --all` | 0; journal result `gate=mutation score=0.817 threshold=0.8 killed=799 survived=179 files=53 base=all` |
+| Differential | `python -m pytest -q tests/differential/test_track_cargo.py` | 0; **8 passed** |
+| Approved rulings | Five named tests for #12, #13, #14, #17 and #52 | 0; **5 passed** |
+
+The first CRAP attempt followed targeted tests that had replaced `coverage.lcov`; it reported 33.0.
+I reran the profile's full `pytest -q`, then reran both CRAP commands in profile order. The fresh
+profile result above is 14.0, below the maximum of 30. The journal preserves both attempts.
+
+### Target browser / end-to-end check
+
+The profile has no browser command. The target was prepared through `afs-run` (`migrate --noinput`,
+`seed_sample_data`, and `make tailwind-build`), then exercised in a browser on the documented
+`127.0.0.1` host with `DJANGO_DEBUG=true`. The first server start omitted that documented setting
+and returned 404 for CSS; after restarting correctly, the tracking page and static CSS loaded
+without console errors. Submitting `ABC123` showed `In port New York`, UTC history, ETA, next
+activity, and an embedded Leaflet map with three markers; the map returned HTTP 200 with
+`X-Frame-Options: SAMEORIGIN`, and OpenStreetMap tiles loaded. Submitting `NOPE000` showed the
+not-found alert without cargo-dependent content or a map. This verifies the target browser flow only;
+it is not evidence of the human legacy-versus-target comparison.
+
+### Four earlier open items re-verified
+
+| Item | Outcome | Evidence |
+|---|---|---|
+| Graph freshness and consistency with code | **Freshness resolved; graph-to-data consistency remains open.** `check_graph_fresh.py --require source,target` passes. The source snapshot matches the pinned SHA, and the target snapshot's `tree.src` matches current `HEAD:src`. The source and target domain graphs contain Track Cargo flow steps and the target represents handling and voyage flows, consistent with the business flow. However, `check_graph.py` reports no route/read/write edges or end-to-end path to data; required endpoint/page/service nodes are absent, and the target graph has no table node. The source graph's only table is a handling-event CSV test fixture. Anchor queries for source `track.xhtml`, `CargoTrackingViewAdapter`, `Voyage` and `HandlingEvent`, and target `tracking`, `Voyage` and `HandlingEvent` each found no table/schema path. This is a graph traceability omission, not a behavior mismatch: source `Track.onTrackById` calls cargo and handling repositories (`.source/src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java:65-71`), while target `track` calls cargo/history lookups and renders the result (`src/cargotracker/cargo/interfaces/tracking/views.py:15-43`); target voyage persistence is present in `src/cargotracker/voyage/infrastructure/repository.py:8-17`. Graph check evidence: `.migration/graphs/source/full/graph-check.md:11-40` and `.migration/graphs/target/full/graph-check.md:11-40`. |
+| `track-cargo.data-voyage` evidence | **Resolved.** `validate.py .migration` reports **44 files checked, 0 errors**, including the ADR-0018 check that every ledger evidence path exists and is not a raw `.migration/runs/` log. All 19 Track Cargo ledger entries have `status: migrated`, implementation tickets, target components, and evidence (19/19 verified). |
+| Python 3.13 profile runtime | **Resolved.** `check_runtime.py` reports Python 3.13.17; the current full suite ran on Python 3.13.17. |
+| Human legacy/Django side-by-side check | **Still pending, as expected.** The capability and golden-case checklists in `docs/side-by-side-check.md:63-100` remain unchecked, and the document says it is not evidence of human completion (`:110-112`). The target-only browser run above does not count as this comparison. |
+
+### Final findings and verdict
+
+All 19 capabilities remain mapped to implementation tickets, target components and passing evidence.
+No new source quirk was found. Two non-capability audit items remain: the graphs do not connect the
+tracking flow through implementation and persistence to data, and the human side-by-side comparison
+has not been recorded. The voyage evidence, runtime, browser flow and profile gates pass.
+**Verdict: gaps-remain.** The graph traceability finding and the pending human comparison prevent
+slice acceptance; no closure of issue #35 is implied.
