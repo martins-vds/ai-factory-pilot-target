@@ -22,7 +22,28 @@
     "description": "Jakarta EE sample application for tracking shipping cargo, applying Domain-Driven Design.",
     "analyzedAt": "2026-11-02T18:09:51.319Z",
     "gitCommitHash": "f3beacf78de4f6d34edc4971ac87e38a5c6fe59d",
-    "analyzedCommit": "f9cd111662fae2acd4013bba1b54a815e3f8fe75"
+    "analyzedCommit": "f9cd111662fae2acd4013bba1b54a815e3f8fe75",
+    "afsEnrichment": {
+      "enrichers": [
+        "java-ee"
+      ],
+      "added": {
+        "edge:calls": 42,
+        "edge:contains": 31,
+        "edge:defines_schema": 6,
+        "edge:implements": 7,
+        "edge:inherits": 4,
+        "edge:publishes": 4,
+        "edge:reads_from": 17,
+        "edge:routes": 22,
+        "edge:triggers": 5,
+        "edge:writes_to": 4,
+        "node:endpoint": 3,
+        "node:page": 23,
+        "node:resource": 5,
+        "node:table": 6
+      }
+    }
   },
   "nodes": [
     {
@@ -5065,6 +5086,474 @@
         "domain-model"
       ],
       "complexity": "complex"
+    },
+    {
+      "id": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "table",
+      "name": "Cargo",
+      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java",
+      "summary": "Table Cargo mapped by JPA entity Cargo",
+      "tags": [
+        "afs-enriched",
+        "jpa-entity"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        57,
+        57
+      ]
+    },
+    {
+      "id": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg",
+      "type": "table",
+      "name": "Leg",
+      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java",
+      "summary": "Table Leg mapped by JPA entity Leg",
+      "tags": [
+        "afs-enriched",
+        "jpa-entity"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        22
+      ]
+    },
+    {
+      "id": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "table",
+      "name": "HandlingEvent",
+      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java",
+      "summary": "Table HandlingEvent mapped by JPA entity HandlingEvent",
+      "tags": [
+        "afs-enriched",
+        "jpa-entity"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        47,
+        47
+      ]
+    },
+    {
+      "id": "table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location",
+      "type": "table",
+      "name": "Location",
+      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java",
+      "summary": "Table Location mapped by JPA entity Location",
+      "tags": [
+        "afs-enriched",
+        "jpa-entity"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        21,
+        21
+      ]
+    },
+    {
+      "id": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:carrier_movement",
+      "type": "table",
+      "name": "carrier_movement",
+      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java",
+      "summary": "Table carrier_movement mapped by JPA entity CarrierMovement",
+      "tags": [
+        "afs-enriched",
+        "jpa-entity"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        25
+      ]
+    },
+    {
+      "id": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage",
+      "type": "table",
+      "name": "Voyage",
+      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java",
+      "summary": "Table Voyage mapped by JPA entity Voyage",
+      "tags": [
+        "afs-enriched",
+        "jpa-entity"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        13,
+        13
+      ]
+    },
+    {
+      "id": "endpoint:src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:GET /cargo",
+      "type": "endpoint",
+      "name": "GET /cargo",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java",
+      "summary": "HTTP GET /cargo (CargoMonitoringService)",
+      "tags": [
+        "afs-enriched",
+        "jax-rs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java:POST /handling/reports",
+      "type": "endpoint",
+      "name": "POST /handling/reports",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java",
+      "summary": "HTTP POST /handling/reports (HandlingReportService)",
+      "tags": [
+        "afs-enriched",
+        "jax-rs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "endpoint:src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:GET /graph-traversal/shortest-path",
+      "type": "endpoint",
+      "name": "GET /graph-traversal/shortest-path",
+      "filePath": "src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java",
+      "summary": "HTTP GET /graph-traversal/shortest-path (GraphTraversalService)",
+      "tags": [
+        "afs-enriched",
+        "jax-rs"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:jms:java:app/jms/CargoHandledQueue",
+      "type": "resource",
+      "name": "java:app/jms/CargoHandledQueue",
+      "filePath": "jms",
+      "summary": "JMS destination java:app/jms/CargoHandledQueue",
+      "tags": [
+        "afs-enriched",
+        "jms"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:jms:java:app/jms/DeliveredCargoQueue",
+      "type": "resource",
+      "name": "java:app/jms/DeliveredCargoQueue",
+      "filePath": "jms",
+      "summary": "JMS destination java:app/jms/DeliveredCargoQueue",
+      "tags": [
+        "afs-enriched",
+        "jms"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:jms:java:app/jms/HandlingEventRegistrationAttemptQueue",
+      "type": "resource",
+      "name": "java:app/jms/HandlingEventRegistrationAttemptQueue",
+      "filePath": "jms",
+      "summary": "JMS destination java:app/jms/HandlingEventRegistrationAttemptQueue",
+      "tags": [
+        "afs-enriched",
+        "jms"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:jms:java:app/jms/MisdirectedCargoQueue",
+      "type": "resource",
+      "name": "java:app/jms/MisdirectedCargoQueue",
+      "filePath": "jms",
+      "summary": "JMS destination java:app/jms/MisdirectedCargoQueue",
+      "tags": [
+        "afs-enriched",
+        "jms"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:jms:java:app/jms/RejectedRegistrationAttemptsQueue",
+      "type": "resource",
+      "name": "java:app/jms/RejectedRegistrationAttemptsQueue",
+      "filePath": "jms",
+      "summary": "JMS destination java:app/jms/RejectedRegistrationAttemptsQueue",
+      "tags": [
+        "afs-enriched",
+        "jms"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "filePath": "src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "summary": "JSF page src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/WEB-INF/templates/common/public.xhtml:src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "filePath": "src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "summary": "JSF page src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/about.xhtml:src/main/webapp/admin/about.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/about.xhtml",
+      "filePath": "src/main/webapp/admin/about.xhtml",
+      "summary": "JSF page src/main/webapp/admin/about.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/dashboard.xhtml",
+      "filePath": "src/main/webapp/admin/dashboard.xhtml",
+      "summary": "JSF page src/main/webapp/admin/dashboard.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/tables/listRouted.xhtml:src/main/webapp/admin/tables/listRouted.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/tables/listRouted.xhtml",
+      "filePath": "src/main/webapp/admin/tables/listRouted.xhtml",
+      "summary": "JSF page src/main/webapp/admin/tables/listRouted.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/tables/listNotRouted.xhtml:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "filePath": "src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "summary": "JSF page src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/tables/listClaimed.xhtml:src/main/webapp/admin/tables/listClaimed.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/tables/listClaimed.xhtml",
+      "filePath": "src/main/webapp/admin/tables/listClaimed.xhtml",
+      "summary": "JSF page src/main/webapp/admin/tables/listClaimed.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "filePath": "src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "summary": "JSF page src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/dialogs/changeDestination.xhtml:src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "filePath": "src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "summary": "JSF page src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/route.xhtml:src/main/webapp/admin/route.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/route.xhtml",
+      "filePath": "src/main/webapp/admin/route.xhtml",
+      "summary": "JSF page src/main/webapp/admin/route.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/selectItinerary.xhtml:src/main/webapp/admin/selectItinerary.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/selectItinerary.xhtml",
+      "filePath": "src/main/webapp/admin/selectItinerary.xhtml",
+      "summary": "JSF page src/main/webapp/admin/selectItinerary.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/show.xhtml:src/main/webapp/admin/show.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/show.xhtml",
+      "filePath": "src/main/webapp/admin/show.xhtml",
+      "summary": "JSF page src/main/webapp/admin/show.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/tracking/map.xhtml:src/main/webapp/admin/tracking/map.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/tracking/map.xhtml",
+      "filePath": "src/main/webapp/admin/tracking/map.xhtml",
+      "summary": "JSF page src/main/webapp/admin/tracking/map.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/tracking/mapFrame.xhtml",
+      "filePath": "src/main/webapp/admin/tracking/mapFrame.xhtml",
+      "summary": "JSF page src/main/webapp/admin/tracking/mapFrame.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/admin/tracking/track.xhtml:src/main/webapp/admin/tracking/track.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/admin/tracking/track.xhtml",
+      "filePath": "src/main/webapp/admin/tracking/track.xhtml",
+      "summary": "JSF page src/main/webapp/admin/tracking/track.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/booking/booking-date.xhtml:src/main/webapp/booking/booking-date.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/booking/booking-date.xhtml",
+      "filePath": "src/main/webapp/booking/booking-date.xhtml",
+      "summary": "JSF page src/main/webapp/booking/booking-date.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/booking/booking-destination.xhtml:src/main/webapp/booking/booking-destination.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/booking/booking-destination.xhtml",
+      "filePath": "src/main/webapp/booking/booking-destination.xhtml",
+      "summary": "JSF page src/main/webapp/booking/booking-destination.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/booking/booking.xhtml:src/main/webapp/booking/booking.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/booking/booking.xhtml",
+      "filePath": "src/main/webapp/booking/booking.xhtml",
+      "summary": "JSF page src/main/webapp/booking/booking.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/event-logger/index.xhtml:src/main/webapp/event-logger/index.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/event-logger/index.xhtml",
+      "filePath": "src/main/webapp/event-logger/index.xhtml",
+      "summary": "JSF page src/main/webapp/event-logger/index.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/index.xhtml:src/main/webapp/index.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/index.xhtml",
+      "filePath": "src/main/webapp/index.xhtml",
+      "summary": "JSF page src/main/webapp/index.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/public/about.xhtml:src/main/webapp/public/about.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/public/about.xhtml",
+      "filePath": "src/main/webapp/public/about.xhtml",
+      "summary": "JSF page src/main/webapp/public/about.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/public/mapFrame.xhtml:src/main/webapp/public/mapFrame.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/public/mapFrame.xhtml",
+      "filePath": "src/main/webapp/public/mapFrame.xhtml",
+      "summary": "JSF page src/main/webapp/public/mapFrame.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "page:src/main/webapp/public/track.xhtml:src/main/webapp/public/track.xhtml",
+      "type": "page",
+      "name": "src/main/webapp/public/track.xhtml",
+      "filePath": "src/main/webapp/public/track.xhtml",
+      "summary": "JSF page src/main/webapp/public/track.xhtml",
+      "tags": [
+        "afs-enriched",
+        "jsf-page"
+      ],
+      "complexity": "simple"
     }
   ],
   "edges": [
@@ -8547,6 +9036,1142 @@
       "direction": "forward",
       "weight": 0.5,
       "description": "Path-based pairing (deterministic)"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-entity"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-entity"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-entity"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-entity"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:CarrierMovement",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:carrier_movement",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-entity"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-entity"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/LocationRepository.java:LocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/service/RoutingService.java:RoutingService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java:DefaultCargoInspectionService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/ApplicationEvents.java:ApplicationEvents",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java:DefaultCargoInspectionService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java:DefaultCargoInspectionService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventRepository.java:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultHandlingEventService.java:DefaultHandlingEventService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/ApplicationEvents.java:ApplicationEvents",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultHandlingEventService.java:DefaultHandlingEventService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventRepository.java:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultHandlingEventService.java:DefaultHandlingEventService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventFactory.java:HandlingEventFactory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:carrier_movement",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventFactory.java:HandlingEventFactory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/application/util/SampleDataGenerator.java:SampleDataGenerator",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventRepository.java:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java:RouteSpecification",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/shared/AbstractSpecification.java:AbstractSpecification",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-extends"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventFactory.java:HandlingEventFactory",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventFactory.java:HandlingEventFactory",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageRepository.java:VoyageRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventFactory.java:HandlingEventFactory",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/LocationRepository.java:LocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/UnknownCargoException.java:UnknownCargoException",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/CannotCreateHandlingEventException.java:CannotCreateHandlingEventException",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-extends"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/UnknownLocationException.java:UnknownLocationException",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/CannotCreateHandlingEventException.java:CannotCreateHandlingEventException",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-extends"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/UnknownVoyageException.java:UnknownVoyageException",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/CannotCreateHandlingEventException.java:CannotCreateHandlingEventException",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-extends"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/CargoHandledConsumer.java:CargoHandledConsumer",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/CargoInspectionService.java:CargoInspectionService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java:HandlingEventRegistrationAttemptConsumer",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/HandlingEventService.java:HandlingEventService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:JmsApplicationEvents",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/ApplicationEvents.java:ApplicationEvents",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:JpaCargoRepository",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:JpaCargoRepository",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:JpaCargoRepository",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaHandlingEventRepository.java:JpaHandlingEventRepository",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaHandlingEventRepository.java:JpaHandlingEventRepository",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaHandlingEventRepository.java:JpaHandlingEventRepository",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventRepository.java:HandlingEventRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaLocationRepository.java:JpaLocationRepository",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaLocationRepository.java:JpaLocationRepository",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/LocationRepository.java:LocationRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaVoyageRepository.java:JpaVoyageRepository",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaVoyageRepository.java:JpaVoyageRepository",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageRepository.java:VoyageRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/routing/ExternalRoutingService.java:ExternalRoutingService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/service/RoutingService.java:RoutingService",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/routing/ExternalRoutingService.java:ExternalRoutingService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/LocationRepository.java:LocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/routing/ExternalRoutingService.java:ExternalRoutingService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageRepository.java:VoyageRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:java-implements"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/BookingService.java:BookingService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/LocationRepository.java:LocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageRepository.java:VoyageRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventRepository.java:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:CargoMonitoringService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "endpoint:src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:GET /cargo",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:CargoMonitoringService",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jax-rs"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:Booking",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/CargoDetails.java:CargoDetails",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeArrivalDeadlineDate.java:ChangeArrivalDeadlineDate",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestination.java:ChangeDestination",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:ItinerarySelection",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:ListCargo",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Registration.java:Registration",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Track.java:Track",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/BookingServiceFacade.java:BookingServiceFacade",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/file/EventItemWriter.java:EventItemWriter",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/ApplicationEvents.java:ApplicationEvents",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/mobile/EventLogger.java:EventLogger",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/mobile/EventLogger.java:EventLogger",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/location/LocationRepository.java:LocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/mobile/EventLogger.java:EventLogger",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/voyage/VoyageRepository.java:VoyageRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/mobile/EventLogger.java:EventLogger",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/ApplicationEvents.java:ApplicationEvents",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java:HandlingReportService",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/ApplicationEvents.java:ApplicationEvents",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "endpoint:src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java:POST /handling/reports",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java:HandlingReportService",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jax-rs"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java:Track",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/cargo/CargoRepository.java:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java:Track",
+      "target": "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventRepository.java:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:GraphTraversalService",
+      "target": "class:src/main/java/org/eclipse/pathfinder/internal/GraphDao.java:GraphDao",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "endpoint:src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:GET /graph-traversal/shortest-path",
+      "target": "class:src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:GraphTraversalService",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jax-rs"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java:BookingServiceTest",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java:BookingServiceTest",
+      "target": "class:src/main/java/org/eclipse/cargotracker/application/BookingService.java:BookingService",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:cdi-inject"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTestDataGenerator.java:BookingServiceTestDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTestDataGenerator.java:BookingServiceTestDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTestDataGenerator.java:BookingServiceTestDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTestDataGenerator.java:BookingServiceTestDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTestDataGenerator.java:BookingServiceTestDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:carrier_movement",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "class:src/test/java/org/eclipse/cargotracker/application/BookingServiceTestDataGenerator.java:BookingServiceTestDataGenerator",
+      "target": "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jpa-repository"
+    },
+    {
+      "source": "resource:jms:java:app/jms/CargoHandledQueue",
+      "target": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/CargoHandledConsumer.java:CargoHandledConsumer",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "resource:jms:java:app/jms/DeliveredCargoQueue",
+      "target": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/DeliveredCargoConsumer.java:DeliveredCargoConsumer",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "resource:jms:java:app/jms/HandlingEventRegistrationAttemptQueue",
+      "target": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java:HandlingEventRegistrationAttemptConsumer",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:JmsApplicationEvents",
+      "target": "resource:jms:java:app/jms/CargoHandledQueue",
+      "type": "publishes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:JmsApplicationEvents",
+      "target": "resource:jms:java:app/jms/MisdirectedCargoQueue",
+      "type": "publishes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:JmsApplicationEvents",
+      "target": "resource:jms:java:app/jms/DeliveredCargoQueue",
+      "type": "publishes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:JmsApplicationEvents",
+      "target": "resource:jms:java:app/jms/HandlingEventRegistrationAttemptQueue",
+      "type": "publishes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "resource:jms:java:app/jms/MisdirectedCargoQueue",
+      "target": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/MisdirectedCargoConsumer.java:MisdirectedCargoConsumer",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "resource:jms:java:app/jms/RejectedRegistrationAttemptsQueue",
+      "target": "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/RejectedRegistrationAttemptsConsumer.java:RejectedRegistrationAttemptsConsumer",
+      "type": "triggers",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jms"
+    },
+    {
+      "source": "file:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "file:src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/public.xhtml:src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "file:src/main/webapp/admin/about.xhtml",
+      "target": "page:src/main/webapp/admin/about.xhtml:src/main/webapp/admin/about.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/about.xhtml:src/main/webapp/admin/about.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/admin/dashboard.xhtml",
+      "target": "page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml",
+      "target": "page:src/main/webapp/admin/tables/listRouted.xhtml:src/main/webapp/admin/tables/listRouted.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml",
+      "target": "page:src/main/webapp/admin/tables/listNotRouted.xhtml:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml",
+      "target": "page:src/main/webapp/admin/tables/listClaimed.xhtml:src/main/webapp/admin/tables/listClaimed.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "target": "page:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeArrivalDeadlineDate.java:ChangeArrivalDeadlineDate",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{changeArrivalDeadlineDate\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeArrivalDeadlineDateDialog.java:ChangeArrivalDeadlineDateDialog",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{changeArrivalDeadlineDateDialog\u2026}"
+    },
+    {
+      "source": "file:src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "target": "page:src/main/webapp/admin/dialogs/changeDestination.xhtml:src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dialogs/changeDestination.xhtml:src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestination.java:ChangeDestination",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{changeDestination\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/dialogs/changeDestination.xhtml:src/main/webapp/admin/dialogs/changeDestination.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestinationDialog.java:ChangeDestinationDialog",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{changeDestinationDialog\u2026}"
+    },
+    {
+      "source": "file:src/main/webapp/admin/route.xhtml",
+      "target": "page:src/main/webapp/admin/route.xhtml:src/main/webapp/admin/route.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/route.xhtml:src/main/webapp/admin/route.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/CargoDetails.java:CargoDetails",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{cargoDetails\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/route.xhtml:src/main/webapp/admin/route.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:ItinerarySelection",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{itinerarySelection\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/route.xhtml:src/main/webapp/admin/route.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/admin/selectItinerary.xhtml",
+      "target": "page:src/main/webapp/admin/selectItinerary.xhtml:src/main/webapp/admin/selectItinerary.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/selectItinerary.xhtml:src/main/webapp/admin/selectItinerary.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:ItinerarySelection",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{itinerarySelection\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/selectItinerary.xhtml:src/main/webapp/admin/selectItinerary.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/admin/show.xhtml",
+      "target": "page:src/main/webapp/admin/show.xhtml:src/main/webapp/admin/show.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/show.xhtml:src/main/webapp/admin/show.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/CargoDetails.java:CargoDetails",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{cargoDetails\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/show.xhtml:src/main/webapp/admin/show.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/admin/tables/listClaimed.xhtml",
+      "target": "page:src/main/webapp/admin/tables/listClaimed.xhtml:src/main/webapp/admin/tables/listClaimed.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tables/listClaimed.xhtml:src/main/webapp/admin/tables/listClaimed.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:ListCargo",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{listCargo\u2026}"
+    },
+    {
+      "source": "file:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "target": "page:src/main/webapp/admin/tables/listNotRouted.xhtml:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tables/listNotRouted.xhtml:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeArrivalDeadlineDateDialog.java:ChangeArrivalDeadlineDateDialog",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{changeArrivalDeadlineDateDialog\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tables/listNotRouted.xhtml:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestinationDialog.java:ChangeDestinationDialog",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{changeDestinationDialog\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tables/listNotRouted.xhtml:src/main/webapp/admin/tables/listNotRouted.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:ListCargo",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{listCargo\u2026}"
+    },
+    {
+      "source": "file:src/main/webapp/admin/tables/listRouted.xhtml",
+      "target": "page:src/main/webapp/admin/tables/listRouted.xhtml:src/main/webapp/admin/tables/listRouted.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tables/listRouted.xhtml:src/main/webapp/admin/tables/listRouted.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:ListCargo",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{listCargo\u2026}"
+    },
+    {
+      "source": "file:src/main/webapp/admin/tracking/map.xhtml",
+      "target": "page:src/main/webapp/admin/tracking/map.xhtml:src/main/webapp/admin/tracking/map.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tracking/map.xhtml:src/main/webapp/admin/tracking/map.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/admin/tracking/mapFrame.xhtml",
+      "target": "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "file:src/main/webapp/admin/tracking/track.xhtml",
+      "target": "page:src/main/webapp/admin/tracking/track.xhtml:src/main/webapp/admin/tracking/track.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tracking/track.xhtml:src/main/webapp/admin/tracking/track.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Track.java:Track",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{admin.track\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/admin/tracking/track.xhtml:src/main/webapp/admin/tracking/track.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "file:src/main/webapp/booking/booking-date.xhtml",
+      "target": "page:src/main/webapp/booking/booking-date.xhtml:src/main/webapp/booking/booking-date.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-page"
+    },
+    {
+      "source": "page:src/main/webapp/booking/booking-date.xhtml:src/main/webapp/booking/booking-date.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:Booking",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{booking\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/booking/booking-date.xhtml:src/main/webapp/booking/booking-date.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/booking/booking-destination.xhtml:src/main/webapp/booking/booking-destination.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:Booking",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{booking\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/booking/booking-destination.xhtml:src/main/webapp/booking/booking-destination.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/booking/booking.xhtml:src/main/webapp/booking/booking.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:Booking",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{booking\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/booking/booking.xhtml:src/main/webapp/booking/booking.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/admin.xhtml:src/main/webapp/WEB-INF/templates/common/admin.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/event-logger/index.xhtml:src/main/webapp/event-logger/index.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/handling/mobile/EventLogger.java:EventLogger",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{eventLogger\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/public/about.xhtml:src/main/webapp/public/about.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/public.xhtml:src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
+    },
+    {
+      "source": "page:src/main/webapp/public/track.xhtml:src/main/webapp/public/track.xhtml",
+      "target": "class:src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java:Track",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-el \u2014 #{public.track\u2026}"
+    },
+    {
+      "source": "page:src/main/webapp/public/track.xhtml:src/main/webapp/public/track.xhtml",
+      "target": "page:src/main/webapp/WEB-INF/templates/common/public.xhtml:src/main/webapp/WEB-INF/templates/common/public.xhtml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:jsf-include"
     }
   ],
   "layers": [
