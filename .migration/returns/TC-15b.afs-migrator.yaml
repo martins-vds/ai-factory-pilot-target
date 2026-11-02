@@ -1,0 +1,21 @@
+role: afs-migrator
+ticket: TC-15b
+issue: martins-vds/ai-factory-pilot-target#69
+pr: null
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+evidence_logs:
+  - .migration/evidence/runs/TC-15b.md
+ledger_updated:
+  - track-cargo.handling-history
+  - track-cargo.domain-route-state
+  - track-cargo.next-activity
+  - track-cargo.map-status-code
+quirk_tickets: []
+new_tickets: []
+handoff: null

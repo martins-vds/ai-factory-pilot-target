@@ -43,7 +43,11 @@ references below hold detail — read one only when your procedure points to it.
 ## Stop and escalate
 Stop, write a handoff, and escalate (do not keep trying) when:
 - the same failure repeats after **two** honest attempts;
-- setup is wrong — source missing, wrong SHA, writable, or tools missing (`afs-setup-check`);
+- setup is wrong — source missing, wrong SHA, writable, tools missing, or test services down
+  (`afs-setup-check`);
+- tests your work depends on cannot run in your session (no database, a service unreachable, a missing
+  tool). "CI will run them" is not evidence: never finish with tests you could not run, never replace a
+  real service with a mock or in-memory stand-in to make them pass, and never mark the work done;
 - the graph and the code disagree on something your work depends on **and the code alone cannot settle
   it**. The code is the authority: when it is clear, record the discrepancy and continue;
 - a real limit blocks the requested approach;
@@ -73,7 +77,8 @@ without one.
 
 **Every structured output is checked against a schema, and a failing check means redo.** Return
 files must use the contract's exact words and types (e.g. `verdict: pass`, not `passed`; a score is a
-number or `null`, never prose); ledger entries, handoffs and quirk drafts have required structure.
+number, `n/a: <reason>` or — only with a handoff — `null`, never prose; scores must equal the gate
+tool's `AFS-RESULT` in your journal, see `afs-evidence`); ledger entries, handoffs and quirk drafts have required structure.
 Before you finish, run `python .migration/harness/tools/validate.py .migration`. If it reports
 errors, fix the outputs (or the work they describe) and run it again; never finish, hand off or
 push for review with validation failing. CI runs the same check on every PR.
