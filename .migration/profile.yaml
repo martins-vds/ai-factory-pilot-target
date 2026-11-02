@@ -73,4 +73,6 @@ services:
   compose: compose.yaml   # real test services (harness ADR-0016)
   test: [db]
   env: {POSTGRES_DB: cargotracker}   # settings default; afs-mutation suffixes it per parallel worker
+costs:                       # ADR-0021: billed AI credits and Actions minutes (AFS costs workflow)
+  billing: {scope: user, account: martins-vds}
 translation_rules: .migration/translation-rules.md

@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "33a06e7fc596422756c660e6eb65cbd5ae6be480",
-  "installed_at": "2026-11-02T21:32:36Z",
+  "harness_commit": "0576d64e1f05348ac43ea18abd92f27d710bf9e6",
+  "installed_at": "2026-11-02T22:43:34Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1079,7 +1079,8 @@
       "path": ".migration/harness/tools",
       "kind": "tools",
       "files": {
-        ".migration/harness/tools/afs-cost-hook": "d1fd7be6fcefd3b8016da8e4b76fde889d9158ded8ea7e645cd33b1f60c899d2",
+        ".migration/harness/tools/afs-cost-hook": "60721667baf639bb76f2037b9a3d35d067d3565e896922fb91f4351246698a01",
+        ".migration/harness/tools/afs-costs": "afc09a054e457ad9c8559c8223f9ad006b71fa83e38cadbc7bb156bf65d75d3e",
         ".migration/harness/tools/afs-mutation": "b1553245a263932248ff226f90a795d25fa2fd9d93fdaac958936cef6f03fb9b",
         ".migration/harness/tools/afs-run": "8750d974bc241a2ced3f79fadcbfaead5e25615231c73011f7e2d2298e704500",
         ".migration/harness/tools/afs-services": "27f71d1dd02319071da8348f150bb1e031573ffa846a1a124f961a628c780e64",
@@ -1103,7 +1104,7 @@
       "files": {
         ".migration/harness/schemas/capabilities.schema.json": "d95c267a234e1ae68325e0fd613e99c4efae3f40ec6c1191ca03f7896b1cdec1",
         ".migration/harness/schemas/ledger-entry.schema.json": "494d09f8ddf4c713aa95e45b3c10833eefb57097efa3f427deb146a1a7d60ab0",
-        ".migration/harness/schemas/profile.schema.json": "ef20ccc9bf47da1454f2e89363fc4e8b5d73a407d3ac9752c80ddfb8b989d7fd",
+        ".migration/harness/schemas/profile.schema.json": "03058397c591974a73261a4493dd8d91633811a63db5977b29988e8a081ba44b",
         ".migration/harness/schemas/return.schema.json": "558f08b1e21e40df205d733aefa20b9ccae8c3a52f35fe6b4d67590946f3ecf6"
       }
     },
