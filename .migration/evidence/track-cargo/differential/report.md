@@ -21,15 +21,17 @@
 
 Ruling #14 is asserted by comparing each rendered marker coordinate with the configured coordinate for its LOCODE; all markers match. The htmx and regular requests produced identical normalized observable data for all eight inputs. No broad snapshot exclusions are used.
 
-### Unapproved finding
+### Finding from initial run — resolved
 
 For MNO456, `map_query.statusCode` and `map_frame.statusCode` should remain `CLAIMED` as recorded in `golden/mno456.json`, but the Django result is `AT_DESTINATION`. The target maps `unloaded_at_destination` before the transport status in `src/cargotracker/cargo/application/map_status.py:7-8`. This is not an approved divergence. It is reported without a production-code change.
+
+PR [#63](https://github.com/martins-vds/ai-factory-pilot-target/pull/63), resolving issue [#62](https://github.com/martins-vds/ai-factory-pilot-target/issues/62), corrected the MNO456 seed snapshot so its last `CLAIM` event is no longer marked unloaded at destination.
 
 ### Preserved quirk
 
 Ruling #52 remains preserved; the existing `tests/cargo/test_domain_calculations.py::test_quirk52_next_activity_uses_first_matching_location` passed in the full test run. It is not a divergence in the golden replay.
 
-## Gates
+## Initial pre-#63 gates
 
 | Gate | Command | Exit / result |
 |---|---|---|
@@ -40,6 +42,37 @@ Ruling #52 remains preserved; the existing `tests/cargo/test_domain_calculations
 | Changed mutation | `afs-mutation --changed-since origin/main` | Exit 0; no mutable production code changed, so no mutation score applies |
 | Regression | Full `pytest -q` suite | 1 — same single MNO456 differential failure |
 
+## Re-run after #63
+
+The differential suite was rerun through `afs-run` as
+`.migration/runs/TC-14/20261102T012108088993Z-differential-after-pr63.log`:
+`python -m pytest -q tests/differential/test_track_cargo.py` — **8 passed**.
+The full suite was rerun through `afs-run` as
+`.migration/runs/TC-14/20261102T012124191104Z-full-suite-after-pr63.log`:
+`pytest -q` — **171 passed**.
+
+| Golden input | Result fields | History rows | Map query/frame |
+|---|---|---|---|
+| `abc123` (`ABC123`) | Match; ruling #13 status `In port New York`; other result fields match. | All fields match, 3 rows. | All fields and configured marker coordinates match. |
+| `def789` (`DEF789`) | Match, including unknown ETA and absent next activity. | Empty-history label and no rows match. | All fields and configured marker coordinates match. |
+| `jkl567` (`JKL567`) | Match, including misdirected state and absent next activity. | All fields match, 4 rows including unexpected event. | All fields and configured marker coordinates match. |
+| `mno456` (`MNO456`) | Match; ruling #17 hides ETA. | All fields match, 5 rows. | `CLAIMED` status, locations, and configured marker coordinates all match. |
+| `padded-id` (` ABC123 `) | Trimmed ID and result fields match; ruling #13 status named. | All fields match, 3 rows. | All fields and configured marker coordinates match. |
+| `lowercase-id` (`abc123`) | Ruling #12 visible not-found message, no cargo. | No history rendered. | No map query or frame rendered. |
+| `empty-id` (`""`) | Ruling #12 visible required-field message, no cargo. | No history rendered. | No map query or frame rendered. |
+| `unknown-id` (`NOPE000`) | Ruling #12 visible not-found message, no cargo. | No history rendered. | No map query or frame rendered. |
+
+Ruling #14 exact-coordinate assertions passed for all rendered markers. Regular and htmx observations match for all eight inputs. No test changes were made for the rerun.
+
+| Gate | Command | Exit / result |
+|---|---|---|
+| Build | `python -m compileall -q src`; `python manage.py check` | 0; 0 |
+| Idiom | `ruff check`; `ruff format --check` | 0; 0 |
+| CRAP | `lizard --csv src`; `crap.py .migration/runs/lizard.csv --lcov coverage.lcov --max 30` | 0; maximum CRAP 14 (threshold 30) |
+| Changed mutation | `afs-mutation --changed-since origin/main` | 0 — no mutable code changed relative to the fetched base |
+| Differential | `python -m pytest -q tests/differential/test_track_cargo.py` | 0 — 8 passed |
+| Behavior and regression | `pytest -q` | 0 — 171 passed |
+
 ## Ledger
 
-All 19 `track-cargo.*` entries remain `status: migrated`, retain their target components, and now reference the differential test and this report with `verification: differential`. `track-cargo.map-status-code` remains an unresolved fidelity finding until the target is reconciled with the golden record.
+All 19 `track-cargo.*` entries remain `status: migrated`, retain their target components, and reference the differential test and this report with `verification: differential`. The initial `track-cargo.map-status-code` mismatch is resolved by the seed correction in PR #63 / issue #62; all eight cases now match except the explicitly approved divergences.
