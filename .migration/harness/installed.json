@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "dd84f4ad44a4c1f1dc46df9ce011157297f45a7e",
-  "installed_at": "2026-11-02T15:23:25Z",
+  "harness_commit": "fc61e589a41edf306ea86e23a457ed8d804150aa",
+  "installed_at": "2026-11-02T18:01:57Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -14,7 +14,7 @@
       "path": ".github/agents/afs-auditor.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-auditor.agent.md": "b88a0eb602cbec99278a8ebc0d930d1567c6b9ae558a92aa5afba18746a62cf6"
+        ".github/agents/afs-auditor.agent.md": "99776b304c84a0c296acd2aa3e384964ccaab11a75059c3b7c96a30855056808"
       }
     },
     {
@@ -56,7 +56,7 @@
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "65d27383813ac96494875a139c6c2a7def1b7929e70ada41bbcbe6c5ad323296"
+        ".github/agents/afs-slice-coordinator.agent.md": "b3ba27bea1df36934a2bad91d21598f0513bac55edf81d20e0d97e649b260c84"
       }
     },
     {
@@ -93,7 +93,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-setup-check/SKILL.md": "556931e7b51ae0ebe548ee47e9aee8eda0bf12bfbc172479f076a84c2ebb7f41"
+        ".github/skills/afs-setup-check/SKILL.md": "07cc1a3fda64fcff8679ff8db387321c806b6a16a13e45c4c7bfd94f9fc1a41b"
       }
     },
     {
@@ -111,7 +111,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-ledger/SKILL.md": "cc7e624874709dee2a16e01be5206e5db6f20241c7bbaff251058a96523fe4b2"
+        ".github/skills/afs-ledger/SKILL.md": "16799eddde34eadbc31ffd7eee06c725df60f9131a04a0a40fabc4784a17e545"
       }
     },
     {
@@ -1076,13 +1076,15 @@
         ".migration/harness/tools/afs-run": "8750d974bc241a2ced3f79fadcbfaead5e25615231c73011f7e2d2298e704500",
         ".migration/harness/tools/afs-services": "27f71d1dd02319071da8348f150bb1e031573ffa846a1a124f961a628c780e64",
         ".migration/harness/tools/check_graph.py": "cc8eed36d5cf5268aad307f1b1762f4eb62b6402f855df9ff97ee165ba980670",
+        ".migration/harness/tools/check_graph_fresh.py": "265074ca35398b172b0721cbc1bc6139ee8ab1af2477cf6a86c3ae75fe9a5519",
         ".migration/harness/tools/check_inputs.py": "f2e4a36e46633857273fdfb5eac9fe3594b7c8e6ccbe94ff0d80676f1a24944c",
         ".migration/harness/tools/check_installed.py": "f36c5de45ed2cde2298d7f04b4918c2e6afe27daaabe5cf73bdf6166e8266066",
         ".migration/harness/tools/check_return_contract.py": "ad8ba4d2f4f903c5f13443608c5c705950bdfa8f94ef6c17afcc0f754ae6d01c",
+        ".migration/harness/tools/check_runtime.py": "5e4e258d5dace78d44bd93868d15c6df64e60f44db76e033c1d449563c786dc4",
         ".migration/harness/tools/crap.py": "8540c260f0b1f80ca764de031d6f61c78fa0d6a6b0de0ed671f5ef310d2ff34b",
         ".migration/harness/tools/extract_slice.py": "9a1eddec8179b03ce3702bbdaa5e818d38d52484beaa2d9925433e245e538d5c",
         ".migration/harness/tools/understand.py": "43c91ba8f5c0a075dd7269746ebe054b2f4313ca79cc477a7757e7f7fc65cb3c",
-        ".migration/harness/tools/validate.py": "88602889d700f49538ff76e83b73649b6b1b5df9906c00aa16330038644a4f76"
+        ".migration/harness/tools/validate.py": "8735bd086c030bbb64d68657dc1e7d449ad1dd2c1d918fb23ddfca6ccd60acc3"
       }
     },
     {
@@ -1091,7 +1093,7 @@
       "files": {
         ".migration/harness/schemas/capabilities.schema.json": "711c200ccf43a3718618991a0df9430ed28ad125b2b2cd7dd0bc195813de779c",
         ".migration/harness/schemas/ledger-entry.schema.json": "494d09f8ddf4c713aa95e45b3c10833eefb57097efa3f427deb146a1a7d60ab0",
-        ".migration/harness/schemas/profile.schema.json": "d1a8ae7473aa9f1cddcd232a2d9274efc88efcac8744ced43fae2e12461e613d",
+        ".migration/harness/schemas/profile.schema.json": "4c085e1214b022f3c8e810e7cf105c97b863dada1b5d2f49aa216ecd4e076fbe",
         ".migration/harness/schemas/return.schema.json": "558f08b1e21e40df205d733aefa20b9ccae8c3a52f35fe6b4d67590946f3ecf6"
       }
     },
