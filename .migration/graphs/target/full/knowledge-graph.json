@@ -12,7 +12,24 @@
     "description": "Django-based cargo tracking application organized by domain-driven design (cargo, location, voyage, handling bounded contexts).",
     "analyzedAt": "2026-11-02T18:08:29.107337Z",
     "gitCommitHash": "70374f81e3e034a015e9b29cef10c6cf3c627f58",
-    "analyzedCommit": "3c5746e74c49acae6b8ce8e9d7c214c9f910045e"
+    "analyzedCommit": "3c5746e74c49acae6b8ce8e9d7c214c9f910045e",
+    "afsEnrichment": {
+      "enrichers": [
+        "django"
+      ],
+      "added": {
+        "edge:calls": 68,
+        "edge:defines_schema": 5,
+        "edge:implements": 1,
+        "edge:reads_from": 8,
+        "edge:routes": 3,
+        "edge:writes_to": 5,
+        "node:endpoint": 3,
+        "node:function": 2,
+        "node:page": 1,
+        "node:table": 5
+      }
+    }
   },
   "nodes": [
     {
@@ -2248,6 +2265,178 @@
         "app-config"
       ],
       "complexity": "simple"
+    },
+    {
+      "id": "table:src/cargotracker/cargo/infrastructure/models.py:cargo",
+      "type": "table",
+      "name": "cargo",
+      "filePath": "src/cargotracker/cargo/infrastructure/models.py",
+      "summary": "Table cargo mapped by Django model CargoRecord",
+      "tags": [
+        "afs-enriched",
+        "django-model"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "table:src/cargotracker/cargo/infrastructure/models.py:leg",
+      "type": "table",
+      "name": "leg",
+      "filePath": "src/cargotracker/cargo/infrastructure/models.py",
+      "summary": "Table leg mapped by Django model LegRecord",
+      "tags": [
+        "afs-enriched",
+        "django-model"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        76,
+        76
+      ]
+    },
+    {
+      "id": "table:src/cargotracker/handling/infrastructure/models.py:HandlingEvent",
+      "type": "table",
+      "name": "HandlingEvent",
+      "filePath": "src/cargotracker/handling/infrastructure/models.py",
+      "summary": "Table HandlingEvent mapped by Django model HandlingEventRecord",
+      "tags": [
+        "afs-enriched",
+        "django-model"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "table:src/cargotracker/location/infrastructure/models.py:location",
+      "type": "table",
+      "name": "location",
+      "filePath": "src/cargotracker/location/infrastructure/models.py",
+      "summary": "Table location mapped by Django model LocationRecord",
+      "tags": [
+        "afs-enriched",
+        "django-model"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "table:src/cargotracker/voyage/infrastructure/models.py:voyage",
+      "type": "table",
+      "name": "voyage",
+      "filePath": "src/cargotracker/voyage/infrastructure/models.py",
+      "summary": "Table voyage mapped by Django model VoyageRecord",
+      "tags": [
+        "afs-enriched",
+        "django-model"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        4,
+        4
+      ]
+    },
+    {
+      "id": "page:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
+      "type": "page",
+      "name": "src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
+      "filePath": "src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
+      "summary": "Template cargo/interfaces/tracking/map/frame.html",
+      "tags": [
+        "afs-enriched",
+        "django-template"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:_in_port_status_text",
+      "type": "function",
+      "name": "_in_port_status_text",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py",
+      "summary": "function _in_port_status_text (added by python-call)",
+      "tags": [
+        "afs-enriched",
+        "python-call"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        22,
+        22
+      ]
+    },
+    {
+      "id": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:_onboard_status_text",
+      "type": "function",
+      "name": "_onboard_status_text",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py",
+      "summary": "function _onboard_status_text (added by python-call)",
+      "tags": [
+        "afs-enriched",
+        "python-call"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        26,
+        26
+      ]
+    },
+    {
+      "id": "endpoint:src/cargotracker/urls.py:/admin/",
+      "type": "endpoint",
+      "name": "/admin/",
+      "filePath": "src/cargotracker/urls.py",
+      "summary": "URL /admin/",
+      "tags": [
+        "afs-enriched",
+        "django-url"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        24,
+        24
+      ]
+    },
+    {
+      "id": "endpoint:src/cargotracker/urls.py:/",
+      "type": "endpoint",
+      "name": "/",
+      "filePath": "src/cargotracker/urls.py",
+      "summary": "URL /",
+      "tags": [
+        "afs-enriched",
+        "django-url"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        25,
+        25
+      ]
+    },
+    {
+      "id": "endpoint:src/cargotracker/cargo/interfaces/tracking/map/urls.py:/tracking/map/",
+      "type": "endpoint",
+      "name": "/tracking/map/",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/urls.py",
+      "summary": "URL /tracking/map/",
+      "tags": [
+        "afs-enriched",
+        "django-url"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        6,
+        6
+      ]
     }
   ],
   "edges": [
@@ -4189,6 +4378,726 @@
       "type": "depends_on",
       "direction": "forward",
       "weight": 0.6
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/models.py:CargoRecord",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:cargo",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-model"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/models.py:LegRecord",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:leg",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-model"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/models.py:HandlingEventRecord",
+      "target": "table:src/cargotracker/handling/infrastructure/models.py:HandlingEvent",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-model"
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/models.py:LocationRecord",
+      "target": "table:src/cargotracker/location/infrastructure/models.py:location",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-model"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/infrastructure/models.py:VoyageRecord",
+      "target": "table:src/cargotracker/voyage/infrastructure/models.py:voyage",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-model"
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-class"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "class:src/cargotracker/cargo/domain/cargo.py:Cargo",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "function:src/cargotracker/cargo/application/sample_data.py:_add_months",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "class:src/cargotracker/cargo/domain/leg.py:Leg",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "target": "function:src/cargotracker/cargo/application/sample_data.py:_at_day_offset",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/voyage/domain/repository.py:VoyageRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/voyage/domain/voyage.py:Voyage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/cargo/domain/repository.py:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/voyage/domain/voyage_number.py:VoyageNumber",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "function:src/cargotracker/cargo/application/sample_data.py:_at_day_offset",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "target": "class:src/cargotracker/cargo/domain/repository.py:CargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "target": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "target": "class:src/cargotracker/cargo/domain/handling_activity.py:HandlingActivity",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "target": "function:src/cargotracker/cargo/domain/dates.py:as_utc",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/domain/leg.py:Leg",
+      "target": "function:src/cargotracker/cargo/domain/dates.py:as_utc",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
+      "target": "function:src/cargotracker/cargo/domain/dates.py:as_utc",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:cargo",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:cargo",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/cargo.py:Cargo",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/voyage/domain/voyage.py:Voyage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:leg",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:leg",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/handling_activity.py:HandlingActivity",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/voyage/domain/voyage_number.py:VoyageNumber",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/leg.py:Leg",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:TransportStatus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:RoutingStatus",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:map_frame",
+      "target": "page:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-template"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:_in_port_status_text",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:_onboard_status_text",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-typed-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
+      "target": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
+      "target": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
+      "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
+      "target": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
+      "target": "function:src/cargotracker/cargo/domain/dates.py:as_utc",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "table:src/cargotracker/handling/infrastructure/models.py:HandlingEvent",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "table:src/cargotracker/handling/infrastructure/models.py:HandlingEvent",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/handling/domain/handling_history.py:HandlingHistory",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEventType",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "table:src/cargotracker/cargo/infrastructure/models.py:cargo",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "table:src/cargotracker/location/infrastructure/models.py:location",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/voyage/domain/voyage.py:Voyage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "table:src/cargotracker/voyage/infrastructure/models.py:voyage",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/voyage/domain/voyage_number.py:VoyageNumber",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "table:src/cargotracker/location/infrastructure/models.py:location",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "table:src/cargotracker/location/infrastructure/models.py:location",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/domain/voyage_builder.py:VoyageBuilder",
+      "target": "class:src/cargotracker/voyage/domain/voyage.py:Voyage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/domain/voyage_builder.py:VoyageBuilder",
+      "target": "class:src/cargotracker/voyage/domain/carrier_movement.py:CarrierMovement",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/domain/voyage_builder.py:VoyageBuilder",
+      "target": "class:src/cargotracker/voyage/domain/schedule.py:Schedule",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
+      "target": "table:src/cargotracker/voyage/infrastructure/models.py:voyage",
+      "type": "reads_from",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
+      "target": "table:src/cargotracker/voyage/infrastructure/models.py:voyage",
+      "type": "writes_to",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-orm"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
+      "target": "class:src/cargotracker/voyage/domain/voyage.py:Voyage",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
+      "target": "class:src/cargotracker/voyage/domain/voyage_number.py:VoyageNumber",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:python-call"
+    },
+    {
+      "source": "endpoint:src/cargotracker/urls.py:/",
+      "target": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-url"
+    },
+    {
+      "source": "endpoint:src/cargotracker/cargo/interfaces/tracking/map/urls.py:/tracking/map/",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:map_frame",
+      "type": "routes",
+      "direction": "forward",
+      "weight": 0.8,
+      "description": "afs-enriched:django-url"
     }
   ],
   "layers": [

@@ -1,6 +1,6 @@
 # Capability checklist (ADR-0012), written by bootstrap. A gap blocks Phase 2 until its ticket is resolved.
 harness_version: 0.2.0
-checked_at: '2026-10-31T17:01:34Z'
+checked_at: '2026-11-02T20:45:12Z'
 characterization:
   legacy_environment: available
   source_builds: partial
@@ -21,6 +21,13 @@ capabilities:
   - kind: tool
     name: understand-anything
     version: 2.9.8
+- id: graph-data-links
+  applies_to: both
+  status: met
+  provided_by:
+  - kind: tool
+    name: enrich_graph.py (java-ee, django)
+  notes: ADR-0020; tables, routes and reads/writes Understand Anything can't infer
 - id: build-run
   applies_to: source
   status: met

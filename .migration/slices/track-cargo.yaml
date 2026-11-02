@@ -1,0 +1,7 @@
+# Track Cargo slice: entry points that must reach data through the directed flow (ADR-0020, graph_gate.py).
+data_paths:
+  source:
+    - src/main/webapp/public/track.xhtml        # public tracking page → Track bean → repositories
+    - src/main/webapp/admin/tracking/track.xhtml # admin tracking page
+  target:
+    - endpoint=/                                 # tracking page (compose_tracking_view)
