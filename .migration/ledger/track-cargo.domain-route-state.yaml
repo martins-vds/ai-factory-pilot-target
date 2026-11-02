@@ -34,3 +34,7 @@ target:
     - cargotracker.cargo.domain.route_specification.RouteSpecification.is_satisfied_by
 notes: "ETA and next activity are absent when unrouted or misdirected. A claimed cargo can remain on-track and retain the itinerary's past ETA; see martins-vds/ai-factory-pilot-target#17. The source ItineraryTest::testNextExpectedEvent is an empty TODO, not coverage; the tier-B cases replace it as evidence. Risk is calculateNextExpectedActivity. The committed source graph was analyzed at a8cdf52effc852af7a9218b40bedb98b8451d4ae, not the pinned f3beacf78de4f6d34edc4971ac87e38a5c6fe59d; inspected pinned source calculation methods agree with the design. The repeated-location behavior is preserved per approved quirk #52 and pinned by test."
 quirks: [martins-vds/ai-factory-pilot-target#17, martins-vds/ai-factory-pilot-target#52]
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#52
+  reason: "Preserve approved quirk #52: repeated-location lookup uses the first matching location/leg without voyage matching."

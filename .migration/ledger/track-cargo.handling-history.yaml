@@ -31,3 +31,7 @@ target:
     - templates.tracking.result
 notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; the TC-13 view tests cover ordered rows, event markers, UTC formatting and empty history."
 quirks: [martins-vds/ai-factory-pilot-target#12]
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#12
+  reason: "Fix approved quirk #12: show visible required/not-found feedback and suppress cargo-dependent content when no cargo is found."

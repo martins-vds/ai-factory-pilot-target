@@ -31,3 +31,7 @@ target:
     - templates.tracking.result
 notes: "LOAD/UNLOAD text names the voyage and location; other activity types name the location. Tier-B cases cover progression, claim, off-track and unrouted states. Quirk #52's repeated-location behavior is preserved as approved and pinned by test."
 quirks: [martins-vds/ai-factory-pilot-target#52]
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#52
+  reason: "Preserve approved quirk #52: repeated-location lookup uses the first matching location/leg without voyage matching."
