@@ -1,0 +1,29 @@
+role: afs-auditor
+ticket: TC-15
+issue: martins-vds/ai-factory-pilot-target#35
+scope: Track Cargo
+report: .migration/evidence/track-cargo/report.md
+capabilities_checked: 19
+gaps:
+  - class: broken-flow
+    ledger_id: track-cargo.map-frame
+    ticket: null
+  - class: integration
+    ledger_id: track-cargo.map-integration
+    ticket: null
+  - class: missing
+    ledger_id: track-cargo.handling-history
+    ticket: martins-vds/ai-factory-pilot-target#12
+  - class: missing
+    ledger_id: track-cargo.domain-route-state
+    ticket: martins-vds/ai-factory-pilot-target#52
+  - class: missing
+    ledger_id: track-cargo.next-activity
+    ticket: martins-vds/ai-factory-pilot-target#52
+  - class: untested
+    ledger_id: null
+    ticket: null
+graph_inconsistencies:
+  - Source knowledge/domain graph metadata and graph-check.md record a8cdf52effc852af7a9218b40bedb98b8451d4ae, but SNAPSHOT.txt/source.lock pin f3beacf78de4f6d34edc4971ac87e38a5c6fe59d.
+  - No target graph artifact is present under .migration/graphs.
+verdict: gaps-remain
