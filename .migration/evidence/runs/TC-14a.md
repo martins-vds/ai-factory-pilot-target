@@ -14,3 +14,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-02T00:22:37+00:00 | crap | 1 | 0.26 | `bash -lc 'lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizar` | `70317790ae7cf94b` |  |
 | 2026-11-02T00:22:57+00:00 | regression | 0 | 8.19 | `env POSTGRES_DB=app POSTGRES_USER=app POSTGRES_PASSWORD=app POSTGRES_HOST=localhost POSTGRES_PORT=5432 pytest -q` | `5374c140b94215ee` |  |
 | 2026-11-02T00:31:31+00:00 | mutation-changed | 0 | 508.11 | `env POSTGRES_DB=app POSTGRES_USER=app POSTGRES_PASSWORD=app POSTGRES_HOST=localhost POSTGRES_PORT=5432 python .migration` | `3a4ab68a5a39f989` |  |
+| 2026-11-02T00:36:04+00:00 | differential-pr61 | 0 | 4.87 | `bash -lc 'cd /tmp/tc14a-pr61-test && env POSTGRES_DB=app POSTGRES_USER=app POSTGRES_PASSWORD=app POSTGRES_HOST=localhost` | `7f5a128402b1b286` |  |
