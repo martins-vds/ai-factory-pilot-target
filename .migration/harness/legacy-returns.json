@@ -1,0 +1,23 @@
+{
+  "rule": "ADR-0017",
+  "returns": [
+    "TC-02.afs-migrator.yaml",
+    "TC-03.afs-migrator.yaml",
+    "TC-04.afs-migrator.yaml",
+    "TC-05.afs-migrator.yaml",
+    "TC-06.afs-migrator.yaml",
+    "TC-07.afs-migrator.yaml",
+    "TC-08.afs-migrator.yaml",
+    "TC-09.afs-migrator.yaml",
+    "TC-10.afs-migrator.yaml",
+    "TC-11.afs-migrator.yaml",
+    "TC-12.afs-migrator.yaml",
+    "TC-13.afs-migrator.yaml",
+    "TC-14.afs-verifier.yaml",
+    "TC-14a.afs-migrator.yaml",
+    "TC-14b.afs-migrator.yaml",
+    "TC-15.afs-auditor.yaml",
+    "TC-15a.afs-migrator.yaml",
+    "TC-15b.afs-migrator.yaml"
+  ]
+}
