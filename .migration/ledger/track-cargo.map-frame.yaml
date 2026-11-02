@@ -10,13 +10,15 @@ boundary: "For a found cargo, embed public/mapFrame.xhtml with status, last-know
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#32]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/def789.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/interfaces/test_map.py::test_tracking_map_url_carries_status_and_cargo_locations"
   - ".migration/evidence/runs/TC-12.md"
 target:

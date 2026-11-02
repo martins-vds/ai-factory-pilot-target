@@ -10,7 +10,7 @@ boundary: "The public result omits ETA for claimed cargo; otherwise it displays 
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#31]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_seeded_cargo_matches_observed_golden[abc123]"
@@ -18,6 +18,8 @@ evidence:
   - "characterization/track-cargo/golden/abc123.json"
   - "characterization/track-cargo/golden/mno456.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/interfaces/test_eta.py::test_claimed_cargo_hides_eta"
   - "tests/cargo/interfaces/test_eta.py::test_eta_uses_utc_and_source_format"
   - "tests/cargo/interfaces/test_eta.py::test_unknown_eta_uses_existing_question_mark"

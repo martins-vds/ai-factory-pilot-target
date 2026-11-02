@@ -10,7 +10,7 @@ boundary: "Delivery derives route status, misdirection, unloaded-at-destination,
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#28, martins-vds/ai-factory-pilot-target#33]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: B
 evidence:
   - "characterization/track-cargo/tier_b/TrackCargoCharacterizationTest.java::offTrackAndUnroutedCargoHaveNoNextActivity"
@@ -18,6 +18,8 @@ evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/test_domain_calculations.py::test_delivery_derives_routing_eta_and_first_activity_without_events"
   - "tests/cargo/test_domain_calculations.py::test_delivery_has_no_eta_or_activity_when_unrouted_or_route_misses_specification"
   - "tests/cargo/test_domain_calculations.py::test_delivery_keeps_transport_status_when_latest_event_is_misdirected"

@@ -10,7 +10,7 @@ boundary: "Public tracking form: required tracking ID input with XYZ789 placehol
 slice: track-cargo
 tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#29]
 status: migrated
-verification: characterized
+verification: differential
 characterization_tier: A
 evidence:
   - "characterization/track-cargo/test_tracking.py::test_tracking_id_entry_trims_surrounding_whitespace"
@@ -20,6 +20,8 @@ evidence:
   - "characterization/track-cargo/golden/lowercase-id.json"
   - "characterization/track-cargo/golden/empty-id.json"
   - ".migration/evidence/track-cargo/characterization/report.md"
+  - "tests/differential/test_track_cargo.py::test_tracking_page_matches_each_normalized_golden_case"
+  - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/cargo/test_tracking.py::test_tracking_page_has_a_progressive_tracking_form"
   - "tests/cargo/test_tracking.py::test_padded_tracking_id_is_trimmed_in_htmx_lookup"
   - "tests/cargo/test_tracking.py::test_lowercase_tracking_id_remains_case_sensitive"
