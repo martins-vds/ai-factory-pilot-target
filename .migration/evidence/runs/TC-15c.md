@@ -20,8 +20,11 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-02T13:46:12+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-02T14:04:03+00:00 | mutation-full | 0 | 1033.19 | `python .migration/harness/tools/afs-mutation --all` | `3803c3be97be4858` |  | gate=mutation score=0.822 threshold=0.8 killed=426 survived=92 files=53 base=all |
 
-## Mutation context
-
-The `mutation-full` row is the profile's full `--all` run, executed after `afs-services check` reported `services OK: db`; the Compose service is `postgres:17`. The gate result is copied exactly from `AFS-RESULT`: score 0.822 against 0.8, 426 killed and 92 survived across 53 files. The preceding run in this journal scored 0.810 (792 killed, 186 survived) on a manually started PostgreSQL 16 cluster; the issue cites the Auditor's 0.797 (779 killed, 198 survived). The mutant totals differ substantially, and no pre-test run was repeated on this same revision and PostgreSQL 17, so the exact cause of the score discrepancy cannot be isolated; the current full-run result is the comparable acceptance evidence available here.
 | 2026-11-02T15:27:08+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-02T15:53:26+00:00 | mutation-full | 0 | 1547.62 | `python .migration/harness/tools/afs-mutation --all` | `5a5f5f4bd11bce96` |  | gate=mutation score=0.819 threshold=0.8 killed=801 survived=177 files=53 base=all |
+
+## Mutation context
+
+The `mutation-full` run at 15:53 UTC is the profile's full `--all` gate, after `afs-services check` reported `services OK: db` (Compose `postgres:17`). Its exact `AFS-RESULT` is score 0.819, threshold 0.8, 801 killed and 177 survived: 978 mutants across 53 files. This is consistent with the Auditor's 977 and the earlier 978-mutant run; the earlier 0.810 run used manually started PostgreSQL 16, while this rerun uses Compose PostgreSQL 17, so the 13-mutant outcome difference from the Auditor's 0.797 cannot be attributed conclusively to a single environmental factor.
+
+The intervening 0.822 result (426 killed, 92 survived; 518 mutants) is invalid for acceptance: merged harness fixes confirmed by the PR comment now fail the gate when mutmut fails on a file and isolate worker databases using `POSTGRES_DB`. The prior run silently omitted failed files and did not provide per-worker database isolation. Do not use its score.

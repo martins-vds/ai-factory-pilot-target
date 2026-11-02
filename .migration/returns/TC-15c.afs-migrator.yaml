@@ -7,7 +7,7 @@ gates:
   behavior: 0
   idiom: 0
   crap: 0
-  mutation_changed: 0.822
+  mutation_changed: 0.819
   regression: 0
 evidence_logs:
   - .migration/evidence/runs/TC-15c.md
@@ -17,10 +17,12 @@ new_tickets: []
 handoff: none
 notes: >-
   mutation_changed is the profile's full `afs-mutation --all` score, not a
-  changed-files run: 0.822, 426 killed, 92 survived, 53 files, threshold 0.8.
-  `afs-services check` reported `services OK: db` and Compose reports
-  PostgreSQL 17. The issue's Auditor score was 0.797 (779 killed, 198
-  survived); the earlier local run was 0.810 (792 killed, 186 survived) on
-  manually started PostgreSQL 16. The mutant totals differ, and a pre-test
-  run was not repeated on this same revision and PostgreSQL 17, so the exact
-  cause of the score discrepancy cannot be isolated.
+  changed-files run: 0.819, 801 killed, 177 survived, 53 files (978 mutants),
+  threshold 0.8. `afs-services check` reported `services OK: db`; Compose
+  uses PostgreSQL 17. The issue's Auditor score was 0.797 (779 killed, 198
+  survived; 977 mutants); the earlier 0.810 run (792 killed, 186 survived;
+  978 mutants) used manually started PostgreSQL 16. The 0.822 result counted
+  only 518 mutants because failed mutmut files were omitted and worker
+  databases were not isolated; the merged harness fixes make these failures
+  visible and configure per-worker databases. The current score is the
+  corrected full-run evidence.
