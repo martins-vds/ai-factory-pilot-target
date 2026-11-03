@@ -24,6 +24,7 @@ cargo's handling history.
 _Avoid_: Accepted, processed
 
 **Rejected**:
-An accepted registration attempt that cannot become a handling event, for example because its cargo,
-voyage or location is unknown.
-_Avoid_: Failed, dropped
+An accepted registration attempt that can never become a handling event: its cargo, voyage or location is
+unknown, or its data is invalid. A rejection is recorded with its reason. An attempt that only failed
+temporarily is retried, not rejected.
+_Avoid_: Failed, dropped, dead-lettered
