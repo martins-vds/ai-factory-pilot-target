@@ -104,6 +104,14 @@ def test_optional_voyage_number_is_persisted(client):
 
 
 @pytest.mark.django_db
+def test_null_voyage_number_is_accepted_as_optional(client):
+    response = _post_report(client, VALID_REPORT | {'voyageNumber': None})
+
+    assert response.status_code == 204
+    assert RegistrationAttemptRecord.objects.get().voyage_number is None
+
+
+@pytest.mark.django_db
 def test_load_without_voyage_is_accepted_for_worker_validation(client):
     response = _post_report(
         client,
