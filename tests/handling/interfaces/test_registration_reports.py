@@ -39,6 +39,14 @@ def test_accepted_report_is_persisted_with_completion_time_in_utc(client):
     assert attempt.voyage_number is None
 
 
+@pytest.mark.django_db
+def test_accepts_zero_padded_year_in_completion_time(client):
+    response = _post_report(client, VALID_REPORT | {'completionTime': '0001-01-01 00:00'})
+
+    assert response.status_code == 204
+    assert RegistrationAttemptRecord.objects.get().completion_time == datetime(1, 1, 1, tzinfo=UTC)
+
+
 def test_handling_report_url_is_registered_without_changing_tracking_root():
     assert reverse('handling-report') == '/rest/handling/reports'
     assert reverse('track') == '/'

@@ -51,3 +51,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T21:16:49+00:00 | verifier-regression | 0 | 15.58 | `pytest -q` | `20ec985eea15ed41` |  |  |
 | 2026-11-03T21:17:12+00:00 | verifier-mutation-changed | 1 | 0.09 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `3ff11adc524e78cf` |  |  |
 | 2026-11-03T21:18:55+00:00 | verifier-mutation-changed | 0 | 74.64 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `f60e3f9e013eb808` |  | gate=mutation score=0.800 threshold=0.8 killed=68 survived=17 files=4 base=origin/main |
+| 2026-11-03T21:23:33+00:00 | verifier-zero-padded-year | 1 | 1.66 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `e4fc088b41504342` | >       assert response.status_code == 204 |  |
