@@ -8,7 +8,7 @@ source:
   risk: {crap: 182, complexity: 13, coverage: 0.0}
 boundary: "Inspection sends the tracking ID to MisdirectedCargoQueue when the re-derived Delivery is misdirected; its consumer only logs the ID."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#127]
 status: pending
 verification: characterized
 characterization_tier: B
@@ -23,4 +23,5 @@ notes: >-
   event is expected by the itinerary; CargoTest.testIsMisdirected exercises expected and
   misdirected histories. MisdirectedCargoConsumer catches JMSException and logs a warning.
   Decision #87 retires this queue and retains misdirected/delivered notifications as log lines
-  during inspection.
+  during inspection. HR-04A (#127) designs the HR-04D (#130) outcome tests; this remains
+  pending until the outcome is implemented or retired.

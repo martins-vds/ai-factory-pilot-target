@@ -8,7 +8,7 @@ source:
   risk: {crap: 12, complexity: 3, coverage: 0.0}
 boundary: "Inspection sends the tracking ID to DeliveredCargoQueue only when the latest distinct event is UNLOAD at the route specification destination; its consumer only logs the ID."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#127]
 status: pending
 verification: characterized
 characterization_tier: B
@@ -22,3 +22,5 @@ notes: >-
   event's type and location. CargoTest.testIsUnloadedAtFinalDestination covers non-UNLOAD,
   wrong-location and matching UNLOAD cases. DeliveredCargoConsumer catches JMSException and
   logs a warning. Decision #87 retires this queue and keeps the outcome as a log line.
+  HR-04A (#127) designs the HR-04D (#130) outcome tests; this remains pending until the
+  outcome is implemented or retired.
