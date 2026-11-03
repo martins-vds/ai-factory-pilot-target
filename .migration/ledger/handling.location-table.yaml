@@ -1,0 +1,19 @@
+id: handling.location-table
+kind: data
+title: Resolve handling event locations
+source:
+  graph_node: "table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaLocationRepository.java:22-26
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "HandlingEventFactory resolves the submitted UN Locode through JpaLocationRepository, which reads Location by UN Locode."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#95]
+status: pending
+verification: pending
+notes: >-
+  Location is a JPA entity with embedded UnLocode. The repository uses getSingleResult and
+  does not translate NoResultException to null, so the factory's UnknownLocationException
+  null branch is not reached for this JPA implementation. CargoLifecycleScenarioTest includes
+  an invalid location scenario; no direct repository test was identified. Decision #95 requires
+  unknown locations to be recorded as permanent rejections in the target.

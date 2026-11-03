@@ -1,0 +1,19 @@
+id: handling.misdirected-queue
+kind: integration
+title: Notify about misdirected cargo
+source:
+  graph_node: "resource:jms:java:app/jms/MisdirectedCargoQueue"
+  flow: Inspect Cargo After Handling
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java:50-52
+  risk: {crap: 182, complexity: 13, coverage: 0.0}
+boundary: "Inspection sends the tracking ID to MisdirectedCargoQueue when the re-derived Delivery is misdirected; its consumer only logs the ID."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+status: pending
+verification: pending
+notes: >-
+  web.xml:82-87 defines the queue. Delivery misdirection depends on whether the last handling
+  event is expected by the itinerary; CargoTest.testIsMisdirected exercises expected and
+  misdirected histories. MisdirectedCargoConsumer catches JMSException and logs a warning.
+  Decision #87 retires this queue and retains misdirected/delivered notifications as log lines
+  during inspection.

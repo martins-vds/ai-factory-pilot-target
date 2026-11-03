@@ -1,0 +1,19 @@
+id: handling.voyage-table
+kind: data
+title: Resolve optional handling event voyages
+source:
+  graph_node: "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/Voyage.java:Voyage"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaVoyageRepository.java:22-26
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "HandlingEventFactory queries Voyage by voyage number when one is supplied; a null voyage number skips the lookup."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#95]
+status: pending
+verification: pending
+notes: >-
+  JpaVoyageRepository.find uses getSingleResult; a missing voyage raises NoResultException
+  rather than returning null to the factory's UnknownVoyageException branch. Voyage embeds
+  Schedule, whose carrier movements are separately persisted. CargoLifecycleScenarioTest
+  includes an invalid voyage scenario; no direct repository test was identified. Decision #95
+  requires unknown voyages to be recorded as permanent rejections in the target.

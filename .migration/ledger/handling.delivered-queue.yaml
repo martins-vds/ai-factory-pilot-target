@@ -1,0 +1,18 @@
+id: handling.delivered-queue
+kind: integration
+title: Notify about cargo unloaded at destination
+source:
+  graph_node: "resource:jms:java:app/jms/DeliveredCargoQueue"
+  flow: Inspect Cargo After Handling
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java:54-56
+  risk: {crap: 12, complexity: 3, coverage: 0.0}
+boundary: "Inspection sends the tracking ID to DeliveredCargoQueue only when the latest distinct event is UNLOAD at the route specification destination; its consumer only logs the ID."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+status: pending
+verification: pending
+notes: >-
+  web.xml:88-93 defines the queue. Delivery.calculateUnloadedAtDestination uses the last
+  event's type and location. CargoTest.testIsUnloadedAtFinalDestination covers non-UNLOAD,
+  wrong-location and matching UNLOAD cases. DeliveredCargoConsumer catches JMSException and
+  logs a warning. Decision #87 retires this queue and keeps the outcome as a log line.

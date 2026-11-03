@@ -1,0 +1,18 @@
+id: handling.event-table
+kind: data
+title: Persist and query handling events
+source:
+  graph_node: "table:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaHandlingEventRepository.java:22-31
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "JpaHandlingEventRepository inserts each HandlingEvent and queries rows by cargo tracking ID to construct HandlingHistory; HandlingHistory itself is not a persisted table."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
+status: pending
+verification: pending
+notes: >-
+  HandlingEvent maps type, voyage_id, location_id, completionTime, registration and cargo_id.
+  The JPA repository stores events and reads the named HandlingEvent.findByTrackingId query.
+  HandlingEventTest and HandlingHistoryTest cover domain behavior, not repository persistence;
+  no direct source repository test was identified.

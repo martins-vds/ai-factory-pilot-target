@@ -1,0 +1,23 @@
+id: handling.registration-flow
+kind: behavioral
+title: Process a handling report asynchronously
+source:
+  graph_node: "flow:register-handling-via-rest"
+  flow: Register Handling Report via REST
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:59-63
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "A REST report is accepted before registration; the registration-attempt message is consumed and persisted before a separate cargo-handled message triggers cargo inspection and delivery-state persistence."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94]
+status: pending
+verification: pending
+notes: >-
+  This is a fire-and-forget, two-queue flow. The HandlingEvent is stored before
+  CargoHandledQueue is sent; Cargo delivery status is re-derived asynchronously, leaving a
+  consistency window. The application configures low priority and disables message IDs and
+  timestamps, but declares no attempt ordering guarantee or explicit redelivery interval/count;
+  consumer failures are rethrown and the consumer comment delegates poison-message DLQ handling
+  to the server. Decision #94 replaces the one-second-loss behavior with at-least-once,
+  idempotent processing and no ordering promise; #87 chooses a PostgreSQL-backed worker and
+  registration plus inspection in one transaction. HandlingEventServiceTest.testRegisterEvent
+  is only nominal coverage: setup, expectations and verifications are commented out.

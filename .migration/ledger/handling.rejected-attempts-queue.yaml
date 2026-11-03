@@ -1,0 +1,18 @@
+id: handling.rejected-attempts-queue
+kind: integration
+title: Define the unused rejected-attempts queue
+source:
+  graph_node: "resource:jms:java:app/jms/RejectedRegistrationAttemptsQueue"
+  location: src/main/webapp/WEB-INF/web.xml:94-99
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "RejectedRegistrationAttemptsQueue is declared and has a logging MDB consumer, but no source code publishes to it."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#95]
+status: pending
+verification: pending
+notes: >-
+  RejectedRegistrationAttemptsConsumer logs a message body if one arrives; the registration
+  consumer instead rethrows failures for server dead-letter handling. No producer or direct
+  queue test was identified. Decision #95 drops this never-fed queue in the target and records
+  permanent rejection attempts instead. The capability remains pending here for the slice
+  rulings to apply.
