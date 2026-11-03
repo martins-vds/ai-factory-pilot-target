@@ -1,11 +1,9 @@
-> target_commit: 70374f81e3e034a015e9b29cef10c6cf3c627f58 tree.src: 6efc436302abfc7837dade1e0cb712203be4c516 
-
-> Enriched in place by the harness (ADR-0020, enrich_graph.py) on top of the Understand Anything build recorded in SNAPSHOT.txt.
+> target_commit: d7f4fe8012108e9bb44da59ea8cb59dadbf21f65 tree.src: 0f19d5ca6095737423b31f7af9103b75228e79f7 tree.templates: 6897757dbfdb8f98f8776e20891397d241892c0b 
 
 # Graph gate: target
 
-- 201 nodes, 410 edges
-- Edges added by harness enrichers: 90
+- 205 nodes, 417 edges
+- Edges added by harness enrichers: 86
 
 ## Required types (profile graph.require)
 
@@ -13,8 +11,8 @@
 - node `endpoint`: 3
 - edge `reads_from`: 8
 - edge `writes_to`: 5
-- edge `routes`: 3
-- edge `calls`: 80
+- edge `routes`: 5
+- edge `calls`: 83
 
 ## Data paths (slice specs data_paths)
 
@@ -22,22 +20,24 @@
 
 ## Entry points reaching data (for review)
 
-- 1 of 4 pages/endpoints
+- 2 of 7 pages/endpoints
   - no path: page `src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html`
   - no path: endpoint `/admin/`
   - no path: endpoint `/tracking/map/`
+  - no path: page `templates/base.html`
+  - no path: page `templates/tracking/result.html`
 
 ## Gate
 
 - PASS
 
-AFS-RESULT gate=graph side=target verdict=pass failures=0 entry_points=4 reaching_data=1 enriched_edges=90
+AFS-RESULT gate=graph side=target verdict=pass failures=0 entry_points=7 reaching_data=2 enriched_edges=86
 
 # Graph check: cargotracker
 
-- Commit: `70374f81e3e034a015e9b29cef10c6cf3c627f58` · analyzed 2026-11-02T18:08:29.107337Z
+- Commit: `d7f4fe8012108e9bb44da59ea8cb59dadbf21f65` · analyzed 2026-11-03T04:41:26.728Z
 - Languages: html, python · frameworks: Django
-- 201 nodes, 410 edges, 5 layers
+- 205 nodes, 417 edges, 8 layers
 
 ## Required node types
 
@@ -45,29 +45,29 @@ AFS-RESULT gate=graph side=target verdict=pass failures=0 entry_points=4 reachin
 |---|---|---|
 | `endpoint` | 3 | entry points for slices (HTTP) |
 | `screen` | **0** | UI screens (ledger kind: ui) |
-| `page` | 1 | UI pages (alternative to screen) |
+| `page` | 4 | UI pages (alternative to screen) |
 | `table` | 5 | data capabilities and data-migration slices |
 | `service` | **0** | service boundaries |
 | `domain` | 4 | bounded contexts |
-| `flow` | 7 | business flows → slice anchors |
-| `step` | 30 | flow steps → capabilities |
+| `flow` | 6 | business flows → slice anchors |
+| `step` | 25 | flow steps → capabilities |
 
 ## Required edge types
 
 | Type | Count | Needed for |
 |---|---|---|
-| `calls` | 80 | dependency resolution |
+| `calls` | 83 | dependency resolution |
 | `reads_from` | 8 | data access (read) |
 | `writes_to` | 5 | data access (write) |
-| `routes` | 3 | UI/HTTP routing |
+| `routes` | 5 | UI/HTTP routing |
 | `tested_by` | **0** | legacy test inventory |
-| `contains_flow` | 7 | domain → flow |
-| `flow_step` | 30 | flow → step |
+| `contains_flow` | 6 | domain → flow |
+| `flow_step` | 25 | flow → step |
 
 ## All node types
 
-`file` 87, `class` 46, `step` 30, `function` 18, `flow` 7, `table` 5, `domain` 4, `endpoint` 3, `page` 1
+`file` 90, `class` 48, `step` 25, `function` 18, `flow` 6, `table` 5, `page` 4, `domain` 4, `endpoint` 3, `document` 1, `command` 1
 
 ## All edge types
 
-`imports` 136, `calls` 80, `contains` 62, `exports` 56, `flow_step` 30, `reads_from` 8, `depends_on` 7, `contains_flow` 7, `cross_domain` 6, `defines_schema` 5, `writes_to` 5, `implements` 4, `routes` 3, `inherits` 1
+`imports` 136, `calls` 83, `contains` 66, `exports` 58, `flow_step` 25, `reads_from` 8, `depends_on` 7, `cross_domain` 6, `contains_flow` 6, `implements` 5, `defines_schema` 5, `routes` 5, `writes_to` 5, `documents` 1, `related` 1
