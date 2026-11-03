@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "052c2becd937adaf569e3e141506712329b588cf",
-  "installed_at": "2026-11-03T17:00:25Z",
+  "harness_commit": "36a89e449a2eb621e87b7d0ac9cb4b195cbcc05f",
+  "installed_at": "2026-11-03T18:25:38Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1079,7 +1079,7 @@
       "path": ".migration/harness/tools",
       "kind": "tools",
       "files": {
-        ".migration/harness/tools/afs-cost-hook": "3bef8501ce1dcf1cfd695d9a1180cb5a5b8c1f05590f4d1e53c2f0f394309a47",
+        ".migration/harness/tools/afs-cost-hook": "28d8e7794ad68ebbfe9651d8b386ff6580bf02fca4b997a6a91e4c5db6c03da8",
         ".migration/harness/tools/afs-costs": "9d2705b4c7e739b2d68a8a073bc255c6a23c55e0add2ba67ab3bd4af1849cc9d",
         ".migration/harness/tools/afs-mutation": "e997ecafb0ec26e15fc11e6f53e633388e67f51dbee8ff3a3a9e3b5a11b0704a",
         ".migration/harness/tools/afs-run": "070f2d7923d4aadec798b7b54597b229a9aaa8fb41d8be58b2442b8303104031",
@@ -1097,7 +1097,7 @@
         ".migration/harness/tools/extract_slice.py": "9e8d0dc81847e851fdb9332449fe3639de90d775616fa059132c86539f598b11",
         ".migration/harness/tools/fog_rewalk.py": "c187ca073cef8a043bdc786f09c1cdf74b74656c8e89ffefe47da537ce56a43c",
         ".migration/harness/tools/graph_gate.py": "bf91811120dea310d932796863124e5183e0644ad1d2551babc9fadf1e147a9a",
-        ".migration/harness/tools/harness_coverage.py": "546ffb0e59891ab5a728ff0d9fd067a091a31dd1e86060cbc719b7d80cff4a8d",
+        ".migration/harness/tools/harness_coverage.py": "628ca9bc2d06ec5e7135f43a4e5e6ce9b9465ff97499392bb1b128264c404151",
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
         ".migration/harness/tools/understand.py": "5e540c4c39098780fb89529f59cbcd879cd74d256e3e097e60f9f05aee09f2b4",
         ".migration/harness/tools/validate.py": "6588f2c560352be203318f8fb94558782627510c1db28d78b3a0597682813646"
