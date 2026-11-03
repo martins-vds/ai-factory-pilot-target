@@ -3,33 +3,35 @@
   "project": {
     "name": "cargo-tracker",
     "languages": [
-      "css",
-      "html",
       "java",
+      "html",
+      "xml",
+      "css",
       "markdown",
-      "properties",
-      "xhtml",
-      "xml"
+      "json",
+      "properties"
     ],
     "frameworks": [
       "Jakarta EE",
-      "JUnit",
+      "JSF",
+      "JAX-RS",
       "Maven"
     ],
-    "description": "Cargo shipping tracking: booking, handling event reporting, tracking and routing.",
-    "analyzedAt": "2026-11-03T04:43:46.237Z",
+    "description": "Eclipse Cargo Tracker: a Jakarta EE application demonstrating Domain-Driven Design for end-to-end shipping cargo tracking.",
+    "analyzedAt": "2026-11-03T14:43:51.591645Z",
     "gitCommitHash": "f3beacf78de4f6d34edc4971ac87e38a5c6fe59d",
-    "analyzedCommit": "1c44ab9850d632e19f673430d0b744a3e375f7ff"
+    "analyzedCommit": "d54af6e090b822ae13bdaea29f2b0ffa45402670"
   },
   "nodes": [
     {
       "id": "domain:cargo-booking",
       "type": "domain",
       "name": "Cargo Booking & Routing",
-      "summary": "Registers new cargo, assigns itineraries from the external pathfinder, and lets operators change destination or arrival deadline. Core of the shipping customer-facing back office.",
+      "summary": "Lets booking agents register new cargo with an origin, destination and arrival deadline, request candidate itineraries and assign a route. Also handles changing destination and deadline.",
       "tags": [
         "booking",
-        "routing"
+        "routing",
+        "cargo"
       ],
       "complexity": "complex",
       "domainMeta": {
@@ -38,44 +40,46 @@
           "RouteSpecification",
           "Itinerary",
           "Leg",
-          "Location",
-          "TrackingId"
+          "TrackingId",
+          "Location"
         ],
         "businessRules": [
-          "Itinerary must satisfy route specification",
-          "Origin and destination must differ",
           "Arrival deadline must be in the future",
-          "Changing route spec may misroute cargo"
+          "Origin and destination must differ",
+          "Itinerary must satisfy the route specification",
+          "Changing destination/deadline invalidates the existing route"
         ],
         "crossDomainInteractions": [
-          "Uses Pathfinder for candidate routes",
-          "Delivery progress recalculated on route change"
+          "Calls the Pathfinder service for routes",
+          "Triggers delivery recalculation in Cargo Tracking"
         ]
       }
     },
     {
-      "id": "domain:handling-reporting",
+      "id": "domain:handling-events",
       "type": "domain",
-      "name": "Handling Event Reporting",
-      "summary": "Accepts handling reports (receive, load, unload, customs, claim) from mobile, REST and batch file channels and registers them asynchronously as handling events.",
+      "name": "Handling Event Registration",
+      "summary": "Receives reports of physical cargo handling (receive, load, unload, customs, claim) from file uploads, REST and mobile UI, and registers them asynchronously via JMS.",
       "tags": [
         "handling",
-        "messaging"
+        "messaging",
+        "events"
       ],
       "complexity": "complex",
       "domainMeta": {
         "entities": [
           "HandlingEvent",
           "HandlingEventRegistrationAttempt",
-          "HandlingReport",
-          "Voyage"
+          "Voyage",
+          "HandlingHistory"
         ],
         "businessRules": [
-          "Event must reference known cargo, voyage and location",
-          "Invalid lines/reports are rejected, not lost"
+          "Event must reference a known cargo, location and (if required) voyage",
+          "Invalid events are rejected and logged",
+          "Unparseable file lines are skipped and written to a failed file"
         ],
         "crossDomainInteractions": [
-          "Publishes cargo-handled messages consumed by tracking"
+          "Registered events trigger cargo inspection in Cargo Tracking"
         ]
       }
     },
@@ -83,10 +87,11 @@
       "id": "domain:cargo-tracking",
       "type": "domain",
       "name": "Cargo Tracking & Inspection",
-      "summary": "Inspects cargo after each handling event, derives delivery status (transport, routing, ETA, next expected activity) and notifies of misdirection or delivery; exposes tracking to users.",
+      "summary": "Derives the delivery status of cargo from its handling history and itinerary, detects misdirection and arrival, and exposes status to customers and monitoring clients.",
       "tags": [
         "tracking",
-        "delivery"
+        "delivery",
+        "inspection"
       ],
       "complexity": "complex",
       "domainMeta": {
@@ -94,25 +99,29 @@
           "Delivery",
           "HandlingHistory",
           "TransportStatus",
-          "RoutingStatus"
+          "RoutingStatus",
+          "HandlingActivity"
         ],
         "businessRules": [
-          "Event not matching itinerary means misdirected",
-          "Unloading at final destination means delivered"
+          "Cargo is misdirected when last event is not on the itinerary",
+          "Delivery state is recalculated after every handled event",
+          "Unloading at the destination marks the cargo as arrived"
         ],
         "crossDomainInteractions": [
-          "Consumes handling events; uses booking itinerary"
+          "Consumes handling events from Handling Event Registration",
+          "Uses itinerary from Cargo Booking & Routing"
         ]
       }
     },
     {
-      "id": "domain:pathfinder-routing",
+      "id": "domain:route-planning",
       "type": "domain",
-      "name": "Pathfinder Routing",
-      "summary": "Separate bounded context that generates candidate transit paths between two locations over scheduled voyages.",
+      "name": "Route Planning (Pathfinder)",
+      "summary": "Separate pathfinder service that proposes candidate transit paths between locations over known voyages, consumed by the main application through a REST client.",
       "tags": [
         "routing",
-        "external-service"
+        "pathfinder",
+        "rest"
       ],
       "complexity": "simple",
       "domainMeta": {
@@ -121,10 +130,10 @@
           "TransitEdge"
         ],
         "businessRules": [
-          "Candidate paths are random stubbed voyages"
+          "Candidate paths are built from known locations and voyages"
         ],
         "crossDomainInteractions": [
-          "Called by Cargo Booking via REST"
+          "Called by Cargo Booking & Routing"
         ]
       }
     },
@@ -132,49 +141,56 @@
       "id": "flow:book-new-cargo",
       "type": "flow",
       "name": "Book New Cargo",
-      "summary": "Operator registers a cargo with origin, destination and deadline and receives a tracking id.",
+      "summary": "Agent registers a cargo via the registration form and receives a tracking ID.",
       "tags": [
-        "cargo-booking"
+        "booking"
       ],
       "complexity": "moderate",
       "domainMeta": {
-        "entryPoint": "JSF registration form",
-        "entryType": "http"
+        "entryPoint": "JSF Registration page (registration.xhtml)",
+        "entryType": "manual"
       }
     },
     {
-      "id": "step:book-new-cargo:validate-registration-input",
+      "id": "step:book-new-cargo:validate-form",
       "type": "step",
-      "name": "Validate Registration Input",
-      "summary": "Check origin differs from destination and deadline is valid.",
+      "name": "Validate registration input",
+      "summary": "Backing bean checks origin, destination differ and the deadline is in the future.",
       "tags": [
-        "book-new-cargo"
+        "book",
+        "step"
       ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Registration.java",
       "lineRange": [
-        78,
-        98
+        29,
+        99
       ]
     },
     {
-      "id": "step:book-new-cargo:book-cargo-via-facade",
+      "id": "step:book-new-cargo:facade-book",
       "type": "step",
-      "name": "Book Cargo via Facade",
-      "summary": "Facade delegates to BookingService with location codes.",
+      "name": "Delegate to facade",
+      "summary": "Facade forwards the booking request to the application service.",
       "tags": [
-        "book-new-cargo"
+        "book",
+        "step"
       ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java"
+      "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java",
+      "lineRange": [
+        31,
+        145
+      ]
     },
     {
-      "id": "step:book-new-cargo:create-cargo-aggregate",
+      "id": "step:book-new-cargo:create-cargo",
       "type": "step",
-      "name": "Create Cargo Aggregate",
-      "summary": "Resolve locations, build route spec, generate tracking id, persist.",
+      "name": "Create cargo",
+      "summary": "Resolves locations, builds a RouteSpecification and a new Cargo with generated tracking ID.",
       "tags": [
-        "book-new-cargo"
+        "book",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java",
@@ -184,26 +200,43 @@
       ]
     },
     {
-      "id": "flow:assign-route-to-cargo",
-      "type": "flow",
-      "name": "Assign Route to Cargo",
-      "summary": "Operator requests candidate itineraries and assigns the chosen one.",
+      "id": "step:book-new-cargo:persist-cargo",
+      "type": "step",
+      "name": "Persist cargo",
+      "summary": "Cargo aggregate is stored via the JPA repository.",
       "tags": [
-        "cargo-booking"
+        "book",
+        "step"
       ],
       "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java",
+      "lineRange": [
+        20,
+        68
+      ]
+    },
+    {
+      "id": "flow:route-cargo",
+      "type": "flow",
+      "name": "Route Cargo",
+      "summary": "Agent requests candidate itineraries for a cargo and assigns the chosen one.",
+      "tags": [
+        "routing"
+      ],
+      "complexity": "complex",
       "domainMeta": {
-        "entryPoint": "JSF itinerary selection",
-        "entryType": "http"
+        "entryPoint": "JSF Itinerary selection page",
+        "entryType": "manual"
       }
     },
     {
-      "id": "step:assign-route-to-cargo:request-possible-routes",
+      "id": "step:route-cargo:request-routes",
       "type": "step",
-      "name": "Request Possible Routes",
-      "summary": "Booking service asks routing service with cargo route specification.",
+      "name": "Request possible routes",
+      "summary": "Booking service asks the routing service for itineraries matching the route specification.",
       "tags": [
-        "assign-route-to-cargo"
+        "route",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java",
@@ -213,14 +246,15 @@
       ]
     },
     {
-      "id": "step:assign-route-to-cargo:fetch-candidates-from-pathfinder",
+      "id": "step:route-cargo:fetch-external",
       "type": "step",
-      "name": "Fetch Candidates from Pathfinder",
-      "summary": "REST call to pathfinder and translate TransitPaths to Itineraries.",
+      "name": "Fetch from pathfinder",
+      "summary": "External routing service calls the pathfinder REST API and maps results to itineraries.",
       "tags": [
-        "assign-route-to-cargo"
+        "route",
+        "step"
       ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/routing/ExternalRoutingService.java",
       "lineRange": [
         59,
@@ -228,52 +262,75 @@
       ]
     },
     {
-      "id": "step:assign-route-to-cargo:filter-satisfying-itineraries",
+      "id": "step:route-cargo:select-candidate",
       "type": "step",
-      "name": "Filter Satisfying Itineraries",
-      "summary": "Keep itineraries satisfying route specification.",
+      "name": "Select candidate",
+      "summary": "Agent picks a route candidate in the UI.",
       "tags": [
-        "assign-route-to-cargo"
+        "route",
+        "step"
       ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java"
+      "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java",
+      "lineRange": [
+        26,
+        70
+      ]
     },
     {
-      "id": "step:assign-route-to-cargo:assign-itinerary",
+      "id": "step:route-cargo:assign-route",
       "type": "step",
-      "name": "Assign Itinerary",
-      "summary": "Cargo is assigned the chosen route and delivery updated.",
+      "name": "Assign cargo to route",
+      "summary": "Cargo is assigned the itinerary and delivery is recalculated.",
       "tags": [
-        "assign-route-to-cargo"
+        "route",
+        "step"
       ],
       "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java",
+      "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java",
       "lineRange": [
-        140,
-        146
+        62,
+        70
       ]
     },
     {
       "id": "flow:change-cargo-destination",
       "type": "flow",
-      "name": "Change Destination or Deadline",
-      "summary": "Operator changes the destination or arrival deadline, which can invalidate the current route.",
+      "name": "Change Cargo Destination",
+      "summary": "Agent changes a cargo destination, producing a new route specification.",
       "tags": [
-        "cargo-booking"
+        "booking"
       ],
-      "complexity": "moderate",
+      "complexity": "simple",
       "domainMeta": {
-        "entryPoint": "JSF change dialogs",
-        "entryType": "http"
+        "entryPoint": "JSF Change destination dialog",
+        "entryType": "manual"
       }
     },
     {
-      "id": "step:change-cargo-destination:load-cargo",
+      "id": "step:change-cargo-destination:select-destination",
       "type": "step",
-      "name": "Load Cargo",
-      "summary": "Find cargo by tracking id.",
+      "name": "Choose new destination",
+      "summary": "Dialog lists potential destinations and submits the choice.",
       "tags": [
-        "change-cargo-destination"
+        "change",
+        "step"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestination.java",
+      "lineRange": [
+        1,
+        200
+      ]
+    },
+    {
+      "id": "step:change-cargo-destination:apply-destination",
+      "type": "step",
+      "name": "Apply destination change",
+      "summary": "Cargo gets a new route specification and delivery is recomputed.",
+      "tags": [
+        "change",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java",
@@ -283,124 +340,92 @@
       ]
     },
     {
-      "id": "step:change-cargo-destination:specify-new-route",
-      "type": "step",
-      "name": "Specify New Route",
-      "summary": "Create new route specification from changed destination or deadline.",
-      "tags": [
-        "change-cargo-destination"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java",
-      "lineRange": [
-        132,
-        138
-      ]
-    },
-    {
-      "id": "step:change-cargo-destination:recalculate-delivery",
-      "type": "step",
-      "name": "Recalculate Delivery",
-      "summary": "Routing status re-derived (may become misrouted).",
-      "tags": [
-        "change-cargo-destination"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java",
-      "lineRange": [
-        102,
-        106
-      ]
-    },
-    {
-      "id": "flow:report-handling-via-rest",
+      "id": "flow:change-arrival-deadline",
       "type": "flow",
-      "name": "Report Handling Event (REST/Mobile)",
-      "summary": "A handling report from REST client or mobile logger is converted to a registration attempt and queued.",
+      "name": "Change Arrival Deadline",
+      "summary": "Agent changes the arrival deadline of a cargo.",
       "tags": [
-        "handling-reporting"
+        "booking"
       ],
-      "complexity": "moderate",
+      "complexity": "simple",
       "domainMeta": {
-        "entryPoint": "POST /handling/reports",
-        "entryType": "http"
+        "entryPoint": "JSF Change deadline dialog",
+        "entryType": "manual"
       }
     },
     {
-      "id": "step:report-handling-via-rest:validate-handling-report",
+      "id": "step:change-arrival-deadline:submit-deadline",
       "type": "step",
-      "name": "Validate Handling Report",
-      "summary": "Bean-validated report accepted.",
+      "name": "Submit new deadline",
+      "summary": "Backing bean loads the cargo and calls the facade.",
       "tags": [
-        "report-handling-via-rest"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java",
-      "lineRange": [
-        41,
-        66
-      ]
-    },
-    {
-      "id": "step:report-handling-via-rest:build-registration-attempt",
-      "type": "step",
-      "name": "Build Registration Attempt",
-      "summary": "Parse times, ids and type into an attempt DTO.",
-      "tags": [
-        "report-handling-via-rest"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/HandlingEventRegistrationAttempt.java"
-    },
-    {
-      "id": "step:report-handling-via-rest:queue-attempt",
-      "type": "step",
-      "name": "Queue Attempt",
-      "summary": "Send attempt to JMS queue.",
-      "tags": [
-        "report-handling-via-rest"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java",
-      "lineRange": [
-        58,
-        63
-      ]
-    },
-    {
-      "id": "flow:process-handling-event-files",
-      "type": "flow",
-      "name": "Process Uploaded Event Files",
-      "summary": "Timer-triggered batch job reads uploaded handling files and forwards each line as an attempt.",
-      "tags": [
-        "handling-reporting"
+        "change",
+        "step"
       ],
       "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeArrivalDeadlineDate.java",
+      "lineRange": [
+        1,
+        200
+      ]
+    },
+    {
+      "id": "step:change-arrival-deadline:apply-deadline",
+      "type": "step",
+      "name": "Apply deadline change",
+      "summary": "Route specification is replaced and delivery recomputed.",
+      "tags": [
+        "change",
+        "step"
+      ],
+      "complexity": "simple",
+      "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java",
+      "lineRange": [
+        87,
+        98
+      ]
+    },
+    {
+      "id": "flow:register-handling-via-file",
+      "type": "flow",
+      "name": "Register Handling Events from Uploaded Files",
+      "summary": "Scheduled batch job picks up handling report files and submits each line as a registration attempt.",
+      "tags": [
+        "batch",
+        "handling"
+      ],
+      "complexity": "complex",
       "domainMeta": {
-        "entryPoint": "Timer scanning upload directory",
+        "entryPoint": "Scheduled UploadDirectoryScanner",
         "entryType": "cron"
       }
     },
     {
-      "id": "step:process-handling-event-files:scan-upload-directory",
+      "id": "step:register-handling-via-file:scan-directory",
       "type": "step",
-      "name": "Scan Upload Directory",
-      "summary": "EJB timer starts batch job.",
+      "name": "Scan upload directory",
+      "summary": "Scheduler starts the batch job when files are present.",
       "tags": [
-        "process-handling-event-files"
+        "register",
+        "step"
       ],
       "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/file/UploadDirectoryScanner.java"
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/file/UploadDirectoryScanner.java",
+      "lineRange": [
+        15,
+        23
+      ]
     },
     {
-      "id": "step:process-handling-event-files:parse-event-lines",
+      "id": "step:register-handling-via-file:parse-line",
       "type": "step",
-      "name": "Parse Event Lines",
-      "summary": "Read and parse lines with checkpointing; bad lines are skipped.",
+      "name": "Parse report lines",
+      "summary": "Reader parses each line into a registration attempt, skipping bad lines.",
       "tags": [
-        "process-handling-event-files"
+        "register",
+        "step"
       ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/file/EventItemReader.java",
       "lineRange": [
         71,
@@ -408,23 +433,13 @@
       ]
     },
     {
-      "id": "step:process-handling-event-files:log-failed-lines",
+      "id": "step:register-handling-via-file:submit-attempt",
       "type": "step",
-      "name": "Log Failed Lines",
-      "summary": "Unparseable lines appended to failed CSV.",
+      "name": "Submit registration attempt",
+      "summary": "Writer forwards attempts to application events.",
       "tags": [
-        "process-handling-event-files"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/file/LineParseExceptionListener.java"
-    },
-    {
-      "id": "step:process-handling-event-files:forward-attempts",
-      "type": "step",
-      "name": "Forward Attempts",
-      "summary": "Writer publishes attempts to queue.",
-      "tags": [
-        "process-handling-event-files"
+        "register",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/file/EventItemWriter.java",
@@ -434,26 +449,91 @@
       ]
     },
     {
-      "id": "flow:register-handling-event",
-      "type": "flow",
-      "name": "Register Handling Event",
-      "summary": "Queued attempt is consumed, validated and stored as a handling event, then cargo-handled is published.",
+      "id": "step:register-handling-via-file:queue-attempt",
+      "type": "step",
+      "name": "Queue attempt via JMS",
+      "summary": "Attempt is sent to the registration queue.",
       "tags": [
-        "handling-reporting"
+        "register",
+        "step"
+      ],
+      "complexity": "simple",
+      "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java",
+      "lineRange": [
+        58,
+        63
+      ]
+    },
+    {
+      "id": "flow:register-handling-via-rest",
+      "type": "flow",
+      "name": "Register Handling Report via REST",
+      "summary": "Clients post a handling report which is converted to registration attempts.",
+      "tags": [
+        "rest",
+        "handling"
+      ],
+      "complexity": "simple",
+      "domainMeta": {
+        "entryPoint": "POST /handling/reports",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:register-handling-via-rest:receive-report",
+      "type": "step",
+      "name": "Receive handling report",
+      "summary": "REST endpoint validates and converts the report to attempts.",
+      "tags": [
+        "register",
+        "step"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/handling/rest/HandlingReportService.java",
+      "lineRange": [
+        41,
+        66
+      ]
+    },
+    {
+      "id": "step:register-handling-via-rest:queue-attempt",
+      "type": "step",
+      "name": "Queue attempt via JMS",
+      "summary": "Attempt is sent to the registration queue.",
+      "tags": [
+        "register",
+        "step"
+      ],
+      "complexity": "simple",
+      "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java",
+      "lineRange": [
+        58,
+        63
+      ]
+    },
+    {
+      "id": "flow:process-registration-attempt",
+      "type": "flow",
+      "name": "Process Handling Registration Attempt",
+      "summary": "Message-driven bean turns a queued attempt into a persisted handling event.",
+      "tags": [
+        "jms",
+        "handling"
       ],
       "complexity": "moderate",
       "domainMeta": {
-        "entryPoint": "JMS registration attempt queue",
+        "entryPoint": "JMS HandlingEventRegistrationAttemptQueue",
         "entryType": "event"
       }
     },
     {
-      "id": "step:register-handling-event:consume-attempt",
+      "id": "step:process-registration-attempt:consume-attempt",
       "type": "step",
-      "name": "Consume Attempt",
-      "summary": "MDB receives attempt and delegates.",
+      "name": "Consume attempt",
+      "summary": "MDB receives the attempt message.",
       "tags": [
-        "register-handling-event"
+        "process",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java",
@@ -463,12 +543,13 @@
       ]
     },
     {
-      "id": "step:register-handling-event:create-handling-event",
+      "id": "step:process-registration-attempt:create-event",
       "type": "step",
-      "name": "Create Handling Event",
-      "summary": "Factory resolves cargo, voyage, location; rejects unknown.",
+      "name": "Create handling event",
+      "summary": "Factory resolves cargo, voyage and location and builds the event.",
       "tags": [
-        "register-handling-event"
+        "process",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventFactory.java",
@@ -478,14 +559,15 @@
       ]
     },
     {
-      "id": "step:register-handling-event:store-event",
+      "id": "step:process-registration-attempt:store-event",
       "type": "step",
-      "name": "Store Event",
-      "summary": "Persist event via repository.",
+      "name": "Persist event and notify",
+      "summary": "Event is stored and a cargo-handled message is published.",
       "tags": [
-        "register-handling-event"
+        "process",
+        "step"
       ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultHandlingEventService.java",
       "lineRange": [
         32,
@@ -493,12 +575,13 @@
       ]
     },
     {
-      "id": "step:register-handling-event:publish-cargo-handled",
+      "id": "step:process-registration-attempt:publish-handled",
       "type": "step",
-      "name": "Publish Cargo Handled",
-      "summary": "Send cargo-handled JMS message.",
+      "name": "Publish cargo handled",
+      "summary": "Cargo-handled message is sent to the JMS queue.",
       "tags": [
-        "register-handling-event"
+        "process",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java",
@@ -508,26 +591,28 @@
       ]
     },
     {
-      "id": "flow:inspect-cargo-after-handling",
+      "id": "flow:inspect-cargo",
       "type": "flow",
       "name": "Inspect Cargo After Handling",
-      "summary": "On cargo-handled, rebuild delivery progress and notify misdirection, arrival and UI.",
+      "summary": "Recalculates delivery after a handling event and raises misdirected or arrived notifications.",
       "tags": [
-        "cargo-tracking"
+        "inspection",
+        "delivery"
       ],
-      "complexity": "moderate",
+      "complexity": "complex",
       "domainMeta": {
-        "entryPoint": "Cargo handled JMS message",
+        "entryPoint": "JMS CargoHandledQueue",
         "entryType": "event"
       }
     },
     {
-      "id": "step:inspect-cargo-after-handling:receive-cargo-handled",
+      "id": "step:inspect-cargo:consume-handled",
       "type": "step",
-      "name": "Receive Cargo Handled",
-      "summary": "MDB triggers inspection by tracking id.",
+      "name": "Consume cargo handled",
+      "summary": "MDB extracts the tracking ID and invokes inspection.",
       "tags": [
-        "inspect-cargo-after-handling"
+        "inspect",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/CargoHandledConsumer.java",
@@ -537,12 +622,29 @@
       ]
     },
     {
-      "id": "step:inspect-cargo-after-handling:derive-delivery-progress",
+      "id": "step:inspect-cargo:load-history",
       "type": "step",
-      "name": "Derive Delivery Progress",
-      "summary": "Compute from itinerary and handling history.",
+      "name": "Load cargo and history",
+      "summary": "Inspection service loads the cargo and its handling history.",
       "tags": [
-        "inspect-cargo-after-handling"
+        "inspect",
+        "step"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java",
+      "lineRange": [
+        37,
+        61
+      ]
+    },
+    {
+      "id": "step:inspect-cargo:derive-delivery",
+      "type": "step",
+      "name": "Derive delivery",
+      "summary": "Delivery computes transport/routing status and next expected activity.",
+      "tags": [
+        "inspect",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Delivery.java",
@@ -552,29 +654,15 @@
       ]
     },
     {
-      "id": "step:inspect-cargo-after-handling:check-itinerary-match",
+      "id": "step:inspect-cargo:notify",
       "type": "step",
-      "name": "Check Itinerary Match",
-      "summary": "Misdirected if event not expected.",
+      "name": "Notify misdirected or arrived",
+      "summary": "Publishes misdirection or arrival events and fires CDI CargoInspected.",
       "tags": [
-        "inspect-cargo-after-handling"
+        "inspect",
+        "step"
       ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/domain/model/cargo/Itinerary.java",
-      "lineRange": [
-        56,
-        105
-      ]
-    },
-    {
-      "id": "step:inspect-cargo-after-handling:notify-misdirected-or-delivered",
-      "type": "step",
-      "name": "Notify Misdirected or Delivered",
-      "summary": "Publish JMS events for misdirection or arrival.",
-      "tags": [
-        "inspect-cargo-after-handling"
-      ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/cargotracker/application/internal/DefaultCargoInspectionService.java",
       "lineRange": [
         37,
@@ -582,14 +670,15 @@
       ]
     },
     {
-      "id": "step:inspect-cargo-after-handling:push-real-time-update",
+      "id": "step:inspect-cargo:push-realtime",
       "type": "step",
-      "name": "Push Real-time Update",
-      "summary": "WebSocket update to browsers.",
+      "name": "Push realtime update",
+      "summary": "WebSocket clients are notified of the update.",
       "tags": [
-        "inspect-cargo-after-handling"
+        "inspect",
+        "step"
       ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/socket/RealtimeCargoTrackingService.java",
       "lineRange": [
         48,
@@ -599,24 +688,25 @@
     {
       "id": "flow:track-cargo",
       "type": "flow",
-      "name": "Track Cargo by Tracking ID",
-      "summary": "Customers or admins look up status, ETA, next expected activity and events.",
+      "name": "Track Cargo",
+      "summary": "Customers look up a cargo by tracking ID and see status, ETA and handling history.",
       "tags": [
-        "cargo-tracking"
+        "tracking"
       ],
-      "complexity": "moderate",
+      "complexity": "simple",
       "domainMeta": {
-        "entryPoint": "JSF tracking pages",
-        "entryType": "http"
+        "entryPoint": "JSF Track page",
+        "entryType": "manual"
       }
     },
     {
-      "id": "step:track-cargo:submit-tracking-id",
+      "id": "step:track-cargo:lookup",
       "type": "step",
-      "name": "Submit Tracking Id",
-      "summary": "Backing bean handles lookup.",
+      "name": "Look up by tracking ID",
+      "summary": "Backing bean receives the tracking ID.",
       "tags": [
-        "track-cargo"
+        "track",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/Track.java",
@@ -626,12 +716,13 @@
       ]
     },
     {
-      "id": "step:track-cargo:load-cargo-and-events",
+      "id": "step:track-cargo:load-status",
       "type": "step",
-      "name": "Load Cargo and Events",
-      "summary": "Repository loads cargo and handling history.",
+      "name": "Load cargo status",
+      "summary": "Facade loads the cargo and converts to status DTO.",
       "tags": [
-        "track-cargo"
+        "track",
+        "step"
       ],
       "complexity": "simple",
       "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java",
@@ -641,50 +732,61 @@
       ]
     },
     {
-      "id": "step:track-cargo:assemble-status",
+      "id": "step:track-cargo:present",
       "type": "step",
-      "name": "Assemble Status",
-      "summary": "Build status text, ETA, next activity.",
+      "name": "Present status",
+      "summary": "View adapter renders status, ETA and events.",
       "tags": [
-        "track-cargo"
-      ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/assembler/CargoStatusDtoAssembler.java"
-    },
-    {
-      "id": "flow:generate-candidate-paths",
-      "type": "flow",
-      "name": "Generate Candidate Paths",
-      "summary": "Pathfinder returns random candidate transit paths for origin and destination.",
-      "tags": [
-        "pathfinder-routing"
+        "track",
+        "step"
       ],
       "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/cargotracker/interfaces/tracking/web/CargoTrackingViewAdapter.java",
+      "lineRange": [
+        1,
+        200
+      ]
+    },
+    {
+      "id": "flow:find-candidate-paths",
+      "type": "flow",
+      "name": "Find Candidate Transit Paths",
+      "summary": "Pathfinder returns random candidate paths between origin and destination.",
+      "tags": [
+        "pathfinder"
+      ],
+      "complexity": "simple",
       "domainMeta": {
         "entryPoint": "GET /graph-traversal/shortest-path",
         "entryType": "http"
       }
     },
     {
-      "id": "step:generate-candidate-paths:pick-random-locations",
+      "id": "step:find-candidate-paths:pick-locations",
       "type": "step",
-      "name": "Pick Random Locations",
-      "summary": "Select via locations from GraphDao.",
+      "name": "Choose intermediate locations",
+      "summary": "Pathfinder DAO provides locations and voyage numbers.",
       "tags": [
-        "generate-candidate-paths"
+        "find",
+        "step"
       ],
-      "complexity": "simple",
-      "filePath": "src/main/java/org/eclipse/pathfinder/internal/GraphDao.java"
+      "complexity": "moderate",
+      "filePath": "src/main/java/org/eclipse/pathfinder/internal/GraphDao.java",
+      "lineRange": [
+        1,
+        100
+      ]
     },
     {
-      "id": "step:generate-candidate-paths:build-transit-edges",
+      "id": "step:find-candidate-paths:build-paths",
       "type": "step",
-      "name": "Build Transit Edges",
-      "summary": "Create edges with random voyages and dates.",
+      "name": "Build transit paths",
+      "summary": "Service creates candidate TransitPaths of TransitEdges.",
       "tags": [
-        "generate-candidate-paths"
+        "find",
+        "step"
       ],
-      "complexity": "simple",
+      "complexity": "moderate",
       "filePath": "src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java",
       "lineRange": [
         31,
@@ -702,59 +804,66 @@
     },
     {
       "source": "flow:book-new-cargo",
-      "target": "step:book-new-cargo:validate-registration-input",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.3
-    },
-    {
-      "source": "flow:book-new-cargo",
-      "target": "step:book-new-cargo:book-cargo-via-facade",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "flow:book-new-cargo",
-      "target": "step:book-new-cargo:create-cargo-aggregate",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "domain:cargo-booking",
-      "target": "flow:assign-route-to-cargo",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "flow:assign-route-to-cargo",
-      "target": "step:assign-route-to-cargo:request-possible-routes",
+      "target": "step:book-new-cargo:validate-form",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.2
     },
     {
-      "source": "flow:assign-route-to-cargo",
-      "target": "step:assign-route-to-cargo:fetch-candidates-from-pathfinder",
+      "source": "flow:book-new-cargo",
+      "target": "step:book-new-cargo:facade-book",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 0.5
+      "weight": 0.4
     },
     {
-      "source": "flow:assign-route-to-cargo",
-      "target": "step:assign-route-to-cargo:filter-satisfying-itineraries",
+      "source": "flow:book-new-cargo",
+      "target": "step:book-new-cargo:create-cargo",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:book-new-cargo",
+      "target": "step:book-new-cargo:persist-cargo",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "flow:assign-route-to-cargo",
-      "target": "step:assign-route-to-cargo:assign-itinerary",
-      "type": "flow_step",
+      "source": "domain:cargo-booking",
+      "target": "flow:route-cargo",
+      "type": "contains_flow",
       "direction": "forward",
       "weight": 1.0
+    },
+    {
+      "source": "flow:route-cargo",
+      "target": "step:route-cargo:request-routes",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:route-cargo",
+      "target": "step:route-cargo:fetch-external",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.4
+    },
+    {
+      "source": "flow:route-cargo",
+      "target": "step:route-cargo:select-candidate",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:route-cargo",
+      "target": "step:route-cargo:assign-route",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
     },
     {
       "source": "domain:cargo-booking",
@@ -765,161 +874,168 @@
     },
     {
       "source": "flow:change-cargo-destination",
-      "target": "step:change-cargo-destination:load-cargo",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.3
-    },
-    {
-      "source": "flow:change-cargo-destination",
-      "target": "step:change-cargo-destination:specify-new-route",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "flow:change-cargo-destination",
-      "target": "step:change-cargo-destination:recalculate-delivery",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "domain:handling-reporting",
-      "target": "flow:report-handling-via-rest",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "flow:report-handling-via-rest",
-      "target": "step:report-handling-via-rest:validate-handling-report",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.3
-    },
-    {
-      "source": "flow:report-handling-via-rest",
-      "target": "step:report-handling-via-rest:build-registration-attempt",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "flow:report-handling-via-rest",
-      "target": "step:report-handling-via-rest:queue-attempt",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "domain:handling-reporting",
-      "target": "flow:process-handling-event-files",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "flow:process-handling-event-files",
-      "target": "step:process-handling-event-files:scan-upload-directory",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.2
-    },
-    {
-      "source": "flow:process-handling-event-files",
-      "target": "step:process-handling-event-files:parse-event-lines",
+      "target": "step:change-cargo-destination:select-destination",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.5
     },
     {
-      "source": "flow:process-handling-event-files",
-      "target": "step:process-handling-event-files:log-failed-lines",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "flow:process-handling-event-files",
-      "target": "step:process-handling-event-files:forward-attempts",
+      "source": "flow:change-cargo-destination",
+      "target": "step:change-cargo-destination:apply-destination",
       "type": "flow_step",
       "direction": "forward",
       "weight": 1.0
     },
     {
-      "source": "domain:handling-reporting",
-      "target": "flow:register-handling-event",
+      "source": "domain:cargo-booking",
+      "target": "flow:change-arrival-deadline",
       "type": "contains_flow",
       "direction": "forward",
       "weight": 1.0
     },
     {
-      "source": "flow:register-handling-event",
-      "target": "step:register-handling-event:consume-attempt",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.2
-    },
-    {
-      "source": "flow:register-handling-event",
-      "target": "step:register-handling-event:create-handling-event",
+      "source": "flow:change-arrival-deadline",
+      "target": "step:change-arrival-deadline:submit-deadline",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.5
     },
     {
-      "source": "flow:register-handling-event",
-      "target": "step:register-handling-event:store-event",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "flow:register-handling-event",
-      "target": "step:register-handling-event:publish-cargo-handled",
+      "source": "flow:change-arrival-deadline",
+      "target": "step:change-arrival-deadline:apply-deadline",
       "type": "flow_step",
       "direction": "forward",
       "weight": 1.0
     },
     {
-      "source": "domain:cargo-tracking",
-      "target": "flow:inspect-cargo-after-handling",
+      "source": "domain:handling-events",
+      "target": "flow:register-handling-via-file",
       "type": "contains_flow",
       "direction": "forward",
       "weight": 1.0
     },
     {
-      "source": "flow:inspect-cargo-after-handling",
-      "target": "step:inspect-cargo-after-handling:receive-cargo-handled",
+      "source": "flow:register-handling-via-file",
+      "target": "step:register-handling-via-file:scan-directory",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.2
     },
     {
-      "source": "flow:inspect-cargo-after-handling",
-      "target": "step:inspect-cargo-after-handling:derive-delivery-progress",
+      "source": "flow:register-handling-via-file",
+      "target": "step:register-handling-via-file:parse-line",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.4
     },
     {
-      "source": "flow:inspect-cargo-after-handling",
-      "target": "step:inspect-cargo-after-handling:check-itinerary-match",
+      "source": "flow:register-handling-via-file",
+      "target": "step:register-handling-via-file:submit-attempt",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.6
     },
     {
-      "source": "flow:inspect-cargo-after-handling",
-      "target": "step:inspect-cargo-after-handling:notify-misdirected-or-delivered",
+      "source": "flow:register-handling-via-file",
+      "target": "step:register-handling-via-file:queue-attempt",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "flow:inspect-cargo-after-handling",
-      "target": "step:inspect-cargo-after-handling:push-real-time-update",
+      "source": "domain:handling-events",
+      "target": "flow:register-handling-via-rest",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:register-handling-via-rest",
+      "target": "step:register-handling-via-rest:receive-report",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:register-handling-via-rest",
+      "target": "step:register-handling-via-rest:queue-attempt",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-events",
+      "target": "flow:process-registration-attempt",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:process-registration-attempt",
+      "target": "step:process-registration-attempt:consume-attempt",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:process-registration-attempt",
+      "target": "step:process-registration-attempt:create-event",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.4
+    },
+    {
+      "source": "flow:process-registration-attempt",
+      "target": "step:process-registration-attempt:store-event",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:process-registration-attempt",
+      "target": "step:process-registration-attempt:publish-handled",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "domain:cargo-tracking",
+      "target": "flow:inspect-cargo",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:inspect-cargo",
+      "target": "step:inspect-cargo:consume-handled",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:inspect-cargo",
+      "target": "step:inspect-cargo:load-history",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.4
+    },
+    {
+      "source": "flow:inspect-cargo",
+      "target": "step:inspect-cargo:derive-delivery",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:inspect-cargo",
+      "target": "step:inspect-cargo:notify",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "flow:inspect-cargo",
+      "target": "step:inspect-cargo:push-realtime",
       "type": "flow_step",
       "direction": "forward",
       "weight": 1.0
@@ -933,60 +1049,68 @@
     },
     {
       "source": "flow:track-cargo",
-      "target": "step:track-cargo:submit-tracking-id",
+      "target": "step:track-cargo:lookup",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.3
     },
     {
       "source": "flow:track-cargo",
-      "target": "step:track-cargo:load-cargo-and-events",
+      "target": "step:track-cargo:load-status",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 0.7
+      "weight": 0.6
     },
     {
       "source": "flow:track-cargo",
-      "target": "step:track-cargo:assemble-status",
+      "target": "step:track-cargo:present",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 0.9
     },
     {
-      "source": "domain:pathfinder-routing",
-      "target": "flow:generate-candidate-paths",
+      "source": "domain:route-planning",
+      "target": "flow:find-candidate-paths",
       "type": "contains_flow",
       "direction": "forward",
       "weight": 1.0
     },
     {
-      "source": "flow:generate-candidate-paths",
-      "target": "step:generate-candidate-paths:pick-random-locations",
+      "source": "flow:find-candidate-paths",
+      "target": "step:find-candidate-paths:pick-locations",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.5
     },
     {
-      "source": "flow:generate-candidate-paths",
-      "target": "step:generate-candidate-paths:build-transit-edges",
+      "source": "flow:find-candidate-paths",
+      "target": "step:find-candidate-paths:build-paths",
       "type": "flow_step",
       "direction": "forward",
       "weight": 1.0
     },
     {
       "source": "domain:cargo-booking",
-      "target": "domain:pathfinder-routing",
+      "target": "domain:route-planning",
       "type": "cross_domain",
       "direction": "forward",
-      "description": "Requests candidate itineraries via REST",
+      "description": "Requests candidate routes via REST",
       "weight": 0.6
     },
     {
-      "source": "domain:handling-reporting",
+      "source": "domain:handling-events",
       "target": "domain:cargo-tracking",
       "type": "cross_domain",
       "direction": "forward",
-      "description": "Cargo-handled messages trigger inspection",
+      "description": "Cargo-handled events trigger inspection",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:cargo-tracking",
+      "target": "domain:cargo-booking",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Delivery depends on the assigned itinerary",
       "weight": 0.6
     },
     {
@@ -994,7 +1118,7 @@
       "target": "domain:cargo-tracking",
       "type": "cross_domain",
       "direction": "forward",
-      "description": "Route changes update delivery progress",
+      "description": "Route/destination changes recompute delivery",
       "weight": 0.6
     }
   ],
