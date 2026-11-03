@@ -7,16 +7,23 @@ or `writes_to`. ORM-based applications therefore have no path from a screen to t
 enricher here reads one stack's code and adds those links; every added node and edge carries the tag /
 description `afs-enriched:<rule>`, so they can be told from the LLM's.
 
-Enrichers (the stack pack names which ones a migration uses):
+Two layers (ADR-0025):
+  graphify  language level, any language Graphify parses: its calls / uses / implements / inherits between
+            top-level types and functions, merged first (--graphify graph.json). Hand-written enrichers never
+            re-implement this.
+  stack     framework level: what a framework's conventions mean, which no parser infers. A rule relies on a
+            documented convention and is proven on the generic fixtures, never on one project (ADR-0023).
+
+Framework enrichers (the stack pack names which ones a migration uses):
   java-ee   JPA @Entity/@Table → table; EntityManager queries/find → reads_from; persist/merge/remove →
             writes_to; JAX-RS @Path + verbs → endpoint, routes; JSF *.xhtml → page, EL #{bean.x} →
-            routes to the @Named bean; @Inject fields → calls; implements → implements; JMS producers →
+            routes to the @Named bean; CDI/EJB @Inject/@EJB fields → calls; JMS producers →
             publishes → queue → triggers → @MessageDriven; @ServerEndpoint → `WS` endpoint; CDI
             Event<T>.fire → publishes → `cdi-event` → triggers → @Observes; @Schedule → `timer` → triggers;
             JobOperator.start("J") → calls → `batch-job J` → calls → the job XML's ref="" beans
   django    urls.py path()/include() → endpoint, routes to the view; models.Model → table; ORM
             Model.objects.* / .save() / .delete() → reads_from / writes_to; render(template) →
-            page; calls to project functions/classes → calls; management/commands/<name>.py → `command`
+            page; management/commands/<name>.py → `command`
             routes Command; @app.task/@shared_task → `task` triggers it, f.defer()/.delay() → publishes;
             {% include/extends %} → contains
   both      page/template scripts and htmx: fetch(url), new WebSocket(…"/path"), hx-get/post/…="url" or
@@ -24,7 +31,7 @@ Enrichers (the stack pack names which ones a migration uses):
             same verb; `/` only exactly)
 
 Usage:
-  enrich_graph.py <knowledge-graph.json> --root <analysed folder> --enricher java-ee [--enricher django]
+  enrich_graph.py <knowledge-graph.json> --root <analysed folder> --graphify <graph.json> --enricher java-ee
                   [--out <path>]          (default: rewrite the graph in place)
 Prints one summary line per enricher and an `AFS-RESULT gate=graph-enrich …` line. Standard library only.
 """
@@ -37,6 +44,7 @@ import re
 import sys
 
 TAG = "afs-enriched"
+
 
 
 class Graph:
@@ -159,8 +167,6 @@ def java_index(root):
         if not m:
             continue
         t = JavaType(rel(f, root), m.group(1), pkg.group(1) if pkg else "", text, raw)
-        t.extends = [x.strip().split("<")[0] for x in (m.group(2) or "").split(",") if x.strip()]
-        t.implements = [x.strip().split("<")[0] for x in (m.group(3) or "").split(",") if x.strip()]
         t.imports = dict((i.split(".")[-1], i) for i in re.findall(r"^\s*import\s+([\w.]+)\s*;", text, re.M))
         fq = f"{t.package}.{t.name}" if t.package else t.name
         types[fq] = t
@@ -232,20 +238,9 @@ def enrich_java_ee(g, root):
                 g.edge(cid, tables[e], "reads_from", "jpa-repository")
             for e in sorted(writes):
                 g.edge(cid, tables[e], "writes_to", "jpa-repository")
-        # implements / extends → edges so interfaces lead to their implementations
-        for sup in t.implements:
-            s = resolve(t, sup, types, by_simple)
-            if s:
-                g.edge(class_id(g, t, "java-implements"), class_id(g, types[s], "java-implements"), "implements",
-                       "java-implements")
-        for sup in t.extends:
-            s = resolve(t, sup, types, by_simple)
-            if s:
-                g.edge(class_id(g, t, "java-extends"), class_id(g, types[s], "java-extends"), "inherits",
-                       "java-extends")
-        # @Inject / @EJB fields → calls
-        for ty in re.findall(r"@(?:Inject|EJB)\b(?:\s*@\w+(?:\([^)]*\))?)*\s+(?:private|protected|public)?\s*"
-                             r"(?:final\s+)?([A-Z]\w*)(?:<[^>]*>)?\s+\w+\s*;", body):
+        # CDI / EJB dependency injection (framework wiring): @Inject / @EJB fields → calls
+        for ty in (re.findall(r"@(?:Inject|EJB)\b(?:\s*@\w+(?:\([^)]*\))?)*\s+(?:private|protected|public)?\s*"
+                             r"(?:final\s+)?([A-Z]\w*)(?:<[^>]*>)?\s+\w+\s*;", body)):
             s = resolve(t, ty, types, by_simple)
             if s:
                 g.edge(class_id(g, t, "cdi-inject"), class_id(g, types[s], "cdi-inject"), "calls", "cdi-inject")
@@ -424,12 +419,54 @@ def dotted_of(expr, m):
     return ".".join([head, *reversed(parts)])
 
 
+def class_constants(cls):
+    """name → constant value of a class body's simple assignments (`name = 'x'`)."""
+    return {t.id: x.value.value for x in cls.body if isinstance(x, ast.Assign) and isinstance(x.value, ast.Constant)
+            for t in x.targets if isinstance(t, ast.Name)}
+
+
+def app_labels(mods, defs):
+    """(app module, label) for each INSTALLED_APPS entry found in the analysed code, longest module first.
+
+    An entry is an AppConfig class (its `name` and `label`) or an app module (the AppConfig in its apps.py
+    whose `name` is that module, else the module's last component), as Django resolves them."""
+    entries = []
+    for m in mods.values():
+        for node in m.tree.body:
+            value = node.value if isinstance(node, (ast.Assign, ast.AnnAssign)) else None
+            names = [getattr(t, "id", "") for t in (node.targets if isinstance(node, ast.Assign) else
+                                                     [getattr(node, "target", None)])]
+            if "INSTALLED_APPS" in names and isinstance(value, (ast.List, ast.Tuple)):
+                entries += [e.value for e in value.elts if isinstance(e, ast.Constant) and isinstance(e.value, str)]
+    out = []
+    for entry in entries:
+        config = defs.get(entry)
+        if not (config and isinstance(config[1], ast.ClassDef)):
+            config = next(((cm, cn) for d, (cm, cn) in defs.items() if d.startswith(f"{entry}.apps.") and
+                           isinstance(cn, ast.ClassDef) and class_constants(cn).get("name") == entry), None)
+        attrs = class_constants(config[1]) if config else {}
+        module = attrs.get("name") or entry
+        out.append((module, attrs.get("label") or module.rsplit(".", 1)[-1]))
+    return sorted(out, key=lambda x: -len(x[0]))
+
+
+def app_label_of(dotted, labels):
+    """The label of the installed app containing a module; without settings, the module's own package
+    (Django would refuse a model outside an installed app, so this only happens when settings aren't analysed)."""
+    for module, label in labels:
+        if dotted == module or dotted.startswith(module + "."):
+            return label
+    parts = dotted.split(".")
+    return parts[-2] if len(parts) > 1 else parts[0]
+
+
 def enrich_django(g, root):
     mods = py_index(root)
     if not mods:
         return
     defs = defined(mods)
-    # Models → tables
+    labels = app_labels(mods, defs)
+    # Models → tables (Django's default name: <app label>_<model name>)
     models = {}
     for name, (m, node) in defs.items():
         if not isinstance(node, ast.ClassDef):
@@ -441,17 +478,11 @@ def enrich_django(g, root):
                 isinstance(x, ast.Assign) and any(getattr(tg, "id", "") == "abstract" for tg in x.targets)
                 for x in s.body) for s in node.body):
             continue
-        table = None
+        meta = {}
         for s in node.body:
             if isinstance(s, ast.ClassDef) and s.name == "Meta":
-                for x in s.body:
-                    if isinstance(x, ast.Assign) and any(getattr(tg, "id", "") == "db_table" for tg in x.targets) \
-                            and isinstance(x.value, ast.Constant):
-                        table = x.value.value
-        if not table:
-            app = next((p for p in reversed(m.dotted.split(".")[:-1]) if p not in ("models", "infrastructure",
-                                                                                     "persistence", "db")), "app")
-            table = f"{app}_{node.name.lower()}"
+                meta = class_constants(s)
+        table = meta.get("db_table") or f"{meta.get('app_label') or app_label_of(m.dotted, labels)}_{node.name.lower()}"
         tid = g.node("table", m.path, table, "django-model", f"Table {table} mapped by Django model {node.name}",
                      node.lineno)
         g.edge(py_node(g, m, node, "django-model"), tid, "defines_schema", "django-model")
@@ -463,43 +494,6 @@ def enrich_django(g, root):
         if d in models:
             return d
         return model_by_simple.get(d.rsplit(".", 1)[-1]) if d else None
-
-    # Class bases: Protocol/ABC → implements (followed from interface to implementation); else inherits
-    def is_abstract(dotted):
-        if dotted not in defs:
-            return dotted.rsplit(".", 1)[-1] in ("Protocol", "ABC")
-        tm, tn = defs[dotted]
-        return any(is_abstract(dotted_of(b, tm) or "") for b in tn.bases if not isinstance(b, ast.Subscript)) \
-            or any(isinstance(d, (ast.Name, ast.Attribute)) and (getattr(d, "id", None) or d.attr) == "abstractmethod"
-                   for f in tn.body if isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef)) for d in f.decorator_list)
-    attr_types = collections.defaultdict(dict)        # class dotted name → {attribute: type dotted name}
-    for name, (m, node) in defs.items():
-        if not isinstance(node, ast.ClassDef):
-            continue
-        for b in node.bases:
-            bd = dotted_of(b, m)
-            if bd in defs and bd not in models and isinstance(defs[bd][1], ast.ClassDef):
-                kind = "implements" if is_abstract(bd) else "inherits"
-                g.edge(py_node(g, m, node, "python-class"), py_node(g, *defs[bd], "python-class"), kind, "python-class")
-        for f in node.body:
-            if isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                ann = {a.arg: dotted_of(a.annotation, m) for a in f.args.args if a.annotation is not None}
-                for s in ast.walk(f):
-                    if isinstance(s, ast.Assign) and isinstance(s.value, ast.Name) and s.value.id in ann:
-                        for tg in s.targets:
-                            if isinstance(tg, ast.Attribute) and getattr(tg.value, "id", "") == "self":
-                                attr_types[name][tg.attr] = ann[s.value.id]
-
-    def typed_target(f, m, params, cls):
-        """Class a call's receiver is annotated as: param.meth() or self.attr.meth()."""
-        if not isinstance(f, ast.Attribute):
-            return None
-        recv = f.value
-        if isinstance(recv, ast.Name) and recv.id in params:
-            return params[recv.id]
-        if isinstance(recv, ast.Attribute) and getattr(recv.value, "id", "") == "self" and cls:
-            return attr_types.get(cls, {}).get(recv.attr)
-        return None
 
     # Task-queue tasks (Celery, Procrastinate, Huey, Dramatiq): @app.task / @shared_task / @actor → `task`
     # node triggers the function; f.defer() / .delay() / .apply_async() / .send() publish to it.
@@ -518,20 +512,14 @@ def enrich_django(g, root):
             cid = g.node("command", m.path, cm.group(1), "django-command", f"manage.py {cm.group(1)}")
             g.edge(cid, py_node(g, m, node, "django-command"), "routes", "django-command")
 
-    # Function-level: ORM reads/writes, calls to project code, template renders
+    # Function-level: ORM reads/writes, template renders, task enqueues (calls between project code come from
+    # Graphify's language layer, ADR-0025)
     for name, (m, top) in defs.items():
         scopes = [top] if not isinstance(top, ast.ClassDef) else [top] + [
             s for s in top.body if isinstance(s, (ast.FunctionDef, ast.AsyncFunctionDef))]
         owner = py_node(g, m, top, "django-code")
-        cls = name if isinstance(top, ast.ClassDef) else None
         for scope in scopes:
             local_types = {}
-            params = {}
-            for fn in ast.walk(scope):
-                if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                    for a in fn.args.args:
-                        if a.annotation is not None and a.arg != "self":
-                            params[a.arg] = dotted_of(a.annotation, m)
             for node in ast.walk(scope):
                 if isinstance(node, ast.Assign) and isinstance(node.value, ast.Call):
                     mt = model_of(node.value.func, m)
@@ -576,19 +564,6 @@ def enrich_django(g, root):
                 if isinstance(f, ast.Attribute) and f.attr in TASK_ENQUEUE and dotted_of(f.value, m) in tasks:
                     g.edge(owner, tasks[dotted_of(f.value, m)], "publishes", "python-task")
                     continue
-                # Calls through annotated parameters / attributes (constructor injection)
-                tt = typed_target(f, m, params, cls)
-                if tt in defs:
-                    g.edge(owner, py_node(g, *defs[tt], "python-typed-call"), "calls", "python-typed-call")
-                    continue
-                # Calls into project code
-                target = dotted_of(f, m)
-                if target and target in defs and target != name:
-                    tm, tn = defs[target]
-                    g.edge(owner, py_node(g, tm, tn, "python-call"), "calls", "python-call")
-                elif target and "." in target and target.rsplit(".", 1)[0] in defs:
-                    tm, tn = defs[target.rsplit(".", 1)[0]]          # Class.method(...) / module.Class(...)
-                    g.edge(owner, py_node(g, tm, tn, "python-call"), "calls", "python-call")
 
     # URL routing: path()/re_path() with include() prefixes
     def urlpatterns(m):
@@ -674,6 +649,68 @@ def enrich_django(g, root):
                        "django-include")
 
 
+# --------------------------------------------------------------------------------------------- Graphify
+
+GRAPHIFY_SCHEMAS = {1}                 # graph.schema_version values this merge understands (ADR-0025)
+GRAPHIFY_FLOW = {"calls": "calls", "indirect_call": "calls", "uses": "calls", "implements": "implements",
+                 "inherits": "inherits"}      # `uses`: instantiation or a typed parameter (how Python code wires)
+INTERFACE_BASES = {"Protocol", "ABC"}  # an `inherits` into a class built on these is `implements` (ADR-0025)
+
+
+class GraphifyError(Exception):
+    pass
+
+
+def merge_graphify(g, doc):
+    """Add Graphify's language-level structure (calls, implements, inherits) between top-level types and
+    functions, matched to existing nodes by (file, name). Methods count as their type. `references` and
+    `uses` (a type is mentioned) are not flow and are left out. Every edge says Graphify's confidence."""
+    version = (doc.get("graph") or {}).get("schema_version")
+    if version not in GRAPHIFY_SCHEMAS:
+        raise GraphifyError(f"Graphify graph.schema_version {version!r} is not one of {sorted(GRAPHIFY_SCHEMAS)}: "
+                            "pin the Graphify version this harness supports (tools/locks/graphify.lock)")
+    nodes = {n["id"]: n for n in doc.get("nodes", [])}
+    owner, top = {}, set()
+    for link in doc.get("links", []):
+        if link["relation"] == "method":
+            owner[link["target"]] = link["source"]
+        elif link["relation"] == "contains":
+            top.add(link["target"])
+
+    def type_of(nid):
+        seen = set()
+        while nid in owner and nid not in top and nid not in seen:
+            seen.add(nid)
+            nid = owner[nid]
+        n = nodes.get(nid)
+        return n if n and n.get("file_type") == "code" and not n.get("external") and n.get("source_file") else None
+
+    existing = {(n.get("filePath"), n.get("name")): n["id"] for n in g.nodes.values()
+                if n.get("type") in ("class", "function", "interface")}
+
+    def node_id(n):
+        name = n["label"].lstrip(".").removesuffix("()")
+        key = (n["source_file"], name)
+        if key not in existing:
+            kind = "class" if n.get("_callable_class") else "function"
+            line = int(re.sub(r"\D", "", str(n.get("source_location") or "")) or 0) or None
+            existing[key] = g.node(kind, n["source_file"], name, "graphify", line=line)
+        return existing[key]
+
+    interfaces = {l["source"] for l in doc.get("links", []) if l["relation"] == "inherits"
+                  and nodes.get(l["target"], {}).get("label") in INTERFACE_BASES}
+    for link in doc.get("links", []):
+        etype = GRAPHIFY_FLOW.get(link["relation"])
+        a, b = type_of(link["source"]), type_of(link["target"])
+        if not etype or not a or not b or a is b:
+            continue
+        if etype == "inherits" and b["id"] in interfaces:
+            etype = "implements"
+        where = f"{link.get('source_file', '')}:{link.get('source_location', '')}".strip(":")
+        g.edge(node_id(a), node_id(b), etype, "graphify",
+               description=f"{link['relation']} {link.get('confidence', '?')} {where}".strip())
+
+
 ENRICHERS = {"java-ee": enrich_java_ee, "django": enrich_django}
 
 
@@ -681,21 +718,35 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("graph")
     ap.add_argument("--root", required=True, help="the folder the graph was built from")
-    ap.add_argument("--enricher", action="append", required=True, choices=sorted(ENRICHERS))
+    ap.add_argument("--enricher", action="append", default=[], choices=sorted(ENRICHERS))
+    ap.add_argument("--graphify", metavar="GRAPH_JSON", help="Graphify's graph.json for the same folder: merged "
+                    "first, as the language-level layer (ADR-0025)")
     ap.add_argument("--out")
     a = ap.parse_args(argv)
     path = pathlib.Path(a.graph)
     doc = json.loads(path.read_text(encoding="utf-8"))
     g = Graph(doc)
     root = pathlib.Path(a.root)
+    if not a.enricher and not a.graphify:
+        ap.error("give --graphify and/or at least one --enricher")
+    if a.graphify:
+        try:
+            merge_graphify(g, json.loads(pathlib.Path(a.graphify).read_text(encoding="utf-8")))
+        except GraphifyError as e:
+            print(f"error: {e}", file=sys.stderr)
+            return 2
+        print(f"graphify: +{sum(g.added.values())}")
+        gmeta = json.loads(pathlib.Path(a.graphify).read_text(encoding="utf-8")).get("graph") or {}
     for name in a.enricher:
         before = sum(g.added.values())
         ENRICHERS[name](g, root)
         print(f"{name}: +{sum(g.added.values()) - before}")
-    doc.setdefault("project", {})["afsEnrichment"] = {"enrichers": a.enricher, "added": dict(sorted(g.added.items()))}
+    used = (["graphify"] if a.graphify else []) + a.enricher
+    doc.setdefault("project", {})["afsEnrichment"] = {"enrichers": used, "added": dict(sorted(g.added.items())),
+                                                      **({"graphify": gmeta} if a.graphify else {})}
     pathlib.Path(a.out or path).write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     summary = " ".join(f"{k.replace(':', '_')}={v}" for k, v in sorted(g.added.items()))
-    print(f"AFS-RESULT gate=graph-enrich enrichers={','.join(a.enricher)} {summary}".rstrip())
+    print(f"AFS-RESULT gate=graph-enrich enrichers={','.join(used)} {summary}".rstrip())
     return 0
 
 
