@@ -10,26 +10,25 @@
     "frameworks": [
       "Django"
     ],
-    "description": "Django-based cargo tracking application structured with domain-driven design across cargo, handling, location and voyage bounded contexts.",
-    "analyzedAt": "2026-11-03T14:40:44.739Z",
-    "gitCommitHash": "fabb9970ca4e6194b1c348800f16ba2f7842bda8",
+    "description": "A Django cargo-tracking application organized in domain-driven layers (cargo, handling, location, voyage bounded contexts).",
+    "analyzedAt": "2026-11-03T16:52:35.885Z",
+    "gitCommitHash": "c304b7efac2a78e06530b79b36faeabc6689e5eb",
     "afsEnrichment": {
       "enrichers": [
         "graphify",
         "django"
       ],
       "added": {
-        "edge:calls": 148,
+        "edge:calls": 138,
         "edge:contains": 2,
         "edge:defines_schema": 5,
         "edge:implements": 3,
         "edge:reads_from": 8,
         "edge:routes": 5,
         "edge:writes_to": 5,
-        "node:class": 3,
         "node:command": 1,
-        "node:endpoint": 3,
-        "node:function": 4,
+        "node:endpoint": 2,
+        "node:function": 7,
         "node:page": 4,
         "node:table": 5
       },
@@ -38,7 +37,7 @@
         "graphify_version": "0.9.101"
       }
     },
-    "analyzedCommit": "021fb96d500aa0e8e6bc41e05d9a4f8831767bc1"
+    "analyzedCommit": "18bb6ca444557bf3246f1b28d34d891d645afb02"
   },
   "nodes": [
     {
@@ -46,11 +45,12 @@
       "type": "file",
       "name": "map_status.py",
       "filePath": "src/cargotracker/cargo/application/map_status.py",
-      "summary": "Maps a cargo's domain state to a status code used by the tracking map frame.",
+      "summary": "Maps a cargo's routing and delivery state to a status code string consumed by the tracking map.",
       "tags": [
         "application-service",
-        "mapping",
-        "cargo"
+        "status-mapping",
+        "cargo",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -63,11 +63,11 @@
         4,
         11
       ],
-      "summary": "Translates cargo status into a map status code.",
+      "summary": "Returns NOT_ROUTED, AT_DESTINATION, MISDIRECTED, or the transport status value for a cargo.",
       "tags": [
-        "application-service",
-        "mapping",
-        "cargo"
+        "status-mapping",
+        "cargo",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -76,11 +76,12 @@
       "type": "file",
       "name": "tracking.py",
       "filePath": "src/cargotracker/cargo/application/tracking.py",
-      "summary": "Application service that looks up a cargo by tracking id together with its handling history using the cargo and handling repositories.",
+      "summary": "Application service that looks up cargos by tracking ID and their handling history via repository ports.",
       "tags": [
         "application-service",
         "tracking",
-        "use-case"
+        "cargo",
+        "repository-consumer"
       ],
       "complexity": "simple"
     },
@@ -93,7 +94,7 @@
         8,
         17
       ],
-      "summary": "Application service that fetches a cargo and its handling history for a tracking id.",
+      "summary": "Use-case class combining a cargo repository and handling event repository to find a cargo and its handling history.",
       "tags": [
         "application-service",
         "tracking",
@@ -106,10 +107,11 @@
       "type": "file",
       "name": "composition.py",
       "filePath": "src/cargotracker/cargo/composition.py",
-      "summary": "Composition root wiring the Django repositories and tracking lookup into the tracking view.",
+      "summary": "Composition root wiring Django repositories into the tracking lookup and the tracking view.",
       "tags": [
         "composition-root",
         "dependency-injection",
+        "cargo",
         "wiring"
       ],
       "complexity": "simple"
@@ -123,11 +125,11 @@
         7,
         10
       ],
-      "summary": "Builds the tracking view with concrete repositories injected.",
+      "summary": "Builds the tracking view with concrete Django cargo and handling-event repositories injected.",
       "tags": [
         "composition-root",
         "dependency-injection",
-        "wiring"
+        "factory"
       ],
       "complexity": "simple"
     },
@@ -136,12 +138,12 @@
       "type": "file",
       "name": "cargo.py",
       "filePath": "src/cargotracker/cargo/domain/cargo.py",
-      "summary": "Cargo aggregate root holding tracking id, route specification, itinerary and delivery state.",
+      "summary": "Defines the Cargo aggregate root with identity based on tracking ID and validated route, delivery, and itinerary.",
       "tags": [
-        "domain-model",
+        "domain",
         "aggregate-root",
-        "cargo",
-        "ddd"
+        "data-model",
+        "cargo"
       ],
       "complexity": "simple"
     },
@@ -154,11 +156,12 @@
         11,
         36
       ],
-      "summary": "Cargo aggregate root combining tracking id, route specification, itinerary and delivery.",
+      "summary": "Dataclass aggregate validating its components, defaulting origin from the route specification, and comparing by tracking ID.",
       "tags": [
-        "domain-model",
         "aggregate-root",
-        "cargo"
+        "domain",
+        "entity",
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -167,12 +170,12 @@
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/cargo/domain/repository.py",
-      "summary": "Abstract repository interface for storing and retrieving Cargo aggregates.",
+      "summary": "Declares the CargoRepository protocol (port) for persisting and querying cargos.",
       "tags": [
-        "repository",
-        "interface",
         "domain",
-        "ddd"
+        "repository",
+        "port",
+        "type-definition"
       ],
       "complexity": "simple"
     },
@@ -185,11 +188,11 @@
         7,
         12
       ],
-      "summary": "Abstract interface for cargo persistence operations.",
+      "summary": "Protocol with upsert, find, and find_all operations implemented by infrastructure repositories.",
       "tags": [
         "repository",
-        "interface",
-        "domain"
+        "protocol",
+        "port"
       ],
       "complexity": "simple"
     },
@@ -198,11 +201,12 @@
       "type": "file",
       "name": "tracking_id.py",
       "filePath": "src/cargotracker/cargo/domain/tracking_id.py",
-      "summary": "Value object wrapping and validating a cargo tracking identifier.",
+      "summary": "Defines the immutable TrackingId value object wrapping a string identifier.",
       "tags": [
+        "domain",
         "value-object",
-        "domain-model",
-        "identifier"
+        "data-model",
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -212,14 +216,14 @@
       "name": "TrackingId",
       "filePath": "src/cargotracker/cargo/domain/tracking_id.py",
       "lineRange": [
-        5,
+        4,
         13
       ],
-      "summary": "Value object representing a validated tracking id.",
+      "summary": "Frozen dataclass value object that enforces a string value and renders it via str().",
       "tags": [
         "value-object",
-        "domain-model",
-        "identifier"
+        "domain",
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -228,11 +232,12 @@
       "type": "file",
       "name": "forms.py",
       "filePath": "src/cargotracker/cargo/interfaces/forms.py",
-      "summary": "Django form for entering a tracking id on the tracking page.",
+      "summary": "Django form for entering a tracking ID with required validation and styled input widget.",
       "tags": [
         "form",
+        "django",
         "validation",
-        "interface-layer"
+        "interface"
       ],
       "complexity": "simple"
     },
@@ -245,11 +250,11 @@
         4,
         17
       ],
-      "summary": "Django form with a tracking id field.",
+      "summary": "Form with a single stripped, required tracking_id CharField and Tailwind-styled text input.",
       "tags": [
         "form",
-        "validation",
-        "interface-layer"
+        "django",
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -258,11 +263,12 @@
       "type": "file",
       "name": "eta.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/eta.py",
-      "summary": "Formats a cargo's estimated time of arrival for display from its delivery data.",
+      "summary": "Formats a cargo's estimated time of arrival for display in the tracking UI.",
       "tags": [
         "presentation",
         "formatting",
-        "tracking"
+        "tracking",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -275,11 +281,11 @@
         7,
         13
       ],
-      "summary": "Formats a delivery's estimated arrival for display.",
+      "summary": "Returns None for claimed cargo, '?' when ETA unknown, otherwise a UTC-formatted date string.",
       "tags": [
-        "presentation",
         "formatting",
-        "tracking"
+        "eta",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -288,11 +294,12 @@
       "type": "file",
       "name": "adapter.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
-      "summary": "Builds the map frame URL for a cargo's current position/status using the map status mapping.",
+      "summary": "Adapter that builds the map iframe URL with query parameters describing the cargo's status and locations.",
       "tags": [
         "adapter",
         "map",
-        "presentation"
+        "url-building",
+        "tracking"
       ],
       "complexity": "simple"
     },
@@ -302,14 +309,14 @@
       "name": "map_frame_url",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
       "lineRange": [
-        11,
+        10,
         26
       ],
-      "summary": "Builds the URL for the map frame showing the cargo's status.",
+      "summary": "Constructs the cargo_map_frame URL with status code and origin, destination, and last-known location codes and names.",
       "tags": [
-        "adapter",
+        "url-building",
         "map",
-        "presentation"
+        "adapter"
       ],
       "complexity": "simple"
     },
@@ -318,10 +325,11 @@
       "type": "file",
       "name": "next_activity.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/next_activity.py",
-      "summary": "Produces human-readable text describing the cargo's next expected handling activity.",
+      "summary": "Generates human-readable text for the next expected handling activity of a cargo.",
       "tags": [
         "presentation",
         "formatting",
+        "handling-activity",
         "tracking"
       ],
       "complexity": "simple"
@@ -335,11 +343,11 @@
         11,
         18
       ],
-      "summary": "Describes the next expected handling activity as text.",
+      "summary": "Maps an activity's event type to a description template and returns the 'Next expected activity' sentence, or None.",
       "tags": [
-        "presentation",
         "formatting",
-        "tracking"
+        "handling-activity",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -348,11 +356,12 @@
       "type": "file",
       "name": "status_text.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py",
-      "summary": "Generates the status text shown to users based on a cargo's transport status and delivery state.",
+      "summary": "Converts a cargo's transport status into display text such as 'In port X' or 'Onboard voyage Y'.",
       "tags": [
         "presentation",
         "formatting",
-        "status"
+        "status",
+        "tracking"
       ],
       "complexity": "simple"
     },
@@ -362,14 +371,14 @@
       "name": "get_status_text",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py",
       "lineRange": [
-        13,
-        19
+        14,
+        20
       ],
-      "summary": "Returns status text for a cargo's transport status.",
+      "summary": "Selects status text by transport status, delegating to in-port and onboard helpers and falling back to unknown text.",
       "tags": [
-        "presentation",
         "formatting",
-        "status"
+        "status",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -378,14 +387,15 @@
       "type": "file",
       "name": "views.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/views.py",
-      "summary": "Factory for the tracking Django view that handles the form, looks up the cargo and assembles status, ETA, next activity, history and map data for the template.",
+      "summary": "Builds the tracking view that validates the form, looks up cargo, assembles presentation data, and renders full or HTMX partial templates.",
       "tags": [
         "view",
-        "tracking",
-        "interface-layer",
-        "factory"
+        "django",
+        "htmx",
+        "api-handler",
+        "tracking"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
@@ -396,24 +406,26 @@
         15,
         45
       ],
-      "summary": "Creates the tracking view function with its dependencies bound.",
+      "summary": "Factory returning a Django view closure bound to a TrackingLookup that renders tracking results or error messages.",
       "tags": [
         "view",
-        "tracking",
-        "interface-layer"
+        "factory",
+        "django",
+        "htmx"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "file:src/cargotracker/urls.py",
       "type": "file",
       "name": "urls.py",
       "filePath": "src/cargotracker/urls.py",
-      "summary": "Project URL configuration routing requests to the tracking view created by the cargo composition root.",
+      "summary": "Project URL configuration routing the root to the composed tracking view and including the tracking map URLs.",
       "tags": [
         "routing",
-        "entry-point",
-        "django"
+        "django",
+        "urls",
+        "entry-point"
       ],
       "complexity": "simple"
     },
@@ -422,12 +434,12 @@
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/cargo/infrastructure/models.py",
-      "summary": "Django ORM models CargoRecord and LegRecord persisting cargo, its route specification, delivery state and itinerary legs.",
+      "summary": "Django ORM models CargoRecord and LegRecord persisting cargo aggregate state, routing status and itinerary legs to the cargo and leg tables.",
       "tags": [
+        "django",
         "orm",
-        "persistence",
         "data-model",
-        "django"
+        "persistence"
       ],
       "complexity": "moderate"
     },
@@ -436,45 +448,48 @@
       "type": "class",
       "name": "CargoRecord",
       "filePath": "src/cargotracker/cargo/infrastructure/models.py",
+      "summary": "ORM record for a cargo with origin, route specification, transport/routing status, ETA and next-expected-handling fields.",
+      "tags": [
+        "class",
+        "django",
+        "orm",
+        "data-model"
+      ],
+      "complexity": "moderate",
       "lineRange": [
         4,
         73
-      ],
-      "summary": "ORM model storing a cargo with route specification and delivery state columns.",
-      "tags": [
-        "orm",
-        "persistence",
-        "data-model"
-      ],
-      "complexity": "moderate"
+      ]
     },
     {
       "id": "class:src/cargotracker/cargo/infrastructure/models.py:LegRecord",
       "type": "class",
       "name": "LegRecord",
       "filePath": "src/cargotracker/cargo/infrastructure/models.py",
+      "summary": "ORM record for one itinerary leg of a cargo, linking voyage, load/unload locations and times.",
+      "tags": [
+        "class",
+        "django",
+        "orm",
+        "data-model"
+      ],
+      "complexity": "moderate",
       "lineRange": [
         76,
         106
-      ],
-      "summary": "ORM model storing one itinerary leg belonging to a CargoRecord.",
-      "tags": [
-        "orm",
-        "persistence",
-        "data-model"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
       "type": "file",
       "name": "history.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/history.py",
-      "summary": "Builds displayable handling-history rows and event descriptions for a cargo.",
+      "summary": "Presentation helpers that turn a cargo's handling history into human-readable description rows flagged as expected or unexpected.",
       "tags": [
-        "presentation",
-        "history",
-        "tracking"
+        "interface",
+        "tracking",
+        "formatting",
+        "view-helper"
       ],
       "complexity": "simple"
     },
@@ -483,45 +498,45 @@
       "type": "function",
       "name": "get_event_description",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/history.py",
+      "summary": "Formats a handling event into a description string using its type, location and voyage.",
+      "tags": [
+        "function",
+        "formatting",
+        "tracking"
+      ],
+      "complexity": "simple",
       "lineRange": [
         14,
         18
-      ],
-      "summary": "Describes a handling event as display text.",
-      "tags": [
-        "presentation",
-        "history",
-        "tracking"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
       "type": "function",
       "name": "get_history_rows",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/history.py",
+      "summary": "Builds display rows (description, time, expected flag) for each event in a handling history.",
+      "tags": [
+        "function",
+        "formatting",
+        "tracking"
+      ],
+      "complexity": "simple",
       "lineRange": [
         21,
         29
-      ],
-      "summary": "Builds history table rows from a cargo's handling history.",
-      "tags": [
-        "presentation",
-        "history",
-        "tracking"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/cargo/models.py",
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/cargo/models.py",
-      "summary": "Django model re-export module exposing the cargo infrastructure models to the app registry.",
+      "summary": "Django model discovery shim re-exporting cargo ORM records so the app registry finds them.",
       "tags": [
-        "barrel",
         "django",
-        "orm"
+        "barrel",
+        "models"
       ],
       "complexity": "simple"
     },
@@ -530,58 +545,61 @@
       "type": "file",
       "name": "handling_event.py",
       "filePath": "src/cargotracker/handling/domain/handling_event.py",
-      "summary": "Domain entity and enum describing a handling event (load, unload, receive, claim, etc.) for a cargo at a location and voyage.",
+      "summary": "Domain value object for a handling event with its event-type enum; validates types and normalizes times to UTC on construction.",
       "tags": [
-        "domain-model",
-        "entity",
-        "handling",
-        "ddd"
+        "domain",
+        "value-object",
+        "validation",
+        "handling"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEventType",
       "type": "class",
       "name": "HandlingEventType",
       "filePath": "src/cargotracker/handling/domain/handling_event.py",
+      "summary": "StrEnum of handling event types (LOAD, UNLOAD, RECEIVE, CLAIM, CUSTOMS) indicating whether a voyage is required.",
+      "tags": [
+        "class",
+        "domain",
+        "value-object",
+        "validation"
+      ],
+      "complexity": "simple",
       "lineRange": [
         11,
         20
-      ],
-      "summary": "Enumeration of handling event types.",
-      "tags": [
-        "domain-model",
-        "entity",
-        "handling"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
       "type": "class",
       "name": "HandlingEvent",
       "filePath": "src/cargotracker/handling/domain/handling_event.py",
+      "summary": "Frozen dataclass for a handling event that validates cargo, type, location and voyage consistency.",
+      "tags": [
+        "class",
+        "domain",
+        "value-object",
+        "validation"
+      ],
+      "complexity": "moderate",
       "lineRange": [
         24,
         48
-      ],
-      "summary": "Domain entity for a handling event of a cargo.",
-      "tags": [
-        "domain-model",
-        "entity",
-        "handling"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/handling/domain/handling_history.py",
       "type": "file",
       "name": "handling_history.py",
       "filePath": "src/cargotracker/handling/domain/handling_history.py",
-      "summary": "Value object collecting a cargo's handling events and exposing ordered/most recent event queries.",
+      "summary": "Immutable, time-ordered, de-duplicated collection of handling events with a most-recent-event accessor.",
       "tags": [
-        "domain-model",
+        "domain",
         "value-object",
+        "collection",
         "handling"
       ],
       "complexity": "simple"
@@ -591,29 +609,30 @@
       "type": "class",
       "name": "HandlingHistory",
       "filePath": "src/cargotracker/handling/domain/handling_history.py",
+      "summary": "Immutable sorted set of handling events with EMPTY sentinel and most_recent_event property.",
+      "tags": [
+        "class",
+        "domain",
+        "value-object",
+        "collection"
+      ],
+      "complexity": "simple",
       "lineRange": [
         9,
         28
-      ],
-      "summary": "Collection of handling events with ordering and latest-event queries.",
-      "tags": [
-        "domain-model",
-        "value-object",
-        "handling"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/handling/domain/repository.py",
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/handling/domain/repository.py",
-      "summary": "Abstract repository interface for storing handling events and retrieving a cargo's handling history.",
+      "summary": "Protocol defining the handling event repository port: store, upsert and history lookup by tracking id.",
       "tags": [
+        "domain",
         "repository",
-        "interface",
-        "handling",
-        "ddd"
+        "port",
+        "interface"
       ],
       "complexity": "simple"
     },
@@ -622,29 +641,30 @@
       "type": "class",
       "name": "HandlingEventRepository",
       "filePath": "src/cargotracker/handling/domain/repository.py",
+      "summary": "Protocol for persisting handling events and looking up a cargo's handling history.",
+      "tags": [
+        "class",
+        "domain",
+        "repository",
+        "port"
+      ],
+      "complexity": "simple",
       "lineRange": [
         8,
         13
-      ],
-      "summary": "Abstract interface for storing and querying handling events.",
-      "tags": [
-        "repository",
-        "interface",
-        "handling"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/handling/infrastructure/models.py",
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/handling/infrastructure/models.py",
-      "summary": "Django ORM model HandlingEventRecord persisting handling events.",
+      "summary": "Django ORM model HandlingEventRecord mapping handling events to the HandlingEvent table with FKs to cargo, location and voyage.",
       "tags": [
+        "django",
         "orm",
-        "persistence",
         "data-model",
-        "django"
+        "persistence"
       ],
       "complexity": "simple"
     },
@@ -653,29 +673,30 @@
       "type": "class",
       "name": "HandlingEventRecord",
       "filePath": "src/cargotracker/handling/infrastructure/models.py",
+      "summary": "ORM record for a handling event with type, dates and FKs to cargo, location, voyage.",
+      "tags": [
+        "class",
+        "django",
+        "orm",
+        "data-model"
+      ],
+      "complexity": "moderate",
       "lineRange": [
         4,
         29
-      ],
-      "summary": "ORM model storing a handling event.",
-      "tags": [
-        "orm",
-        "persistence",
-        "data-model"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/handling/infrastructure/repository.py",
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/handling/infrastructure/repository.py",
-      "summary": "Django ORM implementation of the handling event repository, converting between HandlingEventRecord rows and domain objects.",
+      "summary": "Django ORM implementation of the handling event repository, storing/upserting records and rebuilding domain HandlingHistory.",
       "tags": [
         "repository",
         "persistence",
-        "orm",
-        "handling"
+        "django",
+        "adapter"
       ],
       "complexity": "moderate"
     },
@@ -684,28 +705,29 @@
       "type": "class",
       "name": "DjangoHandlingEventRepository",
       "filePath": "src/cargotracker/handling/infrastructure/repository.py",
+      "summary": "Implements HandlingEventRepository via the ORM, converting records to domain events using the cargo repository.",
+      "tags": [
+        "class",
+        "repository",
+        "persistence",
+        "django"
+      ],
+      "complexity": "moderate",
       "lineRange": [
         19,
         71
-      ],
-      "summary": "Django ORM handling event repository implementation.",
-      "tags": [
-        "repository",
-        "persistence",
-        "orm"
-      ],
-      "complexity": "moderate"
+      ]
     },
     {
       "id": "file:src/cargotracker/handling/models.py",
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/handling/models.py",
-      "summary": "Django model re-export module exposing handling infrastructure models.",
+      "summary": "Django model discovery shim re-exporting the handling ORM record.",
       "tags": [
-        "barrel",
         "django",
-        "orm"
+        "barrel",
+        "models"
       ],
       "complexity": "simple"
     },
@@ -714,12 +736,12 @@
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/voyage/infrastructure/models.py",
-      "summary": "Django ORM model VoyageRecord persisting voyages.",
+      "summary": "Django ORM model VoyageRecord mapping voyages to the voyage table.",
       "tags": [
+        "django",
         "orm",
-        "persistence",
         "data-model",
-        "django"
+        "persistence"
       ],
       "complexity": "simple"
     },
@@ -728,28 +750,29 @@
       "type": "class",
       "name": "VoyageRecord",
       "filePath": "src/cargotracker/voyage/infrastructure/models.py",
+      "summary": "ORM record holding a voyage number.",
+      "tags": [
+        "class",
+        "django",
+        "orm",
+        "data-model"
+      ],
+      "complexity": "simple",
       "lineRange": [
         4,
         8
-      ],
-      "summary": "ORM model storing a voyage.",
-      "tags": [
-        "orm",
-        "persistence",
-        "data-model"
-      ],
-      "complexity": "simple"
+      ]
     },
     {
       "id": "file:src/cargotracker/voyage/models.py",
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/voyage/models.py",
-      "summary": "Django model re-export module exposing voyage infrastructure models.",
+      "summary": "Django model discovery shim re-exporting the voyage ORM record.",
       "tags": [
-        "barrel",
         "django",
-        "orm"
+        "barrel",
+        "models"
       ],
       "complexity": "simple"
     },
@@ -758,14 +781,62 @@
       "type": "file",
       "name": "sample_data.py",
       "filePath": "src/cargotracker/cargo/application/sample_data.py",
-      "summary": "Defines seed data for sample cargos, events and voyages and a SampleDataSeeder that populates repositories with them.",
+      "summary": "Builds and persists deterministic sample cargos, locations, voyages and handling events through the domain repositories for demos.",
       "tags": [
-        "sample-data",
-        "seeding",
+        "seed-data",
         "application-service",
-        "fixtures"
+        "sample-data",
+        "ddd"
       ],
       "complexity": "complex"
+    },
+    {
+      "id": "class:src/cargotracker/cargo/application/sample_data.py:_LegSeed",
+      "type": "class",
+      "name": "_LegSeed",
+      "filePath": "src/cargotracker/cargo/application/sample_data.py",
+      "lineRange": [
+        42,
+        47
+      ],
+      "summary": "Frozen seed data for a single itinerary leg.",
+      "tags": [
+        "seed-data",
+        "dataclass"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/cargotracker/cargo/application/sample_data.py:_EventSeed",
+      "type": "class",
+      "name": "_EventSeed",
+      "filePath": "src/cargotracker/cargo/application/sample_data.py",
+      "lineRange": [
+        51,
+        55
+      ],
+      "summary": "Seed data for a handling event.",
+      "tags": [
+        "seed-data",
+        "dataclass"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/cargotracker/cargo/application/sample_data.py:_CargoSeed",
+      "type": "class",
+      "name": "_CargoSeed",
+      "filePath": "src/cargotracker/cargo/application/sample_data.py",
+      "lineRange": [
+        59,
+        66
+      ],
+      "summary": "Seed data describing a cargo with its route, legs and events.",
+      "tags": [
+        "seed-data",
+        "dataclass"
+      ],
+      "complexity": "simple"
     },
     {
       "id": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
@@ -776,13 +847,13 @@
         178,
         226
       ],
-      "summary": "Seeds repositories with sample voyages, cargos and handling events.",
+      "summary": "Seeds locations, voyages and cargos into the repositories.",
       "tags": [
-        "sample-data",
-        "seeding",
-        "application-service"
+        "service",
+        "seed-data",
+        "orchestrator"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "function:src/cargotracker/cargo/application/sample_data.py:_add_months",
@@ -793,11 +864,10 @@
         128,
         136
       ],
-      "summary": "Adds a number of months to a date, clamping the day.",
+      "summary": "Adds a number of months to a date, clamping the day to the month length.",
       "tags": [
-        "sample-data",
-        "seeding",
-        "application-service"
+        "date",
+        "utility"
       ],
       "complexity": "simple"
     },
@@ -810,25 +880,24 @@
         143,
         175
       ],
-      "summary": "Builds a Cargo from a seed definition.",
+      "summary": "Constructs a Cargo with itinerary, delivery and handling history from a seed definition.",
       "tags": [
-        "sample-data",
-        "seeding",
-        "application-service"
+        "factory",
+        "seed-data"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "file:src/cargotracker/cargo/management/commands/seed_sample_data.py",
       "type": "file",
       "name": "seed_sample_data.py",
       "filePath": "src/cargotracker/cargo/management/commands/seed_sample_data.py",
-      "summary": "Django management command that wires Django repositories into SampleDataSeeder to load sample data.",
+      "summary": "Django management command that wires the Django repositories into SampleDataSeeder to load sample data.",
       "tags": [
         "management-command",
-        "seeding",
-        "entry-point",
-        "django"
+        "django",
+        "seed-data",
+        "entry-point"
       ],
       "complexity": "simple"
     },
@@ -841,11 +910,10 @@
         14,
         26
       ],
-      "summary": "Management command that runs the sample data seeder.",
+      "summary": "Management command class that runs the sample data seeder.",
       "tags": [
         "management-command",
-        "seeding",
-        "entry-point"
+        "django"
       ],
       "complexity": "simple"
     },
@@ -854,7 +922,7 @@
       "type": "file",
       "name": "carrier_movement.py",
       "filePath": "src/cargotracker/voyage/domain/carrier_movement.py",
-      "summary": "Value object for a single carrier movement between a departure and arrival location with times.",
+      "summary": "Domain value object describing one carrier movement between two locations with departure and arrival times.",
       "tags": [
         "domain-model",
         "value-object",
@@ -871,11 +939,10 @@
         8,
         28
       ],
-      "summary": "Value object for a movement of a carrier between two locations.",
+      "summary": "Carrier movement between departure and arrival locations.",
       "tags": [
-        "domain-model",
         "value-object",
-        "voyage"
+        "domain-model"
       ],
       "complexity": "simple"
     },
@@ -884,12 +951,12 @@
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/voyage/domain/repository.py",
-      "summary": "Abstract repository interface for storing and finding Voyage aggregates.",
+      "summary": "Abstract repository interface for storing and finding voyages.",
       "tags": [
         "repository",
         "interface",
-        "voyage",
-        "ddd"
+        "domain",
+        "voyage"
       ],
       "complexity": "simple"
     },
@@ -905,8 +972,7 @@
       "summary": "Abstract interface for voyage persistence.",
       "tags": [
         "repository",
-        "interface",
-        "voyage"
+        "interface"
       ],
       "complexity": "simple"
     },
@@ -915,7 +981,7 @@
       "type": "file",
       "name": "schedule.py",
       "filePath": "src/cargotracker/voyage/domain/schedule.py",
-      "summary": "Value object holding an ordered list of carrier movements for a voyage.",
+      "summary": "Domain value object holding an ordered list of carrier movements for a voyage.",
       "tags": [
         "domain-model",
         "value-object",
@@ -932,11 +998,10 @@
         8,
         17
       ],
-      "summary": "Ordered carrier movements of a voyage.",
+      "summary": "Ordered collection of carrier movements.",
       "tags": [
-        "domain-model",
         "value-object",
-        "voyage"
+        "domain-model"
       ],
       "complexity": "simple"
     },
@@ -945,12 +1010,11 @@
       "type": "file",
       "name": "voyage.py",
       "filePath": "src/cargotracker/voyage/domain/voyage.py",
-      "summary": "Voyage aggregate root identified by voyage number with a schedule of carrier movements.",
+      "summary": "Voyage aggregate root identified by a voyage number and carrying a schedule.",
       "tags": [
         "domain-model",
-        "aggregate-root",
-        "voyage",
-        "ddd"
+        "aggregate",
+        "voyage"
       ],
       "complexity": "simple"
     },
@@ -965,9 +1029,8 @@
       ],
       "summary": "Voyage aggregate with number and schedule.",
       "tags": [
-        "domain-model",
-        "aggregate-root",
-        "voyage"
+        "aggregate",
+        "domain-model"
       ],
       "complexity": "simple"
     },
@@ -976,7 +1039,7 @@
       "type": "file",
       "name": "voyage_builder.py",
       "filePath": "src/cargotracker/voyage/domain/voyage_builder.py",
-      "summary": "Fluent builder for assembling voyages from carrier movements between locations.",
+      "summary": "Fluent builder that assembles Voyage aggregates from successive carrier movements.",
       "tags": [
         "builder",
         "domain",
@@ -993,11 +1056,10 @@
         10,
         37
       ],
-      "summary": "Builder constructing voyages by chaining carrier movements.",
+      "summary": "Builder that chains movements into a Voyage.",
       "tags": [
         "builder",
-        "domain",
-        "voyage"
+        "domain-model"
       ],
       "complexity": "simple"
     },
@@ -1010,7 +1072,7 @@
       "tags": [
         "value-object",
         "domain-model",
-        "identifier"
+        "voyage"
       ],
       "complexity": "simple"
     },
@@ -1023,11 +1085,10 @@
         5,
         13
       ],
-      "summary": "Value object for a voyage number.",
+      "summary": "Voyage number value object.",
       "tags": [
         "value-object",
-        "domain-model",
-        "identifier"
+        "domain-model"
       ],
       "complexity": "simple"
     },
@@ -1036,11 +1097,11 @@
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/voyage/infrastructure/repository.py",
-      "summary": "Django ORM implementation of the voyage repository backed by VoyageRecord.",
+      "summary": "Django ORM implementation of VoyageRepository mapping between voyage models and domain objects.",
       "tags": [
         "repository",
-        "persistence",
-        "orm",
+        "django-orm",
+        "infrastructure",
         "voyage"
       ],
       "complexity": "simple"
@@ -1054,11 +1115,10 @@
         8,
         25
       ],
-      "summary": "Django ORM voyage repository implementation.",
+      "summary": "Django-backed voyage repository.",
       "tags": [
         "repository",
-        "persistence",
-        "orm"
+        "django-orm"
       ],
       "complexity": "simple"
     },
@@ -1067,7 +1127,7 @@
       "type": "file",
       "name": "dates.py",
       "filePath": "src/cargotracker/cargo/domain/dates.py",
-      "summary": "Date helper that normalizes datetimes to UTC.",
+      "summary": "Date helper module that normalizes datetimes to UTC for the cargo domain.",
       "tags": [
         "utility",
         "datetime",
@@ -1084,11 +1144,11 @@
         4,
         10
       ],
-      "summary": "Converts a datetime to UTC (treating naive values as UTC).",
+      "summary": "Converts a datetime to a timezone-aware UTC value.",
       "tags": [
         "utility",
         "datetime",
-        "domain"
+        "normalization"
       ],
       "complexity": "simple"
     },
@@ -1097,14 +1157,15 @@
       "type": "file",
       "name": "delivery.py",
       "filePath": "src/cargotracker/cargo/domain/delivery.py",
-      "summary": "Delivery value object deriving transport status, routing status, misdirection, ETA and next expected activity from route, itinerary and handling history, with TransportStatus and RoutingStatus enums.",
+      "summary": "Defines the Delivery value object, which derives transport status, routing status, last known location, current voyage, ETA and next expected activity from a route specification, itinerary and last handling activity.",
       "tags": [
         "domain-model",
-        "value-object",
         "delivery",
+        "value-object",
         "business-logic"
       ],
-      "complexity": "complex"
+      "complexity": "complex",
+      "languageNotes": "Uses enums and dataclass-style immutable value objects with __post_init__ validation."
     },
     {
       "id": "class:src/cargotracker/cargo/domain/delivery.py:TransportStatus",
@@ -1115,11 +1176,11 @@
         18,
         23
       ],
-      "summary": "Enumeration of a cargo's transport statuses.",
+      "summary": "Enumeration of a cargo's transport state (e.g. not received, in port, onboard carrier, claimed).",
       "tags": [
+        "enum",
         "domain-model",
-        "value-object",
-        "delivery"
+        "status"
       ],
       "complexity": "simple"
     },
@@ -1132,11 +1193,11 @@
         26,
         29
       ],
-      "summary": "Enumeration of a cargo's routing statuses.",
+      "summary": "Enumeration of whether a cargo is routed, not routed, or misrouted.",
       "tags": [
+        "enum",
         "domain-model",
-        "value-object",
-        "delivery"
+        "status"
       ],
       "complexity": "simple"
     },
@@ -1149,20 +1210,21 @@
         33,
         223
       ],
-      "summary": "Derives and holds cargo delivery state from route, itinerary and last handling event.",
+      "summary": "Immutable snapshot of a cargo's delivery progress, built via derived_from() from route, itinerary and last handling activity, including misdirection and ETA calculations.",
       "tags": [
         "domain-model",
         "value-object",
+        "business-logic",
         "delivery"
       ],
-      "complexity": "moderate"
+      "complexity": "complex"
     },
     {
       "id": "file:src/cargotracker/cargo/domain/handling_activity.py",
       "type": "file",
       "name": "handling_activity.py",
       "filePath": "src/cargotracker/cargo/domain/handling_activity.py",
-      "summary": "Value object describing an expected handling activity (event type, location, voyage).",
+      "summary": "Defines the HandlingActivity value object describing an expected or last handling action at a location and optional voyage.",
       "tags": [
         "domain-model",
         "value-object",
@@ -1179,11 +1241,11 @@
         9,
         24
       ],
-      "summary": "Expected handling activity value object.",
+      "summary": "Value object pairing a handling event type with a location and voyage, validating that voyage is consistent with the type.",
       "tags": [
         "domain-model",
         "value-object",
-        "handling"
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -1192,9 +1254,10 @@
       "type": "file",
       "name": "itinerary.py",
       "filePath": "src/cargotracker/cargo/domain/itinerary.py",
-      "summary": "Itinerary value object: ordered legs of a cargo's planned route with queries for initial departure and final arrival and expected-event checks.",
+      "summary": "Defines the Itinerary value object, an ordered list of legs, and logic to check whether a handling event is expected.",
       "tags": [
         "domain-model",
+        "itinerary",
         "value-object",
         "routing"
       ],
@@ -1209,20 +1272,21 @@
         11,
         56
       ],
-      "summary": "Ordered legs of a cargo's planned route.",
+      "summary": "Ordered sequence of legs with is_expected() matching receive, load, unload and claim events against the planned route.",
       "tags": [
         "domain-model",
         "value-object",
-        "routing"
+        "routing",
+        "business-logic"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "file:src/cargotracker/cargo/domain/leg.py",
       "type": "file",
       "name": "leg.py",
       "filePath": "src/cargotracker/cargo/domain/leg.py",
-      "summary": "Value object for one leg of an itinerary: voyage, load/unload locations and times.",
+      "summary": "Defines the Leg value object representing one voyage segment between two locations with load and unload times.",
       "tags": [
         "domain-model",
         "value-object",
@@ -1239,11 +1303,11 @@
         10,
         25
       ],
-      "summary": "One voyage leg of an itinerary.",
+      "summary": "Value object for a single voyage leg with load/unload locations and times, validating time ordering.",
       "tags": [
         "domain-model",
         "value-object",
-        "routing"
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -1252,9 +1316,10 @@
       "type": "file",
       "name": "route_specification.py",
       "filePath": "src/cargotracker/cargo/domain/route_specification.py",
-      "summary": "Value object specifying origin, destination and arrival deadline, with satisfaction check against an itinerary.",
+      "summary": "Defines RouteSpecification, the origin, destination and arrival deadline requirements that an itinerary must satisfy.",
       "tags": [
         "domain-model",
+        "specification",
         "value-object",
         "routing"
       ],
@@ -1269,11 +1334,11 @@
         13,
         38
       ],
-      "summary": "Origin, destination and arrival deadline requirements.",
+      "summary": "Value object stating origin, destination and arrival deadline, with is_satisfied_by() to test an itinerary.",
       "tags": [
         "domain-model",
-        "value-object",
-        "routing"
+        "specification",
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -1282,12 +1347,12 @@
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/cargo/infrastructure/repository.py",
-      "summary": "Django ORM implementation of the cargo repository, mapping CargoRecord/LegRecord rows to and from the Cargo aggregate.",
+      "summary": "Django ORM implementation of the cargo repository that persists and rebuilds Cargo aggregates, mapping between database records and domain objects.",
       "tags": [
         "repository",
         "persistence",
-        "orm",
-        "cargo"
+        "django-orm",
+        "infrastructure"
       ],
       "complexity": "complex"
     },
@@ -1300,24 +1365,25 @@
         21,
         177
       ],
-      "summary": "Django ORM cargo repository implementation.",
+      "summary": "Implements the CargoRepository port with upsert, find and find_all, converting Django model records to Cargo, Itinerary, Delivery and related domain objects.",
       "tags": [
         "repository",
         "persistence",
-        "orm"
+        "django-orm",
+        "mapper"
       ],
-      "complexity": "moderate"
+      "complexity": "complex"
     },
     {
       "id": "file:src/cargotracker/location/domain/location.py",
       "type": "file",
       "name": "location.py",
       "filePath": "src/cargotracker/location/domain/location.py",
-      "summary": "Location value object identified by UN/LOCODE with a name.",
+      "summary": "Defines the Location domain value object identified by a UN/LOCODE and a name.",
       "tags": [
         "domain-model",
-        "value-object",
-        "location"
+        "location",
+        "value-object"
       ],
       "complexity": "simple"
     },
@@ -1330,11 +1396,11 @@
         8,
         21
       ],
-      "summary": "Location value object identified by UN/LOCODE.",
+      "summary": "Value object for a port or place with UN/LOCODE and name, validating its fields and providing a string form.",
       "tags": [
         "domain-model",
         "value-object",
-        "location"
+        "validation"
       ],
       "complexity": "simple"
     },
@@ -1343,12 +1409,12 @@
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/location/domain/repository.py",
-      "summary": "Defines the domain-level LocationRepository port as a typing Protocol, keeping the location bounded context independent of persistence.",
+      "summary": "Defines the LocationRepository Protocol, the domain-level port for persisting and retrieving Location aggregates.",
       "tags": [
         "repository",
         "port",
-        "domain",
-        "protocol"
+        "protocol",
+        "domain"
       ],
       "complexity": "simple"
     },
@@ -1361,11 +1427,11 @@
         7,
         12
       ],
-      "summary": "Protocol specifying upsert, find and find_all operations for Location aggregates.",
+      "summary": "Protocol declaring upsert, find and find_all operations for locations.",
       "tags": [
         "repository",
-        "interface",
-        "domain"
+        "protocol",
+        "interface"
       ],
       "complexity": "simple"
     },
@@ -1374,11 +1440,12 @@
       "type": "file",
       "name": "un_locode.py",
       "filePath": "src/cargotracker/location/domain/un_locode.py",
-      "summary": "Value object for a UN/LOCODE that validates its format and normalizes it to upper case.",
+      "summary": "Defines the UnLocode value object that validates and normalizes UN/LOCODE location identifiers.",
       "tags": [
         "value-object",
+        "validation",
         "domain",
-        "validation"
+        "identifier"
       ],
       "complexity": "simple"
     },
@@ -1391,11 +1458,11 @@
         8,
         19
       ],
-      "summary": "Frozen dataclass wrapping a five-character UN/LOCODE, rejecting non-strings and invalid codes.",
+      "summary": "Frozen dataclass wrapping a UN/LOCODE string, validating its format with a regex and upper-casing it on construction.",
       "tags": [
         "value-object",
-        "domain",
-        "validation"
+        "validation",
+        "dataclass"
       ],
       "complexity": "simple"
     },
@@ -1404,12 +1471,12 @@
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/location/infrastructure/models.py",
-      "summary": "Django ORM model mapping locations to the 'location' table.",
+      "summary": "Django ORM model storing locations in the \"location\" table.",
       "tags": [
         "data-model",
-        "django",
-        "orm",
-        "infrastructure"
+        "django-orm",
+        "infrastructure",
+        "persistence"
       ],
       "complexity": "simple"
     },
@@ -1422,11 +1489,11 @@
         4,
         9
       ],
-      "summary": "Django model storing a location's UN/LOCODE and name.",
+      "summary": "Django model with unlocode and name columns mapped to the location table.",
       "tags": [
         "data-model",
-        "django",
-        "orm"
+        "django-orm",
+        "persistence"
       ],
       "complexity": "simple"
     },
@@ -1435,11 +1502,11 @@
       "type": "file",
       "name": "repository.py",
       "filePath": "src/cargotracker/location/infrastructure/repository.py",
-      "summary": "Django ORM implementation of the location repository, translating between LocationRecord rows and Location domain objects.",
+      "summary": "Django ORM-backed implementation of the LocationRepository port, mapping between LocationRecord rows and Location domain objects.",
       "tags": [
         "repository",
+        "django-orm",
         "infrastructure",
-        "django",
         "persistence"
       ],
       "complexity": "simple"
@@ -1453,11 +1520,11 @@
         7,
         23
       ],
-      "summary": "Persists and queries locations through the Django ORM, mapping records back to domain Locations.",
+      "summary": "Implements upsert, find and find_all via LocationRecord queries and converts records to domain Locations.",
       "tags": [
         "repository",
-        "django",
-        "persistence"
+        "adapter",
+        "django-orm"
       ],
       "complexity": "simple"
     },
@@ -1466,25 +1533,26 @@
       "type": "file",
       "name": "models.py",
       "filePath": "src/cargotracker/location/models.py",
-      "summary": "Re-exports LocationRecord so Django discovers the location app's models.",
+      "summary": "Django model entry point that re-exports the location infrastructure models so Django discovers them.",
       "tags": [
         "barrel",
-        "django",
-        "data-model"
+        "django-models",
+        "entry-point"
       ],
-      "complexity": "simple"
+      "complexity": "simple",
+      "languageNotes": "Django requires models to be importable from the app's models module."
     },
     {
       "id": "file:src/cargotracker/cargo/interfaces/tracking/map/coordinates.py",
       "type": "file",
       "name": "coordinates.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/coordinates.py",
-      "summary": "Static lookup table mapping UN/LOCODEs to latitude/longitude pairs used to place markers on the tracking map.",
+      "summary": "Static lookup table mapping UN/LOCODE location codes to latitude/longitude pairs used for placing cargo map markers.",
       "tags": [
+        "data",
         "constants",
         "geolocation",
-        "map",
-        "data"
+        "map"
       ],
       "complexity": "simple"
     },
@@ -1493,7 +1561,7 @@
       "type": "file",
       "name": "urls.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/urls.py",
-      "summary": "URL configuration routing the map sub-path to the map_frame view.",
+      "summary": "URL configuration for the cargo tracking map, routing the root path to the map frame view.",
       "tags": [
         "routing",
         "urls",
@@ -1507,12 +1575,12 @@
       "type": "file",
       "name": "views.py",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/views.py",
-      "summary": "Django view rendering an embeddable map frame with origin, destination and last-known-location markers coloured by cargo status.",
+      "summary": "Django view that builds map marker data (origin, destination, last known location) from query parameters and renders the embeddable map frame template.",
       "tags": [
-        "api-handler",
         "view",
         "django",
-        "map"
+        "map",
+        "api-handler"
       ],
       "complexity": "simple"
     },
@@ -1522,16 +1590,16 @@
       "name": "map_frame",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/views.py",
       "lineRange": [
-        19,
-        41
+        18,
+        40
       ],
-      "summary": "Builds marker data from query parameters and renders the map frame template, allowing same-origin framing.",
+      "summary": "Reads status and location query parameters, builds colored markers for known locations, and renders the map frame template.",
       "tags": [
         "view",
         "django",
         "map"
       ],
-      "complexity": "simple"
+      "complexity": "moderate"
     },
     {
       "id": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:_location_data",
@@ -1539,14 +1607,27 @@
       "name": "_location_data",
       "filePath": "src/cargotracker/cargo/interfaces/tracking/map/views.py",
       "lineRange": [
-        44,
-        49
+        43,
+        48
       ],
-      "summary": "Reads a location's code and name for a given role from the request query string.",
+      "summary": "Extracts a location's code and name from request query parameters for a given role.",
       "tags": [
         "helper",
-        "request-parsing",
+        "query-params",
         "map"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/location/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/location/__init__.py",
+      "summary": "Empty location bounded-context package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
       ],
       "complexity": "simple"
     },
@@ -1555,25 +1636,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/__init__.py",
-      "summary": "Empty package marker for the cargotracker Django project package.",
+      "summary": "Empty top-level cargotracker package marker, making the directory importable as a Python package.",
       "tags": [
         "package-marker",
-        "entry-point",
-        "python"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/asgi.py",
-      "type": "file",
-      "name": "asgi.py",
-      "filePath": "src/cargotracker/asgi.py",
-      "summary": "ASGI entry point exposing the Django application for asynchronous servers.",
-      "tags": [
-        "entry-point",
-        "asgi",
-        "deployment",
-        "django"
+        "python",
+        "layered-architecture"
       ],
       "complexity": "simple"
     },
@@ -1582,11 +1649,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/cargo/__init__.py",
-      "summary": "Empty package marker for the cargo bounded context.",
+      "summary": "Empty cargo app package marker, making the directory importable as a Python package.",
       "tags": [
         "package-marker",
-        "cargo",
-        "python"
+        "python",
+        "layered-architecture"
       ],
       "complexity": "simple"
     },
@@ -1595,25 +1662,208 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/cargo/application/__init__.py",
-      "summary": "Empty package marker for the cargo application layer.",
+      "summary": "Empty cargo application-layer package marker, making the directory importable as a Python package.",
       "tags": [
         "package-marker",
-        "cargo",
-        "application-layer"
+        "python",
+        "layered-architecture"
       ],
       "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/domain/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/domain/__init__.py",
+      "summary": "Empty cargo domain-layer package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/infrastructure/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/infrastructure/__init__.py",
+      "summary": "Empty cargo infrastructure-layer package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/interfaces/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/interfaces/__init__.py",
+      "summary": "Empty cargo interfaces-layer package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/interfaces/tracking/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/__init__.py",
+      "summary": "Empty cargo tracking interface package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/interfaces/tracking/map/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/__init__.py",
+      "summary": "Empty cargo tracking map interface package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/management/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/management/__init__.py",
+      "summary": "Empty cargo management package marker (Django management commands container), making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/management/commands/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/management/commands/__init__.py",
+      "summary": "Empty cargo management commands package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/cargo/migrations/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/cargo/migrations/__init__.py",
+      "summary": "Empty cargo migrations package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/handling/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/handling/__init__.py",
+      "summary": "Empty handling app package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/handling/domain/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/handling/domain/__init__.py",
+      "summary": "Empty handling domain-layer package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/handling/infrastructure/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/handling/infrastructure/__init__.py",
+      "summary": "Empty handling infrastructure-layer package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/handling/migrations/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/handling/migrations/__init__.py",
+      "summary": "Empty handling migrations package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/location/application/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/cargotracker/location/application/__init__.py",
+      "summary": "Empty location application-layer package marker, making the directory importable as a Python package.",
+      "tags": [
+        "package-marker",
+        "python",
+        "layered-architecture"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/asgi.py",
+      "type": "file",
+      "name": "asgi.py",
+      "filePath": "src/cargotracker/asgi.py",
+      "summary": "ASGI entry point that sets DJANGO_SETTINGS_MODULE and exposes the `application` callable for ASGI servers.",
+      "tags": [
+        "entry-point",
+        "asgi",
+        "deployment",
+        "django"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Standard Django-generated ASGI configuration."
     },
     {
       "id": "file:src/cargotracker/cargo/apps.py",
       "type": "file",
       "name": "apps.py",
       "filePath": "src/cargotracker/cargo/apps.py",
-      "summary": "Django AppConfig registering the cargo bounded context as an installed app.",
+      "summary": "Django AppConfig registering the cargo application.",
       "tags": [
-        "configuration",
         "django",
         "app-config",
-        "cargo"
+        "configuration"
       ],
       "complexity": "simple"
     },
@@ -1626,102 +1876,39 @@
         4,
         6
       ],
-      "summary": "AppConfig subclass for the cargo app.",
+      "summary": "AppConfig subclass identifying the cargo Django app.",
+      "tags": [
+        "django",
+        "app-config"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/cargotracker/handling/apps.py",
+      "type": "file",
+      "name": "apps.py",
+      "filePath": "src/cargotracker/handling/apps.py",
+      "summary": "Django AppConfig registering the handling application.",
       "tags": [
         "django",
         "app-config",
-        "cargo"
+        "configuration"
       ],
       "complexity": "simple"
     },
     {
-      "id": "file:src/cargotracker/cargo/domain/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/domain/__init__.py",
-      "summary": "Empty package marker for the cargo domain layer.",
-      "tags": [
-        "package-marker",
-        "cargo",
-        "domain"
+      "id": "class:src/cargotracker/handling/apps.py:HandlingConfig",
+      "type": "class",
+      "name": "HandlingConfig",
+      "filePath": "src/cargotracker/handling/apps.py",
+      "lineRange": [
+        4,
+        6
       ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/infrastructure/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/infrastructure/__init__.py",
-      "summary": "Empty package marker for the cargo infrastructure layer.",
+      "summary": "AppConfig subclass identifying the handling Django app.",
       "tags": [
-        "package-marker",
-        "cargo",
-        "infrastructure"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/interfaces/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/interfaces/__init__.py",
-      "summary": "Empty package marker for the cargo interfaces layer.",
-      "tags": [
-        "package-marker",
-        "cargo",
-        "interfaces"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/interfaces/tracking/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/__init__.py",
-      "summary": "Empty package marker for the cargo tracking interface package.",
-      "tags": [
-        "package-marker",
-        "cargo",
-        "tracking"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/interfaces/tracking/map/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/__init__.py",
-      "summary": "Empty package marker for the tracking map interface package.",
-      "tags": [
-        "package-marker",
-        "cargo",
-        "map"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/management/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/management/__init__.py",
-      "summary": "Empty package marker for the cargo Django management package.",
-      "tags": [
-        "package-marker",
-        "cargo",
-        "django"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/management/commands/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/management/commands/__init__.py",
-      "summary": "Empty package marker making the cargo management commands discoverable.",
-      "tags": [
-        "package-marker",
-        "cargo",
-        "django"
+        "django",
+        "app-config"
       ],
       "complexity": "simple"
     },
@@ -1730,14 +1917,14 @@
       "type": "file",
       "name": "0001_initial.py",
       "filePath": "src/cargotracker/cargo/migrations/0001_initial.py",
-      "summary": "Initial Django migration creating the CargoRecord and LegRecord tables for the cargo context.",
+      "summary": "Initial migration creating the CargoRecord and LegRecord tables with foreign keys to locations, voyages and handling events.",
       "tags": [
         "migration",
         "database",
         "django",
         "cargo"
       ],
-      "complexity": "complex"
+      "complexity": "moderate"
     },
     {
       "id": "class:src/cargotracker/cargo/migrations/0001_initial.py:Migration",
@@ -1748,20 +1935,20 @@
         9,
         173
       ],
-      "summary": "Migration defining the CargoRecord and LegRecord models and their relationship.",
+      "summary": "Django migration defining the CargoRecord and LegRecord models and their relations.",
       "tags": [
         "migration",
-        "schema",
-        "django"
+        "database",
+        "schema"
       ],
-      "complexity": "complex"
+      "complexity": "moderate"
     },
     {
       "id": "file:src/cargotracker/cargo/migrations/0002_remove_cargorecord_last_event_id_and_more.py",
       "type": "file",
       "name": "0002_remove_cargorecord_last_event_id_and_more.py",
       "filePath": "src/cargotracker/cargo/migrations/0002_remove_cargorecord_last_event_id_and_more.py",
-      "summary": "Migration renaming CargoRecord.last_event_id to last_event and linking it to the handling app's event records.",
+      "summary": "Migration renaming CargoRecord.last_event_id to last_event and altering it as a foreign key.",
       "tags": [
         "migration",
         "database",
@@ -1779,122 +1966,10 @@
         9,
         32
       ],
-      "summary": "Migration depending on cargo 0001 and handling 0001 that converts the last-event column into a foreign key.",
+      "summary": "Django migration renaming and altering the last_event field on CargoRecord.",
       "tags": [
         "migration",
-        "schema",
-        "django"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/migrations/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/cargo/migrations/__init__.py",
-      "summary": "Empty package marker for the cargo migrations package.",
-      "tags": [
-        "package-marker",
-        "migration",
-        "cargo"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
-      "type": "file",
-      "name": "frame.html",
-      "filePath": "src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
-      "summary": "Standalone HTML page embedding a Leaflet map that plots cargo origin, destination and last-known-location markers.",
-      "tags": [
-        "template",
-        "html",
-        "map",
-        "leaflet"
-      ],
-      "complexity": "moderate"
-    },
-    {
-      "id": "document:src/cargotracker/handling/GLOSSARY.md",
-      "type": "document",
-      "name": "GLOSSARY.md",
-      "filePath": "src/cargotracker/handling/GLOSSARY.md",
-      "summary": "Ubiquitous-language glossary for the handling context defining handling event, registration attempt, accepted, registered and rejected.",
-      "tags": [
-        "documentation",
-        "glossary",
-        "domain-language",
-        "handling"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/handling/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/handling/__init__.py",
-      "summary": "Empty package marker for the handling bounded context.",
-      "tags": [
-        "package-marker",
-        "handling",
-        "python"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/handling/apps.py",
-      "type": "file",
-      "name": "apps.py",
-      "filePath": "src/cargotracker/handling/apps.py",
-      "summary": "Django AppConfig registering the handling bounded context.",
-      "tags": [
-        "configuration",
-        "django",
-        "app-config",
-        "handling"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "class:src/cargotracker/handling/apps.py:HandlingConfig",
-      "type": "class",
-      "name": "HandlingConfig",
-      "filePath": "src/cargotracker/handling/apps.py",
-      "lineRange": [
-        4,
-        6
-      ],
-      "summary": "AppConfig subclass for the handling app.",
-      "tags": [
-        "django",
-        "app-config",
-        "handling"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/handling/domain/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/handling/domain/__init__.py",
-      "summary": "Empty package marker for the handling domain layer.",
-      "tags": [
-        "package-marker",
-        "handling",
-        "domain"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/handling/infrastructure/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/handling/infrastructure/__init__.py",
-      "summary": "Empty package marker for the handling infrastructure layer.",
-      "tags": [
-        "package-marker",
-        "handling",
-        "infrastructure"
+        "database"
       ],
       "complexity": "simple"
     },
@@ -1903,7 +1978,7 @@
       "type": "file",
       "name": "0001_initial.py",
       "filePath": "src/cargotracker/handling/migrations/0001_initial.py",
-      "summary": "Initial Django migration creating the HandlingEventRecord table.",
+      "summary": "Initial migration creating the HandlingEventRecord table with references to cargo, voyage and location.",
       "tags": [
         "migration",
         "database",
@@ -1921,50 +1996,41 @@
         9,
         64
       ],
-      "summary": "Migration defining the HandlingEventRecord model.",
+      "summary": "Django migration defining the HandlingEventRecord model.",
       "tags": [
         "migration",
-        "schema",
-        "django"
+        "database",
+        "schema"
       ],
       "complexity": "moderate"
     },
     {
-      "id": "file:src/cargotracker/handling/migrations/__init__.py",
+      "id": "file:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
       "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/handling/migrations/__init__.py",
-      "summary": "Empty package marker for the handling migrations package.",
+      "name": "frame.html",
+      "filePath": "src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
+      "summary": "Django template rendering a Leaflet map frame for cargo tracking, showing status and injecting map data via json_script.",
       "tags": [
-        "package-marker",
-        "migration",
+        "template",
+        "html",
+        "map",
+        "leaflet",
+        "tracking"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Uses Django template tags (static, json_script) and Leaflet loaded from a CDN."
+    },
+    {
+      "id": "document:src/cargotracker/handling/GLOSSARY.md",
+      "type": "document",
+      "name": "GLOSSARY.md",
+      "filePath": "src/cargotracker/handling/GLOSSARY.md",
+      "summary": "Ubiquitous-language glossary for the handling context defining handling event, registration attempt, accepted, registered and rejected.",
+      "tags": [
+        "documentation",
+        "glossary",
+        "domain-driven-design",
         "handling"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/location/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/location/__init__.py",
-      "summary": "Empty package marker for the location bounded context.",
-      "tags": [
-        "package-marker",
-        "location",
-        "python"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/cargotracker/location/application/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/cargotracker/location/application/__init__.py",
-      "summary": "Empty package marker for the location application layer.",
-      "tags": [
-        "package-marker",
-        "location",
-        "application-layer"
       ],
       "complexity": "simple"
     },
@@ -1973,9 +2039,8 @@
       "type": "file",
       "name": "apps.py",
       "filePath": "src/cargotracker/location/apps.py",
-      "summary": "Django AppConfig registering the location bounded context.",
+      "summary": "Django AppConfig registering the location app.",
       "tags": [
-        "configuration",
         "django",
         "app-config",
         "location"
@@ -1991,7 +2056,7 @@
         4,
         6
       ],
-      "summary": "AppConfig subclass for the location app.",
+      "summary": "AppConfig subclass identifying the location Django app.",
       "tags": [
         "django",
         "app-config",
@@ -2004,11 +2069,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/location/domain/__init__.py",
-      "summary": "Empty package marker for the location domain layer.",
+      "summary": "Package marker for the location domain layer.",
       "tags": [
-        "package-marker",
-        "location",
-        "domain"
+        "package-init",
+        "domain",
+        "location"
       ],
       "complexity": "simple"
     },
@@ -2017,11 +2082,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/location/infrastructure/__init__.py",
-      "summary": "Empty package marker for the location infrastructure layer.",
+      "summary": "Package marker for the location infrastructure layer.",
       "tags": [
-        "package-marker",
-        "location",
-        "infrastructure"
+        "package-init",
+        "infrastructure",
+        "location"
       ],
       "complexity": "simple"
     },
@@ -2030,11 +2095,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/location/interfaces/__init__.py",
-      "summary": "Empty package marker for the location interfaces layer.",
+      "summary": "Package marker for the location interfaces layer.",
       "tags": [
-        "package-marker",
-        "location",
-        "interfaces"
+        "package-init",
+        "interfaces",
+        "location"
       ],
       "complexity": "simple"
     },
@@ -2043,7 +2108,7 @@
       "type": "file",
       "name": "0001_initial.py",
       "filePath": "src/cargotracker/location/migrations/0001_initial.py",
-      "summary": "Initial Django migration creating the location table.",
+      "summary": "Initial Django migration creating the LocationRecord model backed by the 'location' table with unlocode and name columns.",
       "tags": [
         "migration",
         "database",
@@ -2061,11 +2126,11 @@
         8,
         30
       ],
-      "summary": "Migration defining the LocationRecord model.",
+      "summary": "Migration defining the CreateModel operation for LocationRecord.",
       "tags": [
         "migration",
-        "schema",
-        "django"
+        "database",
+        "schema"
       ],
       "complexity": "simple"
     },
@@ -2074,9 +2139,9 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/location/migrations/__init__.py",
-      "summary": "Empty package marker for the location migrations package.",
+      "summary": "Package marker for location migrations.",
       "tags": [
-        "package-marker",
+        "package-init",
         "migration",
         "location"
       ],
@@ -2087,12 +2152,12 @@
       "type": "file",
       "name": "settings.py",
       "filePath": "src/cargotracker/settings.py",
-      "summary": "Django project settings: installed bounded-context apps, middleware, templates, static files and a PostgreSQL database configured from environment variables.",
+      "summary": "Django settings module registering the four domain apps, URL conf, WSGI application, and database configuration including a PostgreSQL helper.",
       "tags": [
         "configuration",
         "django",
         "settings",
-        "database"
+        "entry-point"
       ],
       "complexity": "moderate"
     },
@@ -2102,15 +2167,14 @@
       "name": "_postgres_database_configuration",
       "filePath": "src/cargotracker/settings.py",
       "lineRange": [
-        87,
-        97
+        83,
+        93
       ],
-      "summary": "Builds the default PostgreSQL DATABASES entry from POSTGRES_* environment variables with local defaults.",
+      "summary": "Builds the Django DATABASES entry for PostgreSQL from environment configuration.",
       "tags": [
         "configuration",
         "database",
-        "postgres",
-        "environment"
+        "postgres"
       ],
       "complexity": "simple"
     },
@@ -2119,11 +2183,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/voyage/__init__.py",
-      "summary": "Empty package marker for the voyage bounded context.",
+      "summary": "Package marker for the voyage app.",
       "tags": [
-        "package-marker",
+        "package-init",
         "voyage",
-        "python"
+        "django"
       ],
       "complexity": "simple"
     },
@@ -2132,9 +2196,8 @@
       "type": "file",
       "name": "apps.py",
       "filePath": "src/cargotracker/voyage/apps.py",
-      "summary": "Django AppConfig registering the voyage bounded context.",
+      "summary": "Django AppConfig registering the voyage app.",
       "tags": [
-        "configuration",
         "django",
         "app-config",
         "voyage"
@@ -2150,7 +2213,7 @@
         4,
         6
       ],
-      "summary": "AppConfig subclass for the voyage app.",
+      "summary": "AppConfig subclass identifying the voyage Django app.",
       "tags": [
         "django",
         "app-config",
@@ -2163,11 +2226,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/voyage/domain/__init__.py",
-      "summary": "Empty package marker for the voyage domain layer.",
+      "summary": "Package marker for the voyage domain layer.",
       "tags": [
-        "package-marker",
-        "voyage",
-        "domain"
+        "package-init",
+        "domain",
+        "voyage"
       ],
       "complexity": "simple"
     },
@@ -2176,11 +2239,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/voyage/infrastructure/__init__.py",
-      "summary": "Empty package marker for the voyage infrastructure layer.",
+      "summary": "Package marker for the voyage infrastructure layer.",
       "tags": [
-        "package-marker",
-        "voyage",
-        "infrastructure"
+        "package-init",
+        "infrastructure",
+        "voyage"
       ],
       "complexity": "simple"
     },
@@ -2189,7 +2252,7 @@
       "type": "file",
       "name": "0001_initial.py",
       "filePath": "src/cargotracker/voyage/migrations/0001_initial.py",
-      "summary": "Initial Django migration creating the voyage tables.",
+      "summary": "Initial Django migration creating the VoyageRecord model backed by the 'voyage' table with a voyage_number column.",
       "tags": [
         "migration",
         "database",
@@ -2207,11 +2270,11 @@
         8,
         29
       ],
-      "summary": "Migration defining the voyage persistence model.",
+      "summary": "Migration defining the CreateModel operation for VoyageRecord.",
       "tags": [
         "migration",
-        "schema",
-        "django"
+        "database",
+        "schema"
       ],
       "complexity": "simple"
     },
@@ -2220,9 +2283,9 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/cargotracker/voyage/migrations/__init__.py",
-      "summary": "Empty package marker for the voyage migrations package.",
+      "summary": "Package marker for voyage migrations.",
       "tags": [
-        "package-marker",
+        "package-init",
         "migration",
         "voyage"
       ],
@@ -2233,7 +2296,7 @@
       "type": "file",
       "name": "wsgi.py",
       "filePath": "src/cargotracker/wsgi.py",
-      "summary": "WSGI entry point exposing the Django application for synchronous servers.",
+      "summary": "WSGI entry point that sets the Django settings module and exposes the WSGI application callable.",
       "tags": [
         "entry-point",
         "wsgi",
@@ -2247,7 +2310,7 @@
       "type": "file",
       "name": "base.html",
       "filePath": "templates/base.html",
-      "summary": "Base Django layout loading Tailwind CSS and htmx and exposing title and content blocks for pages.",
+      "summary": "Base HTML layout loading Tailwind CSS and htmx, defining title and content blocks.",
       "tags": [
         "template",
         "layout",
@@ -2261,12 +2324,12 @@
       "type": "file",
       "name": "result.html",
       "filePath": "templates/tracking/result.html",
-      "summary": "Partial template rendering a tracked cargo's details or an error message, swapped in by htmx.",
+      "summary": "HTMX partial rendering a cargo tracking result: status, ETA, next activity, misdirection warning, handling history, and map iframe, or an error message.",
       "tags": [
         "template",
         "partial",
-        "html",
-        "tracking"
+        "tracking",
+        "htmx"
       ],
       "complexity": "moderate"
     },
@@ -2275,12 +2338,12 @@
       "type": "file",
       "name": "track.html",
       "filePath": "templates/tracking/track.html",
-      "summary": "Tracking page extending the base layout with an htmx-enabled form for looking up a cargo by tracking ID.",
+      "summary": "Tracking page extending the base layout with an htmx-enabled form that posts a tracking ID and swaps in the result partial.",
       "tags": [
         "template",
-        "page",
-        "html",
-        "tracking"
+        "tracking",
+        "form",
+        "htmx"
       ],
       "complexity": "simple"
     },
@@ -2346,22 +2409,6 @@
       "lineRange": [
         16,
         16
-      ]
-    },
-    {
-      "id": "class:src/cargotracker/cargo/application/sample_data.py:_EventSeed",
-      "type": "class",
-      "name": "_EventSeed",
-      "filePath": "src/cargotracker/cargo/application/sample_data.py",
-      "summary": "class _EventSeed (added by graphify)",
-      "tags": [
-        "afs-enriched",
-        "graphify"
-      ],
-      "complexity": "simple",
-      "lineRange": [
-        51,
-        51
       ]
     },
     {
@@ -2457,35 +2504,51 @@
       "complexity": "simple"
     },
     {
-      "id": "class:src/cargotracker/cargo/application/sample_data.py:_LegSeed",
-      "type": "class",
-      "name": "_LegSeed",
-      "filePath": "src/cargotracker/cargo/application/sample_data.py",
-      "summary": "class _LegSeed (added by django-code)",
+      "id": "function:.ua/.trash-1793724761/tmp/gen3.py:E",
+      "type": "function",
+      "name": "E",
+      "filePath": ".ua/.trash-1793724761/tmp/gen3.py",
+      "summary": "function E (added by django-code)",
       "tags": [
         "afs-enriched",
         "django-code"
       ],
       "complexity": "simple",
       "lineRange": [
-        42,
-        42
+        29,
+        29
       ]
     },
     {
-      "id": "class:src/cargotracker/cargo/application/sample_data.py:_CargoSeed",
-      "type": "class",
-      "name": "_CargoSeed",
-      "filePath": "src/cargotracker/cargo/application/sample_data.py",
-      "summary": "class _CargoSeed (added by django-code)",
+      "id": "function:.ua/.trash-1793724761/tmp/gen7.py:f",
+      "type": "function",
+      "name": "f",
+      "filePath": ".ua/.trash-1793724761/tmp/gen7.py",
+      "summary": "function f (added by django-code)",
       "tags": [
         "afs-enriched",
         "django-code"
       ],
       "complexity": "simple",
       "lineRange": [
-        59,
-        59
+        5,
+        5
+      ]
+    },
+    {
+      "id": "function:.ua/.trash-1793724761/tmp/gen7.py:c",
+      "type": "function",
+      "name": "c",
+      "filePath": ".ua/.trash-1793724761/tmp/gen7.py",
+      "summary": "function c (added by django-code)",
+      "tags": [
+        "afs-enriched",
+        "django-code"
+      ],
+      "complexity": "simple",
+      "lineRange": [
+        12,
+        12
       ]
     },
     {
@@ -2501,22 +2564,6 @@
       "complexity": "simple"
     },
     {
-      "id": "endpoint:src/cargotracker/urls.py:/admin/",
-      "type": "endpoint",
-      "name": "/admin/",
-      "filePath": "src/cargotracker/urls.py",
-      "summary": "URL /admin/",
-      "tags": [
-        "afs-enriched",
-        "django-url"
-      ],
-      "complexity": "simple",
-      "lineRange": [
-        24,
-        24
-      ]
-    },
-    {
       "id": "endpoint:src/cargotracker/urls.py:/",
       "type": "endpoint",
       "name": "/",
@@ -2528,8 +2575,8 @@
       ],
       "complexity": "simple",
       "lineRange": [
-        25,
-        25
+        23,
+        23
       ]
     },
     {
@@ -2588,13 +2635,6 @@
   "edges": [
     {
       "source": "file:src/cargotracker/cargo/application/map_status.py",
-      "target": "file:src/cargotracker/cargo/domain/cargo.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/application/map_status.py",
       "target": "function:src/cargotracker/cargo/application/map_status.py:map_status_code",
       "type": "contains",
       "direction": "forward",
@@ -2606,6 +2646,167 @@
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/application/tracking.py",
+      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/application/tracking.py",
+      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/composition.py",
+      "target": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/composition.py",
+      "target": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/cargo.py",
+      "target": "class:src/cargotracker/cargo/domain/cargo.py:Cargo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/cargo.py",
+      "target": "class:src/cargotracker/cargo/domain/cargo.py:Cargo",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/repository.py",
+      "target": "class:src/cargotracker/cargo/domain/repository.py:CargoRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/repository.py",
+      "target": "class:src/cargotracker/cargo/domain/repository.py:CargoRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/tracking_id.py",
+      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/tracking_id.py",
+      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/forms.py",
+      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/forms.py",
+      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/eta.py:format_eta",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/eta.py:format_eta",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/next_activity.py:get_next_activity_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/next_activity.py:get_next_activity_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/views.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/views.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/application/map_status.py",
+      "target": "file:src/cargotracker/cargo/domain/cargo.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
     },
     {
       "source": "file:src/cargotracker/cargo/application/tracking.py",
@@ -2643,20 +2844,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/application/tracking.py",
-      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/application/tracking.py",
-      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/composition.py",
       "target": "file:src/cargotracker/cargo/application/tracking.py",
       "type": "imports",
@@ -2683,20 +2870,6 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/composition.py",
-      "target": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/composition.py",
-      "target": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/domain/cargo.py",
@@ -2734,20 +2907,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/domain/cargo.py",
-      "target": "class:src/cargotracker/cargo/domain/cargo.py:Cargo",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/cargo.py",
-      "target": "class:src/cargotracker/cargo/domain/cargo.py:Cargo",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/domain/repository.py",
       "target": "file:src/cargotracker/cargo/domain/cargo.py",
       "type": "imports",
@@ -2762,48 +2921,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/domain/repository.py",
-      "target": "class:src/cargotracker/cargo/domain/repository.py:CargoRepository",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/repository.py",
-      "target": "class:src/cargotracker/cargo/domain/repository.py:CargoRepository",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/tracking_id.py",
-      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/tracking_id.py",
-      "target": "class:src/cargotracker/cargo/domain/tracking_id.py:TrackingId",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/forms.py",
-      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/forms.py",
-      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
       "target": "file:src/cargotracker/cargo/domain/cargo.py",
       "type": "imports",
@@ -2816,20 +2933,6 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/eta.py:format_eta",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/eta.py:format_eta",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
@@ -2846,39 +2949,11 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
       "target": "file:src/cargotracker/cargo/domain/handling_activity.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/next_activity.py:get_next_activity_text",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/next_activity.py:get_next_activity_text",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
@@ -2893,20 +2968,6 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/views.py",
@@ -2958,20 +3019,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/views.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/views.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/urls.py",
       "target": "file:src/cargotracker/cargo/composition.py",
       "type": "imports",
@@ -2979,6 +3026,69 @@
       "weight": 0.7
     },
     {
+      "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
+      "target": "function:src/cargotracker/cargo/application/map_status.py:map_status_code",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/eta.py:format_eta",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/next_activity.py:get_next_activity_text",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
       "source": "file:src/cargotracker/cargo/infrastructure/models.py",
       "target": "class:src/cargotracker/cargo/infrastructure/models.py:CargoRecord",
       "type": "contains",
@@ -3002,6 +3112,34 @@
     {
       "source": "file:src/cargotracker/cargo/infrastructure/models.py",
       "target": "class:src/cargotracker/cargo/infrastructure/models.py:LegRecord",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_event_description",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_event_description",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
@@ -3028,39 +3166,39 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_event_description",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_event_description",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/history.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/models.py",
       "target": "file:src/cargotracker/cargo/infrastructure/models.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
+    },
+    {
+      "source": "file:src/cargotracker/handling/domain/handling_event.py",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEventType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/handling/domain/handling_event.py",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEventType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/handling/domain/handling_event.py",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/handling/domain/handling_event.py",
+      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/handling/domain/handling_event.py",
@@ -3091,29 +3229,15 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/handling/domain/handling_event.py",
-      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEventType",
+      "source": "file:src/cargotracker/handling/domain/handling_history.py",
+      "target": "class:src/cargotracker/handling/domain/handling_history.py:HandlingHistory",
       "type": "contains",
       "direction": "forward",
       "weight": 1
     },
     {
-      "source": "file:src/cargotracker/handling/domain/handling_event.py",
-      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEventType",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/handling/domain/handling_event.py",
-      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/handling/domain/handling_event.py",
-      "target": "class:src/cargotracker/handling/domain/handling_event.py:HandlingEvent",
+      "source": "file:src/cargotracker/handling/domain/handling_history.py",
+      "target": "class:src/cargotracker/handling/domain/handling_history.py:HandlingHistory",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
@@ -3126,15 +3250,15 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/handling/domain/handling_history.py",
-      "target": "class:src/cargotracker/handling/domain/handling_history.py:HandlingHistory",
+      "source": "file:src/cargotracker/handling/domain/repository.py",
+      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
       "type": "contains",
       "direction": "forward",
       "weight": 1
     },
     {
-      "source": "file:src/cargotracker/handling/domain/handling_history.py",
-      "target": "class:src/cargotracker/handling/domain/handling_history.py:HandlingHistory",
+      "source": "file:src/cargotracker/handling/domain/repository.py",
+      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
@@ -3161,29 +3285,29 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/handling/domain/repository.py",
-      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
+      "source": "file:src/cargotracker/handling/infrastructure/models.py",
+      "target": "class:src/cargotracker/handling/infrastructure/models.py:HandlingEventRecord",
       "type": "contains",
       "direction": "forward",
       "weight": 1
     },
     {
-      "source": "file:src/cargotracker/handling/domain/repository.py",
-      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
+      "source": "file:src/cargotracker/handling/infrastructure/models.py",
+      "target": "class:src/cargotracker/handling/infrastructure/models.py:HandlingEventRecord",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/cargotracker/handling/infrastructure/models.py",
-      "target": "class:src/cargotracker/handling/infrastructure/models.py:HandlingEventRecord",
+      "source": "file:src/cargotracker/handling/infrastructure/repository.py",
+      "target": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
       "type": "contains",
       "direction": "forward",
       "weight": 1
     },
     {
-      "source": "file:src/cargotracker/handling/infrastructure/models.py",
-      "target": "class:src/cargotracker/handling/infrastructure/models.py:HandlingEventRecord",
+      "source": "file:src/cargotracker/handling/infrastructure/repository.py",
+      "target": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
@@ -3287,20 +3411,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/handling/infrastructure/repository.py",
-      "target": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/handling/infrastructure/repository.py",
-      "target": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/handling/models.py",
       "target": "file:src/cargotracker/handling/infrastructure/models.py",
       "type": "imports",
@@ -3327,6 +3437,13 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
+    },
+    {
+      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
+      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
+      "type": "implements",
+      "direction": "forward",
+      "weight": 0.9
     },
     {
       "source": "file:src/cargotracker/cargo/application/sample_data.py",
@@ -3449,7 +3566,21 @@
     },
     {
       "source": "file:src/cargotracker/cargo/application/sample_data.py",
-      "target": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "target": "class:src/cargotracker/cargo/application/sample_data.py:_LegSeed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/application/sample_data.py",
+      "target": "class:src/cargotracker/cargo/application/sample_data.py:_EventSeed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/application/sample_data.py",
+      "target": "class:src/cargotracker/cargo/application/sample_data.py:_CargoSeed",
       "type": "contains",
       "direction": "forward",
       "weight": 1
@@ -3457,9 +3588,9 @@
     {
       "source": "file:src/cargotracker/cargo/application/sample_data.py",
       "target": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
-      "type": "exports",
+      "type": "contains",
       "direction": "forward",
-      "weight": 0.8
+      "weight": 1
     },
     {
       "source": "file:src/cargotracker/cargo/application/sample_data.py",
@@ -3474,6 +3605,13 @@
       "type": "contains",
       "direction": "forward",
       "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/application/sample_data.py",
+      "target": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/management/commands/seed_sample_data.py",
@@ -3735,6 +3873,20 @@
       "weight": 0.8
     },
     {
+      "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
+      "target": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
+      "target": "class:src/cargotracker/voyage/domain/repository.py:VoyageRepository",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
       "source": "file:src/cargotracker/cargo/domain/dates.py",
       "target": "function:src/cargotracker/cargo/domain/dates.py:as_utc",
       "type": "contains",
@@ -3744,6 +3896,132 @@
     {
       "source": "file:src/cargotracker/cargo/domain/dates.py",
       "target": "function:src/cargotracker/cargo/domain/dates.py:as_utc",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/delivery.py",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:TransportStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/delivery.py",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:RoutingStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/delivery.py",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/delivery.py",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:TransportStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/delivery.py",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:RoutingStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/delivery.py",
+      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/handling_activity.py",
+      "target": "class:src/cargotracker/cargo/domain/handling_activity.py:HandlingActivity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/handling_activity.py",
+      "target": "class:src/cargotracker/cargo/domain/handling_activity.py:HandlingActivity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/itinerary.py",
+      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/itinerary.py",
+      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/leg.py",
+      "target": "class:src/cargotracker/cargo/domain/leg.py:Leg",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/leg.py",
+      "target": "class:src/cargotracker/cargo/domain/leg.py:Leg",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/route_specification.py",
+      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/domain/route_specification.py",
+      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/cargo/infrastructure/repository.py",
+      "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/infrastructure/repository.py",
+      "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/location/domain/location.py",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/location/domain/location.py",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
@@ -3791,48 +4069,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/domain/delivery.py",
-      "target": "class:src/cargotracker/cargo/domain/delivery.py:TransportStatus",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/delivery.py",
-      "target": "class:src/cargotracker/cargo/domain/delivery.py:TransportStatus",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/delivery.py",
-      "target": "class:src/cargotracker/cargo/domain/delivery.py:RoutingStatus",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/delivery.py",
-      "target": "class:src/cargotracker/cargo/domain/delivery.py:RoutingStatus",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/delivery.py",
-      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/delivery.py",
-      "target": "class:src/cargotracker/cargo/domain/delivery.py:Delivery",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/domain/handling_activity.py",
       "target": "file:src/cargotracker/location/domain/location.py",
       "type": "imports",
@@ -3845,20 +4081,6 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/handling_activity.py",
-      "target": "class:src/cargotracker/cargo/domain/handling_activity.py:HandlingActivity",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/handling_activity.py",
-      "target": "class:src/cargotracker/cargo/domain/handling_activity.py:HandlingActivity",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/domain/itinerary.py",
@@ -3868,20 +4090,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/domain/itinerary.py",
-      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/itinerary.py",
-      "target": "class:src/cargotracker/cargo/domain/itinerary.py:Itinerary",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/domain/leg.py",
       "target": "file:src/cargotracker/cargo/domain/dates.py",
       "type": "imports",
@@ -3903,20 +4111,6 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/domain/leg.py",
-      "target": "class:src/cargotracker/cargo/domain/leg.py:Leg",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/leg.py",
-      "target": "class:src/cargotracker/cargo/domain/leg.py:Leg",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/cargo/domain/route_specification.py",
       "target": "file:src/cargotracker/cargo/domain/dates.py",
       "type": "imports",
@@ -3929,20 +4123,6 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/route_specification.py",
-      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/domain/route_specification.py",
-      "target": "class:src/cargotracker/cargo/domain/route_specification.py:RouteSpecification",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/cargo/infrastructure/repository.py",
@@ -4043,53 +4223,11 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/cargotracker/cargo/infrastructure/repository.py",
-      "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/cargo/infrastructure/repository.py",
-      "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "file:src/cargotracker/location/domain/location.py",
       "target": "file:src/cargotracker/location/domain/un_locode.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/location/domain/location.py",
-      "target": "class:src/cargotracker/location/domain/location.py:Location",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/location/domain/location.py",
-      "target": "class:src/cargotracker/location/domain/location.py:Location",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/location/domain/repository.py",
-      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/location/domain/repository.py",
-      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/location/domain/repository.py",
@@ -4104,48 +4242,6 @@
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
-    },
-    {
-      "source": "file:src/cargotracker/location/domain/un_locode.py",
-      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/location/domain/un_locode.py",
-      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/location/infrastructure/models.py",
-      "target": "class:src/cargotracker/location/infrastructure/models.py:LocationRecord",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/location/infrastructure/models.py",
-      "target": "class:src/cargotracker/location/infrastructure/models.py:LocationRecord",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/location/infrastructure/repository.py",
-      "target": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/location/infrastructure/repository.py",
-      "target": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
     },
     {
       "source": "file:src/cargotracker/location/infrastructure/repository.py",
@@ -4176,18 +4272,102 @@
       "weight": 0.7
     },
     {
-      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
-      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
-      "type": "implements",
-      "direction": "forward",
-      "weight": 0.9
-    },
-    {
       "source": "file:src/cargotracker/location/models.py",
       "target": "file:src/cargotracker/location/infrastructure/models.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
+    },
+    {
+      "source": "file:src/cargotracker/location/domain/repository.py",
+      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/location/domain/repository.py",
+      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/location/domain/un_locode.py",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/location/domain/un_locode.py",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/location/infrastructure/models.py",
+      "target": "class:src/cargotracker/location/infrastructure/models.py:LocationRecord",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/location/infrastructure/models.py",
+      "target": "class:src/cargotracker/location/infrastructure/models.py:LocationRecord",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/location/infrastructure/repository.py",
+      "target": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/location/infrastructure/repository.py",
+      "target": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
+      "type": "inherits",
+      "direction": "forward",
+      "weight": 0.9
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/infrastructure/models.py:LocationRecord",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/un_locode.py:UnLocode",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
+      "target": "class:src/cargotracker/location/domain/location.py:Location",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
     },
     {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/map/urls.py",
@@ -4212,17 +4392,17 @@
     },
     {
       "source": "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:map_frame",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
       "target": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:_location_data",
       "type": "contains",
       "direction": "forward",
       "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
+      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:map_frame",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
     },
     {
       "source": "function:src/cargotracker/cargo/interfaces/tracking/map/views.py:map_frame",
@@ -4246,6 +4426,20 @@
       "weight": 0.8
     },
     {
+      "source": "file:src/cargotracker/handling/apps.py",
+      "target": "class:src/cargotracker/handling/apps.py:HandlingConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/handling/apps.py",
+      "target": "class:src/cargotracker/handling/apps.py:HandlingConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
       "source": "file:src/cargotracker/cargo/migrations/0001_initial.py",
       "target": "class:src/cargotracker/cargo/migrations/0001_initial.py:Migration",
       "type": "contains",
@@ -4269,6 +4463,20 @@
     {
       "source": "file:src/cargotracker/cargo/migrations/0002_remove_cargorecord_last_event_id_and_more.py",
       "target": "class:src/cargotracker/cargo/migrations/0002_remove_cargorecord_last_event_id_and_more.py:Migration",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/handling/migrations/0001_initial.py",
+      "target": "class:src/cargotracker/handling/migrations/0001_initial.py:Migration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/handling/migrations/0001_initial.py",
+      "target": "class:src/cargotracker/handling/migrations/0001_initial.py:Migration",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
@@ -4281,43 +4489,8 @@
       "weight": 0.6
     },
     {
-      "source": "file:src/cargotracker/cargo/migrations/0002_remove_cargorecord_last_event_id_and_more.py",
-      "target": "file:src/cargotracker/handling/migrations/0001_initial.py",
-      "type": "depends_on",
-      "direction": "forward",
-      "weight": 0.6
-    },
-    {
-      "source": "file:src/cargotracker/handling/apps.py",
-      "target": "class:src/cargotracker/handling/apps.py:HandlingConfig",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/handling/apps.py",
-      "target": "class:src/cargotracker/handling/apps.py:HandlingConfig",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/handling/migrations/0001_initial.py",
-      "target": "class:src/cargotracker/handling/migrations/0001_initial.py:Migration",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/handling/migrations/0001_initial.py",
-      "target": "class:src/cargotracker/handling/migrations/0001_initial.py:Migration",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
       "source": "document:src/cargotracker/handling/GLOSSARY.md",
-      "target": "file:src/cargotracker/handling/domain/__init__.py",
+      "target": "file:src/cargotracker/handling/migrations/0001_initial.py",
       "type": "documents",
       "direction": "forward",
       "weight": 0.5
@@ -4358,39 +4531,53 @@
       "weight": 1
     },
     {
+      "source": "file:src/cargotracker/voyage/apps.py",
+      "target": "class:src/cargotracker/voyage/apps.py:VoyageConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/voyage/apps.py",
+      "target": "class:src/cargotracker/voyage/apps.py:VoyageConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/cargotracker/voyage/migrations/0001_initial.py",
+      "target": "class:src/cargotracker/voyage/migrations/0001_initial.py:Migration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/cargotracker/voyage/migrations/0001_initial.py",
+      "target": "class:src/cargotracker/voyage/migrations/0001_initial.py:Migration",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
       "source": "file:src/cargotracker/settings.py",
-      "target": "function:src/cargotracker/settings.py:_postgres_database_configuration",
-      "type": "exports",
+      "target": "file:src/cargotracker/location/apps.py",
+      "type": "configures",
       "direction": "forward",
-      "weight": 0.8
+      "weight": 0.6
     },
     {
-      "source": "file:src/cargotracker/voyage/apps.py",
-      "target": "class:src/cargotracker/voyage/apps.py:VoyageConfig",
-      "type": "contains",
+      "source": "file:src/cargotracker/settings.py",
+      "target": "file:src/cargotracker/voyage/apps.py",
+      "type": "configures",
       "direction": "forward",
-      "weight": 1
+      "weight": 0.6
     },
     {
-      "source": "file:src/cargotracker/voyage/apps.py",
-      "target": "class:src/cargotracker/voyage/apps.py:VoyageConfig",
-      "type": "exports",
+      "source": "file:src/cargotracker/settings.py",
+      "target": "file:src/cargotracker/wsgi.py",
+      "type": "configures",
       "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/cargotracker/voyage/migrations/0001_initial.py",
-      "target": "class:src/cargotracker/voyage/migrations/0001_initial.py:Migration",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "file:src/cargotracker/voyage/migrations/0001_initial.py",
-      "target": "class:src/cargotracker/voyage/migrations/0001_initial.py:Migration",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
+      "weight": 0.6
     },
     {
       "source": "file:templates/tracking/track.html",
@@ -4402,9 +4589,9 @@
     {
       "source": "file:templates/tracking/track.html",
       "target": "file:templates/tracking/result.html",
-      "type": "related",
+      "type": "depends_on",
       "direction": "forward",
-      "weight": 0.5
+      "weight": 0.6
     },
     {
       "source": "function:src/cargotracker/cargo/application/sample_data.py:_cargo_from_seed",
@@ -4544,22 +4731,6 @@
     },
     {
       "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/composition.py:L8"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
-      "target": "class:src/cargotracker/cargo/application/tracking.py:TrackingLookup",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/composition.py:L9"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/composition.py:compose_tracking_view",
       "target": "class:src/cargotracker/cargo/infrastructure/repository.py:DjangoCargoRepository",
       "type": "calls",
       "direction": "forward",
@@ -4687,14 +4858,6 @@
       "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/history.py:L24"
     },
     {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
-      "target": "function:src/cargotracker/cargo/application/map_status.py:map_status_code",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/map/adapter.py:L13"
-    },
-    {
       "source": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
       "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:_in_port_status_text",
       "type": "calls",
@@ -4711,54 +4874,6 @@
       "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/status_text.py:L18"
     },
     {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L17"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/status_text.py:get_status_text",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L30"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/eta.py:format_eta",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L31"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/map/adapter.py:map_frame_url",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L32"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/history.py:get_history_rows",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L33"
-    },
-    {
-      "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:create_tracking_view",
-      "target": "function:src/cargotracker/cargo/interfaces/tracking/next_activity.py:get_next_activity_text",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L34"
-    },
-    {
       "source": "function:src/cargotracker/cargo/interfaces/tracking/views.py:track",
       "target": "class:src/cargotracker/cargo/interfaces/forms.py:TrackingForm",
       "type": "calls",
@@ -4805,14 +4920,6 @@
       "direction": "forward",
       "weight": 0.8,
       "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/interfaces/tracking/views.py:L34"
-    },
-    {
-      "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
-      "target": "class:src/cargotracker/cargo/application/sample_data.py:SampleDataSeeder",
-      "type": "calls",
-      "direction": "forward",
-      "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 calls EXTRACTED src/cargotracker/cargo/management/commands/seed_sample_data.py:L20"
     },
     {
       "source": "class:src/cargotracker/cargo/management/commands/seed_sample_data.py:Command",
@@ -4951,12 +5058,12 @@
       "description": "afs-enriched:graphify \u2014 inherits EXTRACTED src/cargotracker/cargo/infrastructure/repository.py:L21"
     },
     {
-      "source": "class:src/cargotracker/handling/infrastructure/repository.py:DjangoHandlingEventRepository",
-      "target": "class:src/cargotracker/handling/domain/repository.py:HandlingEventRepository",
+      "source": "class:src/cargotracker/location/infrastructure/repository.py:DjangoLocationRepository",
+      "target": "class:src/cargotracker/location/domain/repository.py:LocationRepository",
       "type": "implements",
       "direction": "forward",
       "weight": 0.8,
-      "description": "afs-enriched:graphify \u2014 inherits EXTRACTED src/cargotracker/handling/infrastructure/repository.py:L19"
+      "description": "afs-enriched:graphify \u2014 inherits EXTRACTED src/cargotracker/location/infrastructure/repository.py:L7"
     },
     {
       "source": "class:src/cargotracker/voyage/infrastructure/repository.py:DjangoVoyageRepository",
@@ -5817,25 +5924,9 @@
   ],
   "layers": [
     {
-      "id": "layer:application-services",
-      "name": "Application Services",
-      "description": "Use-case orchestration, composition root wiring, sample data seeding and management commands.",
-      "nodeIds": [
-        "file:src/cargotracker/cargo/application/map_status.py",
-        "file:src/cargotracker/cargo/application/tracking.py",
-        "file:src/cargotracker/cargo/composition.py",
-        "file:src/cargotracker/cargo/application/sample_data.py",
-        "file:src/cargotracker/cargo/management/commands/seed_sample_data.py",
-        "file:src/cargotracker/cargo/application/__init__.py",
-        "file:src/cargotracker/cargo/management/__init__.py",
-        "file:src/cargotracker/cargo/management/commands/__init__.py",
-        "file:src/cargotracker/location/application/__init__.py"
-      ]
-    },
-    {
       "id": "layer:domain-model",
       "name": "Domain Model",
-      "description": "Pure DDD domain layer: aggregates, entities, value objects and repository ports for cargo, handling, voyage and location contexts.",
+      "description": "Core DDD entities, value objects and repository interfaces for cargo, handling, location and voyage contexts.",
       "nodeIds": [
         "file:src/cargotracker/cargo/domain/cargo.py",
         "file:src/cargotracker/cargo/domain/repository.py",
@@ -5865,54 +5956,21 @@
       ]
     },
     {
-      "id": "layer:web-interface",
-      "name": "Web Interface",
-      "description": "Forms, views, presentation helpers, map adapters and HTML templates serving the tracking UI.",
+      "id": "layer:application-services",
+      "name": "Application Services",
+      "description": "Use-case services orchestrating domain logic such as tracking lookup, status mapping and sample data.",
       "nodeIds": [
-        "file:src/cargotracker/cargo/interfaces/forms.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/views.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/history.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/coordinates.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/urls.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
-        "file:src/cargotracker/cargo/interfaces/__init__.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/__init__.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/__init__.py",
-        "file:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
-        "file:src/cargotracker/location/interfaces/__init__.py",
-        "file:templates/base.html",
-        "file:templates/tracking/result.html",
-        "file:templates/tracking/track.html"
+        "file:src/cargotracker/cargo/application/map_status.py",
+        "file:src/cargotracker/cargo/application/tracking.py",
+        "file:src/cargotracker/cargo/application/sample_data.py",
+        "file:src/cargotracker/cargo/application/__init__.py",
+        "file:src/cargotracker/location/application/__init__.py"
       ]
     },
     {
-      "id": "layer:project-configuration",
-      "name": "Project Configuration & Entry Points",
-      "description": "Django settings, root URL routing, WSGI/ASGI entry points, app configs and bounded-context package markers.",
-      "nodeIds": [
-        "file:src/cargotracker/urls.py",
-        "file:src/cargotracker/__init__.py",
-        "file:src/cargotracker/asgi.py",
-        "file:src/cargotracker/cargo/__init__.py",
-        "file:src/cargotracker/cargo/apps.py",
-        "file:src/cargotracker/handling/__init__.py",
-        "file:src/cargotracker/handling/apps.py",
-        "file:src/cargotracker/location/__init__.py",
-        "file:src/cargotracker/location/apps.py",
-        "file:src/cargotracker/settings.py",
-        "file:src/cargotracker/voyage/__init__.py",
-        "file:src/cargotracker/voyage/apps.py",
-        "file:src/cargotracker/wsgi.py"
-      ]
-    },
-    {
-      "id": "layer:persistence-infrastructure",
-      "name": "Persistence Infrastructure",
-      "description": "Django ORM models and repository implementations adapting the domain ports to the database.",
+      "id": "layer:infrastructure-persistence",
+      "name": "Infrastructure & Persistence",
+      "description": "Django ORM models, repository implementations and database migrations.",
       "nodeIds": [
         "file:src/cargotracker/cargo/infrastructure/models.py",
         "file:src/cargotracker/cargo/models.py",
@@ -5927,31 +5985,80 @@
         "file:src/cargotracker/location/infrastructure/repository.py",
         "file:src/cargotracker/location/models.py",
         "file:src/cargotracker/cargo/infrastructure/__init__.py",
+        "file:src/cargotracker/cargo/migrations/__init__.py",
         "file:src/cargotracker/handling/infrastructure/__init__.py",
-        "file:src/cargotracker/location/infrastructure/__init__.py",
-        "file:src/cargotracker/voyage/infrastructure/__init__.py"
-      ]
-    },
-    {
-      "id": "layer:database-migrations",
-      "name": "Database Migrations",
-      "description": "Django migrations creating and evolving the cargo, handling, voyage and location tables.",
-      "nodeIds": [
+        "file:src/cargotracker/handling/migrations/__init__.py",
         "file:src/cargotracker/cargo/migrations/0001_initial.py",
         "file:src/cargotracker/cargo/migrations/0002_remove_cargorecord_last_event_id_and_more.py",
-        "file:src/cargotracker/cargo/migrations/__init__.py",
         "file:src/cargotracker/handling/migrations/0001_initial.py",
-        "file:src/cargotracker/handling/migrations/__init__.py",
+        "file:src/cargotracker/location/infrastructure/__init__.py",
         "file:src/cargotracker/location/migrations/0001_initial.py",
         "file:src/cargotracker/location/migrations/__init__.py",
+        "file:src/cargotracker/voyage/infrastructure/__init__.py",
         "file:src/cargotracker/voyage/migrations/0001_initial.py",
         "file:src/cargotracker/voyage/migrations/__init__.py"
       ]
     },
     {
+      "id": "layer:interfaces",
+      "name": "Interfaces (Views & Forms)",
+      "description": "Django views, forms, URL routes and presentation helpers for tracking and map UI.",
+      "nodeIds": [
+        "file:src/cargotracker/cargo/interfaces/forms.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/views.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/history.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/coordinates.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/urls.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
+        "file:src/cargotracker/cargo/interfaces/__init__.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/__init__.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/__init__.py",
+        "file:src/cargotracker/location/interfaces/__init__.py"
+      ]
+    },
+    {
+      "id": "layer:templates",
+      "name": "Templates",
+      "description": "HTML templates rendering the tracking pages and map frame.",
+      "nodeIds": [
+        "file:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html",
+        "file:templates/base.html",
+        "file:templates/tracking/result.html",
+        "file:templates/tracking/track.html"
+      ]
+    },
+    {
+      "id": "layer:project-configuration-wiring",
+      "name": "Project Configuration & Wiring",
+      "description": "Django settings, root URLs, WSGI/ASGI entrypoints, app configs, composition root and management commands.",
+      "nodeIds": [
+        "file:src/cargotracker/cargo/composition.py",
+        "file:src/cargotracker/urls.py",
+        "file:src/cargotracker/cargo/management/commands/seed_sample_data.py",
+        "file:src/cargotracker/location/__init__.py",
+        "file:src/cargotracker/__init__.py",
+        "file:src/cargotracker/cargo/__init__.py",
+        "file:src/cargotracker/cargo/management/__init__.py",
+        "file:src/cargotracker/cargo/management/commands/__init__.py",
+        "file:src/cargotracker/handling/__init__.py",
+        "file:src/cargotracker/asgi.py",
+        "file:src/cargotracker/cargo/apps.py",
+        "file:src/cargotracker/handling/apps.py",
+        "file:src/cargotracker/location/apps.py",
+        "file:src/cargotracker/settings.py",
+        "file:src/cargotracker/voyage/__init__.py",
+        "file:src/cargotracker/voyage/apps.py",
+        "file:src/cargotracker/wsgi.py"
+      ]
+    },
+    {
       "id": "layer:documentation",
       "name": "Documentation",
-      "description": "Ubiquitous-language glossary documents describing the domain concepts.",
+      "description": "Domain glossary and documentation.",
       "nodeIds": [
         "document:src/cargotracker/handling/GLOSSARY.md"
       ]
@@ -5960,97 +6067,131 @@
   "tour": [
     {
       "order": 1,
-      "title": "Project Overview: Settings and Routing",
-      "description": "Start with settings.py, which registers the bounded-context apps and middleware, and urls.py, which routes requests to the tracking view. These are the entry points that show how the DDD-structured cargo tracker is assembled into a Django project.",
-      "nodeIds": [
-        "file:src/cargotracker/settings.py",
-        "file:src/cargotracker/urls.py"
-      ]
-    },
-    {
-      "order": 2,
-      "title": "Ubiquitous Language: The Glossary",
-      "description": "The handling GLOSSARY defines the shared vocabulary of the domain. Reading it before the code makes the names used in later steps (handling events, cargo, voyage) easier to follow.",
+      "title": "Domain Overview: The Handling Glossary",
+      "description": "Start with the ubiquitous-language glossary. It defines handling events, handling history and related terms that the whole cargo-tracking domain uses.",
       "nodeIds": [
         "document:src/cargotracker/handling/GLOSSARY.md"
       ]
     },
     {
+      "order": 2,
+      "title": "Project Entry Points and Settings",
+      "description": "Django settings register the four bounded-context apps (cargo, handling, location, voyage). The root URLconf routes requests to the tracking view, and WSGI/ASGI expose the app.",
+      "nodeIds": [
+        "file:src/cargotracker/settings.py",
+        "file:src/cargotracker/urls.py",
+        "file:src/cargotracker/wsgi.py",
+        "file:src/cargotracker/asgi.py"
+      ]
+    },
+    {
       "order": 3,
-      "title": "Cargo Aggregate and Value Objects",
-      "description": "The Cargo aggregate root combines a tracking id, route specification, itinerary and delivery. Building on the glossary, these value objects hold the business rules independent of Django.",
+      "title": "Cargo Aggregate and Its Value Objects",
+      "description": "The Cargo aggregate root is identified by a TrackingId. It composes RouteSpecification, Itinerary, Leg and Delivery value objects, which derive transport status and routing state.",
       "nodeIds": [
         "file:src/cargotracker/cargo/domain/cargo.py",
         "file:src/cargotracker/cargo/domain/tracking_id.py",
         "file:src/cargotracker/cargo/domain/route_specification.py",
         "file:src/cargotracker/cargo/domain/itinerary.py",
-        "file:src/cargotracker/cargo/domain/delivery.py"
+        "file:src/cargotracker/cargo/domain/leg.py",
+        "file:src/cargotracker/cargo/domain/delivery.py",
+        "file:src/cargotracker/cargo/domain/handling_activity.py"
       ]
     },
     {
       "order": 4,
-      "title": "Supporting Contexts: Handling, Voyage, Location",
-      "description": "Handling events and history, voyages with schedules and carrier movements, and UN/LOCODE locations are separate bounded contexts. Each defines its own domain objects and repository ports that the cargo context relies on.",
+      "title": "Handling Context: Events and History",
+      "description": "Handling events record what happened to cargo. HandlingHistory is an immutable, time-ordered, de-duplicated collection that drives delivery calculation.",
       "nodeIds": [
         "file:src/cargotracker/handling/domain/handling_event.py",
         "file:src/cargotracker/handling/domain/handling_history.py",
-        "file:src/cargotracker/voyage/domain/voyage.py",
-        "file:src/cargotracker/voyage/domain/schedule.py",
-        "file:src/cargotracker/location/domain/location.py"
+        "file:src/cargotracker/handling/domain/repository.py"
       ]
     },
     {
       "order": 5,
-      "title": "Persistence with the Django ORM",
-      "description": "ORM models and repository implementations adapt the domain ports to the database, keeping the domain free of framework code. Migrations create the underlying tables.",
+      "title": "Location and Voyage Contexts",
+      "description": "Locations are identified by a validated UN/LOCODE. Voyages are aggregates with a Schedule of CarrierMovements, assembled through a fluent builder.",
       "nodeIds": [
-        "file:src/cargotracker/cargo/infrastructure/models.py",
-        "file:src/cargotracker/cargo/infrastructure/repository.py",
-        "file:src/cargotracker/handling/infrastructure/repository.py",
-        "file:src/cargotracker/cargo/migrations/0001_initial.py"
+        "file:src/cargotracker/location/domain/location.py",
+        "file:src/cargotracker/location/domain/un_locode.py",
+        "file:src/cargotracker/location/domain/repository.py",
+        "file:src/cargotracker/voyage/domain/voyage.py",
+        "file:src/cargotracker/voyage/domain/schedule.py",
+        "file:src/cargotracker/voyage/domain/carrier_movement.py",
+        "file:src/cargotracker/voyage/domain/voyage_builder.py",
+        "file:src/cargotracker/voyage/domain/voyage_number.py",
+        "file:src/cargotracker/voyage/domain/repository.py"
       ]
     },
     {
       "order": 6,
-      "title": "Application Service and Composition Root",
-      "description": "The tracking application service looks up a cargo and its handling history, and the composition root wires the Django repositories into it. This is where domain and infrastructure meet.",
+      "title": "Persistence: ORM Models and Repositories",
+      "description": "Infrastructure adapters implement the domain repository ports with the Django ORM. The models.py shims let Django discover each context's records, and migrations create the tables.",
       "nodeIds": [
-        "file:src/cargotracker/cargo/application/tracking.py",
-        "file:src/cargotracker/cargo/composition.py"
+        "file:src/cargotracker/cargo/domain/repository.py",
+        "file:src/cargotracker/cargo/infrastructure/models.py",
+        "file:src/cargotracker/cargo/infrastructure/repository.py",
+        "file:src/cargotracker/handling/infrastructure/models.py",
+        "file:src/cargotracker/handling/infrastructure/repository.py",
+        "file:src/cargotracker/location/infrastructure/repository.py",
+        "file:src/cargotracker/voyage/infrastructure/repository.py",
+        "file:src/cargotracker/cargo/models.py",
+        "file:src/cargotracker/cargo/migrations/0001_initial.py"
       ]
     },
     {
       "order": 7,
-      "title": "The Tracking Interface",
-      "description": "The tracking view handles the form, calls the application service and renders results using presentation helpers for status text, ETA, next activity and history.",
+      "title": "Application Services and Composition Root",
+      "description": "The tracking service looks up a cargo and its handling history by tracking ID. The composition root wires concrete Django repositories into it, and map_status maps cargo state to a status code.",
       "nodeIds": [
-        "file:src/cargotracker/cargo/interfaces/tracking/views.py",
-        "file:src/cargotracker/cargo/interfaces/forms.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/history.py"
+        "file:src/cargotracker/cargo/application/tracking.py",
+        "file:src/cargotracker/cargo/composition.py",
+        "file:src/cargotracker/cargo/application/map_status.py"
       ]
     },
     {
       "order": 8,
-      "title": "Templates and the Map Frame",
-      "description": "Django templates use a base layout with htmx for the tracking page and result partial, while the map frame embeds a Leaflet map fed by coordinates and an adapter.",
+      "title": "Tracking Views and Presentation Helpers",
+      "description": "The tracking view validates the form, calls the application service, and assembles display data. Small helpers format status, ETA, next activity and history.",
       "nodeIds": [
-        "file:templates/base.html",
-        "file:templates/tracking/track.html",
-        "file:templates/tracking/result.html",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
-        "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py"
+        "file:src/cargotracker/cargo/interfaces/tracking/views.py",
+        "file:src/cargotracker/cargo/interfaces/forms.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/status_text.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/eta.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/next_activity.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/history.py"
       ]
     },
     {
       "order": 9,
-      "title": "Sample Data and Entry Points",
-      "description": "The seed_sample_data command loads sample cargos, events and voyages through the Django repositories, and the WSGI/ASGI modules expose the app to servers.",
+      "title": "HTML Templates and HTMX",
+      "description": "The base layout loads Tailwind and htmx. The track page submits the form via htmx and swaps in the result partial.",
       "nodeIds": [
-        "file:src/cargotracker/cargo/management/commands/seed_sample_data.py",
+        "file:templates/base.html",
+        "file:templates/tracking/track.html",
+        "file:templates/tracking/result.html"
+      ]
+    },
+    {
+      "order": 10,
+      "title": "Map Feature",
+      "description": "The map sub-feature turns a cargo's locations into markers using a UN/LOCODE coordinate table. An adapter builds the iframe URL, and a Leaflet template renders the map.",
+      "nodeIds": [
+        "file:src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/views.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/urls.py",
+        "file:src/cargotracker/cargo/interfaces/tracking/map/coordinates.py",
+        "file:src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html"
+      ]
+    },
+    {
+      "order": 11,
+      "title": "Sample Data Seeding",
+      "description": "A service builds deterministic sample cargos, locations, voyages and events. A management command wires in the Django repositories to seed a database for exploring the app.",
+      "nodeIds": [
         "file:src/cargotracker/cargo/application/sample_data.py",
-        "file:src/cargotracker/wsgi.py",
-        "file:src/cargotracker/asgi.py"
+        "file:src/cargotracker/cargo/management/commands/seed_sample_data.py"
       ]
     }
   ]
