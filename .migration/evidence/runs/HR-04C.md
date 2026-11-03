@@ -52,3 +52,11 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T21:17:12+00:00 | verifier-mutation-changed | 1 | 0.09 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `3ff11adc524e78cf` |  |  |
 | 2026-11-03T21:18:55+00:00 | verifier-mutation-changed | 0 | 74.64 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `f60e3f9e013eb808` |  | gate=mutation score=0.800 threshold=0.8 killed=68 survived=17 files=4 base=origin/main |
 | 2026-11-03T21:23:33+00:00 | verifier-zero-padded-year | 1 | 1.66 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `e4fc088b41504342` | >       assert response.status_code == 204 |  |
+| 2026-11-03T21:24:23+00:00 | final-build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:24:23+00:00 | final-build-check | 0 | 0.38 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T21:24:23+00:00 | final-idiom-lint | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T21:24:23+00:00 | final-idiom-format | 0 | 0.01 | `ruff format --check` | `002dcbe5e1c568f6` |  |  |
+| 2026-11-03T21:24:41+00:00 | final-behavior | 1 | 17.57 | `pytest -q` | `7ef3c6a89be13e1c` | >       assert response.status_code == 204 |  |
+| 2026-11-03T21:24:58+00:00 | final-crap | 1 | 17.17 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `845cab2d5735ff6a` | >       assert response.status_code == 204 |  |
+| 2026-11-03T21:25:11+00:00 | final-mutation-changed | 2 | 12.73 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `674fa6ecb69471e6` | afs-mutation: mutmut failed on src/cargotracker/handling/interfaces/rest.py; its mutants were not tested: | gate=mutation score=n/a error=mutmut-failed failed_files=1 files=4 base=origin/main |
+| 2026-11-03T21:25:28+00:00 | final-regression | 1 | 16.98 | `pytest -q` | `fad090da9b1d3a5f` | >       assert response.status_code == 204 |  |
