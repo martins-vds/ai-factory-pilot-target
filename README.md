@@ -18,6 +18,11 @@ Configure PostgreSQL with `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `
 `compose.yaml` (the same one CI and agent sessions use). Set `DJANGO_SECRET_KEY`, `DJANGO_DEBUG`, and `DJANGO_ALLOWED_HOSTS` for the deployment
 environment.
 
+The app has no login, matching the source ([ruling #92](https://github.com/martins-vds/ai-factory-pilot-target/issues/92)).
+The Cargo Tracker admin interface, event logger, and REST APIs must sit behind network access
+controls (for example, a private network or an access-controlled reverse proxy); do not expose them
+directly to the public internet. Django's built-in admin is not installed; `/admin/` returns 404.
+
 Tailwind uses the standalone CLI and does not require Node.js: run `make tailwind-install`, then
 `make tailwind-build` (or `make tailwind-watch` during development). The base template includes
 htmx, and `django-htmx` middleware exposes htmx request metadata to Django.

@@ -7,6 +7,10 @@ from django.conf import settings
 import cargotracker.settings as project_settings
 
 
+def test_builtin_admin_returns_not_found(client):
+    assert client.get('/admin/').status_code == 404
+
+
 def test_database_defaults_to_postgresql():
     configured_database = {
         key: settings.DATABASES['default'][key]
@@ -45,8 +49,6 @@ def test_django_application_settings():
     ]
     assert settings.ALLOWED_HOSTS == expected_hosts + ['testserver']
     assert settings.INSTALLED_APPS == [
-        'django.contrib.admin',
-        'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.messages',
@@ -63,18 +65,12 @@ def test_django_application_settings():
         'django.middleware.common.CommonMiddleware',
         'django_htmx.middleware.HtmxMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
     assert settings.ROOT_URLCONF == 'cargotracker.urls'
     assert settings.WSGI_APPLICATION == 'cargotracker.wsgi.application'
-    assert settings.AUTH_PASSWORD_VALIDATORS == [
-        {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-        {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-        {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-        {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-    ]
+    assert settings.AUTH_PASSWORD_VALIDATORS == []
     assert settings.LANGUAGE_CODE == 'en-us'
     assert settings.USE_I18N
     assert settings.STATIC_URL == '/static/'
@@ -92,7 +88,6 @@ def test_django_template_configuration():
             'OPTIONS': {
                 'context_processors': [
                     'django.template.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
                 ]
             },
