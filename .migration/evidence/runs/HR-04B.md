@@ -38,3 +38,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T18:35:50+00:00 | behavior | 0 | 13.8 | `pytest -q` | `cc1cce794a27e71b` |  |  |
 | 2026-11-03T18:36:08+00:00 | regression | 0 | 13.41 | `pytest -q` | `9b0d1f309d4fd838` |  |  |
 | 2026-11-03T18:36:25+00:00 | crap | 0 | 13.14 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `61a9ebb5c369a3f7` |  | gate=crap max=15.0 threshold=30 over=0 methods=106 |
+| 2026-11-03T18:52:10+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T18:54:39+00:00 | verify-ruff | 0 | 0.08 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T18:54:39+00:00 | verify-format | 0 | 0.02 | `ruff format --check` | `291d91fd4256e9a8` |  |  |
+| 2026-11-03T18:54:39+00:00 | verify-build-compile | 0 | 0.1 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T18:54:41+00:00 | verify-build-check | 0 | 1.69 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T18:55:05+00:00 | verify-behavior | 0 | 17.71 | `pytest -q` | `033890570404c742` |  |  |
+| 2026-11-03T18:55:24+00:00 | verify-regression | 0 | 14.38 | `pytest -q` | `fefe204602f1be35` |  |  |
+| 2026-11-03T18:55:42+00:00 | verify-crap | 0 | 14.43 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `d2b7de974590c308` |  | gate=crap max=15.0 threshold=30 over=0 methods=106 |
+| 2026-11-03T18:56:48+00:00 | verify-mutation-changed | 0 | 62.11 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `dc2a91257150fbc1` |  | gate=mutation score=0.850 threshold=0.8 killed=102 survived=18 files=6 base=origin/main |
