@@ -21,5 +21,6 @@ from cargotracker.cargo.composition import compose_tracking_view
 
 urlpatterns = [
     path('', compose_tracking_view(), name='track'),
+    path('rest/handling/', include('cargotracker.handling.interfaces.urls')),
     path('tracking/map/', include('cargotracker.cargo.interfaces.tracking.map.urls')),
 ]
