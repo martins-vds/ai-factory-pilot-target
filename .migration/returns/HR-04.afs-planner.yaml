@@ -1,0 +1,19 @@
+role: afs-planner
+ticket: HR-04
+issue: martins-vds/ai-factory-pilot-target#123
+plan: .migration/plan/handling-registration.md
+slices:
+  - name: Handling registration
+    anchor: POST /rest/handling/reports → accepted attempt → registered event and re-derived cargo delivery
+    tickets: 6
+    blocked_by: []
+design_tickets:
+  - HR-04A — Design cargo inspection re-derivation
+data_slices:
+  - HR-04B — PostgreSQL registration attempts
+  - HR-04D — Handling-event and cargo inspection persistence
+unmapped_capabilities: []
+open_questions:
+  - Confirm worker loop vs. Procrastinate.
+  - Define permanent-rejection reason codes and messages.
+  - Define the retry backoff schedule and approximately-15-minute error-log behavior.

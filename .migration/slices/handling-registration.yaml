@@ -1,0 +1,9 @@
+epic: 113
+data_paths:
+  source:
+    - endpoint=POST /handling/reports
+  target:
+    - endpoint=POST /rest/handling/reports
+    - command=process_handling_attempts
+entry_points:
+  target: []

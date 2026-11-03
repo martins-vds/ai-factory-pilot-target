@@ -1,0 +1,165 @@
+{
+  "branch": "copilot/draft-handling-registration-slice-plan",
+  "diagnostics": {
+    "data_keys": {
+      "assistant.message": [
+        "apiCallId",
+        "chunkCount",
+        "chunkIndex",
+        "clientRequestId",
+        "content",
+        "encryptedContent",
+        "interactionId",
+        "messageId",
+        "model",
+        "outputTokens",
+        "phase",
+        "reasoningOpaque",
+        "requestId",
+        "rte",
+        "serviceRequestId",
+        "toolRequests",
+        "turnId"
+      ],
+      "assistant.turn_end": [
+        "turnId"
+      ],
+      "assistant.turn_start": [
+        "interactionId",
+        "turnId"
+      ],
+      "external_tool.completed": [
+        "requestId"
+      ],
+      "external_tool.requested": [
+        "arguments",
+        "requestId",
+        "sessionId",
+        "toolCallId",
+        "toolName",
+        "workingDirectory"
+      ],
+      "hook.end": [
+        "hookInvocationId",
+        "hookType",
+        "success"
+      ],
+      "hook.start": [
+        "hookInvocationId",
+        "hookType",
+        "input"
+      ],
+      "permission.completed": [
+        "requestId",
+        "result",
+        "toolCallId"
+      ],
+      "permission.requested": [
+        "permissionRequest",
+        "promptRequest",
+        "requestId"
+      ],
+      "session.start": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "copilotVersion",
+        "producer",
+        "reasoningEffort",
+        "remoteSteerable",
+        "selectedModel",
+        "sessionId",
+        "startTime",
+        "version"
+      ],
+      "skill.invoked": [
+        "content",
+        "description",
+        "model",
+        "name",
+        "path",
+        "source",
+        "trigger"
+      ],
+      "subagent.selected": [
+        "agentDisplayName",
+        "agentName",
+        "tools"
+      ],
+      "system.message": [
+        "content",
+        "interactionId",
+        "role"
+      ],
+      "tool.execution_complete": [
+        "error",
+        "interactionId",
+        "model",
+        "result",
+        "rte",
+        "success",
+        "toolCallId",
+        "toolTelemetry",
+        "turnId"
+      ],
+      "tool.execution_start": [
+        "arguments",
+        "mcpServerName",
+        "mcpToolName",
+        "model",
+        "rte",
+        "shellToolInfo",
+        "toolCallId",
+        "toolName",
+        "turnId"
+      ],
+      "user.message": [
+        "attachments",
+        "content",
+        "delivery",
+        "interactionId",
+        "parentAgentTaskId",
+        "source",
+        "supportedNativeDocumentMimeTypes",
+        "transformedContent"
+      ]
+    },
+    "event_types": {
+      "assistant.message": 46,
+      "assistant.turn_end": 24,
+      "assistant.turn_start": 24,
+      "external_tool.completed": 1,
+      "external_tool.requested": 1,
+      "hook.end": 122,
+      "hook.start": 123,
+      "permission.completed": 79,
+      "permission.requested": 79,
+      "session.start": 1,
+      "skill.invoked": 2,
+      "subagent.selected": 1,
+      "system.message": 1,
+      "tool.execution_complete": 86,
+      "tool.execution_start": 86,
+      "user.message": 3
+    },
+    "events": 679,
+    "usage_fields": []
+  },
+  "ended_at": "2026-11-03T17:44:15.948Z",
+  "event": "sessionEnd",
+  "log": "/home/runner/.copilot/session-state/5cb26581-cf56-4a73-b791-5018a4e93d39/events.jsonl",
+  "models": {
+    "gpt-6-luna": {
+      "output": 25167,
+      "requests": 46
+    }
+  },
+  "prompt_head": null,
+  "recorded_at": "2026-11-03T17:44:16+00:00",
+  "schema": "afs-cost/1",
+  "session_id": "5cb26581-cf56-4a73-b791-5018a4e93d39",
+  "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
+  "started_at": "2026-11-03T17:38:41.421Z",
+  "surface": "coding-agent",
+  "usage_source": "assistant.message (output only, partial)"
+}
