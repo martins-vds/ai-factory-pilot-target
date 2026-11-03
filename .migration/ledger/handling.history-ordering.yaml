@@ -1,0 +1,18 @@
+id: handling.history-ordering
+kind: behavioral
+title: Order distinct handling history by completion time
+source:
+  graph_node: "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java:HandlingHistory"
+  flow: Inspect Cargo After Handling
+  location: src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java:18-50
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "HandlingHistory keeps the event collection, produces a distinct list sorted by completionTime, and returns the last such event as the most recently completed event or null when empty."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#94]
+status: pending
+verification: pending
+notes: >-
+  JpaHandlingEventRepository builds this value from all HandlingEvent rows for the cargo.
+  HandlingHistoryTest.testDistinctEventsByCompletionTime verifies deduplication and ordering;
+  testMostRecentlyCompletedEvent verifies the latest event. Decision #94 specifies target
+  history ordering by completion time and no processing-order promise.

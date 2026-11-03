@@ -1,0 +1,19 @@
+id: handling.registration-attempt-queue
+kind: integration
+title: Queue handling registration attempts
+source:
+  graph_node: "resource:jms:java:app/jms/HandlingEventRegistrationAttemptQueue"
+  flow: Register Handling Report via REST
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:59-63
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "JmsApplicationEvents sends a serialized HandlingEventRegistrationAttempt to HandlingEventRegistrationAttemptQueue at low priority, without message ID or timestamp, and with a 1000 ms time-to-live."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94]
+status: pending
+verification: pending
+notes: >-
+  The queue is declared in web.xml:100-105 and consumed by
+  HandlingEventRegistrationAttemptConsumer. Messages not delivered within one second expire.
+  The registration queue is the REST report's actual first hop. Decision #94 retires this
+  TTL and requires accepted attempts to end registered or rejected; #87 selects the target
+  worker mechanism. No direct source JMS test was identified.

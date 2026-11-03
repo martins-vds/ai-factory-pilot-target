@@ -1,0 +1,31 @@
+role: afs-analyst
+ticket: HR-02
+issue: martins-vds/ai-factory-pilot-target#114
+graphs:
+  knowledge: .migration/graphs/source/full/knowledge-graph.json
+  domain: .migration/graphs/source/full/domain-graph.json
+  nodes: 448
+  edges: 1034
+  flows: 10
+ledger:
+  entries: 19
+  by_kind:
+    structural: 0
+    behavioral: 7
+    ui: 0
+    integration: 6
+    data: 6
+risk_map:
+  path: .migration/risk-map/handling-registration/
+  methods: 123
+  above_threshold: 3
+  hot_spots:
+    - "Itinerary::isExpected (CRAP 182; CCN 13)"
+    - "Delivery::calculateNextExpectedActivity (CRAP 156; CCN 12)"
+    - "Delivery::calculateTransportStatus (CRAP 56; CCN 7)"
+    - "DefaultCargoInspectionService::inspectCargo (CRAP 20; CCN 4)"
+    - "Delivery::calculateRoutingStatus (CRAP 20; CCN 4)"
+quirk_tickets: []
+graph_discrepancies:
+  - "The endpoint=POST /handling/reports graph path goes from JmsApplicationEvents directly to CargoHandledQueue and CargoHandledConsumer. The REST method actually sends to HandlingEventRegistrationAttemptQueue, whose consumer invokes registration and persistence; only then does the service send to CargoHandledQueue."
+  - "The graph links JpaCargoRepository to the Cargo table but omits its writes_to Leg edge; JpaCargoRepository.store explicitly persists each itinerary leg before persisting Cargo."

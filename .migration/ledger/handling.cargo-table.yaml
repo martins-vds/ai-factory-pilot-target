@@ -1,0 +1,19 @@
+id: handling.cargo-table
+kind: data
+title: Read and update cargo after handling
+source:
+  graph_node: "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Cargo.java:Cargo"
+  flow: Inspect Cargo After Handling
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:32-54
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "JpaCargoRepository finds Cargo by tracking ID for factory/inspection use and stores the inspection result, including the re-derived embedded Delivery state."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
+status: pending
+verification: pending
+notes: >-
+  Cargo stores its itinerary and Delivery as embedded values; inspection updates delivery
+  progress and persists the aggregate after history re-derivation. JpaCargoRepository.find
+  returns null for an unknown tracking ID. CargoTest and CargoLifecycleScenarioTest cover
+  domain behavior, not JPA repository persistence. The graph only links this repository to
+  Cargo, not to the Leg rows explicitly persisted by store().

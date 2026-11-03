@@ -1,0 +1,18 @@
+id: handling.leg-table
+kind: data
+title: Load and store cargo itinerary legs
+source:
+  graph_node: "table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg"
+  flow: Inspect Cargo After Handling
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:47-54
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "Cargo inspection reads the cargo itinerary's Leg values; JpaCargoRepository.store explicitly persists each leg before persisting Cargo."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
+status: pending
+verification: pending
+notes: >-
+  Leg joins Voyage, load and unload Location, and load/unload times. Itinerary is embedded in
+  Cargo and derives expected activity and misdirection from its legs. CargoTest.testIsMisdirected
+  and testIsUnloadedAtFinalDestination exercise the dependent behavior. The source graph has
+  no writes_to edge from JpaCargoRepository to the Leg table.

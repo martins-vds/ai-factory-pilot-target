@@ -1,0 +1,18 @@
+id: handling.carrier-movement-table
+kind: data
+title: Read voyage carrier movements
+source:
+  graph_node: "table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:carrier_movement"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/domain/model/voyage/Schedule.java:21-36
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Voyage embeds Schedule, whose carrier movements are stored in the carrier_movement table and are available when the referenced voyage and cargo itinerary are resolved."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
+status: pending
+verification: pending
+notes: >-
+  CarrierMovement is an entity mapped to carrier_movement and Schedule maps its movements
+  through a one-to-many association. HandlingEventTest uses sample voyages for carrier
+  movement event rules; CargoTest exercises itinerary movement behavior. No direct source
+  JPA mapping/repository test for this table was identified.

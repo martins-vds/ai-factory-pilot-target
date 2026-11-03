@@ -1,0 +1,165 @@
+{
+  "branch": "copilot/martins-vds-inventory-handling-registration",
+  "diagnostics": {
+    "data_keys": {
+      "assistant.message": [
+        "apiCallId",
+        "chunkCount",
+        "chunkIndex",
+        "clientRequestId",
+        "content",
+        "encryptedContent",
+        "interactionId",
+        "messageId",
+        "model",
+        "outputTokens",
+        "phase",
+        "reasoningOpaque",
+        "requestId",
+        "rte",
+        "serviceRequestId",
+        "toolRequests",
+        "turnId"
+      ],
+      "assistant.turn_end": [
+        "turnId"
+      ],
+      "assistant.turn_start": [
+        "interactionId",
+        "turnId"
+      ],
+      "external_tool.completed": [
+        "requestId"
+      ],
+      "external_tool.requested": [
+        "arguments",
+        "requestId",
+        "sessionId",
+        "toolCallId",
+        "toolName",
+        "workingDirectory"
+      ],
+      "hook.end": [
+        "hookInvocationId",
+        "hookType",
+        "success"
+      ],
+      "hook.start": [
+        "hookInvocationId",
+        "hookType",
+        "input"
+      ],
+      "permission.completed": [
+        "requestId",
+        "result",
+        "toolCallId"
+      ],
+      "permission.requested": [
+        "permissionRequest",
+        "promptRequest",
+        "requestId"
+      ],
+      "session.start": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "copilotVersion",
+        "producer",
+        "reasoningEffort",
+        "remoteSteerable",
+        "selectedModel",
+        "sessionId",
+        "startTime",
+        "version"
+      ],
+      "skill.invoked": [
+        "content",
+        "description",
+        "model",
+        "name",
+        "path",
+        "source",
+        "trigger"
+      ],
+      "subagent.selected": [
+        "agentDisplayName",
+        "agentName",
+        "tools"
+      ],
+      "system.message": [
+        "content",
+        "interactionId",
+        "role"
+      ],
+      "tool.execution_complete": [
+        "error",
+        "interactionId",
+        "model",
+        "result",
+        "rte",
+        "success",
+        "toolCallId",
+        "toolTelemetry",
+        "turnId"
+      ],
+      "tool.execution_start": [
+        "arguments",
+        "mcpServerName",
+        "mcpToolName",
+        "model",
+        "rte",
+        "shellToolInfo",
+        "toolCallId",
+        "toolName",
+        "turnId"
+      ],
+      "user.message": [
+        "attachments",
+        "content",
+        "delivery",
+        "interactionId",
+        "parentAgentTaskId",
+        "source",
+        "supportedNativeDocumentMimeTypes",
+        "transformedContent"
+      ]
+    },
+    "event_types": {
+      "assistant.message": 105,
+      "assistant.turn_end": 39,
+      "assistant.turn_start": 39,
+      "external_tool.completed": 1,
+      "external_tool.requested": 1,
+      "hook.end": 201,
+      "hook.start": 202,
+      "permission.completed": 139,
+      "permission.requested": 139,
+      "session.start": 1,
+      "skill.invoked": 5,
+      "subagent.selected": 1,
+      "system.message": 1,
+      "tool.execution_complete": 138,
+      "tool.execution_start": 138,
+      "user.message": 6
+    },
+    "events": 1156,
+    "usage_fields": []
+  },
+  "ended_at": "2026-11-03T16:28:30.317Z",
+  "event": "sessionEnd",
+  "log": "/home/runner/.copilot/session-state/e9f40149-6d39-4891-b50d-f78974f7748f/events.jsonl",
+  "models": {
+    "unknown": {
+      "output": 62179,
+      "requests": 105
+    }
+  },
+  "prompt_head": null,
+  "recorded_at": "2026-11-03T16:28:30+00:00",
+  "schema": "afs-cost/1",
+  "session_id": "e9f40149-6d39-4891-b50d-f78974f7748f",
+  "shutdown_wait_s": null,
+  "started_at": "2026-11-03T16:16:48.991Z",
+  "surface": "coding-agent",
+  "usage_source": "assistant.message (output only, partial)"
+}

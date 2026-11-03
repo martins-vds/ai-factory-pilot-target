@@ -1,0 +1,18 @@
+id: handling.cargo-handled-queue
+kind: integration
+title: Notify inspection that cargo was handled
+source:
+  graph_node: "resource:jms:java:app/jms/CargoHandledQueue"
+  flow: Inspect Cargo After Handling
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/JmsApplicationEvents.java:37-42
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "After storing a HandlingEvent, the producer sends the cargo tracking ID to CargoHandledQueue; CargoHandledConsumer reads the text message and invokes CargoInspectionService."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+status: pending
+verification: pending
+notes: >-
+  web.xml:76-81 defines the queue. Producer messages use low priority and disable JMS message
+  IDs and timestamps; no TTL is set here. The consumer logs and swallows JMSException. There
+  is no direct source JMS consumer test. Decision #87 makes inspection part of the target
+  worker transaction, with no separate queue.

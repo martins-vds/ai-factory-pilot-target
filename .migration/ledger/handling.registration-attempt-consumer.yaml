@@ -1,0 +1,20 @@
+id: handling.registration-attempt-consumer
+kind: integration
+title: Consume handling registration attempts
+source:
+  graph_node: "class:src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java:HandlingEventRegistrationAttemptConsumer"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/messaging/jms/HandlingEventRegistrationAttemptConsumer.java:19-38
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "The MDB reads an ObjectMessage, extracts the registration attempt and invokes HandlingEventService; JMS or domain creation failures escape as RuntimeException for server-side failure handling."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#95]
+status: pending
+verification: pending
+notes: >-
+  The consumer catches JMSException and CannotCreateHandlingEventException, rethrows a
+  RuntimeException and comments that poison messages go to the server dead-letter queue.
+  Repository NoResultException for missing voyage/location is not among the explicitly caught
+  types. No direct source MDB test was identified; HandlingEventServiceTest.testRegisterEvent
+  does not assert service effects. Decision #95 defines target permanent rejection records
+  and retry behavior for temporary failures.

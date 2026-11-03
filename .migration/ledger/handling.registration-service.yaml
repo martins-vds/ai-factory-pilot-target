@@ -1,0 +1,20 @@
+id: handling.registration-service
+kind: behavioral
+title: Create and persist a handling event
+source:
+  graph_node: "class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultHandlingEventService.java:DefaultHandlingEventService"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultHandlingEventService.java:32-56
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "HandlingEventService assigns registration time, asks the factory to create an event, stores it, and publishes cargoWasHandled only after storage."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+status: pending
+verification: pending
+notes: >-
+  The source uses a stateless EJB transaction for the service operation. Cargo aggregate
+  delivery progress is explicitly updated asynchronously in the following inspection hop.
+  HandlingEventServiceTest.testRegisterEvent invokes the method but has commented-out mock
+  setup, expectations and verification. CargoLifecycleScenarioTest includes a broader
+  registration scenario but does not exercise the JMS boundary. Decision #87 closes the
+  registration/inspection consistency window in the target by doing both in one transaction.

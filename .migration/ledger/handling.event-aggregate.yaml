@@ -1,0 +1,18 @@
+id: handling.event-aggregate
+kind: behavioral
+title: Enforce handling-event aggregate invariants
+source:
+  graph_node: "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:HandlingEvent"
+  flow: Process Handling Registration Attempt
+  location: src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingEvent.java:47-76,141-187
+  risk: {crap: 12, complexity: 3, coverage: 0.0}
+boundary: "HandlingEvent is the handling aggregate root and requires cargo, completion and registration timestamps, event type and location; LOAD/UNLOAD require a voyage while RECEIVE/CLAIM/CUSTOMS prohibit one."
+slice: handling-registration
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
+status: pending
+verification: pending
+notes: >-
+  The entity records type, voyage_id, location_id, completionTime, registration and cargo_id;
+  timestamp getters return defensive copies. HandlingEventTest.testNewWithCarrierMovement,
+  testNewWithLocation and the current-location tests cover construction and event location.
+  HandlingEventTest does not cover the REST or JMS boundary.
