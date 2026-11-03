@@ -1,0 +1,21 @@
+role: afs-specialist-migrator
+ticket: HR-04A
+issue: martins-vds/ai-factory-pilot-target#127
+specialty: messaging
+pr: null
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: "n/a: no mutable code changed"
+  regression: 0
+specialty_evidence:
+  - .migration/design/handling-registration-inspection.md
+ledger_updated:
+  - handling.cargo-inspection
+  - handling.misdirected-queue
+  - handling.delivered-queue
+quirk_tickets:
+  - .migration/quirks/handling-history-tie-order.md
+handoff: none
