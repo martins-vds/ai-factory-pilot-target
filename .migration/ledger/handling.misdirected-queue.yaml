@@ -9,7 +9,11 @@ source:
 boundary: "Inspection sends the tracking ID to MisdirectedCargoQueue when the re-derived Delivery is misdirected; its consumer only logs the ID."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#127]
-status: pending
+status: dropped
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#87
+  reason: "The queue is retired and the derived misdirected outcome is retained as a worker log line."
 verification: characterized
 characterization_tier: B
 evidence:
@@ -18,11 +22,13 @@ evidence:
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionNotifiesWhenCargoIsMisdirected
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
+  - tests/handling/test_registration_processing.py::test_misdirected_outcome_is_logged
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   web.xml:82-87 defines the queue. Delivery misdirection depends on whether the last handling
   event is expected by the itinerary; CargoTest.testIsMisdirected exercises expected and
   misdirected histories. MisdirectedCargoConsumer catches JMSException and logs a warning.
   Decision #87 retires this queue and retains misdirected/delivered notifications as log lines
   during inspection. HR-04A (#127) designs the HR-04D (#130) outcome tests; this remains
-  pending until the outcome is implemented or retired.
+  retired in HR-04D; the outcome remains as a log line.
 quirks: [martins-vds/ai-factory-pilot-target#136]

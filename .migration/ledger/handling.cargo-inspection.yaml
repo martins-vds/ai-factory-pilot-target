@@ -9,7 +9,12 @@ source:
 boundary: "Inspection loads cargo and its full handling history, re-derives Delivery from route, itinerary and history, emits applicable outcome notifications, persists cargo, then fires CargoInspected."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#127]
-status: pending
+target:
+  components:
+    - cargotracker.handling.application.process_registration_attempt.process_registration_attempt
+    - cargotracker.cargo.domain.delivery.Delivery.derived_from
+    - cargotracker.cargo.infrastructure.repository.DjangoCargoRepository.upsert
+status: migrated
 verification: characterized
 characterization_tier: B
 evidence:
@@ -21,6 +26,11 @@ evidence:
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionNotifiesWhenCargoIsUnloadedAtDestination
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsUnloadedAtFinalDestination"
+  - tests/handling/test_registration_processing.py::test_misdirected_outcome_is_logged
+  - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
+  - tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery
+  - tests/handling/test_registration_processing.py::test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_minutes
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   If the cargo is missing, inspection logs a warning and returns. Delivery derives its last
   event from HandlingHistory.getMostRecentlyCompletedEvent; transport status, last known
@@ -28,5 +38,6 @@ notes: >-
   are recomputed. CargoTest.testIsMisdirected and testIsUnloadedAtFinalDestination cover
   outcomes; CargoLifecycleScenarioTest includes lifecycle behavior. Decision #87 combines
   registration and inspection in one target transaction and removes the source consistency
-  window. HR-04A (#127) designs the HR-04D (#130) tests; this remains pending until implementation.
+  window. HR-04D implements both outcomes as independent log lines and uses ruling #136 for
+  equal-completion-time events.
 quirks: [martins-vds/ai-factory-pilot-target#136]

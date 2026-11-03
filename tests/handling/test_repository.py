@@ -110,7 +110,7 @@ def test_repository_reads_and_orders_deduplicated_handling_history():
     assert history.events[0].cargo.tracking_id == TrackingId('ABC123')
     assert history.events[0].location == Location(UnLocode('USNYC'), 'New York')
     assert history.events[0].completion_time == datetime(2026, 11, 1, tzinfo=UTC)
-    assert history.events[0].registration_time == datetime(2026, 11, 1, tzinfo=UTC)
+    assert history.events[0].registration_time == datetime(2026, 11, 2, tzinfo=UTC)
     assert history.events[1].voyage == Voyage(VoyageNumber('CM001'), Schedule.EMPTY)
     assert history.most_recent_event == history.events[1]
 

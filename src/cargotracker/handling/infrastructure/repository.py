@@ -52,7 +52,11 @@ class DjangoHandlingEventRepository(HandlingEventRepository):
         records = HandlingEventRecord.objects.select_related('cargo', 'location', 'voyage').filter(
             cargo__tracking_id=tracking_id.value
         )
-        return HandlingHistory([self._to_domain(record) for record in records])
+        records = list(records)
+        return HandlingHistory(
+            [self._to_domain(record) for record in records],
+            event_ids=[record.pk for record in records],
+        )
 
     @staticmethod
     def _to_domain(record: HandlingEventRecord) -> HandlingEvent:

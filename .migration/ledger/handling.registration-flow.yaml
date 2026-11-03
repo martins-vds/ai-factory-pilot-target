@@ -9,7 +9,14 @@ source:
 boundary: "A REST report is accepted before registration; the registration-attempt message is consumed and persisted before a separate cargo-handled message triggers cargo inspection and delivery-state persistence."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94]
-status: pending
+target:
+  components:
+    - cargotracker.handling.application.process_registration_attempt.process_registration_attempt
+status: replaced
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#87
+  reason: "The PostgreSQL worker preserves asynchronous acceptance and atomically registers and inspects cargo."
 verification: characterized
 characterization_tier: A
 evidence:
@@ -18,6 +25,8 @@ evidence:
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
   - characterization/handling-registration/test_handling_registration.py::test_two_quick_reports_are_ordered_by_completion_time
   - characterization/handling-registration/test_handling_registration.py::test_unknown_references_and_load_without_voyage_leave_no_trace
+  - tests/handling/test_registration_processing.py::test_processing_registers_attempt_once_and_rederives_cargo_delivery
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   This is a fire-and-forget, two-queue flow. The HandlingEvent is stored before
   CargoHandledQueue is sent; Cargo delivery status is re-derived asynchronously, leaving a

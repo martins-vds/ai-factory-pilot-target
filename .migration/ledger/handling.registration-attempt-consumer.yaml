@@ -9,7 +9,14 @@ source:
 boundary: "The MDB reads an ObjectMessage, extracts the registration attempt and invokes HandlingEventService; JMS or domain creation failures escape as RuntimeException for server-side failure handling."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#95]
-status: pending
+target:
+  components:
+    - cargotracker.handling.management.commands.process_handling_attempts.Command
+status: replaced
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#87
+  reason: "The management-command worker replaces the JMS consumer and retains permanent rejection records."
 verification: characterized
 characterization_tier: A
 evidence:
@@ -19,6 +26,8 @@ evidence:
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownCargo
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownVoyage
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownLocation
+  - tests/handling/test_registration_processing.py::test_unknown_references_reject_attempt_without_storing_event
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   The consumer catches JMSException and CannotCreateHandlingEventException, rethrows a
   RuntimeException and comments that poison messages go to the server dead-letter queue.

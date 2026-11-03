@@ -9,7 +9,11 @@ source:
 boundary: "HandlingEventFactory resolves the submitted UN Locode through JpaLocationRepository, which reads Location by UN Locode."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#95]
-status: pending
+target:
+  components:
+    - cargotracker.location.infrastructure.models.LocationRecord
+    - cargotracker.location.infrastructure.repository.DjangoLocationRepository.find
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,6 +21,8 @@ evidence:
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/test_handling_registration.py::test_unknown_references_and_load_without_voyage_leave_no_trace
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownLocation
+  - tests/handling/test_registration_processing.py::test_unknown_references_reject_attempt_without_storing_event
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   Location is a JPA entity with embedded UnLocode. The repository uses getSingleResult and
   does not translate NoResultException to null, so the factory's UnknownLocationException

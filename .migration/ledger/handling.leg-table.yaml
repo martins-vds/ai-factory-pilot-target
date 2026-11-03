@@ -9,7 +9,11 @@ source:
 boundary: "Cargo inspection reads the cargo itinerary's Leg values; JpaCargoRepository.store explicitly persists each leg before persisting Cargo."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
-status: pending
+target:
+  components:
+    - cargotracker.cargo.infrastructure.models.LegRecord
+    - cargotracker.cargo.infrastructure.repository.DjangoCargoRepository.upsert
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,6 +21,8 @@ evidence:
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
+  - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   Leg joins Voyage, load and unload Location, and load/unload times. Itinerary is embedded in
   Cargo and derives expected activity and misdirection from its legs. CargoTest.testIsMisdirected

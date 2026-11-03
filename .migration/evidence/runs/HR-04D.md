@@ -16,3 +16,43 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T20:51:13+00:00 | retry-green | 0 | 7.18 | `pytest -q tests/handling/test_registration_processing.py` | `2f5ca87d4c05825e` |  |  |
 | 2026-11-03T20:51:32+00:00 | concurrent-claim | 0 | 7.64 | `pytest -q tests/handling/test_registration_processing.py` | `34eca3bbb34c2cc9` |  |  |
 | 2026-11-03T20:53:18+00:00 | handling-processing-tests | 0 | 8.33 | `pytest -q tests/handling/test_registration_processing.py tests/handling/test_domain.py` | `57e58251ed246694` |  |  |
+| 2026-11-03T20:56:10+00:00 | handling-regression | 0 | 8.65 | `pytest -q tests/handling` | `8542495a6a514709` |  |  |
+| 2026-11-03T20:57:20+00:00 | handling-regression-final | 0 | 9.36 | `pytest -q tests/handling` | `22bcc0dd3bff6f75` |  |  |
+| 2026-11-03T20:57:33+00:00 | idiom-ruff-check | 1 | 0.02 | `ruff check` | `f75be1120c69428e` | Found 1 error. |  |
+| 2026-11-03T20:57:51+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T20:57:55+00:00 | idiom-ruff-format | 1 | 0.02 | `ruff format --check` | `33742bd590d2cf53` | -                 logger.error('Handling attempt processing still failing after 15 minutes: %s', error) |  |
+| 2026-11-03T20:59:17+00:00 | handling-regression-injected | 1 | 6.85 | `pytest -q tests/handling` | `ce0a5ac0db40ad73` | raise OperationalError('temporary database failure') |  |
+| 2026-11-03T20:59:44+00:00 | handling-regression-injected-green | 0 | 8.39 | `pytest -q tests/handling` | `f855be4d037d66a8` |  |  |
+| 2026-11-03T21:00:14+00:00 | build-compile | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:00:18+00:00 | build-django-check | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T21:00:47+00:00 | behavior | 0 | 24.18 | `pytest -q` | `843e0c2c853f9613` |  |  |
+| 2026-11-03T21:00:53+00:00 | idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T21:01:06+00:00 | idiom-ruff-format-final | 0 | 0.01 | `ruff format --check` | `1b6b02b900f11801` |  |  |
+| 2026-11-03T21:01:34+00:00 | crap-coverage | 0 | 22.14 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `8b688a3819a4e975` |  |  |
+| 2026-11-03T21:01:45+00:00 | crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:01:50+00:00 | crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `677beee7579ccc85` |  | gate=crap max=20.0 threshold=30 over=0 methods=119 |
+| 2026-11-03T21:07:20+00:00 | mutation-changed | 1 | 324.09 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcc9cbaef8e09fcf` | afs-mutation: FAILED score=0.665 threshold=0.8 killed=103 survived=52 skipped=0 files=6 jobs=4 base=origin/main | gate=mutation score=0.665 threshold=0.8 killed=103 survived=52 files=6 base=origin/main |
+| 2026-11-03T21:11:24+00:00 | history-id-red | 1 | 1.42 | `pytest -q tests/handling/test_domain.py::test_handling_history_keeps_the_highest_id_when_deduplicating_identical_events` | `2218d6e0392a1955` | assert len(history.events) == 1 |  |
+| 2026-11-03T21:12:30+00:00 | remediation-tests | 1 | 9.68 | `pytest -q tests/handling/test_domain.py tests/handling/test_registration_processing.py` | `481a1c926b37bc60` | assert _process() is True |  |
+| 2026-11-03T21:13:06+00:00 | remediation-tests-green | 0 | 9.65 | `pytest -q tests/handling/test_domain.py tests/handling/test_registration_processing.py` | `fd5a373639c0809f` |  |  |
+| 2026-11-03T21:14:34+00:00 | processing-ports-tests | 0 | 8.93 | `pytest -q tests/handling/test_domain.py tests/handling/test_registration_processing.py` | `6051a056ca483ef0` |  |  |
+| 2026-11-03T21:15:04+00:00 | event-id-outcome | 0 | 2.4 | `pytest -q tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery` | `09c7191b036bc2d0` |  |  |
+| 2026-11-03T21:15:54+00:00 | history-ids-port-red | 1 | 1.42 | `pytest -q tests/handling/test_domain.py::test_handling_history_breaks_completion_time_ties_by_registration_time_then_id` | `86e367109eaa3649` | E       TypeError: HandlingHistory.__init__() got an unexpected keyword argument 'event_ids'. Did you mean 'events'? |  |
+| 2026-11-03T21:16:51+00:00 | history-repository-ids | 1 | 10.4 | `pytest -q tests/handling/test_domain.py tests/handling/test_repository.py tests/handling/test_registration_processing.py` | `d9ea5f1e33e6820f` | assert [event.event_type for event in history.events] == [ |  |
+| 2026-11-03T21:17:29+00:00 | history-repository-ids-green | 0 | 10.69 | `pytest -q tests/handling/test_domain.py tests/handling/test_repository.py tests/handling/test_registration_processing.py` | `f9d935407a353649` |  |  |
+| 2026-11-03T21:18:35+00:00 | atomic-retry-tests | 0 | 10.48 | `pytest -q tests/handling/test_registration_processing.py tests/handling/test_domain.py` | `76f7dd78c3034232` |  |  |
+| 2026-11-03T21:18:50+00:00 | build-compile-final | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:19:03+00:00 | build-check-final | 0 | 0.37 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T21:19:17+00:00 | behavior-handling-final | 0 | 11.62 | `pytest -q tests/handling` | `79772e3284943956` |  |  |
+| 2026-11-03T21:19:46+00:00 | tests-full-final | 0 | 22.6 | `pytest -q` | `68416325c2435ed6` |  |  |
+| 2026-11-03T21:19:49+00:00 | idiom-ruff-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T21:19:56+00:00 | idiom-format-final | 0 | 0.01 | `ruff format --check` | `1b6b02b900f11801` |  |  |
+| 2026-11-03T21:20:29+00:00 | crap-coverage-final | 0 | 23.58 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `0937a343b0c3ed1c` |  |  |
+| 2026-11-03T21:20:43+00:00 | crap-lizard-final | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:20:46+00:00 | crap-score-final | 1 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `16b1b6c047d0ce2c` |  | gate=crap max=72.0 threshold=30 over=1 methods=122 |
+| 2026-11-03T21:21:32+00:00 | worker-command-tests | 0 | 11.43 | `pytest -q tests/handling/test_registration_processing.py` | `cd66f2e3d418ba28` |  |  |
+| 2026-11-03T21:22:01+00:00 | crap-coverage-final | 0 | 25.76 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `fd2c2830ab64f4c8` |  |  |
+| 2026-11-03T21:22:05+00:00 | crap-lizard-final | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:22:05+00:00 | crap-score-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `47bac2b7ee896840` |  | gate=crap max=19.4 threshold=30 over=0 methods=122 |
+| 2026-11-03T21:28:49+00:00 | mutation-changed-final | 1 | 400.06 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `860766f3127759c9` | afs-mutation: FAILED score=0.697 threshold=0.8 killed=136 survived=59 skipped=0 files=6 jobs=4 base=origin/main | gate=mutation score=0.697 threshold=0.8 killed=136 survived=59 files=6 base=origin/main |
+| 2026-11-03T21:30:29+00:00 | mutation-remediation-tests | 0 | 11.44 | `pytest -q tests/handling/test_domain.py tests/handling/test_registration_processing.py` | `c77eb0e574ab0dea` |  |  |
