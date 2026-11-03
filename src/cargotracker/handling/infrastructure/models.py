@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from django.db import models
 
 from cargotracker.handling.domain.registration_attempt import RegistrationAttemptStatus
@@ -47,7 +49,7 @@ class RegistrationAttemptRecord(models.Model):
 
     class Meta:
         db_table = 'handling_registration_attempt'
-        constraints = [
+        constraints: ClassVar[list[models.BaseConstraint]] = [
             models.CheckConstraint(
                 condition=(
                     models.Q(status__in=('accepted', 'registered'), rejection_reason__isnull=True)
