@@ -1,0 +1,17 @@
+role: afs-program-orchestrator
+ticket: HR-00
+issue: martins-vds/ai-factory-pilot-target#113
+phase: 3
+decisions:
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/92: every front door stays open as in the source; Django's /admin/ removed (#109)"
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/89: route finding in-process behind RoutingService; random routes preserved"
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/106: event logger keeps six htmx steps; Back allowed"
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/107: completion date and time to the minute, UTC; empty refused"
+dispatched:
+  - {agent: afs-analyst, ticket: "https://github.com/martins-vds/ai-factory-pilot-target/issues/114", status: returned}
+  - {agent: afs-migrator, ticket: "https://github.com/martins-vds/ai-factory-pilot-target/issues/109", status: returned}
+  - {agent: afs-characterizer, ticket: "https://github.com/martins-vds/ai-factory-pilot-target/issues/118", status: running}
+awaiting_human:
+  - "https://github.com/martins-vds/ai-factory-pilot-target/pull/117: merge the harness upgrade (ADR-0026, ADR-0027)"
+  - "BILLING_READ_TOKEN and the paying org for costs.billing: coding-agent input tokens come only from billing (ai-factory-swarm#46)"
+next_step: "When HR-03 returns: review it, then dispatch afs-planner for the handling-registration plan (Phase 4)."
