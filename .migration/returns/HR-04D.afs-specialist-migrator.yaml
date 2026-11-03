@@ -1,0 +1,39 @@
+role: afs-specialist-migrator
+ticket: HR-04D
+issue: martins-vds/ai-factory-pilot-target#130
+specialty: messaging
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/142
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: null
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/HR-04D.md
+  - tests/handling/test_registration_processing.py
+worker_decision: >-
+  Chose a hand-rolled Django management-command loop: PostgreSQL-backed attempts and SKIP LOCKED
+  claims provide durable processing without another queue dependency or broker.
+ledger_updated:
+  - handling.registration-flow
+  - handling.registration-attempt-consumer
+  - handling.cargo-handled-queue
+  - handling.registration-service
+  - handling.registration-factory-rules
+  - handling.event-aggregate
+  - handling.event-table
+  - handling.history-ordering
+  - handling.cargo-table
+  - handling.leg-table
+  - handling.location-table
+  - handling.voyage-table
+  - handling.carrier-movement-table
+  - handling.cargo-inspection
+  - handling.rejected-attempts-queue
+  - handling.misdirected-queue
+  - handling.delivered-queue
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#136
+handoff: none
