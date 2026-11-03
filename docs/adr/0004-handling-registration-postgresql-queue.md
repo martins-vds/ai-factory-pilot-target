@@ -20,6 +20,8 @@ everything behind it.
   it registers the handling event and re-derives the cargo's delivery (the source's "inspection"), then
   marks the row *registered*. The admin map shows the change on its next poll after the commit
   (ADR-0005).
+- **Worker choice: hand-rolled Django management-command loop.** PostgreSQL attempts already provide
+  durable work and `SKIP LOCKED` claims, so another queue dependency or broker is unnecessary.
 - **Guarantees.**
   - An accepted attempt is never lost: no time-to-live.
   - Processing is at least once, and registration is idempotent per attempt.

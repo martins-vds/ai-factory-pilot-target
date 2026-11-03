@@ -68,4 +68,5 @@ class DjangoHandlingEventRepository(HandlingEventRepository):
                 if record.voyage_id is not None
                 else None
             ),
+            id=record.pk,
         )

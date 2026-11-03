@@ -83,6 +83,32 @@ def test_handling_history_deduplicates_and_orders_events_by_completion_time():
     assert history.most_recent_event == later
 
 
+def test_handling_history_breaks_completion_time_ties_by_registration_time_then_id():
+    completion_time = datetime(2026, 11, 1, tzinfo=UTC)
+    first_registered = _event(
+        completion_time=completion_time,
+        registration_time=datetime(2026, 11, 1, 12, tzinfo=UTC),
+        id=3,
+    )
+    second_by_id = _event(
+        completion_time=completion_time,
+        registration_time=datetime(2026, 11, 1, 13, tzinfo=UTC),
+        event_type=HandlingEventType.CLAIM,
+        id=1,
+    )
+    third_by_id = _event(
+        completion_time=completion_time,
+        registration_time=datetime(2026, 11, 1, 13, tzinfo=UTC),
+        event_type=HandlingEventType.CUSTOMS,
+        id=2,
+    )
+
+    history = HandlingHistory([third_by_id, first_registered, second_by_id])
+
+    assert history.events == (first_registered, second_by_id, third_by_id)
+    assert history.most_recent_event == third_by_id
+
+
 def test_handling_history_is_immutable_and_requires_handling_events():
     history = HandlingHistory([_event()])
 

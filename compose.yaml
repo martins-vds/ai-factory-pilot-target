@@ -25,3 +25,20 @@ services:
       timeout: 5s
       retries: 30
       start_period: 5s
+  worker:
+    image: python:3.13-slim
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py process_handling_attempts"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cargotracker}
+      POSTGRES_USER: ${POSTGRES_USER:-cargotracker}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS: ${HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS:-1}
+      HANDLING_ATTEMPT_POLL_SECONDS: ${HANDLING_ATTEMPT_POLL_SECONDS:-1}
+    depends_on:
+      db:
+        condition: service_healthy

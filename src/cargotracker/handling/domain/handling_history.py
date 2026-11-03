@@ -20,7 +20,16 @@ class HandlingHistory:
         object.__setattr__(
             self,
             'events',
-            tuple(sorted(set(handling_events), key=lambda event: event.completion_time)),
+            tuple(
+                sorted(
+                    set(handling_events),
+                    key=lambda event: (
+                        event.completion_time,
+                        event.registration_time,
+                        event.id or 0,
+                    ),
+                )
+            ),
         )
 
     @property
