@@ -45,3 +45,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T21:47:43+00:00 | zero-year-red | 1 | 1.8 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `d7c3e83daa68776f` | >       assert response.status_code == 204 |  |
 | 2026-11-03T21:48:10+00:00 | zero-year-green | 0 | 1.53 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `910de278ff7c60fe` |  |  |
 | 2026-11-03T21:48:15+00:00 | handling-report-tests | 0 | 1.8 | `pytest -q tests/handling/interfaces/test_registration_reports.py` | `0af08ce93d3ef3d6` |  |  |
+| 2026-11-03T21:49:48+00:00 | final-build-compile | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T21:49:48+00:00 | final-build-check | 0 | 0.37 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T21:49:48+00:00 | final-idiom-lint | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T21:49:48+00:00 | final-idiom-format | 0 | 0.02 | `ruff format --check` | `67e4bf8f396fefa7` |  |  |
+| 2026-11-03T21:50:07+00:00 | final-behavior | 0 | 15.49 | `pytest -q` | `5aa355058dd222f6` |  |  |
+| 2026-11-03T21:50:22+00:00 | final-regression | 0 | 14.81 | `pytest -q` | `253a7d318d53803b` |  |  |
+| 2026-11-03T21:50:45+00:00 | final-crap | 0 | 16.58 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `2de7606bf820ab7b` |  | gate=crap max=15.0 threshold=30 over=0 methods=116 |
+| 2026-11-03T21:50:49+00:00 | final-mutation-changed | 1 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `3ff11adc524e78cf` |  |  |
+| 2026-11-03T21:52:18+00:00 | final-mutation-changed | 1 | 72.88 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `87e32d4d48adc891` | afs-mutation: FAILED score=0.795 threshold=0.8 killed=66 survived=17 skipped=0 files=2 jobs=2 base=origin/main | gate=mutation score=0.795 threshold=0.8 killed=66 survived=17 files=2 base=origin/main |
