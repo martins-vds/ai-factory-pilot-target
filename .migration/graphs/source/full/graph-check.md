@@ -2,23 +2,23 @@
 
 # Graph gate: source
 
-- 445 nodes, 1072 edges
-- Edges added by harness enrichers: 310
+- 1080 nodes, 2137 edges
+- Edges added by harness enrichers: 1352
 
 ## Required types (profile graph.require)
 
 - node `table`: 7
 - node `page`: 23
 - node `endpoint`: 4
-- edge `reads_from`: 17
-- edge `writes_to`: 6
+- edge `reads_from`: 23
+- edge `writes_to`: 7
 - edge `routes`: 25
-- edge `calls`: 207
+- edge `calls`: 630
 
 ## Data paths (slice specs data_paths)
 
-- `track-cargo` **src/main/webapp/public/track.xhtml**: `src/main/webapp/public/track.xhtml` →routes `Track` →calls `CargoRepository` ←implements `JpaCargoRepository` →reads_from `Cargo`
-- `track-cargo` **src/main/webapp/admin/tracking/track.xhtml**: `src/main/webapp/admin/tracking/track.xhtml` →routes `Track` →calls `BookingServiceFacade` ←implements `DefaultBookingServiceFacade` →calls `CargoRepository` ←implements `JpaCargoRepository` →reads_from `Cargo`
+- `track-cargo` **src/main/webapp/public/track.xhtml**: `src/main/webapp/public/track.xhtml` →routes `Track` →contains `Track.onTrackById` →calls `CargoRepository.find` ←implements `JpaCargoRepository.find` →reads_from `Cargo`
+- `track-cargo` **src/main/webapp/admin/tracking/track.xhtml**: `src/main/webapp/admin/tracking/track.xhtml` →routes `Track` →contains `Track.init` →calls `BookingServiceFacade.listAllTrackingIds` ←implements `DefaultBookingServiceFacade.listAllTrackingIds` →calls `CargoRepository.findAll` ←implements `JpaCargoRepository.findAll` →reads_from `Cargo`
 
 ## Entry points reaching data (for review)
 
@@ -37,13 +37,13 @@
 
 - PASS
 
-AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=310
+AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=1352
 
 # Graph check: cargo-tracker
 
-- Commit: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d` · analyzed 2026-11-03T16:53:25.085Z
-- Languages: java, html, xhtml, css, xml, json, markdown · frameworks: Jakarta EE, JSF, PrimeFaces, JAX-RS, Arquillian
-- 445 nodes, 1072 edges, 9 layers
+- Commit: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d` · analyzed 2026-11-03T17:29:34.340Z
+- Languages: css, csv, html, java, json, markdown, properties, txt, xhtml, xml · frameworks: Jakarta EE, JSF, PrimeFaces, Jersey, Arquillian, JUnit
+- 1080 nodes, 2137 edges, 7 layers
 
 ## Required node types
 
@@ -54,26 +54,26 @@ AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reachi
 | `page` | 23 | UI pages (alternative to screen) |
 | `table` | 7 | data capabilities and data-migration slices |
 | `service` | **0** | service boundaries |
-| `domain` | 3 | bounded contexts |
-| `flow` | 8 | business flows → slice anchors |
-| `step` | 27 | flow steps → capabilities |
+| `domain` | 4 | bounded contexts |
+| `flow` | 9 | business flows → slice anchors |
+| `step` | 33 | flow steps → capabilities |
 
 ## Required edge types
 
 | Type | Count | Needed for |
 |---|---|---|
-| `calls` | 207 | dependency resolution |
-| `reads_from` | 17 | data access (read) |
-| `writes_to` | 6 | data access (write) |
+| `calls` | 630 | dependency resolution |
+| `reads_from` | 23 | data access (read) |
+| `writes_to` | 7 | data access (write) |
 | `routes` | 25 | UI/HTTP routing |
-| `tested_by` | 10 | legacy test inventory |
-| `contains_flow` | 8 | domain → flow |
-| `flow_step` | 27 | flow → step |
+| `tested_by` | 13 | legacy test inventory |
+| `contains_flow` | 9 | domain → flow |
+| `flow_step` | 33 | flow → step |
 
 ## All node types
 
-`file` 167, `class` 118, `function` 63, `step` 27, `page` 23, `config` 14, `resource` 8, `flow` 8, `table` 7, `endpoint` 4, `document` 3, `domain` 3
+`method` 571, `file` 167, `class` 119, `function` 118, `step` 33, `page` 23, `config` 14, `flow` 9, `resource` 8, `table` 7, `endpoint` 4, `domain` 4, `document` 3
 
 ## All edge types
 
-`imports` 364, `contains` 214, `calls` 207, `exports` 110, `flow_step` 27, `routes` 25, `depends_on` 20, `reads_from` 17, `related` 15, `implements` 12, `tested_by` 10, `contains_flow` 8, `inherits` 7, `triggers` 7, `configures` 6, `defines_schema` 6, `writes_to` 6, `publishes` 5, `documents` 3, `cross_domain` 3
+`contains` 834, `calls` 630, `imports` 364, `exports` 103, `implements` 47, `flow_step` 33, `routes` 25, `reads_from` 23, `tested_by` 13, `contains_flow` 9, `inherits` 7, `writes_to` 7, `triggers` 7, `related` 6, `defines_schema` 6, `depends_on` 5, `configures` 5, `publishes` 5, `documents` 4, `cross_domain` 4
