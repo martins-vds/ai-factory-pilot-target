@@ -1,0 +1,165 @@
+{
+  "branch": "copilot/hr-04a-design-cargo-inspection",
+  "diagnostics": {
+    "data_keys": {
+      "assistant.message": [
+        "apiCallId",
+        "chunkCount",
+        "chunkIndex",
+        "clientRequestId",
+        "content",
+        "encryptedContent",
+        "interactionId",
+        "messageId",
+        "model",
+        "outputTokens",
+        "phase",
+        "reasoningOpaque",
+        "requestId",
+        "rte",
+        "serviceRequestId",
+        "toolRequests",
+        "turnId"
+      ],
+      "assistant.turn_end": [
+        "turnId"
+      ],
+      "assistant.turn_start": [
+        "interactionId",
+        "turnId"
+      ],
+      "external_tool.completed": [
+        "requestId"
+      ],
+      "external_tool.requested": [
+        "arguments",
+        "requestId",
+        "sessionId",
+        "toolCallId",
+        "toolName",
+        "workingDirectory"
+      ],
+      "hook.end": [
+        "hookInvocationId",
+        "hookType",
+        "success"
+      ],
+      "hook.start": [
+        "hookInvocationId",
+        "hookType",
+        "input"
+      ],
+      "permission.completed": [
+        "requestId",
+        "result",
+        "toolCallId"
+      ],
+      "permission.requested": [
+        "permissionRequest",
+        "promptRequest",
+        "requestId"
+      ],
+      "session.start": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "copilotVersion",
+        "producer",
+        "reasoningEffort",
+        "remoteSteerable",
+        "selectedModel",
+        "sessionId",
+        "startTime",
+        "version"
+      ],
+      "skill.invoked": [
+        "content",
+        "description",
+        "model",
+        "name",
+        "path",
+        "source",
+        "trigger"
+      ],
+      "subagent.selected": [
+        "agentDisplayName",
+        "agentName",
+        "tools"
+      ],
+      "system.message": [
+        "content",
+        "interactionId",
+        "role"
+      ],
+      "tool.execution_complete": [
+        "error",
+        "interactionId",
+        "model",
+        "result",
+        "rte",
+        "success",
+        "toolCallId",
+        "toolTelemetry",
+        "turnId"
+      ],
+      "tool.execution_start": [
+        "arguments",
+        "mcpServerName",
+        "mcpToolName",
+        "model",
+        "rte",
+        "shellToolInfo",
+        "toolCallId",
+        "toolName",
+        "turnId"
+      ],
+      "user.message": [
+        "attachments",
+        "content",
+        "delivery",
+        "interactionId",
+        "parentAgentTaskId",
+        "source",
+        "supportedNativeDocumentMimeTypes",
+        "transformedContent"
+      ]
+    },
+    "event_types": {
+      "assistant.message": 107,
+      "assistant.turn_end": 80,
+      "assistant.turn_start": 80,
+      "external_tool.completed": 1,
+      "external_tool.requested": 1,
+      "hook.end": 264,
+      "hook.start": 265,
+      "permission.completed": 131,
+      "permission.requested": 131,
+      "session.start": 1,
+      "skill.invoked": 5,
+      "subagent.selected": 1,
+      "system.message": 1,
+      "tool.execution_complete": 135,
+      "tool.execution_start": 135,
+      "user.message": 6
+    },
+    "events": 1344,
+    "usage_fields": []
+  },
+  "ended_at": "2026-11-03T18:31:01.403Z",
+  "event": "sessionEnd",
+  "log": "/home/runner/.copilot/session-state/6e516878-070c-4580-bcea-99446744ba2a/events.jsonl",
+  "models": {
+    "gpt-6-luna": {
+      "output": 38432,
+      "requests": 107
+    }
+  },
+  "prompt_head": null,
+  "recorded_at": "2026-11-03T18:31:02+00:00",
+  "schema": "afs-cost/1",
+  "session_id": "6e516878-070c-4580-bcea-99446744ba2a",
+  "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
+  "started_at": "2026-11-03T18:18:19.587Z",
+  "surface": "coding-agent",
+  "usage_source": "assistant.message (output only, partial)"
+}

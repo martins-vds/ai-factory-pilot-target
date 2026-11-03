@@ -8,7 +8,7 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Inspection loads cargo and its full handling history, re-derives Delivery from route, itinerary and history, emits applicable outcome notifications, persists cargo, then fires CargoInspected."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#127]
 status: pending
 verification: characterized
 characterization_tier: B
@@ -28,4 +28,5 @@ notes: >-
   are recomputed. CargoTest.testIsMisdirected and testIsUnloadedAtFinalDestination cover
   outcomes; CargoLifecycleScenarioTest includes lifecycle behavior. Decision #87 combines
   registration and inspection in one target transaction and removes the source consistency
-  window.
+  window. HR-04A (#127) designs the HR-04D (#130) tests; this remains pending until implementation.
+quirks: [martins-vds/ai-factory-pilot-target#136]
