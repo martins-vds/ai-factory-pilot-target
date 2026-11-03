@@ -1,0 +1,96 @@
+{
+  "input": {
+    "completionTime": "<TODAY+4> 12:00",
+    "trackingId": "ABC123",
+    "eventType": "UNLOAD",
+    "unLocode": "FIHEL",
+    "voyageNumber": "0300A"
+  },
+  "predicted": "Unloading in Helsinki marks the cargo as unloaded at its destination.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "post": {
+      "status": 204,
+      "content_type": ""
+    },
+    "cargo": {
+      "trackingId": "ABC123",
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "transportStatus": "IN_PORT",
+      "atDestination": true,
+      "origin": "CNHKG",
+      "lastKnownLocation": "FIHEL"
+    },
+    "tracking": {
+      "submitted_id": "ABC123",
+      "result": {
+        "tracking_id": "ABC123",
+        "status_text": "In port Helsinki",
+        "destination": "Helsinki",
+        "eta": "<TODAY+14> 12:00 AM UTC",
+        "next_activity": "Next expected activity is to claim cargo in Helsinki",
+        "misdirected": false
+      },
+      "history": {
+        "empty_label": null,
+        "rows": [
+          {
+            "expected": true,
+            "description": "Received in Hong Kong",
+            "time": "<TODAY-10> 12:00 AM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Received in Hong Kong",
+            "time": "<TODAY-9> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Cleared customs in Hong Kong",
+            "time": "<TODAY-8> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Loaded onto voyage 0100S in Hong Kong",
+            "time": "<TODAY-7> 12:00 AM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Unloaded off voyage 0100S in New York",
+            "time": "<TODAY-1> 12:00 AM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Loaded onto voyage 0200T in New York",
+            "time": "<TODAY+1> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Unloaded off voyage 0200T in Dallas",
+            "time": "<TODAY+2> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Loaded onto voyage 0300A in Dallas",
+            "time": "<TODAY+3> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Unloaded off voyage 0300A in Helsinki",
+            "time": "<TODAY+4> 12:00 PM UTC"
+          }
+        ]
+      },
+      "map_query": {
+        "statusCode": "AT_DESTINATION",
+        "lastKnownLocationCode": "FIHEL",
+        "lastKnownLocationName": "Helsinki",
+        "originCode": "CNHKG",
+        "originName": "Hong Kong",
+        "destinationCode": "FIHEL",
+        "destinationName": "Helsinki"
+      }
+    }
+  }
+}

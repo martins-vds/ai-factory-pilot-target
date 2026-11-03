@@ -1,0 +1,68 @@
+{
+  "input": [
+    {
+      "completionTime": "<TODAY+2> 12:00",
+      "trackingId": "DEF789",
+      "eventType": "CUSTOMS",
+      "unLocode": "CNHKG"
+    },
+    {
+      "completionTime": "<TODAY+1> 12:00",
+      "trackingId": "DEF789",
+      "eventType": "RECEIVE",
+      "unLocode": "CNHKG"
+    }
+  ],
+  "predicted": "Both quick reports are accepted and the public history orders them by completion time, not submission order.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "posts": [
+      204,
+      204
+    ],
+    "cargo": {
+      "trackingId": "DEF789",
+      "routingStatus": "NOT_ROUTED",
+      "misdirected": false,
+      "transportStatus": "NOT_RECEIVED",
+      "atDestination": false,
+      "origin": "CNHKG",
+      "lastKnownLocation": "Unknown"
+    },
+    "tracking": {
+      "submitted_id": "DEF789",
+      "result": {
+        "tracking_id": "DEF789",
+        "status_text": "In port Melbourne",
+        "destination": "Melbourne",
+        "eta": "?",
+        "next_activity": null,
+        "misdirected": false
+      },
+      "history": {
+        "empty_label": null,
+        "rows": [
+          {
+            "expected": true,
+            "description": "Received in Hong Kong",
+            "time": "<TODAY+1> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Cleared customs in Hong Kong",
+            "time": "<TODAY+2> 12:00 PM UTC"
+          }
+        ]
+      },
+      "map_query": {
+        "statusCode": "NOT_ROUTED",
+        "lastKnownLocationCode": "CNHKG",
+        "lastKnownLocationName": "Hong Kong",
+        "originCode": "CNHKG",
+        "originName": "Hong Kong",
+        "destinationCode": "AUMEL",
+        "destinationName": "Melbourne"
+      }
+    }
+  }
+}
