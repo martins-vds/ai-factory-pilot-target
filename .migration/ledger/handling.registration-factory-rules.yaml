@@ -10,7 +10,16 @@ boundary: "Factory creation resolves a cargo and location, resolves a voyage onl
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#88, martins-vds/ai-factory-pilot-target#95]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryResolvesKnownCargoVoyageAndLocation
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownCargo
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownVoyage
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownLocation
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsLoadWithoutVoyage
 notes: >-
   A missing cargo is returned as null by JpaCargoRepository and becomes UnknownCargoException.
   The factory's null checks for voyage/location would create typed errors, but the production

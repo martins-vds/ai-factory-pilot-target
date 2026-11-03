@@ -10,7 +10,13 @@ boundary: "HandlingEventService assigns registration time, asks the factory to c
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
+  - characterization/handling-registration/test_handling_registration.py::test_rest_validation_failures_match_observed_goldens
 notes: >-
   The source uses a stateless EJB transaction for the service operation. Cargo aggregate
   delivery progress is explicitly updated asynchronously in the following inspection hop.

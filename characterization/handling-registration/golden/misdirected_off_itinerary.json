@@ -1,0 +1,106 @@
+{
+  "input": {
+    "completionTime": "<TODAY+6> 12:00",
+    "trackingId": "ABC123",
+    "eventType": "UNLOAD",
+    "unLocode": "JNTKO",
+    "voyageNumber": "0300A"
+  },
+  "predicted": "An unload in Tokyo, which is not on ABC123's itinerary, is recorded as misdirected.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "post": {
+      "status": 204,
+      "content_type": ""
+    },
+    "cargo": {
+      "trackingId": "ABC123",
+      "routingStatus": "ROUTED",
+      "misdirected": true,
+      "transportStatus": "IN_PORT",
+      "atDestination": false,
+      "origin": "CNHKG",
+      "lastKnownLocation": "JNTKO"
+    },
+    "tracking": {
+      "submitted_id": "ABC123",
+      "result": {
+        "tracking_id": "ABC123",
+        "status_text": "In port Helsinki",
+        "destination": "Helsinki",
+        "eta": "?",
+        "next_activity": null,
+        "misdirected": true
+      },
+      "history": {
+        "empty_label": null,
+        "rows": [
+          {
+            "expected": true,
+            "description": "Received in Hong Kong",
+            "time": "<TODAY-10> 12:00 AM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Received in Hong Kong",
+            "time": "<TODAY-9> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Cleared customs in Hong Kong",
+            "time": "<TODAY-8> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Loaded onto voyage 0100S in Hong Kong",
+            "time": "<TODAY-7> 12:00 AM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Unloaded off voyage 0100S in New York",
+            "time": "<TODAY-1> 12:00 AM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Loaded onto voyage 0200T in New York",
+            "time": "<TODAY+1> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Unloaded off voyage 0200T in Dallas",
+            "time": "<TODAY+2> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Loaded onto voyage 0300A in Dallas",
+            "time": "<TODAY+3> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Unloaded off voyage 0300A in Helsinki",
+            "time": "<TODAY+4> 12:00 PM UTC"
+          },
+          {
+            "expected": true,
+            "description": "Claimed in Helsinki",
+            "time": "<TODAY+5> 12:00 PM UTC"
+          },
+          {
+            "expected": false,
+            "description": "Unloaded off voyage 0300A in Tokyo",
+            "time": "<TODAY+6> 12:00 PM UTC"
+          }
+        ]
+      },
+      "map_query": {
+        "statusCode": "MISDIRECTED",
+        "lastKnownLocationCode": "JNTKO",
+        "lastKnownLocationName": "Tokyo",
+        "originCode": "CNHKG",
+        "originName": "Hong Kong",
+        "destinationCode": "FIHEL",
+        "destinationName": "Helsinki"
+      }
+    }
+  }
+}

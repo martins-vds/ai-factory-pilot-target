@@ -10,7 +10,15 @@ boundary: "The MDB reads an ObjectMessage, extracts the registration attempt and
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#95]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_unknown_references_and_load_without_voyage_leave_no_trace
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownCargo
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownVoyage
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownLocation
 notes: >-
   The consumer catches JMSException and CannotCreateHandlingEventException, rethrows a
   RuntimeException and comments that poison messages go to the server dead-letter queue.

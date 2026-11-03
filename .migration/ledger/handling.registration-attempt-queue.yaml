@@ -10,7 +10,12 @@ boundary: "JmsApplicationEvents sends a serialized HandlingEventRegistrationAtte
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::quirk94AttemptTtlIsOneSecond
 notes: >-
   The queue is declared in web.xml:100-105 and consumed by
   HandlingEventRegistrationAttemptConsumer. Messages not delivered within one second expire.

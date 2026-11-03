@@ -1,0 +1,19 @@
+{
+  "input": {
+    "completionTime": "<TODAY-306> 12:00",
+    "trackingId": "ABC123",
+    "eventType": "LOAD",
+    "unLocode": "USNYC",
+    "voyageNumber": "0200T1"
+  },
+  "predicted": "REST validation returns HTTP 400.",
+  "prediction_matches_observation": true,
+  "observed": {
+    "post": {
+      "status": 400,
+      "content_type": "text/plain"
+    },
+    "cargo": null,
+    "tracking": null
+  }
+}

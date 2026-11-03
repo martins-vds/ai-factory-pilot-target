@@ -10,7 +10,12 @@ boundary: "After storing a HandlingEvent, the producer sends the cargo tracking 
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
 notes: >-
   web.xml:76-81 defines the queue. Producer messages use low priority and disable JMS message
   IDs and timestamps; no TTL is set here. The consumer logs and swallows JMSException. There
