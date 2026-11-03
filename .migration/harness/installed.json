@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "36a89e449a2eb621e87b7d0ac9cb4b195cbcc05f",
-  "installed_at": "2026-11-03T18:25:38Z",
+  "harness_commit": "7f8c13956114077164f8b6e1308ece1cf7a0d7ed",
+  "installed_at": "2026-11-03T22:16:31Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -56,7 +56,7 @@
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "b3ba27bea1df36934a2bad91d21598f0513bac55edf81d20e0d97e649b260c84"
+        ".github/agents/afs-slice-coordinator.agent.md": "19208dceff4263566f6ef305e16248e8f30869c2c447d7d1d3dc9e90aabdb2c5"
       }
     },
     {
@@ -70,7 +70,7 @@
       "path": ".github/agents/afs-verifier.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-verifier.agent.md": "9c6c3d3fc15b5b4e6ec559b3f018281cd9fec47c9b85c94b1591101439243a99"
+        ".github/agents/afs-verifier.agent.md": "8a54e3438f072d5886d0f2908c7132f4d162f911d674a0ffcf88157e897e6ecd"
       }
     },
     {
@@ -79,7 +79,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-migration-contract/SKILL.md": "52e3b54219e719f7cc24eca5ad4f9925abfc7f73d786fd76424a32905bc84341",
+        ".github/skills/afs-migration-contract/SKILL.md": "68184139376356a0ea57211e6339de067a1603eae8c4c53f8f117847debf2c6f",
         ".github/skills/afs-migration-contract/references/capability-coverage.md": "a0b43baddc3a0e2be7396e68361704d9db49761698c10c3753545038c8782ffd",
         ".github/skills/afs-migration-contract/references/characterization.md": "59bedbcabd36825d268b1362596e8215e5363c0fec308fc2cd58981bebbe3d07",
         ".github/skills/afs-migration-contract/references/final-verification.md": "847e361034d3f5a7f0ddcf26a0602183588b752cb91206c298c55c4c3cfcb12b",
@@ -1079,17 +1079,17 @@
       "path": ".migration/harness/tools",
       "kind": "tools",
       "files": {
-        ".migration/harness/tools/afs-cost-hook": "28d8e7794ad68ebbfe9651d8b386ff6580bf02fca4b997a6a91e4c5db6c03da8",
-        ".migration/harness/tools/afs-costs": "9d2705b4c7e739b2d68a8a073bc255c6a23c55e0add2ba67ab3bd4af1849cc9d",
-        ".migration/harness/tools/afs-mutation": "e997ecafb0ec26e15fc11e6f53e633388e67f51dbee8ff3a3a9e3b5a11b0704a",
-        ".migration/harness/tools/afs-run": "070f2d7923d4aadec798b7b54597b229a9aaa8fb41d8be58b2442b8303104031",
+        ".migration/harness/tools/afs-cost-hook": "11adab3e46954f0a0f58cb8fcaf2a29bc671b8c5f83e4c9503718c50bbe023bf",
+        ".migration/harness/tools/afs-costs": "847bc8c17c1138796aea70a90ad5e2c7b7ab1eab550be677e882827371b9cb71",
+        ".migration/harness/tools/afs-mutation": "0acbf4a0d1383d2c91d81615e1837ff58da641581fabaab706818126759c15fb",
+        ".migration/harness/tools/afs-run": "71b8fa2e46cbff8098becb7567577dcbf41983e0c408de59e69c9f10b039179a",
         ".migration/harness/tools/afs-services": "9ba61468eef1d55329963d02ae05bee14d8ad3ed2afcb620208ca3e9c16f2669",
         ".migration/harness/tools/afs_trace.py": "cad71e97ad74b542f3990be32f9bbe60de14f23e25f8563b0daada43be5423ba",
         ".migration/harness/tools/check_graph.py": "e4b08a755ba09fae896f7c663fb7d3932f2fc34e608bbeec58a4c0b960f63bd7",
         ".migration/harness/tools/check_graph_fresh.py": "4614d42059d03b4fa0926c21e403cde35426bcad16efc0f7de1061c4b3c6aebb",
         ".migration/harness/tools/check_inputs.py": "9ce77441102ed8134e2a83a5c199fe476790c8cbf113f739a5499ce772846f5e",
         ".migration/harness/tools/check_installed.py": "6f95e854ed5513ab5e7c0596898a9ae27f77a7413ba525faf8152e372bfe6c42",
-        ".migration/harness/tools/check_return_contract.py": "a3117d0055848982f5cecedd95ad462f45726e9dc81239bbf9a75128bd1a1656",
+        ".migration/harness/tools/check_return_contract.py": "b802b4591fd43514fdc110e32f2527d68c1739c7b760556198826dfa343d86e3",
         ".migration/harness/tools/check_runtime.py": "ba09b4b13ba86cbb29586feb54824646abcefaf952b76b1e40e3c32276fda547",
         ".migration/harness/tools/check_slice_returns.py": "2c17731be056374ee46080dcf8200cc60d522c07516fae4e8e07c3cc1bf8b371",
         ".migration/harness/tools/crap.py": "78f19ab57dcdeca3bb7f024ba731f00d8a31671ed670aff6ab292d0c3f3f2797",
@@ -1097,10 +1097,11 @@
         ".migration/harness/tools/extract_slice.py": "9e8d0dc81847e851fdb9332449fe3639de90d775616fa059132c86539f598b11",
         ".migration/harness/tools/fog_rewalk.py": "c187ca073cef8a043bdc786f09c1cdf74b74656c8e89ffefe47da537ce56a43c",
         ".migration/harness/tools/graph_gate.py": "bf91811120dea310d932796863124e5183e0644ad1d2551babc9fadf1e147a9a",
-        ".migration/harness/tools/harness_coverage.py": "628ca9bc2d06ec5e7135f43a4e5e6ce9b9465ff97499392bb1b128264c404151",
+        ".migration/harness/tools/harness_coverage.py": "e9fdef47dbf7273168b9a2a19f4cbe38a3368602b7f110e6b54fe4a9b3d5bcfd",
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
+        ".migration/harness/tools/ticket_guard.py": "ad328a7b79a6686bbe401ac8bf6ce228bc8a4cfa6eac10df303645a4bcb48c72",
         ".migration/harness/tools/understand.py": "5e540c4c39098780fb89529f59cbcd879cd74d256e3e097e60f9f05aee09f2b4",
-        ".migration/harness/tools/validate.py": "6588f2c560352be203318f8fb94558782627510c1db28d78b3a0597682813646"
+        ".migration/harness/tools/validate.py": "59ac8dc5d4d0e1f9e16ec23dc7885f0f497068b319a02f09d40fc26e8c7bc511"
       }
     },
     {
