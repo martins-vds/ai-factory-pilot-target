@@ -1,0 +1,21 @@
+role: afs-verifier
+ticket: HR-04B
+issue: martins-vds/ai-factory-pilot-target#128
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/134
+verdict: changes-required
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 15.0
+  mutation_changed: 0.850
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/HR-04B.md
+findings:
+  - severity: minor
+    where: .migration/costs/89ca04b9-cc62-4995-9f68-55cf412375ef.json:1
+    what: Unrequested generated cost artifact is outside HR-04B scope; remove it from PR #134.
+tests_added: []
+ledger_issues: []
+quirk_tickets: []

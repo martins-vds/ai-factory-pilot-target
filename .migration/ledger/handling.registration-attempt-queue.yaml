@@ -8,17 +8,24 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "JmsApplicationEvents sends a serialized HandlingEventRegistrationAttempt to HandlingEventRegistrationAttemptQueue at low priority, without message ID or timestamp, and with a 1000 ms time-to-live."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94, martins-vds/ai-factory-pilot-target#128]
+target:
+  components:
+    - cargotracker.handling.infrastructure.attempt_submission_repository.DjangoAttemptSubmissionRepository
+status: replaced
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#87
+  reason: "PostgreSQL replaces the expiring JMS queue per #87; #94 requires accepted attempts to persist until registered or rejected."
 verification: characterized
 characterization_tier: B
 evidence:
-  - .migration/evidence/handling-registration/characterization/report.md
-  - .migration/evidence/runs/HR-03.md
-  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::quirk94AttemptTtlIsOneSecond
+  - tests/handling/test_registration_attempt_repository.py::test_accept_registration_persists_attempt_without_expiry
+  - tests/handling/test_registration_attempt_repository.py::test_repository_claim_skips_an_attempt_locked_by_another_transaction
+  - .migration/evidence/runs/HR-04B.md
 notes: >-
   The queue is declared in web.xml:100-105 and consumed by
   HandlingEventRegistrationAttemptConsumer. Messages not delivered within one second expire.
-  The registration queue is the REST report's actual first hop. Decision #94 retires this
-  TTL and requires accepted attempts to end registered or rejected; #87 selects the target
-  worker mechanism. No direct source JMS test was identified.
+  The registration queue is the REST report's actual first hop. Decisions #87 and #94 replace
+  the expiring JMS queue with durable PostgreSQL attempts that remain accepted until registered
+  or rejected. The target repository supports locked claiming and terminal state updates.
