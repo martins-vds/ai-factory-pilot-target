@@ -18,7 +18,8 @@ everything behind it.
   attempt's identity.
 - **A worker processes them.** It claims pending rows (`FOR UPDATE SKIP LOCKED`). In **one transaction**,
   it registers the handling event and re-derives the cargo's delivery (the source's "inspection"), then
-  marks the row *registered*. The dashboard push follows the commit.
+  marks the row *registered*. The admin map shows the change on its next poll after the commit
+  (ADR-0005).
 - **Guarantees.**
   - An accepted attempt is never lost: no time-to-live.
   - Processing is at least once, and registration is idempotent per attempt.
