@@ -74,3 +74,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T22:47:05+00:00 | final-regression | 0 | 16.72 | `pytest -q` | `9b2edfa625248f8a` |  |  |
 | 2026-11-03T22:47:22+00:00 | final-crap | 0 | 16.57 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `125e426cd13d4bb1` |  | gate=crap max=15.0 threshold=30 over=0 methods=116 |
 | 2026-11-03T22:48:41+00:00 | post-commit-regression | 0 | 16.11 | `pytest -q` | `5bddce16b3fd2c3c` |  |  |
+| 2026-11-03T23:03:20+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T23:04:38+00:00 | verify-build-compile | 0 | 0.08 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T23:04:43+00:00 | verify-build-check | 0 | 1.24 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T23:05:03+00:00 | verify-behavior | 0 | 17.72 | `pytest -q` | `a3715b300b3f4941` |  |  |
+| 2026-11-03T23:05:07+00:00 | verify-idiom-lint | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T23:05:15+00:00 | verify-idiom-format | 0 | 0.02 | `ruff format --check` | `67e4bf8f396fefa7` |  |  |
+| 2026-11-03T23:05:35+00:00 | verify-crap | 0 | 15.73 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `37cc25fc6ef7530a` |  | gate=crap max=15.0 threshold=30 over=0 methods=116 |
+| 2026-11-03T23:05:53+00:00 | verify-regression | 0 | 14.87 | `pytest -q` | `a3d1d2fc9d640373` |  |  |
+| 2026-11-03T23:07:26+00:00 | verify-mutation-changed | 0 | 76.35 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `6e0f0b423ee8628c` |  | gate=mutation score=0.855 threshold=0.8 killed=71 survived=12 files=3 base=origin/main |
