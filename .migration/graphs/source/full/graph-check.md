@@ -2,8 +2,8 @@
 
 # Graph gate: source
 
-- 448 nodes, 1034 edges
-- Edges added by harness enrichers: 299
+- 445 nodes, 1072 edges
+- Edges added by harness enrichers: 310
 
 ## Required types (profile graph.require)
 
@@ -11,9 +11,9 @@
 - node `page`: 23
 - node `endpoint`: 4
 - edge `reads_from`: 17
-- edge `writes_to`: 4
+- edge `writes_to`: 6
 - edge `routes`: 25
-- edge `calls`: 203
+- edge `calls`: 207
 
 ## Data paths (slice specs data_paths)
 
@@ -37,13 +37,13 @@
 
 - PASS
 
-AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=299
+AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=310
 
 # Graph check: cargo-tracker
 
-- Commit: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d` · analyzed 2026-11-03T14:42:56.902Z
-- Languages: java, html, xml, css, markdown, json, properties · frameworks: Jakarta EE, JSF, JAX-RS, Maven
-- 448 nodes, 1034 edges, 9 layers
+- Commit: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d` · analyzed 2026-11-03T16:53:25.085Z
+- Languages: java, html, xhtml, css, xml, json, markdown · frameworks: Jakarta EE, JSF, PrimeFaces, JAX-RS, Arquillian
+- 445 nodes, 1072 edges, 9 layers
 
 ## Required node types
 
@@ -54,26 +54,26 @@ AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reachi
 | `page` | 23 | UI pages (alternative to screen) |
 | `table` | 7 | data capabilities and data-migration slices |
 | `service` | **0** | service boundaries |
-| `domain` | 4 | bounded contexts |
-| `flow` | 10 | business flows → slice anchors |
-| `step` | 32 | flow steps → capabilities |
+| `domain` | 3 | bounded contexts |
+| `flow` | 8 | business flows → slice anchors |
+| `step` | 27 | flow steps → capabilities |
 
 ## Required edge types
 
 | Type | Count | Needed for |
 |---|---|---|
-| `calls` | 203 | dependency resolution |
+| `calls` | 207 | dependency resolution |
 | `reads_from` | 17 | data access (read) |
-| `writes_to` | 4 | data access (write) |
+| `writes_to` | 6 | data access (write) |
 | `routes` | 25 | UI/HTTP routing |
-| `tested_by` | 11 | legacy test inventory |
-| `contains_flow` | 10 | domain → flow |
-| `flow_step` | 32 | flow → step |
+| `tested_by` | 10 | legacy test inventory |
+| `contains_flow` | 8 | domain → flow |
+| `flow_step` | 27 | flow → step |
 
 ## All node types
 
-`file` 167, `class` 118, `function` 58, `step` 32, `page` 23, `config` 14, `flow` 10, `resource` 8, `table` 7, `endpoint` 4, `domain` 4, `document` 3
+`file` 167, `class` 118, `function` 63, `step` 27, `page` 23, `config` 14, `resource` 8, `flow` 8, `table` 7, `endpoint` 4, `document` 3, `domain` 3
 
 ## All edge types
 
-`imports` 364, `contains` 209, `calls` 203, `exports` 88, `flow_step` 32, `routes` 25, `related` 19, `reads_from` 17, `implements` 12, `tested_by` 11, `contains_flow` 10, `inherits` 7, `triggers` 7, `defines_schema` 6, `publishes` 5, `configures` 4, `depends_on` 4, `writes_to` 4, `cross_domain` 4, `documents` 3
+`imports` 364, `contains` 214, `calls` 207, `exports` 110, `flow_step` 27, `routes` 25, `depends_on` 20, `reads_from` 17, `related` 15, `implements` 12, `tested_by` 10, `contains_flow` 8, `inherits` 7, `triggers` 7, `configures` 6, `defines_schema` 6, `writes_to` 6, `publishes` 5, `documents` 3, `cross_domain` 3
