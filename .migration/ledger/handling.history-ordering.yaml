@@ -23,3 +23,4 @@ notes: >-
   HandlingHistoryTest.testDistinctEventsByCompletionTime verifies deduplication and ordering;
   testMostRecentlyCompletedEvent verifies the latest event. Decision #94 specifies target
   history ordering by completion time and no processing-order promise.
+quirks: [martins-vds/ai-factory-pilot-target#136]

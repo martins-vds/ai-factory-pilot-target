@@ -25,3 +25,4 @@ notes: >-
   Decision #87 retires this queue and retains misdirected/delivered notifications as log lines
   during inspection. HR-04A (#127) designs the HR-04D (#130) outcome tests; this remains
   pending until the outcome is implemented or retired.
+quirks: [martins-vds/ai-factory-pilot-target#136]

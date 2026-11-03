@@ -29,3 +29,4 @@ notes: >-
   outcomes; CargoLifecycleScenarioTest includes lifecycle behavior. Decision #87 combines
   registration and inspection in one target transaction and removes the source consistency
   window. HR-04A (#127) designs the HR-04D (#130) tests; this remains pending until implementation.
+quirks: [martins-vds/ai-factory-pilot-target#136]
