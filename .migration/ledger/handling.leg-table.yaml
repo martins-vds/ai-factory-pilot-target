@@ -10,7 +10,13 @@ boundary: "Cargo inspection reads the cargo itinerary's Leg values; JpaCargoRepo
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
 notes: >-
   Leg joins Voyage, load and unload Location, and load/unload times. Itinerary is embedded in
   Cargo and derives expected activity and misdirection from its legs. CargoTest.testIsMisdirected

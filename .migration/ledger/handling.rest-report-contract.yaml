@@ -10,7 +10,13 @@ boundary: "POST /rest/handling/reports consumes JSON with completionTime (requir
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#88]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_rest_validation_failures_match_observed_goldens
+  - characterization/handling-registration/test_handling_registration.py::test_unknown_references_and_load_without_voyage_leave_no_trace
 notes: >-
   HandlingReport.java:13-26 defines the field constraints. Completion time is parsed as
   yyyy-MM-dd HH:mm; ParseException is rethrown as RuntimeException and unknown eventType

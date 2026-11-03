@@ -9,7 +9,12 @@ boundary: "RejectedRegistrationAttemptsQueue is declared and has a logging MDB c
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#95]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_unknown_references_and_load_without_voyage_leave_no_trace
 notes: >-
   RejectedRegistrationAttemptsConsumer logs a message body if one arrives; the registration
   consumer instead rethrows failures for server dead-letter handling. No producer or direct

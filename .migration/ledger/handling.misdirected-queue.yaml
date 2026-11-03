@@ -10,7 +10,14 @@ boundary: "Inspection sends the tracking ID to MisdirectedCargoQueue when the re
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionNotifiesWhenCargoIsMisdirected
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
 notes: >-
   web.xml:82-87 defines the queue. Delivery misdirection depends on whether the last handling
   event is expected by the itinerary; CargoTest.testIsMisdirected exercises expected and

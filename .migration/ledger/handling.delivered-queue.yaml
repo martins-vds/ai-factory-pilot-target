@@ -10,7 +10,13 @@ boundary: "Inspection sends the tracking ID to DeliveredCargoQueue only when the
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionNotifiesWhenCargoIsUnloadedAtDestination
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsUnloadedAtFinalDestination"
 notes: >-
   web.xml:88-93 defines the queue. Delivery.calculateUnloadedAtDestination uses the last
   event's type and location. CargoTest.testIsUnloadedAtFinalDestination covers non-UNLOAD,

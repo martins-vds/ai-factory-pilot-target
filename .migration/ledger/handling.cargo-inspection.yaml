@@ -10,7 +10,17 @@ boundary: "Inspection loads cargo and its full handling history, re-derives Deli
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionReturnsWithoutSideEffectsWhenCargoIsMissing
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionPersistsCargoAndFiresInspectedEvent
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionNotifiesWhenCargoIsMisdirected
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::inspectionNotifiesWhenCargoIsUnloadedAtDestination
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsUnloadedAtFinalDestination"
 notes: >-
   If the cargo is missing, inspection logs a warning and returns. Delivery derives its last
   event from HandlingHistory.getMostRecentlyCompletedEvent; transport status, last known

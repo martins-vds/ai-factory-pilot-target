@@ -1,0 +1,40 @@
+role: afs-characterizer
+ticket: HR-03
+issue: martins-vds/ai-factory-pilot-target#118
+tier_used:
+  A: 11
+  B: 8
+  C: 0
+suite:
+  path: characterization/handling-registration/test_handling_registration.py
+  cases: 21
+  passing: 21
+  run_log: .migration/evidence/runs/HR-03.md
+predicted_vs_observed:
+  match: 28
+  differs: 0
+ledger_updated:
+  - handling.cargo-handled-queue
+  - handling.cargo-inspection
+  - handling.cargo-table
+  - handling.carrier-movement-table
+  - handling.delivered-queue
+  - handling.event-aggregate
+  - handling.event-table
+  - handling.history-ordering
+  - handling.leg-table
+  - handling.location-table
+  - handling.misdirected-queue
+  - handling.registration-attempt-consumer
+  - handling.registration-attempt-queue
+  - handling.registration-factory-rules
+  - handling.registration-flow
+  - handling.registration-service
+  - handling.rejected-attempts-queue
+  - handling.rest-report-contract
+  - handling.voyage-table
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#94
+  - martins-vds/ai-factory-pilot-target#95
+  - martins-vds/ai-factory-pilot-target#88
+review_only_requests: []

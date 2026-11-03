@@ -10,7 +10,14 @@ boundary: "HandlingHistory keeps the event collection, produces a distinct list 
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#94]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/test_handling_registration.py::test_two_quick_reports_are_ordered_by_completion_time
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testMostRecentlyCompletedEvent"
 notes: >-
   JpaHandlingEventRepository builds this value from all HandlingEvent rows for the cargo.
   HandlingHistoryTest.testDistinctEventsByCompletionTime verifies deduplication and ordering;

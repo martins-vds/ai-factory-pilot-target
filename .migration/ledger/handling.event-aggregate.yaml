@@ -10,7 +10,14 @@ boundary: "HandlingEvent is the handling aggregate root and requires cargo, comp
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: B
+evidence:
+  - .migration/evidence/handling-registration/characterization/report.md
+  - .migration/evidence/runs/HR-03.md
+  - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryResolvesKnownCargoVoyageAndLocation
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testNewWithCarrierMovement"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testNewWithLocation"
 notes: >-
   The entity records type, voyage_id, location_id, completionTime, registration and cargo_id;
   timestamp getters return defensive copies. HandlingEventTest.testNewWithCarrierMovement,
