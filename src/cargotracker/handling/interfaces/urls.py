@@ -1,5 +1,5 @@
 from django.urls import path
 
-from cargotracker.handling.interfaces.rest import submit_handling_report
+from cargotracker.handling.composition import compose_handling_report_view
 
-urlpatterns = [path('reports', submit_handling_report, name='handling-report')]
+urlpatterns = [path('reports', compose_handling_report_view(), name='handling-report')]

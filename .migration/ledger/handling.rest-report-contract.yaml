@@ -11,6 +11,7 @@ slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#88, martins-vds/ai-factory-pilot-target#129]
 target:
   components:
+    - cargotracker.handling.composition.compose_handling_report_view
     - cargotracker.handling.interfaces.rest.submit_handling_report
     - cargotracker.handling.interfaces.rest.HandlingReportForm
     - cargotracker.handling.interfaces.urls.urlpatterns
