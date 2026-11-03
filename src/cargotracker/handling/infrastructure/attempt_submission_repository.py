@@ -27,6 +27,7 @@ class DjangoAttemptSubmissionRepository(RegistrationAttemptRepository):
         return self._to_domain(record)
 
     def claim_next(self) -> RegistrationAttempt | None:
+        """Lock one accepted attempt until the caller's transaction ends."""
         record = (
             RegistrationAttemptRecord.objects.select_for_update(skip_locked=True)
             .filter(status=RegistrationAttemptStatus.ACCEPTED.value)
