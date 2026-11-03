@@ -72,15 +72,19 @@ def test_missing_required_report_field_returns_a_field_error(client, field):
 @pytest.mark.parametrize(
     ('field', 'value', 'error'),
     [
+        ('completionTime', ' 2026-11-03 10:15', 'at most 16 characters'),
         ('completionTime', '2026-11-03 10:15x', 'at most 16 characters'),
         ('completionTime', '2026-11-3 10:15', 'at least 16 characters'),
         ('trackingId', 'ABC', 'at least 4 characters'),
         ('eventType', 'REC', 'at least 4 characters'),
+        ('eventType', ' RECEIVE', 'at most 7 characters'),
         ('eventType', 'CUSTOMSS', 'at most 7 characters'),
         ('unLocode', 'USNY', 'at least 5 characters'),
+        ('unLocode', ' USNYC', 'at most 5 characters'),
         ('unLocode', 'USNYCZ', 'at most 5 characters'),
         ('voyageNumber', '', 'at least 4 characters'),
         ('voyageNumber', 'CM1', 'at least 4 characters'),
+        ('voyageNumber', ' CM001', 'at most 5 characters'),
         ('voyageNumber', 'CM0012', 'at most 5 characters'),
     ],
 )
@@ -101,6 +105,14 @@ def test_optional_voyage_number_is_persisted(client):
 
     assert response.status_code == 204
     assert RegistrationAttemptRecord.objects.get().voyage_number == 'CM001'
+
+
+@pytest.mark.django_db
+def test_tracking_id_minimum_length_counts_leading_whitespace(client):
+    response = _post_report(client, VALID_REPORT | {'trackingId': ' ABC'})
+
+    assert response.status_code == 204
+    assert RegistrationAttemptRecord.objects.get().tracking_id == ' ABC'
 
 
 @pytest.mark.django_db

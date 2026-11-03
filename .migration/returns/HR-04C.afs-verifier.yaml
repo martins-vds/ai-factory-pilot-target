@@ -1,25 +1,18 @@
 role: afs-verifier
 ticket: HR-04C
-issue: martins-vds/ai-factory-pilot-target#143
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/144
-verdict: changes-required
+issue: martins-vds/ai-factory-pilot-target#158
+pr: null
+verdict: pass
 gates:
   build: 0
-  behavior: 1
+  behavior: 0
   idiom: 0
-  crap: "n/a: the behavior test failure prevents CRAP analysis"
-  mutation_changed: "n/a: the failing behavior test prevents mutation evaluation"
-  regression: 1
+  crap: 15.0
+  mutation_changed: 0.855
+  regression: 0
 evidence_logs:
   - .migration/evidence/runs/HR-04C.md
-findings:
-  - severity: minor
-    where: src/cargotracker/handling/interfaces/rest.py:42
-    what: "The round-trip check rejects valid zero-padded years below 1000; `0001-01-01 00:00` returns 400 instead of 204."
-  - severity: minor
-    where: src/cargotracker/handling/interfaces/urls.py:3
-    what: "The added composition module is justified for repository wiring, but importing it from the interface URLconf crosses the inward-only boundary; consider wiring it at the project URL root."
-tests_added:
-  - tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time
+findings: []
+tests_added: []
 ledger_issues: []
 quirk_tickets: []
