@@ -6,3 +6,7 @@ data_paths:
     - src/main/webapp/admin/tracking/track.xhtml # admin tracking page
   target:
     - endpoint=/                                 # tracking page (compose_tracking_view)
+entry_points:                                    # ADR-0026: target entry points this slice owns beyond its anchors
+  target:
+    - endpoint=/tracking/map/                    # the map frame, an iframe whose URL is built in code
+    - command=seed_sample_data                   # TC-06: reproduces SampleDataGenerator
