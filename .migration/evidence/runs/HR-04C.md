@@ -43,3 +43,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T21:45:20+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-03T21:46:37+00:00 | zero-year-red | 4 | 3.57 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `6b35bd0b0d860837` | ERROR: not found: /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/tests/handling/interfaces/test_regis |  |
 | 2026-11-03T21:47:43+00:00 | zero-year-red | 1 | 1.8 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `d7c3e83daa68776f` | >       assert response.status_code == 204 |  |
+| 2026-11-03T21:48:10+00:00 | zero-year-green | 0 | 1.53 | `pytest -q tests/handling/interfaces/test_registration_reports.py::test_accepts_zero_padded_year_in_completion_time` | `910de278ff7c60fe` |  |  |
+| 2026-11-03T21:48:15+00:00 | handling-report-tests | 0 | 1.8 | `pytest -q tests/handling/interfaces/test_registration_reports.py` | `0af08ce93d3ef3d6` |  |  |

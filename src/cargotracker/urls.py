@@ -18,9 +18,10 @@ Including another URLconf
 from django.urls import include, path
 
 from cargotracker.cargo.composition import compose_tracking_view
+from cargotracker.handling.composition import compose_handling_report_view
 
 urlpatterns = [
     path('', compose_tracking_view(), name='track'),
-    path('rest/handling/', include('cargotracker.handling.interfaces.urls')),
+    path('rest/handling/reports', compose_handling_report_view(), name='handling-report'),
     path('tracking/map/', include('cargotracker.cargo.interfaces.tracking.map.urls')),
 ]

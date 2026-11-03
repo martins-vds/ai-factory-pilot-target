@@ -39,7 +39,7 @@ class HandlingReportForm(forms.Form):
             completion_time = datetime.strptime(value, '%Y-%m-%d %H:%M')
         except ValueError as exc:
             raise ValidationError('Enter a valid completion time.', code='invalid') from exc
-        if completion_time.strftime('%Y-%m-%d %H:%M') != value:
+        if completion_time.isoformat(sep=' ', timespec='minutes') != value:
             raise ValidationError('Enter a valid completion time.', code='invalid')
         return completion_time.replace(tzinfo=UTC)
 
