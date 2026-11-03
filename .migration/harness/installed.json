@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "07291116628814a1e3f7ed6faf7470df6965511d",
-  "installed_at": "2026-11-03T16:44:24Z",
+  "harness_commit": "052c2becd937adaf569e3e141506712329b588cf",
+  "installed_at": "2026-11-03T17:00:25Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1093,7 +1093,7 @@
         ".migration/harness/tools/check_runtime.py": "ba09b4b13ba86cbb29586feb54824646abcefaf952b76b1e40e3c32276fda547",
         ".migration/harness/tools/check_slice_returns.py": "2c17731be056374ee46080dcf8200cc60d522c07516fae4e8e07c3cc1bf8b371",
         ".migration/harness/tools/crap.py": "78f19ab57dcdeca3bb7f024ba731f00d8a31671ed670aff6ab292d0c3f3f2797",
-        ".migration/harness/tools/enrich_graph.py": "d0524b43f32157f78170bf7c64f555c3d75374d5bf1d527428993cd63db8b34b",
+        ".migration/harness/tools/enrich_graph.py": "a2b72386bd0004b0a45369164eb4b1c51ca7ce036000cce61e592f73ed151996",
         ".migration/harness/tools/extract_slice.py": "9e8d0dc81847e851fdb9332449fe3639de90d775616fa059132c86539f598b11",
         ".migration/harness/tools/fog_rewalk.py": "c187ca073cef8a043bdc786f09c1cdf74b74656c8e89ffefe47da537ce56a43c",
         ".migration/harness/tools/graph_gate.py": "bf91811120dea310d932796863124e5183e0644ad1d2551babc9fadf1e147a9a",
