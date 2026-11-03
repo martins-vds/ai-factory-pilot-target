@@ -73,3 +73,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T22:46:48+00:00 | final-behavior | 0 | 17.7 | `pytest -q` | `fe3e297cfbc4482d` |  |  |
 | 2026-11-03T22:47:05+00:00 | final-regression | 0 | 16.72 | `pytest -q` | `9b2edfa625248f8a` |  |  |
 | 2026-11-03T22:47:22+00:00 | final-crap | 0 | 16.57 | `bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov && lizard --csv src > .migration/runs/lizard.csv && python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'` | `125e426cd13d4bb1` |  | gate=crap max=15.0 threshold=30 over=0 methods=116 |
+| 2026-11-03T22:48:41+00:00 | post-commit-regression | 0 | 16.11 | `pytest -q` | `5bddce16b3fd2c3c` |  |  |
