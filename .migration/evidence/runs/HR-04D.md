@@ -71,3 +71,15 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T22:36:19+00:00 | exact-validation-tests | 0 | 11.28 | `pytest -q tests/handling/test_domain.py tests/handling/test_registration_processing.py` | `6a33328111d02971` |  |  |
 | 2026-11-03T22:37:12+00:00 | mutation-command-exact-errors | 0 | 32.26 | `python .migration/harness/tools/afs-mutation --paths src/cargotracker/handling/management/commands/process_handling_attempts.py --jobs 1` | `63f43dcd78217854` |  | gate=mutation score=0.870 threshold=0.8 killed=20 survived=3 files=1 base=explicit |
 | 2026-11-03T22:45:18+00:00 | mutation-changed-final | 0 | 477.17 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `cc18867b3ebaaf29` |  | gate=mutation score=0.815 threshold=0.8 killed=167 survived=38 files=7 base=origin/main |
+| 2026-11-03T22:45:39+00:00 | final-build-compile | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T22:45:46+00:00 | final-build-django-check | 0 | 0.44 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T22:46:08+00:00 | final-regression | 0 | 11.44 | `pytest -q tests/handling` | `a4ea8ba3f397a858` |  |  |
+| 2026-11-03T22:46:35+00:00 | final-behavior-tests | 0 | 22.63 | `pytest -q` | `1894c53d21a067d7` |  |  |
+| 2026-11-03T22:46:40+00:00 | final-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T22:47:05+00:00 | final-idiom-ruff-format | 1 | 0.02 | `ruff format --check` | `c44ac0d80daa1d1c` | -     monkeypatch.setattr(worker, 'sleep', lambda _: pytest.fail('worker slept with invalid settings')) |  |
+| 2026-11-03T22:47:30+00:00 | final-idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `1b6b02b900f11801` |  |  |
+| 2026-11-03T22:48:07+00:00 | final-crap-coverage | 0 | 23.94 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `8a36300321a835a0` |  |  |
+| 2026-11-03T22:48:13+00:00 | final-crap-lizard | 0 | 0.16 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T22:48:22+00:00 | final-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `7aabe95ab34f288e` |  | gate=crap max=19.0 threshold=30 over=0 methods=122 |
+| 2026-11-03T22:49:13+00:00 | final-behavior-tests | 0 | 22.51 | `pytest -q` | `9214b31d881ce3e6` |  |  |
+| 2026-11-03T22:49:28+00:00 | final-regression | 0 | 11.49 | `pytest -q tests/handling` | `87ea04280b2c429e` |  |  |

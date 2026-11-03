@@ -69,7 +69,9 @@ from cargotracker.voyage.domain.voyage_number import VoyageNumber
 def test_worker_rejects_invalid_settings(monkeypatch, setting, value, message):
     monkeypatch.setenv(setting, value)
     monkeypatch.setattr(worker, 'process_registration_attempt', lambda *args, **kwargs: False)
-    monkeypatch.setattr(worker, 'sleep', lambda _: pytest.fail('worker slept with invalid settings'))
+    monkeypatch.setattr(
+        worker, 'sleep', lambda _: pytest.fail('worker slept with invalid settings')
+    )
 
     with pytest.raises(CommandError) as error:
         worker.Command().handle()
