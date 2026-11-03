@@ -41,10 +41,14 @@ def test_accepted_report_is_persisted_with_completion_time_in_utc(client):
 
 @pytest.mark.django_db
 def test_accepts_zero_padded_year_in_completion_time(client):
-    response = _post_report(client, VALID_REPORT | {'completionTime': '0001-01-01 00:00'})
+    report = VALID_REPORT | {'completionTime': '0001-01-01 00:00'}
+
+    response = _post_report(client, report)
 
     assert response.status_code == 204
-    assert RegistrationAttemptRecord.objects.get().completion_time == datetime(1, 1, 1, tzinfo=UTC)
+    assert RegistrationAttemptRecord.objects.get().completion_time == datetime(
+        1, 1, 1, 0, 0, tzinfo=UTC
+    )
 
 
 def test_handling_report_url_is_registered_without_changing_tracking_root():
@@ -97,6 +101,14 @@ def test_optional_voyage_number_is_persisted(client):
 
     assert response.status_code == 204
     assert RegistrationAttemptRecord.objects.get().voyage_number == 'CM001'
+
+
+@pytest.mark.django_db
+def test_null_voyage_number_is_accepted_as_optional(client):
+    response = _post_report(client, VALID_REPORT | {'voyageNumber': None})
+
+    assert response.status_code == 204
+    assert RegistrationAttemptRecord.objects.get().voyage_number is None
 
 
 @pytest.mark.django_db
