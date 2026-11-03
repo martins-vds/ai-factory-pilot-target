@@ -93,6 +93,33 @@ def test_worker_sleeps_when_idle_and_processes_without_sleeping(monkeypatch):
     assert sleeps == [0.25]
 
 
+def test_worker_uses_one_second_defaults(monkeypatch):
+    monkeypatch.delenv('HANDLING_ATTEMPT_POLL_SECONDS', raising=False)
+    monkeypatch.delenv('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', raising=False)
+    retry_backoffs = []
+    sleeps = []
+
+    class StopWorker(Exception):
+        pass
+
+    def process_attempt(*repositories, retry_backoff_seconds):
+        retry_backoffs.append(retry_backoff_seconds)
+        return False
+
+    def stop_after_sleep(seconds):
+        sleeps.append(seconds)
+        raise StopWorker
+
+    monkeypatch.setattr(worker, 'process_registration_attempt', process_attempt)
+    monkeypatch.setattr(worker, 'sleep', stop_after_sleep)
+
+    with pytest.raises(StopWorker):
+        worker.Command().handle()
+
+    assert retry_backoffs == [1.0]
+    assert sleeps == [1.0]
+
+
 def _attempt(**overrides):
     fields = {
         'tracking_id': TrackingId('ABC123'),
@@ -345,7 +372,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
     delivery_before = DjangoCargoRepository().find(TrackingId('ABC123')).delivery
     original_mark_registered = DjangoAttemptProcessingRepository.mark_registered
     mark_calls = 0
-    clock = [0.0]
+    clock = [10_000.0]
     retry_delays = []
     retry_observations = []
     error_times = []
@@ -361,7 +388,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
     def advance_clock(seconds):
         clock[0] += seconds
         if mark_calls == 20:
-            clock[0] = 900
+            clock[0] = 10_900
         retry_delays.append(seconds)
         retry_observations.append(
             (
@@ -393,7 +420,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
         HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 1
     )
     assert mark_calls == 26
-    assert clock[0] >= 900
+    assert clock[0] >= 10_900
     assert retry_delays[:7] == [1, 2, 4, 8, 16, 32, 60]
     assert set(retry_delays[6:]) == {60}
     assert len(retry_observations) == 25
@@ -402,7 +429,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
         for status, count, delivery in retry_observations
     )
     assert sum('after 15 minutes' in record.getMessage() for record in caplog.records) == 1
-    assert error_times == [900]
+    assert error_times == [10_900]
 
 
 @pytest.mark.parametrize('backoff', [0, -1, float('inf'), float('nan')])

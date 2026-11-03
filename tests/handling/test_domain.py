@@ -110,6 +110,34 @@ def test_handling_history_breaks_completion_time_ties_by_registration_time_then_
     assert history.most_recent_event_id == 2
 
 
+def test_handling_history_orders_missing_ids_before_ids_when_timestamps_tie():
+    completion_time = datetime(2026, 11, 1, tzinfo=UTC)
+    registration_time = datetime(2026, 11, 1, 12, tzinfo=UTC)
+    event_without_id = _event(
+        completion_time=completion_time,
+        registration_time=registration_time,
+        event_type=HandlingEventType.CUSTOMS,
+    )
+    event_with_id_one = _event(
+        completion_time=completion_time,
+        registration_time=registration_time,
+        event_type=HandlingEventType.RECEIVE,
+    )
+    event_with_id_two = _event(
+        completion_time=completion_time,
+        registration_time=registration_time,
+        event_type=HandlingEventType.CLAIM,
+    )
+
+    history = HandlingHistory(
+        [event_with_id_two, event_without_id, event_with_id_one],
+        event_ids=[2, None, 1],
+    )
+
+    assert history.events == (event_without_id, event_with_id_one, event_with_id_two)
+    assert history.most_recent_event_id == 2
+
+
 def test_handling_history_keeps_the_highest_id_when_deduplicating_identical_events():
     event = _event()
 
@@ -119,9 +147,18 @@ def test_handling_history_keeps_the_highest_id_when_deduplicating_identical_even
     assert history.most_recent_event_id == 2
 
 
-@pytest.mark.parametrize('event_ids', [[], [0], [-1], [True], ['1']])
-def test_handling_history_rejects_mismatched_or_invalid_event_ids(event_ids):
-    with pytest.raises(ValueError):
+@pytest.mark.parametrize(
+    ('event_ids', 'message'),
+    [
+        ([], 'Handling event IDs must match the history events'),
+        ([0], 'Handling event IDs must be positive integers'),
+        ([-1], 'Handling event IDs must be positive integers'),
+        ([True], 'Handling event IDs must be positive integers'),
+        (['1'], 'Handling event IDs must be positive integers'),
+    ],
+)
+def test_handling_history_rejects_mismatched_or_invalid_event_ids(event_ids, message):
+    with pytest.raises(ValueError, match=message):
         HandlingHistory([_event()], event_ids=event_ids)
 
 
