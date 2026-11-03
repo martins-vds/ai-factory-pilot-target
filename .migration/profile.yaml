@@ -33,6 +33,7 @@ graph:
   require:                                             # types each side's graph must contain (graph_gate.py)
     source: {nodes: [table, page, endpoint], edges: [reads_from, writes_to, routes, calls]}
     target: {nodes: [table, endpoint], edges: [reads_from, writes_to, routes, calls]}
+  target_paths: [src, templates]                       # ADR-0023: the target graph analyses these (templates hold pages)
 risk_map:
   exclude: ["*.min.js", "*/webapp/resources/*", "*/soapui/*"]
 skills:
