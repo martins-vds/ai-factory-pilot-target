@@ -78,7 +78,7 @@ def test_regular_form_submission_renders_found_cargo(client):
     assert b'Cargo DEF789' in response.content
 
 
-def test_tracking_route_does_not_change_the_admin_login_path(client):
+def test_builtin_admin_login_returns_not_found(client):
     response = client.get('/admin/login/')
 
-    assert response.status_code == 200
+    assert response.status_code == 404
