@@ -51,6 +51,11 @@ from cargotracker.voyage.domain.voyage_number import VoyageNumber
         ),
         (
             'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS',
+            '0',
+            'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS must be greater than zero',
+        ),
+        (
+            'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS',
             'inf',
             'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS must be greater than zero',
         ),
@@ -66,8 +71,9 @@ def test_worker_rejects_invalid_settings(monkeypatch, setting, value, message):
     monkeypatch.setattr(worker, 'process_registration_attempt', lambda *args, **kwargs: False)
     monkeypatch.setattr(worker, 'sleep', lambda _: pytest.fail('worker slept with invalid settings'))
 
-    with pytest.raises(CommandError, match=message) as error:
+    with pytest.raises(CommandError) as error:
         worker.Command().handle()
+    assert str(error.value) == message
     if value == 'not-a-number':
         assert isinstance(error.value.__cause__, ValueError)
 

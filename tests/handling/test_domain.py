@@ -158,8 +158,9 @@ def test_handling_history_keeps_the_highest_id_when_deduplicating_identical_even
     ],
 )
 def test_handling_history_rejects_mismatched_or_invalid_event_ids(event_ids, message):
-    with pytest.raises(ValueError, match=message):
+    with pytest.raises(ValueError) as error:
         HandlingHistory([_event()], event_ids=event_ids)
+    assert str(error.value) == message
 
 
 def test_handling_history_is_immutable_and_requires_handling_events():
