@@ -31,3 +31,9 @@ JAVA_HOME=/path/to/java-8 .migration/harness/tools/afs-run \
   --ticket HR-03 --name tier-b -- \
   bash characterization/handling-registration/run-tier-b.sh
 ```
+
+The separate [HR-04E-TIME persistence/reload experiment](timestamp-reload/report.md)
+measures DATE storage, immediate cached time-of-day, and public history after an
+explicit source cache clear. Its dedicated domain/database runner and separately
+named observations leave the original goldens unchanged. Quirk #171 still requires
+an operator ruling; this experiment changes no target behavior.

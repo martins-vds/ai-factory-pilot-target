@@ -17,6 +17,8 @@ status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
+  - characterization/handling-registration/timestamp-reload/report.md
+  - .migration/evidence/runs/HR-04E-TIME.md
   - .migration/evidence/handling-registration/characterization/report.md
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
@@ -27,3 +29,6 @@ notes: >-
   The JPA repository stores events and reads the named HandlingEvent.findByTrackingId query.
   HandlingEventTest and HandlingHistoryTest cover domain behavior, not repository persistence;
   no direct source repository test was identified.
+  HR-04E-TIME measures DATE storage and midnight reload after clearing the source
+  EclipseLink identity maps, despite immediate cached time-of-day; #171 awaits a ruling.
+quirks: [martins-vds/ai-factory-pilot-target#171]

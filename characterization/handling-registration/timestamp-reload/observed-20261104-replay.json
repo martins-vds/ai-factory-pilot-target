@@ -1,0 +1,250 @@
+{
+  "source_sha": "f3beacf78de4f6d34edc4971ac87e38a5c6fe59d",
+  "reference_utc": "2026-11-04T13:34:57.280648+00:00",
+  "domain": "/tmp/hr-04e-time.vk9dkFSk/payara41/glassfish/domains/timestamp-reload",
+  "database_directory": "/tmp/hr-04e-time.vk9dkFSk/database",
+  "base_url": "http://127.0.0.1:19080/cargo-tracker",
+  "predicted": {
+    "immediate_history": "12:34 PM UTC, as in the prior noon goldens",
+    "stored": "DATE columns for completion and registration",
+    "after_clear": "12:00 AM UTC; registration loses time-of-day",
+    "ties": "distinct registration instants may collapse to one stored date"
+  },
+  "baseline": {
+    "submitted_id": "DEF789",
+    "result": {
+      "tracking_id": "DEF789",
+      "status_text": "Not received",
+      "destination": "Melbourne",
+      "eta": "?",
+      "next_activity": null,
+      "misdirected": false
+    },
+    "history": {
+      "empty_label": "There are no events recorded for the tracking ID DEF789.",
+      "rows": []
+    },
+    "map_query": {
+      "statusCode": "NOT_ROUTED",
+      "lastKnownLocationCode": "XXXXX",
+      "lastKnownLocationName": "Unknown",
+      "originCode": "CNHKG",
+      "originName": "Hong Kong",
+      "destinationCode": "AUMEL",
+      "destinationName": "Melbourne"
+    }
+  },
+  "submissions": [
+    {
+      "input": {
+        "completionTime": "2026-11-03 12:34",
+        "trackingId": "DEF789",
+        "eventType": "RECEIVE",
+        "unLocode": "CNHKG"
+      },
+      "sent_utc": "2026-11-04T13:34:57.932432+00:00",
+      "response_utc": "2026-11-04T13:34:58.174166+00:00",
+      "status": 204
+    },
+    {
+      "input": {
+        "completionTime": "2026-11-03 12:34",
+        "trackingId": "DEF789",
+        "eventType": "CUSTOMS",
+        "unLocode": "CNHKG"
+      },
+      "sent_utc": "2026-11-04T13:34:59.467563+00:00",
+      "response_utc": "2026-11-04T13:34:59.482839+00:00",
+      "status": 204
+    }
+  ],
+  "immediate_history": {
+    "submitted_id": "DEF789",
+    "result": {
+      "tracking_id": "DEF789",
+      "status_text": "In port Melbourne",
+      "destination": "Melbourne",
+      "eta": "?",
+      "next_activity": null,
+      "misdirected": false
+    },
+    "history": {
+      "empty_label": null,
+      "rows": [
+        {
+          "expected": true,
+          "description": "Cleared customs in Hong Kong",
+          "time": "11/03/2026 12:34 PM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Received in Hong Kong",
+          "time": "11/03/2026 12:34 PM UTC"
+        }
+      ]
+    },
+    "map_query": {
+      "statusCode": "NOT_ROUTED",
+      "lastKnownLocationCode": "CNHKG",
+      "lastKnownLocationName": "Hong Kong",
+      "originCode": "CNHKG",
+      "originName": "Hong Kong",
+      "destinationCode": "AUMEL",
+      "destinationName": "Melbourne"
+    }
+  },
+  "before_clear": {
+    "observed_utc": "2026-11-04T13:35:00.675Z",
+    "session": "/file:/tmp/hr-04e-time.vk9dkFSk/payara41/glassfish/domains/timestamp-reload/applications/cargo-tracker/WEB-INF/classes/_CargoTrackerUnit",
+    "operation": "read-only",
+    "rows": [
+      {
+        "id": 55,
+        "type": "RECEIVE",
+        "completion": "2026-11-03",
+        "registration": "2026-11-04"
+      },
+      {
+        "id": 56,
+        "type": "CUSTOMS",
+        "completion": "2026-11-03",
+        "registration": "2026-11-04"
+      }
+    ],
+    "cached": [
+      {
+        "id": 55,
+        "completion": "2026-11-03T12:34:00Z",
+        "registration": "2026-11-04T13:34:58.261Z"
+      },
+      {
+        "id": 56,
+        "completion": "2026-11-03T12:34:00Z",
+        "registration": "2026-11-04T13:34:59.483Z"
+      }
+    ],
+    "columns": [
+      {
+        "name": "COMPLETIONTIME",
+        "sql_type": "DATE"
+      },
+      {
+        "name": "REGISTRATION",
+        "sql_type": "DATE"
+      }
+    ],
+    "cache_empty": false
+  },
+  "clear_boundary": {
+    "observed_utc": "2026-11-04T13:35:00.730Z",
+    "session": "/file:/tmp/hr-04e-time.vk9dkFSk/payara41/glassfish/domains/timestamp-reload/applications/cargo-tracker/WEB-INF/classes/_CargoTrackerUnit",
+    "operation": "initializeAllIdentityMaps",
+    "rows": [
+      {
+        "id": 55,
+        "type": "RECEIVE",
+        "completion": "2026-11-03",
+        "registration": "2026-11-04"
+      },
+      {
+        "id": 56,
+        "type": "CUSTOMS",
+        "completion": "2026-11-03",
+        "registration": "2026-11-04"
+      }
+    ],
+    "cached": [],
+    "columns": [
+      {
+        "name": "COMPLETIONTIME",
+        "sql_type": "DATE"
+      },
+      {
+        "name": "REGISTRATION",
+        "sql_type": "DATE"
+      }
+    ],
+    "cache_empty": true
+  },
+  "after_clear_history": {
+    "submitted_id": "DEF789",
+    "result": {
+      "tracking_id": "DEF789",
+      "status_text": "In port Melbourne",
+      "destination": "Melbourne",
+      "eta": "?",
+      "next_activity": null,
+      "misdirected": false
+    },
+    "history": {
+      "empty_label": null,
+      "rows": [
+        {
+          "expected": true,
+          "description": "Cleared customs in Hong Kong",
+          "time": "11/03/2026 12:00 AM UTC"
+        },
+        {
+          "expected": true,
+          "description": "Received in Hong Kong",
+          "time": "11/03/2026 12:00 AM UTC"
+        }
+      ]
+    },
+    "map_query": {
+      "statusCode": "NOT_ROUTED",
+      "lastKnownLocationCode": "CNHKG",
+      "lastKnownLocationName": "Hong Kong",
+      "originCode": "CNHKG",
+      "originName": "Hong Kong",
+      "destinationCode": "AUMEL",
+      "destinationName": "Melbourne"
+    }
+  },
+  "reload_sql": [
+    "SELECT ID, completionTime, registration, TYPE, cargo_id, location_id, voyage_id FROM HANDLINGEVENT WHERE (ID = ?)"
+  ],
+  "after_clear": {
+    "observed_utc": "2026-11-04T13:35:00.815Z",
+    "session": "/file:/tmp/hr-04e-time.vk9dkFSk/payara41/glassfish/domains/timestamp-reload/applications/cargo-tracker/WEB-INF/classes/_CargoTrackerUnit",
+    "operation": "read-only",
+    "rows": [
+      {
+        "id": 55,
+        "type": "RECEIVE",
+        "completion": "2026-11-03",
+        "registration": "2026-11-04"
+      },
+      {
+        "id": 56,
+        "type": "CUSTOMS",
+        "completion": "2026-11-03",
+        "registration": "2026-11-04"
+      }
+    ],
+    "cached": [
+      {
+        "id": 55,
+        "completion": "2026-11-03T00:00:00Z",
+        "registration": "2026-11-04T00:00:00Z"
+      },
+      {
+        "id": 56,
+        "completion": "2026-11-03T00:00:00Z",
+        "registration": "2026-11-04T00:00:00Z"
+      }
+    ],
+    "columns": [
+      {
+        "name": "COMPLETIONTIME",
+        "sql_type": "DATE"
+      },
+      {
+        "name": "REGISTRATION",
+        "sql_type": "DATE"
+      }
+    ],
+    "cache_empty": false
+  },
+  "finished_utc": "2026-11-04T13:35:00.821993+00:00"
+}

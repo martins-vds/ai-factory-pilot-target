@@ -16,6 +16,8 @@ status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
+  - characterization/handling-registration/timestamp-reload/report.md
+  - .migration/evidence/runs/HR-04E-TIME.md
   - .migration/evidence/handling-registration/characterization/report.md
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/test_handling_registration.py::test_two_quick_reports_are_ordered_by_completion_time
@@ -31,4 +33,6 @@ notes: >-
   testMostRecentlyCompletedEvent verifies the latest event. Decision #94 specifies target
   history ordering by completion time and no processing-order promise. Ruling #136 fixes ties
   by registration time, then event ID.
-quirks: [martins-vds/ai-factory-pilot-target#136]
+  HR-04E-TIME observes distinct registration instants collapsing to the same date
+  after source cache clearing and reload; #171 remains unresolved and does not amend #136.
+quirks: [martins-vds/ai-factory-pilot-target#136, martins-vds/ai-factory-pilot-target#171]
