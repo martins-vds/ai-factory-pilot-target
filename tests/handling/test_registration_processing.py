@@ -330,9 +330,7 @@ def test_equal_completion_time_uses_registration_order_for_delivered_outcome(cap
 
     assert later_event.pk < earlier_event.pk
     assert cargo.delivery.last_event_id == later_event.pk
-    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(
-        TrackingId('ABC123')
-    )
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
     assert [event.id for event in history.events[-2:]] == [earlier_event.pk, later_event.pk]
     assert history.events[-1].completion_time == completion_time
     assert history.events[-1].registration_time == later_registration_time
@@ -387,9 +385,7 @@ def test_equal_completion_and_registration_times_use_event_id_for_delivery(caplo
     assert receive_event.pk < unload_event.pk
     assert cargo.delivery.last_event_id == unload_event.pk
     assert cargo.delivery.unloaded_at_destination is True
-    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(
-        TrackingId('ABC123')
-    )
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
     assert [event.id for event in history.events[-2:]] == [
         receive_event.pk,
         unload_event.pk,

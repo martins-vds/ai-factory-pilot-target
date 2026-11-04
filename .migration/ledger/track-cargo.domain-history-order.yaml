@@ -22,6 +22,7 @@ evidence:
   - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/handling/test_domain.py::test_handling_history_deduplicates_and_orders_events_by_completion_time"
   - "tests/handling/test_repository.py::test_repository_reads_and_orders_deduplicated_handling_history"
+  - tests/handling/test_repository.py::test_repository_orders_same_day_events_by_instants_before_persisted_id
   - ".migration/evidence/runs/TC-05.md"
 target:
   components:

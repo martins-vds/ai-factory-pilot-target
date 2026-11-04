@@ -147,9 +147,7 @@ def test_repository_stores_event_relations_and_completion_timestamps():
 def test_repository_preserves_aware_completion_and_registration_instants(operation):
     _, origin = _cargo_record()
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
-    completion_time = datetime(
-        2026, 11, 4, 13, 15, 16, 123456, tzinfo=timezone(timedelta(hours=2))
-    )
+    completion_time = datetime(2026, 11, 4, 13, 15, 16, 123456, tzinfo=timezone(timedelta(hours=2)))
     registration_time = datetime(
         2026, 11, 4, 14, 17, 18, 654321, tzinfo=timezone(timedelta(hours=2))
     )
@@ -167,9 +165,7 @@ def test_repository_preserves_aware_completion_and_registration_instants(operati
     expected_completion = datetime(2026, 11, 4, 11, 15, 16, 123456, tzinfo=UTC)
     expected_registration = datetime(2026, 11, 4, 12, 17, 18, 654321, tzinfo=UTC)
     record = HandlingEventRecord.objects.get(cargo__tracking_id='ABC123')
-    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(
-        TrackingId('ABC123')
-    )
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
 
     assert record.location == origin
     assert record.completion_time == expected_completion
@@ -207,9 +203,7 @@ def test_repository_orders_same_day_events_by_instants_before_persisted_id():
         registration_time=datetime(2026, 11, 3, 9, 0, tzinfo=UTC),
     )
 
-    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(
-        TrackingId('ABC123')
-    )
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
 
     assert later_registration_record.pk < earlier_registration_record.pk
     assert [event.id for event in history.events] == [

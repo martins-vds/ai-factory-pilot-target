@@ -25,6 +25,7 @@ evidence:
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
   - characterization/handling-registration/test_handling_registration.py::test_rest_validation_failures_match_observed_goldens
   - tests/handling/test_registration_processing.py::test_processing_registers_attempt_once_and_rederives_cargo_delivery
+  - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
   - .migration/evidence/runs/HR-04D.md
 notes: >-
   The source uses a stateless EJB transaction for the service operation. Cargo aggregate

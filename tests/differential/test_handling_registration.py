@@ -383,9 +383,7 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
                 )
             else:
                 assert attempt.status == 'registered'
-                _assert_persisted_event(
-                    target_report, tracking_id, event_count, registration_time
-                )
+                _assert_persisted_event(target_report, tracking_id, event_count, registration_time)
 
         tracking_id = reports[-1]['trackingId']
         actual['cargo'] = _cargo_observation(tracking_id)

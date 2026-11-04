@@ -26,6 +26,7 @@ evidence:
   - "tests/handling/test_repository.py::test_repository_reads_and_orders_deduplicated_handling_history"
   - "tests/handling/test_repository.py::test_repository_stores_event_relations_and_completion_timestamps"
   - tests/handling/test_repository.py::test_repository_preserves_aware_completion_and_registration_instants
+  - tests/handling/test_repository.py::test_repository_orders_same_day_events_by_instants_before_persisted_id
   - tests/handling/test_migration.py::test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnight
   - ".migration/evidence/runs/TC-05.md"
   - "tests/cargo/test_sample_data.py::test_seed_sample_data_is_idempotent_and_supports_golden_lookups"
