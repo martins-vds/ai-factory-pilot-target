@@ -41,3 +41,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T21:51:20+00:00 | coordinator-graph-freshness | 0 | 0.06 | `python3 .migration/harness/tools/check_graph_fresh.py --require source,target` | `e58be4641e00fbe4` |  |  |
 | 2026-11-04T21:51:20+00:00 | coordinator-source-flow | 0 | 0.07 | `python3 .migration/harness/tools/graph_gate.py --side source --require-graph` | `c070c957323aa7e9` |  | gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=1352 |
 | 2026-11-04T21:51:20+00:00 | coordinator-target-flow | 0 | 0.05 | `python3 .migration/harness/tools/graph_gate.py --side target --require-graph` | `4b734ce13b6fa527` |  | gate=graph side=target verdict=pass failures=0 entry_points=7 reaching_data=3 enriched_edges=510 |
+| 2026-11-04T21:54:33+00:00 | setup-probe-finalization | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
