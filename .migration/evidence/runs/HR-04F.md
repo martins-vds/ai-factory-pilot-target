@@ -22,3 +22,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 - Output inspection found no completed HR-04F full-mutation result in the journal, no full-mutation artifact in `.migration/runs/HR-04F` (the local files there are setup probes only), and no `.migration/evidence/mutants/HR-04F.md`.
 - The prior successful graph, build, idiom, tests, CRAP, and changed-mutation rows above are historical and unchanged.
 - Bounded recovery output validation: `python .migration/harness/tools/validate.py .migration` exited 0 (86 files checked, 0 errors); all four HR-04F report, return, handoff, and journal paths existed; `git diff --check` exited 0. This validates the return schema and durable outputs, not the interrupted mutation gate.
+| 2026-11-04T23:39:31+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
