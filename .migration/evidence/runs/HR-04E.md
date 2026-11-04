@@ -50,3 +50,19 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T13:36:07+00:00 | crap-score-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `e9b12e0d845de05e` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
 | 2026-11-04T13:36:07+00:00 | mutation-changed-final | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-04T13:36:48+00:00 | regression-final | 1 | 41.15 | `pytest -q` | `0fec34b1224edd98` | assert expected['cargo']['transportStatus'] == 'NOT_RECEIVED' |  |
+| 2026-11-04T15:25:29+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T15:28:07+00:00 | migration-replay | 0 | 4.58 | `pytest -q tests/handling/test_migration.py` | `4c416360bbf6bf24` |  |  |
+| 2026-11-04T15:28:48+00:00 | verified-behavior | 1 | 18.52 | `pytest -q tests/handling/test_migration.py tests/handling/test_repository.py tests/handling/test_registration_processing.py tests/handling/test_registration_attempt_repository.py tests/differential/test_handling_registration.py` | `55e9ddec78ec5e24` | assert connection.vendor == 'postgresql' |  |
+| 2026-11-04T15:29:18+00:00 | verified-behavior | 0 | 17.82 | `pytest -q tests/handling/test_migration.py tests/handling/test_repository.py tests/handling/test_registration_processing.py tests/handling/test_registration_attempt_repository.py tests/differential/test_handling_registration.py` | `cfb8b73c2fa282ec` |  |  |
+| 2026-11-04T15:29:18+00:00 | migration-state | 0 | 0.24 | `python manage.py makemigrations --check --dry-run` | `a2bfa7b376c38062` |  |  |
+| 2026-11-04T15:33:12+00:00 | build-compile | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T15:33:12+00:00 | build-check | 0 | 0.21 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-04T15:33:37+00:00 | behavior | 0 | 24.67 | `pytest -q` | `210c48084145efd7` |  |  |
+| 2026-11-04T15:33:37+00:00 | idiom-ruff | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-04T15:33:37+00:00 | idiom-format | 0 | 0.01 | `ruff format --check` | `13e464c51f06111c` |  |  |
+| 2026-11-04T15:33:59+00:00 | crap-tests | 0 | 22.56 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `8abaa8b57e3e390e` |  |  |
+| 2026-11-04T15:34:00+00:00 | crap-lizard | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T15:34:00+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `34d1ce024bdfe792` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
+| 2026-11-04T15:35:32+00:00 | mutation-changed | 0 | 92.55 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `37eba6c3c44ac951` |  | gate=mutation score=0.902 threshold=0.8 killed=129 survived=14 files=3 base=origin/main |
+| 2026-11-04T15:35:56+00:00 | regression | 0 | 23.76 | `pytest -q` | `435b02b076b24d68` |  |  |
+| 2026-11-04T15:39:00+00:00 | final-validation | 0 | 0.41 | `python .migration/harness/tools/validate.py .migration` | `6b979784513aa6bc` |  |  |
