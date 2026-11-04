@@ -261,12 +261,13 @@ def _field_mismatches(actual, expected, path=''):
     return []
 
 
-def _assert_persisted_event(report, tracking_id, previous_count):
+def _assert_persisted_event(report, tracking_id, previous_count, registration_time):
     events = HandlingEventRecord.objects.filter(cargo__tracking_id=tracking_id).order_by('pk')
     assert events.count() == previous_count + 1
     event = events.last()
     assert event.event_type == report['eventType']
-    assert event.completion_time == _completion_time(report).date()
+    assert event.completion_time == _completion_time(report)
+    assert event.registration_time == registration_time
     assert event.location.unlocode == report['unLocode']
     if report.get('voyageNumber'):
         assert event.voyage.voyage_number == report['voyageNumber']
@@ -364,8 +365,11 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
                 }
             )
             assert response.status_code == 204
+            assert response.content == b''
+            assert response.headers.get('Content-Type') is None
             attempt = RegistrationAttemptRecord.objects.latest('pk')
             assert attempt.status == 'accepted'
+            registration_time = attempt.registration_time
             event_count = HandlingEventRecord.objects.filter(cargo__tracking_id=tracking_id).count()
 
             assert _process_next_attempt() is True
@@ -379,7 +383,9 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
                 )
             else:
                 assert attempt.status == 'registered'
-                _assert_persisted_event(target_report, tracking_id, event_count)
+                _assert_persisted_event(
+                    target_report, tracking_id, event_count, registration_time
+                )
 
         tracking_id = reports[-1]['trackingId']
         actual['cargo'] = _cargo_observation(tracking_id)
