@@ -1,0 +1,580 @@
+{
+  "format": 1,
+  "ticket": "HR-04F",
+  "status": "passed",
+  "started_at": "2026-11-04T22:24:06+00:00",
+  "commit": "7e3d6d5427064c67b951a29ac9f8cfabfa77e3db",
+  "input_tree_sha256": "0faaf86a2e63a903d269fcd6611d2103182168811e51f6f602188ee928802ba9",
+  "harness_commit": "344241e92256a6048183f99063ca297fb96780de",
+  "inputs": {
+    ".migration/profile.yaml": "6e5ceb8b52cd215a19114e358553eb0cd842065ad99a04ad610a0e766092791f",
+    ".migration/source.lock": "82a115f095fd4e901fe233a456d4f2318c736199493512313c07ebbe4bb5cd8c",
+    ".migration/harness/installed.json": "519ea38689c324cdccd88ea4d0d36a79688380211cb1a1419eff2af76db3da0b"
+  },
+  "workflow": {
+    "GITHUB_SERVER_URL": "https://github.com",
+    "GITHUB_REPOSITORY": "martins-vds/ai-factory-pilot-target",
+    "GITHUB_RUN_ID": "41924854967",
+    "GITHUB_RUN_ATTEMPT": "1"
+  },
+  "plan": [
+    {
+      "name": "runtime",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_runtime.py"
+      ]
+    },
+    {
+      "name": "harness-integrity",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_installed.py"
+      ]
+    },
+    {
+      "name": "services",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/afs-services",
+        "check"
+      ]
+    },
+    {
+      "name": "graph-freshness",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_graph_fresh.py",
+        "--require",
+        "source,target"
+      ]
+    },
+    {
+      "name": "graph-source",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/graph_gate.py",
+        "--side",
+        "source",
+        "--require-graph"
+      ]
+    },
+    {
+      "name": "graph-target",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/graph_gate.py",
+        "--side",
+        "target",
+        "--require-graph"
+      ]
+    },
+    {
+      "name": "build-0",
+      "command": [
+        "bash",
+        "-c",
+        "python -m compileall -q src"
+      ]
+    },
+    {
+      "name": "build-1",
+      "command": [
+        "bash",
+        "-c",
+        "python manage.py check"
+      ]
+    },
+    {
+      "name": "idiom-0",
+      "command": [
+        "bash",
+        "-c",
+        "ruff check"
+      ]
+    },
+    {
+      "name": "idiom-1",
+      "command": [
+        "bash",
+        "-c",
+        "ruff format --check"
+      ]
+    },
+    {
+      "name": "tests-0",
+      "command": [
+        "bash",
+        "-c",
+        "pytest -q"
+      ]
+    },
+    {
+      "name": "crap-0",
+      "command": [
+        "bash",
+        "-c",
+        "pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov"
+      ]
+    },
+    {
+      "name": "crap-1",
+      "command": [
+        "bash",
+        "-c",
+        "lizard --csv src > .migration/runs/lizard.csv"
+      ]
+    },
+    {
+      "name": "crap-2",
+      "command": [
+        "bash",
+        "-c",
+        "python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30"
+      ]
+    },
+    {
+      "name": "mutation_full-0",
+      "command": [
+        "bash",
+        "-c",
+        "python .migration/harness/tools/afs-mutation --all"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "name": "runtime",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_runtime.py"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:06+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:06+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:06+00:00",
+        "ticket": "HR-04F",
+        "name": "runtime",
+        "command": "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_runtime.py",
+        "exit": 0,
+        "seconds": 0.06,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222406266174Z-runtime.log",
+        "lines": 2,
+        "bytes": 61
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222406266174Z-runtime.log"
+    },
+    {
+      "name": "harness-integrity",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_installed.py"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:06+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:06+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:06+00:00",
+        "ticket": "HR-04F",
+        "name": "harness-integrity",
+        "command": "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_installed.py",
+        "exit": 0,
+        "seconds": 0.08,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222406381203Z-harness-integrity.log",
+        "lines": 2,
+        "bytes": 96
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222406381203Z-harness-integrity.log"
+    },
+    {
+      "name": "services",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/afs-services",
+        "check"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:06+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:06+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:06+00:00",
+        "ticket": "HR-04F",
+        "name": "services",
+        "command": "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/afs-services check",
+        "exit": 0,
+        "seconds": 0.16,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222406507403Z-services.log",
+        "lines": 2,
+        "bytes": 45
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222406507403Z-services.log"
+    },
+    {
+      "name": "graph-freshness",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_graph_fresh.py",
+        "--require",
+        "source,target"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:06+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:06+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:06+00:00",
+        "ticket": "HR-04F",
+        "name": "graph-freshness",
+        "command": "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/check_graph_fresh.py --require source,target",
+        "exit": 0,
+        "seconds": 0.09,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222406712215Z-graph-freshness.log",
+        "lines": 2,
+        "bytes": 117
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222406712215Z-graph-freshness.log"
+    },
+    {
+      "name": "graph-source",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/graph_gate.py",
+        "--side",
+        "source",
+        "--require-graph"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:06+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:06+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:06+00:00",
+        "ticket": "HR-04F",
+        "name": "graph-source",
+        "command": "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/graph_gate.py --side source --require-graph",
+        "exit": 0,
+        "seconds": 0.1,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222406853506Z-graph-source.log",
+        "lines": 40,
+        "bytes": 2322
+      },
+      "result": {
+        "gate": "graph",
+        "side": "source",
+        "verdict": "pass",
+        "failures": "0",
+        "entry_points": "27",
+        "reaching_data": "18",
+        "enriched_edges": "1352"
+      },
+      "log": "logs/HR-04F/20261104T222406853506Z-graph-source.log"
+    },
+    {
+      "name": "graph-target",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python",
+        "/home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/graph_gate.py",
+        "--side",
+        "target",
+        "--require-graph"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:06+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:07+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:07+00:00",
+        "ticket": "HR-04F",
+        "name": "graph-target",
+        "command": "/opt/hostedtoolcache/Python/3.13.17/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/graph_gate.py --side target --require-graph",
+        "exit": 0,
+        "seconds": 0.08,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222407004675Z-graph-target.log",
+        "lines": 38,
+        "bytes": 1476
+      },
+      "result": {
+        "gate": "graph",
+        "side": "target",
+        "verdict": "pass",
+        "failures": "0",
+        "entry_points": "7",
+        "reaching_data": "3",
+        "enriched_edges": "510"
+      },
+      "log": "logs/HR-04F/20261104T222407004675Z-graph-target.log"
+    },
+    {
+      "name": "build-0",
+      "command": [
+        "bash",
+        "-c",
+        "python -m compileall -q src"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:07+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:07+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:07+00:00",
+        "ticket": "HR-04F",
+        "name": "build-0",
+        "command": "bash -c 'python -m compileall -q src'",
+        "exit": 0,
+        "seconds": 0.08,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222407136582Z-build-0.log",
+        "lines": 0,
+        "bytes": 0
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222407136582Z-build-0.log"
+    },
+    {
+      "name": "build-1",
+      "command": [
+        "bash",
+        "-c",
+        "python manage.py check"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:07+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:08+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:08+00:00",
+        "ticket": "HR-04F",
+        "name": "build-1",
+        "command": "bash -c 'python manage.py check'",
+        "exit": 0,
+        "seconds": 0.92,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222407267459Z-build-1.log",
+        "lines": 1,
+        "bytes": 48
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222407267459Z-build-1.log"
+    },
+    {
+      "name": "idiom-0",
+      "command": [
+        "bash",
+        "-c",
+        "ruff check"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:08+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:08+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:08+00:00",
+        "ticket": "HR-04F",
+        "name": "idiom-0",
+        "command": "bash -c 'ruff check'",
+        "exit": 0,
+        "seconds": 0.02,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222408235935Z-idiom-0.log",
+        "lines": 1,
+        "bytes": 19
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222408235935Z-idiom-0.log"
+    },
+    {
+      "name": "idiom-1",
+      "command": [
+        "bash",
+        "-c",
+        "ruff format --check"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:08+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:08+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:08+00:00",
+        "ticket": "HR-04F",
+        "name": "idiom-1",
+        "command": "bash -c 'ruff format --check'",
+        "exit": 0,
+        "seconds": 0.02,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222408306660Z-idiom-1.log",
+        "lines": 1,
+        "bytes": 28
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222408306660Z-idiom-1.log"
+    },
+    {
+      "name": "tests-0",
+      "command": [
+        "bash",
+        "-c",
+        "pytest -q"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:08+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:24:55+00:00",
+      "record": {
+        "ts": "2026-11-04T22:24:55+00:00",
+        "ticket": "HR-04F",
+        "name": "tests-0",
+        "command": "bash -c 'pytest -q'",
+        "exit": 0,
+        "seconds": 47.31,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222408373320Z-tests-0.log",
+        "lines": 10,
+        "bytes": 628
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222408373320Z-tests-0.log"
+    },
+    {
+      "name": "crap-0",
+      "command": [
+        "bash",
+        "-c",
+        "pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:24:55+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:25:42+00:00",
+      "record": {
+        "ts": "2026-11-04T22:25:42+00:00",
+        "ticket": "HR-04F",
+        "name": "crap-0",
+        "command": "bash -c 'pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov'",
+        "exit": 0,
+        "seconds": 46.54,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222455735207Z-crap-0.log",
+        "lines": 10,
+        "bytes": 640
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222455735207Z-crap-0.log"
+    },
+    {
+      "name": "crap-1",
+      "command": [
+        "bash",
+        "-c",
+        "lizard --csv src > .migration/runs/lizard.csv"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:25:42+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:25:42+00:00",
+      "record": {
+        "ts": "2026-11-04T22:25:42+00:00",
+        "ticket": "HR-04F",
+        "name": "crap-1",
+        "command": "bash -c 'lizard --csv src > .migration/runs/lizard.csv'",
+        "exit": 0,
+        "seconds": 0.13,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222542321631Z-crap-1.log",
+        "lines": 0,
+        "bytes": 0
+      },
+      "result": {},
+      "log": "logs/HR-04F/20261104T222542321631Z-crap-1.log"
+    },
+    {
+      "name": "crap-2",
+      "command": [
+        "bash",
+        "-c",
+        "python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:25:42+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T22:25:42+00:00",
+      "record": {
+        "ts": "2026-11-04T22:25:42+00:00",
+        "ticket": "HR-04F",
+        "name": "crap-2",
+        "command": "bash -c 'python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30'",
+        "exit": 0,
+        "seconds": 0.06,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222542504524Z-crap-2.log",
+        "lines": 32,
+        "bytes": 2748
+      },
+      "result": {
+        "gate": "crap",
+        "max": "19.0",
+        "threshold": "30",
+        "over": "0",
+        "methods": "132"
+      },
+      "log": "logs/HR-04F/20261104T222542504524Z-crap-2.log"
+    },
+    {
+      "name": "mutation_full-0",
+      "command": [
+        "bash",
+        "-c",
+        "python .migration/harness/tools/afs-mutation --all"
+      ],
+      "status": "passed",
+      "started_at": "2026-11-04T22:25:42+00:00",
+      "exit": 0,
+      "finished_at": "2026-11-04T23:26:04+00:00",
+      "record": {
+        "ts": "2026-11-04T23:26:04+00:00",
+        "ticket": "HR-04F",
+        "name": "mutation_full-0",
+        "command": "bash -c 'python .migration/harness/tools/afs-mutation --all'",
+        "exit": 0,
+        "seconds": 3621.5,
+        "log": ".migration/runs/acceptance-41924854967-1/logs/HR-04F/20261104T222542614589Z-mutation_full-0.log",
+        "lines": 34,
+        "bytes": 2684
+      },
+      "result": {
+        "gate": "mutation",
+        "score": "0.869",
+        "threshold": "0.8",
+        "killed": "1126",
+        "survived": "169",
+        "files": "61",
+        "base": "all"
+      },
+      "log": "logs/HR-04F/20261104T222542614589Z-mutation_full-0.log"
+    }
+  ],
+  "files": {
+    "inputs/installed.json": "519ea38689c324cdccd88ea4d0d36a79688380211cb1a1419eff2af76db3da0b",
+    "inputs/profile.yaml": "6e5ceb8b52cd215a19114e358553eb0cd842065ad99a04ad610a0e766092791f",
+    "inputs/source.lock": "82a115f095fd4e901fe233a456d4f2318c736199493512313c07ebbe4bb5cd8c",
+    "journals/HR-04F.md": "32493cb893c976d202cf2012864f28012831d1665f4586edb82a080447497864",
+    "logs/HR-04F/20261104T222406266174Z-runtime.log": "d07c895212ff24435c3b2695a7acbf9997b00f1d428da0db88ac1a5b1130aad4",
+    "logs/HR-04F/20261104T222406381203Z-harness-integrity.log": "1b22ec25ad38f843225c0bb6cf73ab69d84c35dde6841dff17dde2e1363eac3d",
+    "logs/HR-04F/20261104T222406507403Z-services.log": "274667623a15642621d774e6e3ee9ac622ab1d605fb23f90cff77d18f467b64a",
+    "logs/HR-04F/20261104T222406712215Z-graph-freshness.log": "e58be4641e00fbe4a956b06d1ba6134f058ec8efd47e9476bfab8d3a7715e105",
+    "logs/HR-04F/20261104T222406853506Z-graph-source.log": "c070c957323aa7e96e3f04bc4d6a0912a047ce68671765efd5ee69a651cb5b7f",
+    "logs/HR-04F/20261104T222407004675Z-graph-target.log": "4b734ce13b6fa5278d067c26d56eead34e80013e4536ac958fed474bcae8caa3",
+    "logs/HR-04F/20261104T222407136582Z-build-0.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/HR-04F/20261104T222407267459Z-build-1.log": "1e3e63f221bde88816c4a4ef7367691607b20cc1d194028a02ec9ae0586cf9b1",
+    "logs/HR-04F/20261104T222408235935Z-idiom-0.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "logs/HR-04F/20261104T222408306660Z-idiom-1.log": "13e464c51f06111cd86ebb779bb2d99cde1fdcb339799360a239e85887946152",
+    "logs/HR-04F/20261104T222408373320Z-tests-0.log": "27f3c19d8f5d95ff259f1edfb4a838115570679ae2a4fa3a6203def7da21b39b",
+    "logs/HR-04F/20261104T222455735207Z-crap-0.log": "8a710fdb81cc1ec52380761757d8fb04b584d01b5fb0499e7578dbbb1b3226bb",
+    "logs/HR-04F/20261104T222542321631Z-crap-1.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "logs/HR-04F/20261104T222542504524Z-crap-2.log": "34d1ce024bdfe792c937de3fab3d5af07bd77400baae05dd1bc60855ecab641d",
+    "logs/HR-04F/20261104T222542614589Z-mutation_full-0.log": "2782f48811001bc59fb12b254840dd62ad2badd36c9340f373fbd883671ca6d8",
+    "logs/HR-04F/runs.jsonl": "6c1891248f9bab7992b640a7f215e006d17f684a178363fb722cfb1fb8ca80ff",
+    "mutants.md": "3be8f4d7837dc0b9face350b8ae55a6d9d3e4f1e799ab4f72d8ffdc04d0a5862"
+  },
+  "finished_at": "2026-11-04T23:26:04+00:00",
+  "exit": 0
+}

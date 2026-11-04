@@ -7,4 +7,5 @@ capabilities_checked: 19
 gaps: []
 graph_inconsistencies: []
 verdict: gaps-remain
+# Technical gates are verified; human flow sign-off remains outstanding.
 handoff: .migration/handoffs/HR-04F.md

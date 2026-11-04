@@ -108,49 +108,56 @@ Five gap classes:
   attempt table and worker, with no broker required.
 - **Untested:** none; current full suite and the targeted database-backed assertions pass.
 
-## Historical gates and interrupted full mutation
+## Verified durable execution evidence
 
-The successful graph, build, idiom, behavior, CRAP, and changed-mutation results below were produced
-in the preceding audit session on 2026-11-04. They are historical evidence, not fresh reruns in this
-bounded recovery; their original timestamps, exits, results, and log hashes remain unchanged in
-`.migration/evidence/runs/HR-04F.md`.
-
-| Gate | Command(s) | Result |
-|---|---|---|
-| Graph freshness | `check_graph_fresh.py --require source,target` | pass |
-| Graph source / target | `graph_gate.py --side source`; `graph_gate.py --side target --require-graph` | pass / pass |
-| Build | `python -m compileall -q src`; `python manage.py check` | pass / pass |
-| Idiom | `ruff check`; `ruff format --check` | pass / pass |
-| Behavior/regression | `pytest -q` | 321 passed |
-| CRAP | profile coverage, lizard, and `crap.py --max 30` commands | pass; max 19.0, threshold 30, 132 methods |
-| Changed mutation | `afs-mutation --changed-since origin/main` | exit 0; `n/a: no mutable code changed` |
-| Full mutation | `afs-mutation --all` | Interrupted externally; no completed result |
-
-The coordinator confirmed that Actions run
+The original cloud-worker run
 [41896926094](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/41896926094)
-ended `CANCELLED` after about 60 minutes. Its logs report `COPILOT_AGENT_TIMEOUT_MIN: 59` and
-cleanup killing the `mutmut` and Python processes. The previous PR session has an authoritative
-`copilot_work_finished` event at 2026-11-04 20:26:59Z on head
-`ebe2d6c2400ea5d474ef072ca5264a8b8d8b63f2`; that event does not establish a mutation result.
-No completed, attributable HR-04F full-mutation output survived: this checkout has no full-mutation
-result in the journal and no HR-04F mutant report. The later setup-probe artifact is not mutation
-evidence. No score, survivor count, or partial-shard result is inferred.
+remains historical: it was cancelled at the 59-minute worker limit and has no completed mutation
+result. It is superseded for technical-gate evidence by the separately approved durable workflow run
+below; it is not represented as a successful run.
 
-This is an infrastructure-interrupted gate, not evidence of an application or capability defect.
-The existing test and capability evidence above remains as recorded, but full-profile mutation
-acceptance remains unresolved.
+- Workflow: `.github/workflows/afs-acceptance.yml` (ID `407468483`); event `workflow_dispatch`.
+- Run: [41924854967, attempt 1](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/41924854967),
+  repository `martins-vds/ai-factory-pilot-target`, source commit
+  `7e3d6d5427064c67b951a29ac9f8cfabfa77e3db`; run and acceptance job completed `success` at
+  `2026-11-04T23:26:07Z`.
+- Artifact: ID `13371474656`,
+  `afs-acceptance-7e3d6d5427064c67b951a29ac9f8cfabfa77e3db-41924854967-1`, 34,525 bytes,
+  ZIP SHA-256 `1f023eab634c89321869c3aec907c59428222746466010356dfacde3501dd60b`, created
+  `2026-11-04T23:26:04Z`, expires `2026-12-04T23:26:04Z`.
+- Independent artifact verification: downloaded to gitignored `.migration/runs/`, ZIP digest matched
+  the Actions artifact metadata, all 22 entries passed path-safety and CRC checks, and
+  `python .migration/harness/tools/afs-acceptance verify .migration/runs/acceptance-41924854967-1/artifact
+  --commit 7e3d6d5427064c67b951a29ac9f8cfabfa77e3db --run-id 41924854967 --attempt 1` exited 0 with
+  `status=verified`. Run metadata, repository, source commit, attempt, workflow, and artifact were
+  independently checked; the verifier matched the pinned profile, source lock, installed harness,
+  input tree, gate plan, journals, and raw-log digests.
+- All 15 planned steps passed. Graph freshness and both graph gates passed; build and idiom gates
+  passed; `pytest -q` reported 321 passed; CRAP was max 19.0 / threshold 30 / over 0 / 132 methods.
+- Full-profile mutation completed in the workflow: score `0.869`, threshold `0.8`, killed `1126`,
+  survived `169`, skipped `0`, files `61`, workers `4`, base `all`. The genuine survivor report is
+  preserved at [`.migration/evidence/mutants/HR-04F.md`](../mutants/HR-04F.md). Its listed locations
+  include handling domain, REST, persistence, worker, and shared `Delivery` logic. The report gives
+  mutant IDs and source locations, but not mutation operators or patches; a location alone does not
+  establish an observable capability defect. Reassessment against the focused domain, repository,
+  REST, processing, rollback, concurrency, and 28-case golden tests did not establish a specific
+  uncovered capability or justify a new gap ticket.
+
+These are verified workflow executions, not local reruns. The committed
+[acceptance result](../acceptance-runs/41924854967-1.json), the
+[HR-04F journal](../runs/HR-04F.md), and survivor report preserve the attributable evidence. Raw gate
+logs remain under the gitignored `.migration/runs/acceptance-41924854967-1/`.
 
 ## Human check and assessment
 
-Issue #123 documents approval of the plan. The authorization to run this audit is not treated as an
-acceptance sign-off. No separate human flow sign-off is evidenced here; no such check is claimed.
+Issue #123 documents approval of the plan, not acceptance of the flow. No separate human flow
+sign-off is evidenced here; no such check is claimed.
 
-**Verdict: gaps-remain.** Full-profile mutation evidence is unresolved after the external worker
-cancellation, and the required human flow sign-off is not evidenced. No capability-specific gap or
-application defect is established by the interruption; the existing audit checked all 19
-`handling.*` ledger entries and found no graph inconsistency or unowned entry point. Leave the PR
-unmerged until the coordinator supplies a durable full-mutation result and the human flow sign-off is
-recorded.
+**Verdict: gaps-remain (needs human).** The technical gates, including the full-profile mutation
+threshold, now pass on verified durable evidence. All 19 `handling.*` ledger entries were reassessed;
+no capability-specific gap, graph inconsistency, or unowned entry point was established. The required
+human flow sign-off remains outstanding, so do not mark the slice complete or merge PR #184. Obtain
+the human check, then reassess; no application or test fix is assigned by this audit.
 
 The schema-valid Auditor return is
 [`.migration/returns/HR-04F.afs-auditor.yaml`](../../returns/HR-04F.afs-auditor.yaml);

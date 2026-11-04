@@ -24,3 +24,28 @@
 
 ### Next step for the next session
 Use the coordinator-provided durable execution path to complete the full-profile mutation gate, preserve its full result and attributable evidence, then resume the final acceptance decision after human flow sign-off is recorded.
+
+## Handoff — afs-auditor · 2026-11-04T23:43:55Z
+**State:** needs human · **Branch / PR:** copilot/hr-04f-accept-handling-registration-slice / https://github.com/martins-vds/ai-factory-pilot-target/pull/184 · **Last commit:** 80b1fb9d34b998651849d93298808f2220982efd
+
+### Done
+- Merged approved rollout `7e3d6d5427064c67b951a29ac9f8cfabfa77e3db` normally, preserving the original HR-04F records and all rollout files.
+- Authenticated run 41924854967 attempt 1 and artifact 13371474656 through Actions metadata. The 34,525-byte artifact's SHA-256 matched `1f023eab634c89321869c3aec907c59428222746466010356dfacde3501dd60b`; all 22 ZIP entries passed path/CRC checks; installed `afs-acceptance verify` passed for the exact commit/run/attempt.
+- Imported `result.json` unchanged to `.migration/evidence/acceptance-runs/41924854967-1.json`, preserved the genuine 169-survivor report at `.migration/evidence/mutants/HR-04F.md`, and appended all 15 artifact journal rows unchanged to `.migration/evidence/runs/HR-04F.md`. Raw logs remain in ignored `.migration/runs/`.
+- All 15 planned technical steps passed: 321 tests; CRAP max 19.0/30; full mutation score 0.869/0.8, 1126 killed, 169 survived, 0 skipped, 61 files, 4 workers. The original cancelled run remains historical.
+- Reassessed the 19 handling ledger entries and relevant mutant locations against the approved rulings and focused evidence. No specific capability gap or application defect is established; the survivor file identifies locations/IDs but not mutation operators or patches.
+
+### Remaining
+- [ ] Obtain and record the required human flow sign-off; then reassess the verdict. Do not mark complete or merge PR #184 without it.
+
+### Decisions made
+- Keep `verdict: gaps-remain` with `gaps: []`: the technical gates pass, but the human acceptance check is absent. Mutant locations alone are not classified as capability defects.
+
+### Blockers / questions
+- No human flow sign-off has been supplied. Issue #123's design approval is not acceptance sign-off.
+
+### Failing commands
+- None. The full mutation gate succeeded in the authenticated durable workflow; it was not rerun in this worker.
+
+### Next step for the next session
+Resume the Auditor only after a human flow sign-off is committed or linked as durable evidence; verify it and reassess the still-blocked verdict without rerunning full mutation.
