@@ -119,7 +119,7 @@ def test_repository_reads_and_orders_deduplicated_handling_history():
 
 
 @pytest.mark.django_db
-def test_repository_stores_event_relations_and_completion_dates():
+def test_repository_stores_event_relations_and_completion_timestamps():
     cargo_record, origin = _cargo_record()
     voyage_record = VoyageRecord.objects.create(voyage_number='CM001')
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))

@@ -387,6 +387,14 @@ def test_equal_completion_and_registration_times_use_event_id_for_delivery(caplo
     assert receive_event.pk < unload_event.pk
     assert cargo.delivery.last_event_id == unload_event.pk
     assert cargo.delivery.unloaded_at_destination is True
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(
+        TrackingId('ABC123')
+    )
+    assert [event.id for event in history.events[-2:]] == [
+        receive_event.pk,
+        unload_event.pk,
+    ]
+    assert history.most_recent_event_id == cargo.delivery.last_event_id
     assert 'Cargo ABC123 delivered' in [record.getMessage() for record in caplog.records]
 
 

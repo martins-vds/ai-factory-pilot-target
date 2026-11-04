@@ -8,7 +8,11 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "A REST report is accepted before registration; the registration-attempt message is consumed and persisted before a separate cargo-handled message triggers cargo inspection and delivery-state persistence."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#94]
+tickets:
+  - martins-vds/ai-factory-pilot-target#86
+  - martins-vds/ai-factory-pilot-target#87
+  - martins-vds/ai-factory-pilot-target#94
+  - martins-vds/ai-factory-pilot-target#171
 target:
   components:
     - cargotracker.handling.application.process_registration_attempt.process_registration_attempt
@@ -35,5 +39,7 @@ notes: >-
   consumer failures are rethrown and the consumer comment delegates poison-message DLQ handling
   to the server. Decision #94 replaces the one-second-loss behavior with at-least-once,
   idempotent processing and no ordering promise; #87 chooses a PostgreSQL-backed worker and
-  registration plus inspection in one transaction. HandlingEventServiceTest.testRegisterEvent
+  registration plus inspection in one transaction. The target retains the accepted attempt's
+  full registration instant when the worker later creates the event, under approved divergence
+  #171 (research PR #173). HandlingEventServiceTest.testRegisterEvent
   is only nominal coverage: setup, expectations and verifications are commented out.

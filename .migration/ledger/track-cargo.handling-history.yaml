@@ -8,7 +8,10 @@ source:
   risk: {crap: 42, complexity: 6, coverage: 0.0}
 boundary: "Show the empty-history sentence or completion-time-ordered event descriptions with formatted times and expected/unexpected markers."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#10, martins-vds/ai-factory-pilot-target#33]
+tickets:
+  - martins-vds/ai-factory-pilot-target#10
+  - martins-vds/ai-factory-pilot-target#33
+  - martins-vds/ai-factory-pilot-target#171
 status: migrated
 verification: differential
 characterization_tier: A
@@ -24,12 +27,18 @@ evidence:
   - "tests/cargo/interfaces/test_tracking_result.py::test_tracking_result_renders_ordered_history_with_utc_times_and_expectation_markers"
   - "tests/cargo/interfaces/test_tracking_result.py::test_empty_history_and_absent_next_activity_are_rendered"
   - ".migration/evidence/runs/TC-13.md"
+  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target
 target:
   components:
     - cargotracker.cargo.application.tracking.TrackingLookup.find_handling_history
     - cargotracker.cargo.interfaces.tracking.history.get_history_rows
     - templates.tracking.result
-notes: "Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD, UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers deduplication/order; the TC-13 view tests cover ordered rows, event markers, UTC formatting and empty history."
+notes: >-
+  Expected events use a green check; unexpected events use a red flag. Descriptions cover LOAD,
+  UNLOAD, RECEIVE, CLAIM and CUSTOMS; times use MM/dd/yyyy hh:mm a z. HandlingHistoryTest covers
+  deduplication/order; the TC-13 view tests cover ordered rows, event markers, UTC formatting and
+  empty history. Approved divergence #171 preserves full UTC completion instants for history rows
+  after reload, as supported by research PR #173.
 quirks: [martins-vds/ai-factory-pilot-target#12]
 approval:
   by: martins-vds

@@ -8,7 +8,10 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "JpaHandlingEventRepository inserts each HandlingEvent and queries rows by cargo tracking ID to construct HandlingHistory; HandlingHistory itself is not a persisted table."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
+tickets:
+  - martins-vds/ai-factory-pilot-target#3
+  - martins-vds/ai-factory-pilot-target#86
+  - martins-vds/ai-factory-pilot-target#171
 target:
   components:
     - cargotracker.handling.infrastructure.models.HandlingEventRecord
@@ -21,9 +24,14 @@ evidence:
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
   - tests/handling/test_registration_processing.py::test_processing_registers_attempt_once_and_rederives_cargo_delivery
+  - tests/handling/test_repository.py::test_repository_preserves_aware_completion_and_registration_instants
+  - tests/handling/test_migration.py::test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnight
   - .migration/evidence/runs/HR-04D.md
 notes: >-
   HandlingEvent maps type, voyage_id, location_id, completionTime, registration and cargo_id.
   The JPA repository stores events and reads the named HandlingEvent.findByTrackingId query.
   HandlingEventTest and HandlingHistoryTest cover domain behavior, not repository persistence;
-  no direct source repository test was identified.
+  no direct source repository test was identified. Approved target divergence #171 preserves
+  full UTC completion and registration instants after reload, rather than reproducing the source's
+  DATE-column loss described in research PR #173. The migration maps existing dates to UTC
+  midnight; reversing it necessarily loses sub-day precision.

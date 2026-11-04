@@ -8,7 +8,10 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "HandlingEventService assigns registration time, asks the factory to create an event, stores it, and publishes cargoWasHandled only after storage."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
+tickets:
+  - martins-vds/ai-factory-pilot-target#86
+  - martins-vds/ai-factory-pilot-target#87
+  - martins-vds/ai-factory-pilot-target#171
 target:
   components:
     - cargotracker.handling.application.process_registration_attempt._resolve_event
@@ -30,3 +33,6 @@ notes: >-
   setup, expectations and verification. CargoLifecycleScenarioTest includes a broader
   registration scenario but does not exercise the JMS boundary. Decision #87 closes the
   registration/inspection consistency window in the target by doing both in one transaction.
+  The event receives the accepted attempt's original registration_time, not its later processing
+  time; the target retains both full UTC instants across reloads under approved divergence #171
+  (research PR #173).

@@ -8,7 +8,7 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Tracking history removes duplicate events, sorts by completion time ascending, exposes an unmodifiable list, and selects the final event as most recent."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#25]
+tickets: [martins-vds/ai-factory-pilot-target#25, martins-vds/ai-factory-pilot-target#171]
 status: migrated
 verification: differential
 characterization_tier: A
@@ -26,4 +26,9 @@ evidence:
 target:
   components:
     - cargotracker.handling.domain.handling_history.HandlingHistory
-notes: "HandlingHistoryTest::testDistinctEventsByCompletionTime and testMostRecentlyCompletedEvent cover these rules; graph tested_by links HandlingHistory to HandlingHistoryTest. Equal-time tie ordering is not further specified. Coverage input unavailable."
+notes: >-
+  HandlingHistoryTest::testDistinctEventsByCompletionTime and testMostRecentlyCompletedEvent
+  cover these rules; graph tested_by links HandlingHistory to HandlingHistoryTest. Equal-time
+  target ordering follows ruling #136. Approved divergence #171 preserves full UTC completion
+  and registration instants after reload; research PR #173 records source DATE precision loss.
+  Coverage input unavailable.

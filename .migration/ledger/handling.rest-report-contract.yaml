@@ -8,7 +8,12 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "POST /rest/handling/reports consumes JSON with completionTime (required, 16 chars), trackingId (required, min 4), eventType (required, 4–7), unLocode (required, exactly 5), and optional voyageNumber (4–5); it converts format-valid fields into an attempt and returns no entity."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#88, martins-vds/ai-factory-pilot-target#129]
+tickets:
+  - martins-vds/ai-factory-pilot-target#3
+  - martins-vds/ai-factory-pilot-target#86
+  - martins-vds/ai-factory-pilot-target#88
+  - martins-vds/ai-factory-pilot-target#129
+  - martins-vds/ai-factory-pilot-target#174
 target:
   components:
     - cargotracker.handling.composition.compose_handling_report_view
@@ -25,6 +30,7 @@ evidence:
   - characterization/handling-registration/test_handling_registration.py::test_unknown_references_and_load_without_voyage_leave_no_trace
   - tests/handling/interfaces/test_registration_reports.py::test_accepted_report_is_persisted_with_completion_time_in_utc
   - tests/handling/interfaces/test_registration_reports.py::test_load_without_voyage_is_accepted_for_worker_validation
+  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target
   - .migration/evidence/runs/HR-04C.md
 notes: >-
   HandlingReport.java:13-26 defines the field constraints. Completion time is parsed as
@@ -34,4 +40,6 @@ notes: >-
   Decision #88 specifies the target's 204 acceptance, 400 field errors for malformed reports,
   UTC interpretation and worker-side reference checks. No dedicated source REST/DTO test
   was identified. Lizard did not emit a method for HandlingReportService.java; the recorded
-  risk is the DTO's lizard-measured validation complexity.
+  risk is the DTO's lizard-measured validation complexity. Accepted 204 responses have an empty
+  body and no Content-Type header, matching source observations; the approved #88 JSON error
+  contract is unchanged.
