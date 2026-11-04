@@ -83,3 +83,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T22:48:22+00:00 | final-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `7aabe95ab34f288e` |  | gate=crap max=19.0 threshold=30 over=0 methods=122 |
 | 2026-11-03T22:49:13+00:00 | final-behavior-tests | 0 | 22.51 | `pytest -q` | `9214b31d881ce3e6` |  |  |
 | 2026-11-03T22:49:28+00:00 | final-regression | 0 | 11.49 | `pytest -q tests/handling` | `87ea04280b2c429e` |  |  |
+| 2026-11-04T03:37:49+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
