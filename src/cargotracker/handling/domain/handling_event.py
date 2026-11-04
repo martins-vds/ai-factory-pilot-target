@@ -28,6 +28,7 @@ class HandlingEvent:
     event_type: HandlingEventType
     location: Location
     voyage: Voyage | None = None
+    id: int | None = field(default=None, compare=False)
 
     def __post_init__(self):
         if not isinstance(self.cargo, Cargo):
@@ -42,6 +43,10 @@ class HandlingEvent:
             raise TypeError('A handling event requires a location')
         if self.voyage is not None and not isinstance(self.voyage, Voyage):
             raise TypeError('A handling event voyage must be a voyage')
+        if self.id is not None and (
+            not isinstance(self.id, int) or isinstance(self.id, bool) or self.id < 1
+        ):
+            raise ValueError('A handling event ID must be a positive integer')
         if self.event_type.requires_voyage and self.voyage is None:
             raise ValueError(f'Voyage is required for event type {self.event_type}')
         if not self.event_type.requires_voyage and self.voyage is not None:

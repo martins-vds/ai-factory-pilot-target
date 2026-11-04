@@ -9,7 +9,14 @@ source:
 boundary: "After storing a HandlingEvent, the producer sends the cargo tracking ID to CargoHandledQueue; CargoHandledConsumer reads the text message and invokes CargoInspectionService."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87]
-status: pending
+target:
+  components:
+    - cargotracker.handling.application.process_registration_attempt.process_registration_attempt
+status: replaced
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#87
+  reason: "Cargo inspection runs in the PostgreSQL worker transaction instead of a separate queue."
 verification: characterized
 characterization_tier: A
 evidence:

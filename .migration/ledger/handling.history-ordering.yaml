@@ -1,15 +1,18 @@
 id: handling.history-ordering
 kind: behavioral
-title: Order distinct handling history by completion time
+title: Order distinct handling history deterministically
 source:
   graph_node: "class:src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java:HandlingHistory"
   flow: Inspect Cargo After Handling
   location: src/main/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java:18-50
   risk: {crap: 20, complexity: 4, coverage: 0.0}
-boundary: "HandlingHistory keeps the event collection, produces a distinct list sorted by completionTime, and returns the last such event as the most recently completed event or null when empty."
+boundary: "HandlingHistory deduplicates events, orders by completion time, then registration time and event ID, and returns the last as most recent."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#94]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#94, martins-vds/ai-factory-pilot-target#130, martins-vds/ai-factory-pilot-target#136]
+target:
+  components:
+    - cargotracker.handling.domain.handling_history.HandlingHistory
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -18,9 +21,14 @@ evidence:
   - characterization/handling-registration/test_handling_registration.py::test_two_quick_reports_are_ordered_by_completion_time
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testDistinctEventsByCompletionTime"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingHistoryTest.java::testMostRecentlyCompletedEvent"
+  - tests/handling/test_domain.py::test_handling_history_breaks_completion_time_ties_by_registration_time_then_id
+  - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
+  - tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   JpaHandlingEventRepository builds this value from all HandlingEvent rows for the cargo.
   HandlingHistoryTest.testDistinctEventsByCompletionTime verifies deduplication and ordering;
   testMostRecentlyCompletedEvent verifies the latest event. Decision #94 specifies target
-  history ordering by completion time and no processing-order promise.
+  history ordering by completion time and no processing-order promise. Ruling #136 fixes ties
+  by registration time, then event ID.
 quirks: [martins-vds/ai-factory-pilot-target#136]

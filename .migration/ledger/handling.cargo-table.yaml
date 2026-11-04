@@ -9,13 +9,19 @@ source:
 boundary: "JpaCargoRepository finds Cargo by tracking ID for factory/inspection use and stores the inspection result, including the re-derived embedded Delivery state."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
-status: pending
+target:
+  components:
+    - cargotracker.cargo.infrastructure.models.CargoRecord
+    - cargotracker.cargo.infrastructure.repository.DjangoCargoRepository.upsert
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - .migration/evidence/handling-registration/characterization/report.md
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
+  - tests/handling/test_registration_processing.py::test_processing_registers_attempt_once_and_rederives_cargo_delivery
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   Cargo stores its itinerary and Delivery as embedded values; inspection updates delivery
   progress and persists the aggregate after history re-derivation. JpaCargoRepository.find

@@ -9,7 +9,11 @@ source:
 boundary: "Voyage embeds Schedule, whose carrier movements are stored in the carrier_movement table and are available when the referenced voyage and cargo itinerary are resolved."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86]
-status: pending
+target:
+  components:
+    - cargotracker.voyage.infrastructure.models.VoyageRecord
+    - cargotracker.cargo.infrastructure.models.LegRecord
+status: migrated
 verification: characterized
 characterization_tier: B
 evidence:
@@ -17,6 +21,8 @@ evidence:
   - .migration/evidence/runs/HR-03.md
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryResolvesKnownCargoVoyageAndLocation
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/handling/HandlingEventTest.java::testNewWithCarrierMovement"
+  - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   CarrierMovement is an entity mapped to carrier_movement and Schedule maps its movements
   through a one-to-many association. HandlingEventTest uses sample voyages for carrier

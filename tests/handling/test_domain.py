@@ -83,8 +83,61 @@ def test_handling_history_deduplicates_and_orders_events_by_completion_time():
     assert history.most_recent_event == later
 
 
+def test_handling_history_breaks_completion_time_ties_by_registration_time_then_id():
+    completion_time = datetime(2026, 11, 1, tzinfo=UTC)
+    first_registered = _event(
+        completion_time=completion_time,
+        registration_time=datetime(2026, 11, 1, 12, tzinfo=UTC),
+    )
+    second_by_id = _event(
+        completion_time=completion_time,
+        registration_time=datetime(2026, 11, 1, 13, tzinfo=UTC),
+        event_type=HandlingEventType.CLAIM,
+    )
+    third_by_id = _event(
+        completion_time=completion_time,
+        registration_time=datetime(2026, 11, 1, 13, tzinfo=UTC),
+        event_type=HandlingEventType.CUSTOMS,
+    )
+
+    history = HandlingHistory(
+        [third_by_id, first_registered, second_by_id],
+        event_ids=[2, 3, 1],
+    )
+
+    assert history.events == (first_registered, second_by_id, third_by_id)
+    assert history.most_recent_event == third_by_id
+    assert history.most_recent_event_id == 2
+
+
+def test_handling_history_keeps_the_highest_id_when_deduplicating_identical_events():
+    event = _event()
+
+    history = HandlingHistory([event, event], event_ids=[1, 2])
+
+    assert len(history.events) == 1
+    assert history.most_recent_event_id == 2
+
+
+@pytest.mark.parametrize(
+    ('event_ids', 'message'),
+    [
+        ([], 'Handling event IDs must match the history events'),
+        ([0], 'Handling event IDs must be positive integers'),
+        ([-1], 'Handling event IDs must be positive integers'),
+        ([True], 'Handling event IDs must be positive integers'),
+        (['1'], 'Handling event IDs must be positive integers'),
+    ],
+)
+def test_handling_history_rejects_mismatched_or_invalid_event_ids(event_ids, message):
+    with pytest.raises(ValueError) as error:
+        HandlingHistory([_event()], event_ids=event_ids)
+    assert str(error.value) == message
+
+
 def test_handling_history_is_immutable_and_requires_handling_events():
-    history = HandlingHistory([_event()])
+    event = _event()
+    history = HandlingHistory([event])
 
     with pytest.raises(AttributeError):
         history.events = ()
@@ -92,6 +145,10 @@ def test_handling_history_is_immutable_and_requires_handling_events():
         HandlingHistory(None)
     with pytest.raises(TypeError, match='Handling history requires handling events'):
         HandlingHistory([object()])
+    assert history == HandlingHistory([event], event_ids=[1])
+    assert '_event_ids' not in repr(history)
+    assert HandlingHistory([]).most_recent_event is None
+    assert HandlingHistory([]).most_recent_event_id is None
 
 
 def test_handling_event_types_match_source_voyage_rules():

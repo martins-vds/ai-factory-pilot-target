@@ -9,7 +9,11 @@ source:
 boundary: "HandlingEventFactory queries Voyage by voyage number when one is supplied; a null voyage number skips the lookup."
 slice: handling-registration
 tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#95]
-status: pending
+target:
+  components:
+    - cargotracker.voyage.infrastructure.models.VoyageRecord
+    - cargotracker.voyage.infrastructure.repository.DjangoVoyageRepository.find
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -19,6 +23,8 @@ evidence:
   - characterization/handling-registration/test_handling_registration.py::test_seeded_cargo_events_and_off_itinerary_misdirection_match_goldens
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryResolvesKnownCargoVoyageAndLocation
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownVoyage
+  - tests/handling/test_registration_processing.py::test_unknown_references_reject_attempt_without_storing_event
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   JpaVoyageRepository.find uses getSingleResult; a missing voyage raises NoResultException
   rather than returning null to the factory's UnknownVoyageException branch. Voyage embeds

@@ -8,8 +8,13 @@ source:
   risk: {crap: 12, complexity: 3, coverage: 0.0}
 boundary: "Factory creation resolves a cargo and location, resolves a voyage only when supplied, then constructs a HandlingEvent whose type determines whether a voyage is required or prohibited."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#88, martins-vds/ai-factory-pilot-target#95]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#88, martins-vds/ai-factory-pilot-target#95, martins-vds/ai-factory-pilot-target#130]
+target:
+  components:
+    - cargotracker.handling.application.process_registration_attempt._resolve_event
+    - cargotracker.handling.application.process_registration_attempt._resolve_location
+    - cargotracker.handling.application.process_registration_attempt._resolve_voyage
+status: migrated
 verification: characterized
 characterization_tier: B
 evidence:
@@ -20,6 +25,8 @@ evidence:
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownVoyage
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsUnknownLocation
   - characterization/handling-registration/tier_b/HandlingRegistrationCharacterizationTest.java::factoryRejectsLoadWithoutVoyage
+  - tests/handling/test_registration_processing.py::test_unknown_references_reject_attempt_without_storing_event
+  - .migration/evidence/runs/HR-04D.md
 notes: >-
   A missing cargo is returned as null by JpaCargoRepository and becomes UnknownCargoException.
   The factory's null checks for voyage/location would create typed errors, but the production
@@ -28,4 +35,5 @@ notes: >-
   The event constructor enforces LOAD/UNLOAD require a voyage and other types prohibit one.
   CargoLifecycleScenarioTest contains invalid-reference scenario code; no dedicated factory
   unit test was identified. Decision #95 defines target rejection reason codes for unknown
-  references; #88 leaves reference checks to the worker.
+  references; #88 leaves reference checks to the worker. Target rejection reason codes are
+  UNKNOWN_CARGO, UNKNOWN_LOCATION, UNKNOWN_VOYAGE, and INVALID_EVENT.
