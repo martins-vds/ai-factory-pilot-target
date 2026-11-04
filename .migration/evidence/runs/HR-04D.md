@@ -102,3 +102,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T03:53:17+00:00 | behavior-tests-final | 0 | 24.06 | `pytest -q` | `57eac812a842c498` |  |  |
 | 2026-11-04T03:53:29+00:00 | handling-regression-final | 0 | 12.57 | `pytest -q tests/handling` | `6d386c577c2aec0b` |  |  |
 | 2026-11-04T04:01:06+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T04:02:45+00:00 | verifier-rest-flow | 0 | 5.88 | `pytest -q tests/handling/test_registration_processing.py::test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery` | `870710c7710b0290` |  |  |

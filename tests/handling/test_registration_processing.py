@@ -1,3 +1,4 @@
+import json
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
@@ -6,6 +7,7 @@ import pytest
 from django.core.management import CommandError, call_command
 from django.db import OperationalError, close_old_connections
 
+import cargotracker.handling.interfaces.rest as handling_rest
 import cargotracker.handling.application.process_registration_attempt as processing
 import cargotracker.handling.management.commands.process_handling_attempts as worker
 from cargotracker.cargo.application import sample_data
@@ -129,6 +131,63 @@ def _process():
         DjangoCargoRepository(),
         DjangoHandlingEventRepository(),
     )
+
+
+@pytest.mark.django_db
+def test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery(
+    client, monkeypatch
+):
+    fixed_now = datetime(2026, 11, 4, 12, tzinfo=UTC)
+
+    class FrozenDateTime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return fixed_now.astimezone(tz) if tz else fixed_now
+
+    monkeypatch.setattr(seed_sample_data.timezone, 'now', lambda: fixed_now)
+    monkeypatch.setattr(sample_data, 'datetime', FrozenDateTime)
+    monkeypatch.setattr(handling_rest, 'datetime', FrozenDateTime)
+    call_command('seed_sample_data')
+
+    completion_time = datetime(2026, 11, 5, 12, tzinfo=UTC)
+    events_before = HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
+    delivery_before = DjangoCargoRepository().find(TrackingId('ABC123')).delivery
+    response = client.post(
+        '/rest/handling/reports',
+        data=json.dumps(
+            {
+                'completionTime': completion_time.strftime('%Y-%m-%d %H:%M'),
+                'trackingId': 'ABC123',
+                'eventType': 'RECEIVE',
+                'unLocode': 'USNYC',
+            }
+        ),
+        content_type='application/json',
+    )
+    attempt = RegistrationAttemptRecord.objects.get()
+
+    assert response.status_code == 204
+    assert attempt.status == 'accepted'
+    assert HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before
+    assert DjangoCargoRepository().find(TrackingId('ABC123')).delivery == delivery_before
+    assert _process() is True
+
+    attempt.refresh_from_db()
+    event = HandlingEventRecord.objects.get(
+        cargo__tracking_id='ABC123',
+        event_type='RECEIVE',
+        completion_time=completion_time.date(),
+        registration_time=attempt.registration_time.date(),
+    )
+    cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
+
+    assert attempt.status == 'registered'
+    assert (
+        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 1
+    )
+    assert cargo.delivery.last_event_id == event.pk
+    assert cargo.delivery.transport_status == 'IN_PORT'
+    assert cargo.delivery.last_known_location.unlocode == UnLocode('USNYC')
 
 
 @pytest.mark.django_db
