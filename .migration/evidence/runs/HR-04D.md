@@ -84,3 +84,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T22:49:13+00:00 | final-behavior-tests | 0 | 22.51 | `pytest -q` | `9214b31d881ce3e6` |  |  |
 | 2026-11-03T22:49:28+00:00 | final-regression | 0 | 11.49 | `pytest -q tests/handling` | `87ea04280b2c429e` |  |  |
 | 2026-11-04T03:37:49+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T03:38:57+00:00 | repro-date-collision | 1 | 4.96 | `pytest -q tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome` | `8e642c4c2d96a6ab` | assert _process() is True |  |
+| 2026-11-04T03:40:51+00:00 | focused-tests-after-fixes | 0 | 12.71 | `pytest -q tests/handling/test_registration_processing.py tests/handling/test_domain.py` | `3293b87bc37177f3` |  |  |
+| 2026-11-04T03:41:22+00:00 | focused-tests-final | 0 | 12.15 | `pytest -q tests/handling/test_registration_processing.py tests/handling/test_domain.py` | `7b14899bf502d527` |  |  |

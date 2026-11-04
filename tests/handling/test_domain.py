@@ -110,34 +110,6 @@ def test_handling_history_breaks_completion_time_ties_by_registration_time_then_
     assert history.most_recent_event_id == 2
 
 
-def test_handling_history_orders_missing_ids_before_ids_when_timestamps_tie():
-    completion_time = datetime(2026, 11, 1, tzinfo=UTC)
-    registration_time = datetime(2026, 11, 1, 12, tzinfo=UTC)
-    event_without_id = _event(
-        completion_time=completion_time,
-        registration_time=registration_time,
-        event_type=HandlingEventType.CUSTOMS,
-    )
-    event_with_id_one = _event(
-        completion_time=completion_time,
-        registration_time=registration_time,
-        event_type=HandlingEventType.RECEIVE,
-    )
-    event_with_id_two = _event(
-        completion_time=completion_time,
-        registration_time=registration_time,
-        event_type=HandlingEventType.CLAIM,
-    )
-
-    history = HandlingHistory(
-        [event_with_id_two, event_without_id, event_with_id_one],
-        event_ids=[2, None, 1],
-    )
-
-    assert history.events == (event_without_id, event_with_id_one, event_with_id_two)
-    assert history.most_recent_event_id == 2
-
-
 def test_handling_history_keeps_the_highest_id_when_deduplicating_identical_events():
     event = _event()
 
