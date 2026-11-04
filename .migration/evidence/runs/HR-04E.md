@@ -51,3 +51,7 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T13:36:07+00:00 | mutation-changed-final | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-04T13:36:48+00:00 | regression-final | 1 | 41.15 | `pytest -q` | `0fec34b1224edd98` | assert expected['cargo']['transportStatus'] == 'NOT_RECEIVED' |  |
 | 2026-11-04T15:25:29+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T15:28:07+00:00 | migration-replay | 0 | 4.58 | `pytest -q tests/handling/test_migration.py` | `4c416360bbf6bf24` |  |  |
+| 2026-11-04T15:28:48+00:00 | verified-behavior | 1 | 18.52 | `pytest -q tests/handling/test_migration.py tests/handling/test_repository.py tests/handling/test_registration_processing.py tests/handling/test_registration_attempt_repository.py tests/differential/test_handling_registration.py` | `55e9ddec78ec5e24` | assert connection.vendor == 'postgresql' |  |
+| 2026-11-04T15:29:18+00:00 | verified-behavior | 0 | 17.82 | `pytest -q tests/handling/test_migration.py tests/handling/test_repository.py tests/handling/test_registration_processing.py tests/handling/test_registration_attempt_repository.py tests/differential/test_handling_registration.py` | `cfb8b73c2fa282ec` |  |  |
+| 2026-11-04T15:29:18+00:00 | migration-state | 0 | 0.24 | `python manage.py makemigrations --check --dry-run` | `a2bfa7b376c38062` |  |  |

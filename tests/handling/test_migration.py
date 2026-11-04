@@ -30,6 +30,11 @@ def test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnig
             completion_time=date(2026, 11, 3),
             registration_time=date(2026, 11, 4),
         )
+        event_id, cargo_id, location_id = (
+            old_event_record.pk,
+            old_event_record.cargo_id,
+            old_event_record.location_id,
+        )
 
         with connection.cursor() as cursor:
             cursor.execute("SET TIME ZONE 'America/Los_Angeles'")
@@ -41,9 +46,14 @@ def test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnig
             cursor.execute("SET TIME ZONE 'UTC'")
         new_apps = MigrationExecutor(connection).loader.project_state(target_migration).apps
         migrated_record = new_apps.get_model('handling', 'HandlingEventRecord').objects.get(
-            pk=old_event_record.pk
+            pk=event_id
         )
 
+        assert migrated_record.pk == event_id
+        assert migrated_record.cargo_id == cargo_id
+        assert migrated_record.location_id == location_id
+        assert migrated_record.cargo.pk == cargo.pk
+        assert migrated_record.location.pk == location.pk
         assert migrated_record.completion_time == datetime(2026, 11, 3, tzinfo=UTC)
         assert migrated_record.registration_time == datetime(2026, 11, 4, tzinfo=UTC)
     finally:
