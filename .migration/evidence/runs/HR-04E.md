@@ -24,3 +24,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T13:08:07+00:00 | regression | 1 | 44.48 | `pytest -q` | `66b39b453af20fa6` | assert response.status_code == 400 |  |
 | 2026-11-04T13:21:20+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-04T13:22:12+00:00 | differential-repro | 1 | 28.22 | `pytest -q tests/differential/test_handling_registration.py` | `09fad0aa44968199` | assert response.status_code == 400 |  |
+| 2026-11-04T13:26:54+00:00 | differential-corrected | 1 | 22.32 | `pytest -q tests/differential/test_handling_registration.py` | `b65362922d7cce51` | assert expected['cargo']['transportStatus'] == 'NOT_RECEIVED' |  |
+| 2026-11-04T13:27:38+00:00 | differential-corrected | 1 | 22.8 | `pytest -q tests/differential/test_handling_registration.py` | `101c113c5b27f623` | assert expected['cargo']['transportStatus'] == 'NOT_RECEIVED' |  |
+| 2026-11-04T13:28:19+00:00 | ruling-136 | 0 | 3.9 | `pytest -q tests/handling/test_domain.py::test_handling_history_breaks_completion_time_ties_by_registration_time_then_id tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery` | `5390c9371eee96e1` |  |  |
