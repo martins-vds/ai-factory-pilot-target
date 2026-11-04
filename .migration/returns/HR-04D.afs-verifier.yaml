@@ -1,0 +1,32 @@
+role: afs-verifier
+ticket: HR-04D
+issue: martins-vds/ai-factory-pilot-target#130
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/161
+verdict: changes-required
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 19.0
+  mutation_changed: 0.893
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/HR-04D.md
+findings:
+  - severity: minor
+    where: tests/handling/test_domain.py:113
+    what: >-
+      PR #150 asserts that history entries without persisted IDs sort before positive IDs; legacy
+      history sorts only by completion time and #136's tie rule covers persisted event IDs, so this
+      new tie behavior lacks source or approved target support.
+  - severity: minor
+    where: tests/handling/test_registration_processing.py:83,119
+    what: >-
+      PR #150 pins worker help text, one-second defaults, and exact validation messages that are
+      not observable in the legacy source or specified by HR-04D; these look mutation-specific
+      unless explicitly adopted as target requirements.
+tests_added:
+  - tests/handling/test_registration_processing.py::test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery
+ledger_issues: []
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#136

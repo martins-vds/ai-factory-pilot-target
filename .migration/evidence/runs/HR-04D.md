@@ -85,3 +85,17 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-03T22:49:28+00:00 | final-regression | 0 | 11.49 | `pytest -q tests/handling` | `87ea04280b2c429e` |  |  |
 | 2026-11-03T23:48:36+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-03T23:52:43+00:00 | verifier-rest-flow | 0 | 3.97 | `pytest -q tests/handling/test_registration_processing.py::test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery` | `1d0e0d67d1aa6a95` |  |  |
+| 2026-11-03T23:56:34+00:00 | verifier-rest-flow | 0 | 1.5 | `pytest -q tests/handling/test_registration_processing.py::test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery` | `ad09ccf9d99a2e66` |  |  |
+| 2026-11-03T23:56:41+00:00 | verifier-build-compile | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T23:56:44+00:00 | verifier-build-django-check | 0 | 0.27 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-03T23:57:03+00:00 | verifier-behavior | 0 | 15.13 | `pytest -q` | `40648766c0884c8d` |  |  |
+| 2026-11-03T23:57:06+00:00 | verifier-idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T23:57:10+00:00 | verifier-idiom-ruff-format | 1 | 0.01 | `ruff format --check` | `0bcf12a75bf86019` | 214 \|     assert attempt.status == 'accepted' |  |
+| 2026-11-03T23:57:18+00:00 | verifier-idiom-ruff-format | 1 | 0.01 | `ruff format --check` | `f53f1cc837c50d37` | 227 \|     assert attempt.status == 'registered' |  |
+| 2026-11-03T23:57:26+00:00 | verifier-idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `a7b33b14dcd88b80` |  |  |
+| 2026-11-03T23:57:45+00:00 | verifier-crap-coverage | 0 | 14.91 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `56c73699bcfc7ee2` |  |  |
+| 2026-11-03T23:57:49+00:00 | verifier-crap-lizard | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-03T23:57:53+00:00 | verifier-crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `3ccf6203eece91ff` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
+| 2026-11-03T23:58:08+00:00 | verifier-idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-03T23:58:27+00:00 | verifier-regression | 0 | 15.25 | `pytest -q` | `7478b4558927bfdf` |  |  |
+| 2026-11-04T00:02:39+00:00 | verifier-mutation-changed | 0 | 246.07 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `8d4e6cd3640d72a2` |  | gate=mutation score=0.893 threshold=0.8 killed=183 survived=22 files=7 base=origin/main |
