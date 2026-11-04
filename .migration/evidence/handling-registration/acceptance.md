@@ -108,10 +108,12 @@ Five gap classes:
   attempt table and worker, with no broker required.
 - **Untested:** none; current full suite and the targeted database-backed assertions pass.
 
-## Fresh gates
+## Historical gates and interrupted full mutation
 
-All required profile gates are run through `afs-run --ticket HR-04F`. Exact commands, exits, result
-lines, and log hashes are in `.migration/evidence/runs/HR-04F.md`.
+The successful graph, build, idiom, behavior, CRAP, and changed-mutation results below were produced
+in the preceding audit session on 2026-11-04. They are historical evidence, not fresh reruns in this
+bounded recovery; their original timestamps, exits, results, and log hashes remain unchanged in
+`.migration/evidence/runs/HR-04F.md`.
 
 | Gate | Command(s) | Result |
 |---|---|---|
@@ -122,13 +124,34 @@ lines, and log hashes are in `.migration/evidence/runs/HR-04F.md`.
 | Behavior/regression | `pytest -q` | 321 passed |
 | CRAP | profile coverage, lizard, and `crap.py --max 30` commands | pass; max 19.0, threshold 30, 132 methods |
 | Changed mutation | `afs-mutation --changed-since origin/main` | exit 0; `n/a: no mutable code changed` |
-| Full mutation | `afs-mutation --all` | **still running; final result pending** |
+| Full mutation | `afs-mutation --all` | Interrupted externally; no completed result |
+
+The coordinator confirmed that Actions run
+[41896926094](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/41896926094)
+ended `CANCELLED` after about 60 minutes. Its logs report `COPILOT_AGENT_TIMEOUT_MIN: 59` and
+cleanup killing the `mutmut` and Python processes. The previous PR session has an authoritative
+`copilot_work_finished` event at 2026-11-04 20:26:59Z on head
+`ebe2d6c2400ea5d474ef072ca5264a8b8d8b63f2`; that event does not establish a mutation result.
+No completed, attributable HR-04F full-mutation output survived: this checkout has no full-mutation
+result in the journal and no HR-04F mutant report. The later setup-probe artifact is not mutation
+evidence. No score, survivor count, or partial-shard result is inferred.
+
+This is an infrastructure-interrupted gate, not evidence of an application or capability defect.
+The existing test and capability evidence above remains as recorded, but full-profile mutation
+acceptance remains unresolved.
 
 ## Human check and assessment
 
 Issue #123 documents approval of the plan. The authorization to run this audit is not treated as an
 acceptance sign-off. No separate human flow sign-off is evidenced here; no such check is claimed.
 
-**Provisional verdict:** pending the required full-profile mutation gate. No capability gap or unowned
-entry point has been found; the final verdict will reflect the fresh full mutation result and any
-remaining acceptance blocker.
+**Verdict: gaps-remain.** Full-profile mutation evidence is unresolved after the external worker
+cancellation, and the required human flow sign-off is not evidenced. No capability-specific gap or
+application defect is established by the interruption; the existing audit checked all 19
+`handling.*` ledger entries and found no graph inconsistency or unowned entry point. Leave the PR
+unmerged until the coordinator supplies a durable full-mutation result and the human flow sign-off is
+recorded.
+
+The schema-valid Auditor return is
+[`.migration/returns/HR-04F.afs-auditor.yaml`](../../returns/HR-04F.afs-auditor.yaml);
+the durable next-step handoff is [`.migration/handoffs/HR-04F.md`](../../handoffs/HR-04F.md).

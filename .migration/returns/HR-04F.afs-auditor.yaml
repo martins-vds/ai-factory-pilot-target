@@ -1,0 +1,10 @@
+role: afs-auditor
+ticket: HR-04F
+issue: martins-vds/ai-factory-pilot-target#132
+scope: handling-registration
+report: .migration/evidence/handling-registration/acceptance.md
+capabilities_checked: 19
+gaps: []
+graph_inconsistencies: []
+verdict: gaps-remain
+handoff: .migration/handoffs/HR-04F.md
