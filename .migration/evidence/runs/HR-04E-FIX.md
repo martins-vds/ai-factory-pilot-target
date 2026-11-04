@@ -36,3 +36,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T15:04:30+00:00 | idiom-ruff-format-final | 0 | 0.01 | `ruff format --check` | `13e464c51f06111c` |  |  |
 | 2026-11-04T15:05:04+00:00 | differential-28-golden-final | 0 | 22.93 | `pytest -q tests/differential/test_handling_registration.py` | `3767f6442e5c836b` |  |  |
 | 2026-11-04T15:06:05+00:00 | migration-state-final | 0 | 0.39 | `python manage.py makemigrations --check --dry-run` | `a2bfa7b376c38062` |  |  |
+| 2026-11-04T15:20:22+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T15:20:38+00:00 | return-validation | 0 | 0.54 | `python .migration/harness/tools/validate.py .migration` | `6b979784513aa6bc` |  |  |
