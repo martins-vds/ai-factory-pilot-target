@@ -6,16 +6,16 @@
 
 ## understand
 
-- Seconds: 228
+- Seconds: 193
 - Error: none
-- Model calls: 93; tokens in 3,554,348, out 78,156, cache read 3,139,442
-- Tool calls: bash 56, view 20, task 11, read_agent 10, create 9, skill 1
+- Model calls: 92; tokens in 3,463,133, out 55,949, cache read 3,088,779
+- Tool calls: bash 60, view 23, task 11, read_agent 11, create 5, skill 1
 
 ## understand-domain
 
-- Seconds: 44
+- Seconds: 61
 - Error: none
-- Model calls: 12; tokens in 353,347, out 6,134, cache read 325,228
-- Tool calls: bash 8, view 2, skill 1
+- Model calls: 12; tokens in 386,091, out 6,401, cache read 353,330
+- Tool calls: bash 12, skill 2
 
 Graphs: knowledge-graph.json, domain-graph.json
