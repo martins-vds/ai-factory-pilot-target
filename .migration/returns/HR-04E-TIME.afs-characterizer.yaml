@@ -1,0 +1,16 @@
+role: afs-characterizer
+ticket: HR-04E-TIME
+issue: martins-vds/ai-factory-pilot-target#172
+tier_used: {A: 2, B: 0, C: 0}
+suite:
+  path: characterization/handling-registration/test_timestamp_reload.py
+  cases: 1
+  passing: 1
+  run_log: .migration/evidence/runs/HR-04E-TIME.md
+predicted_vs_observed: {match: 4, differs: 0}
+ledger_updated:
+  - handling.event-table
+  - handling.history-ordering
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#171
+review_only_requests: []
