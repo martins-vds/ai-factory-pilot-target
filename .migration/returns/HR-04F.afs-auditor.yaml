@@ -6,6 +6,5 @@ report: .migration/evidence/handling-registration/acceptance.md
 capabilities_checked: 19
 gaps: []
 graph_inconsistencies: []
-verdict: gaps-remain
-# Technical gates are verified; human flow sign-off remains outstanding.
+verdict: complete
 handoff: .migration/handoffs/HR-04F.md

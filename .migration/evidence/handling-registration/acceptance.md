@@ -150,14 +150,20 @@ logs remain under the gitignored `.migration/runs/acceptance-41924854967-1/`.
 
 ## Human check and assessment
 
-Issue #123 documents approval of the plan, not acceptance of the flow. No separate human flow
-sign-off is evidenced here; no such check is claimed.
+Issue #123 documents approval of the plan. The human operator explicitly attested: **“I completed
+the human flow check and sign off”** for handling-registration at reviewed revision
+`7e3d6d5427064c67b951a29ac9f8cfabfa77e3db`. The durable audit-trail record is the
+[coordinator comment](https://github.com/martins-vds/ai-factory-pilot-target/pull/184#issuecomment-6645381666),
+created `2026-11-04T23:45:44Z`; that creation time is the attestation-record timestamp, not a claimed
+execution time. The check was performed by the human operator, not this Auditor. No separate exact
+execution time, screenshots, or individual manual-step results were supplied, and none are inferred.
 
-**Verdict: gaps-remain (needs human).** The technical gates, including the full-profile mutation
-threshold, now pass on verified durable evidence. All 19 `handling.*` ledger entries were reassessed;
-no capability-specific gap, graph inconsistency, or unowned entry point was established. The required
-human flow sign-off remains outstanding, so do not mark the slice complete or merge PR #184. Obtain
-the human check, then reassess; no application or test fix is assigned by this audit.
+**Verdict: complete.** The independently verified durable technical gates pass, including the
+full-profile mutation threshold. All 19 `handling.*` ledger entries were reassessed against the
+approved rulings, graph paths, focused tests, source goldens, and surviving-mutant locations; no
+capability gap, graph inconsistency, or unowned entry point was established. Together with the human
+operator's explicit sign-off above, no unresolved slice acceptance gap remains. This Auditor does
+not merge or approve PR #184; the coordinator retains final-head, CI, and merge checks.
 
 The schema-valid Auditor return is
 [`.migration/returns/HR-04F.afs-auditor.yaml`](../../returns/HR-04F.afs-auditor.yaml);
