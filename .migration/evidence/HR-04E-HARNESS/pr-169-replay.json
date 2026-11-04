@@ -1,0 +1,14 @@
+{
+  "repository": {"default_branch": "main"},
+  "pull_request": {
+    "number": 169,
+    "html_url": "https://github.com/martins-vds/ai-factory-pilot-target/pull/169",
+    "user": {"login": "Copilot"},
+    "head": {
+      "ref": "copilot/hr-04e-correct-verified-divergences",
+      "sha": "e25ccc8ecb4c0fe979e85116940fe2b6e9ce36ed"
+    },
+    "base": {"ref": "copilot/hr-04e-differentially-replay-handling-goldens"},
+    "body": "Fixes #168"
+  }
+}
