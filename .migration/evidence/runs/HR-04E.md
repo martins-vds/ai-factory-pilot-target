@@ -5,3 +5,20 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | UTC | Gate | Exit | Seconds | Command | Log SHA-256 | First highlight | Result |
 |---|---|---|---|---|---|---|---|
 | 2026-11-04T12:55:17+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T13:00:27+00:00 | differential-initial | 1 | 19.71 | `pytest -q tests/differential/test_handling_registration.py` | `1f543be5709c70ba` | assert response.status_code == 400 |  |
+| 2026-11-04T13:01:48+00:00 | differential-replay | 1 | 22.63 | `pytest -q tests/differential/test_handling_registration.py` | `5cafcbbd605a3e5c` | assert response.status_code == 400 |  |
+| 2026-11-04T13:02:36+00:00 | idiom-test-ruff | 1 | 0.01 | `ruff check tests/differential/test_handling_registration.py` | `1fab734223aa3c5b` |  |  |
+| 2026-11-04T13:02:51+00:00 | idiom-test-ruff-check | 0 | 0.01 | `ruff check tests/differential/test_handling_registration.py` | `82b3e6a6c090a576` |  |  |
+| 2026-11-04T13:03:05+00:00 | idiom-test-format | 1 | 0.01 | `ruff format --check tests/differential/test_handling_registration.py` | `fb37725b07825bb5` | 156 \|             assert match is not None |  |
+| 2026-11-04T13:03:22+00:00 | format-test-file | 0 | 0.01 | `ruff format tests/differential/test_handling_registration.py` | `413a709001976657` |  |  |
+| 2026-11-04T13:04:17+00:00 | format-test-file-final | 0 | 0.01 | `ruff format tests/differential/test_handling_registration.py` | `d807f3580f2470a7` |  |  |
+| 2026-11-04T13:05:07+00:00 | behavior | 1 | 45.22 | `pytest -q` | `05de0673e3a1e5ec` | assert response.status_code == 400 |  |
+| 2026-11-04T13:05:13+00:00 | build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T13:05:18+00:00 | build-django-check | 0 | 0.4 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-04T13:05:23+00:00 | idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-04T13:05:27+00:00 | idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `b1589e558de12a68` |  |  |
+| 2026-11-04T13:06:16+00:00 | crap-coverage | 1 | 42.82 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `08c688a818489ab6` | assert response.status_code == 400 |  |
+| 2026-11-04T13:06:20+00:00 | crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T13:06:24+00:00 | crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `e9b12e0d845de05e` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
+| 2026-11-04T13:06:29+00:00 | mutation-changed | 0 | 0.09 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
+| 2026-11-04T13:08:07+00:00 | regression | 1 | 44.48 | `pytest -q` | `66b39b453af20fa6` | assert response.status_code == 400 |  |
