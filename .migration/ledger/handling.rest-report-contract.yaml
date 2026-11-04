@@ -13,6 +13,7 @@ tickets:
   - martins-vds/ai-factory-pilot-target#86
   - martins-vds/ai-factory-pilot-target#88
   - martins-vds/ai-factory-pilot-target#129
+  - martins-vds/ai-factory-pilot-target#171
   - martins-vds/ai-factory-pilot-target#174
 target:
   components:
@@ -42,4 +43,5 @@ notes: >-
   was identified. Lizard did not emit a method for HandlingReportService.java; the recorded
   risk is the DTO's lizard-measured validation complexity. Accepted 204 responses have an empty
   body and no Content-Type header, matching source observations; the approved #88 JSON error
-  contract is unchanged.
+  contract is unchanged. The accepted completion input and generated registration instant remain
+  full UTC instants when the resulting handling event is reloaded, under approved divergence #171.
