@@ -104,3 +104,16 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T04:01:06+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-04T04:02:45+00:00 | verifier-rest-flow | 0 | 5.88 | `pytest -q tests/handling/test_registration_processing.py::test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery` | `870710c7710b0290` |  |  |
 | 2026-11-04T04:03:28+00:00 | verifier-focused-tests | 0 | 11.95 | `pytest -q tests/handling/test_registration_processing.py tests/handling/test_domain.py` | `30da00f9b99361f8` |  |  |
+| 2026-11-04T04:04:19+00:00 | verifier-build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T04:04:19+00:00 | verifier-build-django-check | 0 | 0.37 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-04T04:04:19+00:00 | verifier-idiom-ruff-check | 1 | 0.02 | `ruff check` | `e8d1694825cbd9f5` | Found 1 error. |  |
+| 2026-11-04T04:04:19+00:00 | verifier-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `a7b33b14dcd88b80` |  |  |
+| 2026-11-04T04:04:43+00:00 | verifier-behavior | 0 | 23.78 | `pytest -q` | `97c0a74319f4c173` |  |  |
+| 2026-11-04T04:04:56+00:00 | verifier-regression | 0 | 13.28 | `pytest -q tests/handling` | `a526122850d4ee8d` |  |  |
+| 2026-11-04T04:05:21+00:00 | verifier-crap-coverage | 0 | 24.57 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `8680ef6a0498d1d6` |  |  |
+| 2026-11-04T04:05:21+00:00 | verifier-crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T04:05:21+00:00 | verifier-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `3ccf6203eece91ff` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
+| 2026-11-04T04:05:21+00:00 | verifier-mutation-changed | 1 | 0.09 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `3ff11adc524e78cf` |  |  |
+| 2026-11-04T04:05:32+00:00 | verifier-idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-04T04:05:32+00:00 | verifier-idiom-format-final | 0 | 0.01 | `ruff format --check` | `a7b33b14dcd88b80` |  |  |
+| 2026-11-04T04:15:05+00:00 | verifier-mutation-changed-retry | 0 | 534.96 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `f278d3fba3bd1105` |  | gate=mutation score=0.800 threshold=0.8 killed=164 survived=41 files=7 base=origin/main |

@@ -8,8 +8,8 @@ import pytest
 from django.core.management import CommandError, call_command
 from django.db import OperationalError, close_old_connections
 
-import cargotracker.handling.interfaces.rest as handling_rest
 import cargotracker.handling.application.process_registration_attempt as processing
+import cargotracker.handling.interfaces.rest as handling_rest
 import cargotracker.handling.management.commands.process_handling_attempts as worker
 from cargotracker.cargo.application import sample_data
 from cargotracker.cargo.domain.tracking_id import TrackingId
