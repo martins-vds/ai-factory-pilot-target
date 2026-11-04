@@ -1,7 +1,7 @@
 role: afs-bootstrapper
 ticket: HR-04E-HARNESS
 issue: martins-vds/ai-factory-pilot-target#178
-setup_pr: null
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/179
 characterization_tier: A
 tier_evidence: Existing approved Java 8/Payara characterization retained; this rollout does not rerun or reclassify the source.
 capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
