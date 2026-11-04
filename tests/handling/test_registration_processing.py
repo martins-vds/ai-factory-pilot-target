@@ -9,9 +9,9 @@ from django.db import OperationalError, close_old_connections
 import cargotracker.handling.application.process_registration_attempt as processing
 import cargotracker.handling.management.commands.process_handling_attempts as worker
 from cargotracker.cargo.application import sample_data
-from cargotracker.cargo.management.commands import seed_sample_data
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
+from cargotracker.cargo.management.commands import seed_sample_data
 from cargotracker.handling.application.accept_registration import accept_registration
 from cargotracker.handling.application.process_registration_attempt import (
     process_registration_attempt,
