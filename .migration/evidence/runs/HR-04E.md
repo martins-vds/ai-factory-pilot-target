@@ -50,3 +50,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T13:36:07+00:00 | crap-score-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `e9b12e0d845de05e` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
 | 2026-11-04T13:36:07+00:00 | mutation-changed-final | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-04T13:36:48+00:00 | regression-final | 1 | 41.15 | `pytest -q` | `0fec34b1224edd98` | assert expected['cargo']['transportStatus'] == 'NOT_RECEIVED' |  |
+| 2026-11-04T15:25:29+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
