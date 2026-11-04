@@ -51,3 +51,4 @@ exited 0 with `gate=acceptance-evidence status=verified` for commit
 `7e3d6d5427064c67b951a29ac9f8cfabfa77e3db`, run `41924854967`, attempt `1`. The imported
 `.migration/evidence/acceptance-runs/41924854967-1.json` and
 `.migration/evidence/mutants/HR-04F.md` are byte-for-byte copies of the verified artifact files.
+| 2026-11-04T23:49:04+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
