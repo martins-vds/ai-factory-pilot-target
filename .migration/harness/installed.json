@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "9b805e17624c50d1e74cb008b3f1b0454c1be177",
-  "installed_at": "2026-11-04T18:58:45Z",
+  "harness_commit": "344241e92256a6048183f99063ca297fb96780de",
+  "installed_at": "2026-11-04T21:49:32Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -14,7 +14,7 @@
       "path": ".github/agents/afs-auditor.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-auditor.agent.md": "39d97550345bd6f53142e0a1a1666916e5b9fe4f1dd4ed8340f3705319e488c3"
+        ".github/agents/afs-auditor.agent.md": "fe4733c10e0d157da4e2887536b0386befe4c6eb6e48c3b419288583ba829757"
       }
     },
     {
@@ -83,7 +83,7 @@
         ".github/skills/afs-migration-contract/references/capability-coverage.md": "a0b43baddc3a0e2be7396e68361704d9db49761698c10c3753545038c8782ffd",
         ".github/skills/afs-migration-contract/references/characterization.md": "59bedbcabd36825d268b1362596e8215e5363c0fec308fc2cd58981bebbe3d07",
         ".github/skills/afs-migration-contract/references/final-verification.md": "847e361034d3f5a7f0ddcf26a0602183588b752cb91206c298c55c4c3cfcb12b",
-        ".github/skills/afs-migration-contract/references/gates.md": "f0e0070cbff627dac159fff2a44d0643705f8bae76c6a3b0ab2f72b9abb93c17",
+        ".github/skills/afs-migration-contract/references/gates.md": "b71f184031f4dbcbd5a4aa9fc38a46ad1301d446498da7f16217c62d8e518414",
         ".github/skills/afs-migration-contract/references/lifecycle.md": "adc3684a29db185b2126486835b5fc0ce5cd815bfaf4c34b7ebf9125e74f8eed"
       }
     },
@@ -120,7 +120,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-evidence/SKILL.md": "617767d1797caf3231eba0413899b198fbb0e959165b486d787c7475f53f67c1"
+        ".github/skills/afs-evidence/SKILL.md": "16747839d42da894637a11214a72372052c179eca8da7e0af92745447f2409c1"
       }
     },
     {
@@ -1079,6 +1079,7 @@
       "path": ".migration/harness/tools",
       "kind": "tools",
       "files": {
+        ".migration/harness/tools/afs-acceptance": "7cd5ed5f619ade8b89024acad9487512fe04dbe123ae97b0472e7d411ba66f09",
         ".migration/harness/tools/afs-cost-hook": "11adab3e46954f0a0f58cb8fcaf2a29bc671b8c5f83e4c9503718c50bbe023bf",
         ".migration/harness/tools/afs-costs": "847bc8c17c1138796aea70a90ad5e2c7b7ab1eab550be677e882827371b9cb71",
         ".migration/harness/tools/afs-mutation": "0acbf4a0d1383d2c91d81615e1837ff58da641581fabaab706818126759c15fb",
