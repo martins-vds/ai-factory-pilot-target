@@ -106,6 +106,8 @@ def create_handling_report_view(
             voyage_number=data['voyageNumber'],
         )
         accept_registration(attempt, repository)
-        return HttpResponse(status=204)
+        response = HttpResponse(status=204)
+        del response['Content-Type']
+        return response
 
     return submit_handling_report

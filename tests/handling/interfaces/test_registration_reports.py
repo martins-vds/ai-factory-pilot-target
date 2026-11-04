@@ -31,6 +31,7 @@ def test_accepted_report_is_persisted_with_completion_time_in_utc(client):
     attempt = RegistrationAttemptRecord.objects.get()
     assert response.status_code == 204
     assert response.content == b''
+    assert response.headers.get('Content-Type') is None
     assert attempt.status == RegistrationAttemptStatus.ACCEPTED
     assert attempt.completion_time == datetime(2026, 11, 3, 10, 15, tzinfo=UTC)
     assert attempt.tracking_id == 'ABC123'

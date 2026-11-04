@@ -25,12 +25,49 @@ from cargotracker.handling.infrastructure.repository import DjangoHandlingEventR
 ROOT = Path(__file__).resolve().parents[2]
 GOLDEN_DIR = ROOT / 'characterization' / 'handling-registration' / 'golden'
 GOLDEN_CASES = sorted(GOLDEN_DIR.glob('*.json'))
-TODAY = datetime.now(UTC).date()
+REFERENCE_NOW = datetime.now(UTC).replace(hour=12, minute=0, second=0, microsecond=0)
+TODAY = REFERENCE_NOW.date()
 UNKNOWN_REFERENCE_CASES = {
     'load_without_voyage',
     'unknown_location',
     'unknown_tracking_id',
     'unknown_voyage',
+}
+STATUS_TEXT_REPLACEMENTS_13 = {
+    'event_customs': 'In port New York',
+    'event_receive': 'In port New York',
+    'event_unload': 'In port Dallas',
+    'load_without_voyage': 'In port Hong Kong',
+    'misdirected_off_itinerary': 'In port Tokyo',
+    'two_reports_ordered_by_completion_time': 'In port Hong Kong',
+    'unknown_location': 'In port Hong Kong',
+    'unknown_voyage': 'In port Hong Kong',
+}
+ATOMIC_CARGO_FIELDS_87 = {
+    'two_reports_ordered_by_completion_time': {
+        'transportStatus': 'IN_PORT',
+        'lastKnownLocation': 'CNHKG',
+    },
+    'load_without_voyage': {'routingStatus': 'NOT_ROUTED'},
+    'unknown_location': {'routingStatus': 'NOT_ROUTED'},
+    'unknown_voyage': {'routingStatus': 'NOT_ROUTED'},
+}
+FIELD_ERRORS_88 = {
+    'completion_time_too_long': 'completionTime',
+    'completion_time_too_short': 'completionTime',
+    'event_type_too_long': 'eventType',
+    'event_type_too_short': 'eventType',
+    'missing_completion_time': 'completionTime',
+    'missing_event_type': 'eventType',
+    'missing_tracking_id': 'trackingId',
+    'missing_unlocode': 'unLocode',
+    'tracking_id_too_short': 'trackingId',
+    'unknown_event_type': 'eventType',
+    'unlocode_too_long': 'unLocode',
+    'unlocode_too_short': 'unLocode',
+    'unparseable_time': 'completionTime',
+    'voyage_number_too_long': 'voyageNumber',
+    'voyage_number_too_short': 'voyageNumber',
 }
 ABC123_EVENT_SEQUENCE = (
     'event_receive',
@@ -42,6 +79,20 @@ ABC123_EVENT_SEQUENCE = (
     'event_claim',
 )
 DATE_TOKEN = re.compile(r'<TODAY(?P<offset>[+-]\d+)> (?P<clock>\d{2}:\d{2})')
+
+
+@pytest.fixture(autouse=True)
+def _freeze_sample_data_clock(monkeypatch):
+    from cargotracker.cargo.application import sample_data
+    from cargotracker.cargo.management.commands import seed_sample_data
+
+    class FixedDateTime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return REFERENCE_NOW.astimezone(tz) if tz else REFERENCE_NOW.replace(tzinfo=None)
+
+    monkeypatch.setattr(seed_sample_data.timezone, 'now', lambda: REFERENCE_NOW)
+    monkeypatch.setattr(sample_data, 'datetime', FixedDateTime)
 
 
 def _target_report(report):
@@ -125,7 +176,7 @@ def _cargo_observation(tracking_id):
 
 def _normalize_display_date(value):
     observed = datetime.strptime(value, '%m/%d/%Y').date()
-    offset = (observed - datetime.now(UTC).date()).days
+    offset = (observed - TODAY).days
     return '<TODAY>' if offset == 0 else f'<TODAY{offset:+d}>'
 
 
@@ -142,6 +193,7 @@ def _tracking_observation(client, tracking_id):
     history_rows = []
     map_query = None
     empty_label = None
+    content = response.content.decode()
     if cargo is not None:
         result = {
             'tracking_id': cargo.tracking_id.value,
@@ -176,6 +228,8 @@ def _tracking_observation(client, tracking_id):
         'result': result,
         'history': {'empty_label': empty_label, 'rows': history_rows},
         'map_query': map_query,
+        'status_section': 'id="cargo-result"' in content,
+        'history_section': 'id="handling-history"' in content,
     }
 
 
@@ -207,12 +261,13 @@ def _field_mismatches(actual, expected, path=''):
     return []
 
 
-def _assert_persisted_event(report, tracking_id, previous_count):
+def _assert_persisted_event(report, tracking_id, previous_count, registration_time):
     events = HandlingEventRecord.objects.filter(cargo__tracking_id=tracking_id).order_by('pk')
     assert events.count() == previous_count + 1
     event = events.last()
     assert event.event_type == report['eventType']
-    assert event.completion_time == _completion_time(report).date()
+    assert event.completion_time == _completion_time(report)
+    assert event.registration_time == registration_time
     assert event.location.unlocode == report['unLocode']
     if report.get('voyageNumber'):
         assert event.voyage.voyage_number == report['voyageNumber']
@@ -235,7 +290,43 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
     _prime_prior_golden_state(client, case_name)
 
     malformed = 'post' in expected and expected['post']['status'] != 204
+    if not malformed:
+        if case_name == 'two_reports_ordered_by_completion_time':
+            assert expected['cargo']['transportStatus'] == 'NOT_RECEIVED'
+            assert expected['cargo']['lastKnownLocation'] == 'Unknown'
+            assert (
+                expected['tracking']['history']['rows'][0]['description'] == 'Received in Hong Kong'
+            )
+            assert (
+                expected['tracking']['history']['rows'][1]['description']
+                == 'Cleared customs in Hong Kong'
+            )
+            assert expected['tracking']['map_query']['lastKnownLocationCode'] == 'CNHKG'
+        if case_name in {'load_without_voyage', 'unknown_location', 'unknown_voyage'}:
+            assert expected['cargo']['routingStatus'] == 'MISROUTED'
+            assert expected['tracking']['map_query']['statusCode'] == 'NOT_ROUTED'
+
+        for field, value in ATOMIC_CARGO_FIELDS_87.get(case_name, {}).items():
+            expected['cargo'][field] = value
+        if case_name in STATUS_TEXT_REPLACEMENTS_13:
+            assert (
+                expected['tracking']['result']['status_text']
+                != STATUS_TEXT_REPLACEMENTS_13[case_name]
+            )
+            expected['tracking']['result']['status_text'] = STATUS_TEXT_REPLACEMENTS_13[case_name]
+        if expected['tracking']['result'] is None:
+            expected['tracking']['status_section'] = False
+            expected['tracking']['history_section'] = False
+        else:
+            expected['tracking']['status_section'] = True
+            expected['tracking']['history_section'] = True
+        if case_name == 'event_claim':
+            assert expected['tracking']['result']['eta'] is not None
+            expected['tracking']['result']['eta'] = None
+
     if malformed:
+        if case_name in {'unknown_event_type', 'unparseable_time'}:
+            assert expected['post']['status'] == 500
         expected['post'] = {'status': 400, 'content_type': 'application/json'}
     elif 'posts' in expected:
         expected['posts'] = [{'status': status, 'content_type': ''} for status in expected['posts']]
@@ -257,6 +348,11 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
             assert response.status_code == 400
             assert response.headers.get('Content-Type', '').split(';')[0] == 'application/json'
             assert RegistrationAttemptRecord.objects.count() == attempt_count
+            errors = response.json().get('errors', {})
+            assert set(errors) == {FIELD_ERRORS_88[case_name]}, (
+                f'ruling #88 requires a field-error body for {case_name}'
+            )
+            assert errors[FIELD_ERRORS_88[case_name]]
     else:
         for report in reports:
             target_report = _target_report(report)
@@ -269,8 +365,11 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
                 }
             )
             assert response.status_code == 204
+            assert response.content == b''
+            assert response.headers.get('Content-Type') is None
             attempt = RegistrationAttemptRecord.objects.latest('pk')
             assert attempt.status == 'accepted'
+            registration_time = attempt.registration_time
             event_count = HandlingEventRecord.objects.filter(cargo__tracking_id=tracking_id).count()
 
             assert _process_next_attempt() is True
@@ -284,7 +383,7 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
                 )
             else:
                 assert attempt.status == 'registered'
-                _assert_persisted_event(target_report, tracking_id, event_count)
+                _assert_persisted_event(target_report, tracking_id, event_count, registration_time)
 
         tracking_id = reports[-1]['trackingId']
         actual['cargo'] = _cargo_observation(tracking_id)
