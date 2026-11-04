@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HR-04F-DURABLE
+issue: martins-vds/ai-factory-pilot-target#185
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/186
+characterization_tier: A
+tier_evidence: Existing approved source characterization retained; this blocked pin installation did not rerun or reclassify it.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "blocked: required clean harness checkout at 344241e92256a6048183f99063ca297fb96780de unavailable; independent migration-state validation passed."
+handoff: .migration/handoffs/HR-04F-DURABLE.md
+evidence: .migration/evidence/HR-04F-DURABLE/report.md
+evidence_logs: .migration/evidence/runs/HR-04F-DURABLE.md
