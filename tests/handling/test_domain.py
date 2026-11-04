@@ -119,10 +119,20 @@ def test_handling_history_keeps_the_highest_id_when_deduplicating_identical_even
     assert history.most_recent_event_id == 2
 
 
-@pytest.mark.parametrize('event_ids', [[], [0], [-1], [True], ['1']])
-def test_handling_history_rejects_mismatched_or_invalid_event_ids(event_ids):
-    with pytest.raises(ValueError):
+@pytest.mark.parametrize(
+    ('event_ids', 'message'),
+    [
+        ([], 'Handling event IDs must match the history events'),
+        ([0], 'Handling event IDs must be positive integers'),
+        ([-1], 'Handling event IDs must be positive integers'),
+        ([True], 'Handling event IDs must be positive integers'),
+        (['1'], 'Handling event IDs must be positive integers'),
+    ],
+)
+def test_handling_history_rejects_mismatched_or_invalid_event_ids(event_ids, message):
+    with pytest.raises(ValueError) as error:
         HandlingHistory([_event()], event_ids=event_ids)
+    assert str(error.value) == message
 
 
 def test_handling_history_is_immutable_and_requires_handling_events():

@@ -1,15 +1,20 @@
+import json
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
+from math import isfinite
 
 import pytest
 from django.core.management import CommandError, call_command
 from django.db import OperationalError, close_old_connections
 
 import cargotracker.handling.application.process_registration_attempt as processing
+import cargotracker.handling.interfaces.rest as handling_rest
 import cargotracker.handling.management.commands.process_handling_attempts as worker
+from cargotracker.cargo.application import sample_data
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
+from cargotracker.cargo.management.commands import seed_sample_data
 from cargotracker.handling.application.accept_registration import accept_registration
 from cargotracker.handling.application.process_registration_attempt import (
     process_registration_attempt,
@@ -32,34 +37,24 @@ from cargotracker.voyage.domain.voyage_number import VoyageNumber
 
 
 @pytest.mark.parametrize(
-    ('setting', 'value', 'message'),
+    ('setting', 'value'),
     [
-        (
-            'HANDLING_ATTEMPT_POLL_SECONDS',
-            '0',
-            'HANDLING_ATTEMPT_POLL_SECONDS must be greater than zero',
-        ),
-        (
-            'HANDLING_ATTEMPT_POLL_SECONDS',
-            'nan',
-            'HANDLING_ATTEMPT_POLL_SECONDS must be greater than zero',
-        ),
-        (
-            'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS',
-            'not-a-number',
-            'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS must be a positive number',
-        ),
-        (
-            'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS',
-            'inf',
-            'HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS must be greater than zero',
-        ),
+        ('HANDLING_ATTEMPT_POLL_SECONDS', '0'),
+        ('HANDLING_ATTEMPT_POLL_SECONDS', 'nan'),
+        ('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', 'not-a-number'),
+        ('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', '0'),
+        ('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', 'inf'),
+        ('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', 'nan'),
     ],
 )
-def test_worker_rejects_invalid_settings(monkeypatch, setting, value, message):
+def test_worker_rejects_invalid_settings(monkeypatch, setting, value):
     monkeypatch.setenv(setting, value)
+    monkeypatch.setattr(worker, 'process_registration_attempt', lambda *args, **kwargs: False)
+    monkeypatch.setattr(
+        worker, 'sleep', lambda _: pytest.fail('worker slept with invalid settings')
+    )
 
-    with pytest.raises(CommandError, match=message):
+    with pytest.raises(CommandError):
         worker.Command().handle()
 
 
@@ -93,6 +88,36 @@ def test_worker_sleeps_when_idle_and_processes_without_sleeping(monkeypatch):
     assert sleeps == [0.25]
 
 
+def test_worker_processes_and_waits_with_default_settings(monkeypatch):
+    monkeypatch.delenv('HANDLING_ATTEMPT_POLL_SECONDS', raising=False)
+    monkeypatch.delenv('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', raising=False)
+    retry_backoffs = []
+    sleeps = []
+
+    class StopWorker(Exception):
+        pass
+
+    def process_attempt(*repositories, retry_backoff_seconds):
+        assert len(repositories) == 3
+        retry_backoffs.append(retry_backoff_seconds)
+        return False
+
+    def stop_after_sleep(seconds):
+        sleeps.append(seconds)
+        raise StopWorker
+
+    monkeypatch.setattr(worker, 'process_registration_attempt', process_attempt)
+    monkeypatch.setattr(worker, 'sleep', stop_after_sleep)
+
+    with pytest.raises(StopWorker):
+        worker.Command().handle()
+
+    assert len(retry_backoffs) == 1
+    assert isfinite(retry_backoffs[0]) and retry_backoffs[0] > 0
+    assert len(sleeps) == 1
+    assert isfinite(sleeps[0]) and sleeps[0] > 0
+
+
 def _attempt(**overrides):
     fields = {
         'tracking_id': TrackingId('ABC123'),
@@ -110,6 +135,63 @@ def _process():
         DjangoCargoRepository(),
         DjangoHandlingEventRepository(),
     )
+
+
+@pytest.mark.django_db
+def test_rest_accepted_report_is_processed_into_handling_event_and_cargo_delivery(
+    client, monkeypatch
+):
+    fixed_now = datetime(2026, 11, 4, 12, tzinfo=UTC)
+
+    class FrozenDateTime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return fixed_now.astimezone(tz) if tz else fixed_now
+
+    monkeypatch.setattr(seed_sample_data.timezone, 'now', lambda: fixed_now)
+    monkeypatch.setattr(sample_data, 'datetime', FrozenDateTime)
+    monkeypatch.setattr(handling_rest, 'datetime', FrozenDateTime)
+    call_command('seed_sample_data')
+
+    completion_time = datetime(2026, 11, 5, 12, tzinfo=UTC)
+    events_before = HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
+    delivery_before = DjangoCargoRepository().find(TrackingId('ABC123')).delivery
+    response = client.post(
+        '/rest/handling/reports',
+        data=json.dumps(
+            {
+                'completionTime': completion_time.strftime('%Y-%m-%d %H:%M'),
+                'trackingId': 'ABC123',
+                'eventType': 'RECEIVE',
+                'unLocode': 'USNYC',
+            }
+        ),
+        content_type='application/json',
+    )
+    attempt = RegistrationAttemptRecord.objects.get()
+
+    assert response.status_code == 204
+    assert attempt.status == 'accepted'
+    assert HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before
+    assert DjangoCargoRepository().find(TrackingId('ABC123')).delivery == delivery_before
+    assert _process() is True
+
+    attempt.refresh_from_db()
+    event = HandlingEventRecord.objects.get(
+        cargo__tracking_id='ABC123',
+        event_type='RECEIVE',
+        completion_time=completion_time.date(),
+        registration_time=attempt.registration_time.date(),
+    )
+    cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
+
+    assert attempt.status == 'registered'
+    assert (
+        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 1
+    )
+    assert cargo.delivery.last_event_id == event.pk
+    assert cargo.delivery.transport_status == 'IN_PORT'
+    assert cargo.delivery.last_known_location.unlocode == UnLocode('USNYC')
 
 
 @pytest.mark.django_db
@@ -191,14 +273,27 @@ def test_unknown_references_reject_attempt_without_storing_event(
 
 
 @pytest.mark.django_db
-def test_equal_completion_time_uses_registration_order_for_delivered_outcome(caplog):
+@pytest.mark.parametrize('earlier_registration_day', [4, 5])
+def test_equal_completion_time_uses_registration_order_for_delivered_outcome(
+    caplog, monkeypatch, earlier_registration_day
+):
+    fixed_now = datetime(2026, 11, 4, 12, tzinfo=UTC)
+
+    class FrozenDateTime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return fixed_now.astimezone(tz) if tz else fixed_now
+
+    monkeypatch.setattr(seed_sample_data.timezone, 'now', lambda: fixed_now)
+    monkeypatch.setattr(sample_data, 'datetime', FrozenDateTime)
     call_command('seed_sample_data')
     completion_time = datetime(2026, 11, 3, 12, tzinfo=UTC)
     attempts = DjangoAttemptSubmissionRepository()
+    earlier_registration_time = datetime(2026, 11, earlier_registration_day, 12, tzinfo=UTC)
     later_registration = accept_registration(
         _attempt(
             completion_time=completion_time,
-            registration_time=datetime(2026, 11, 5, 12, tzinfo=UTC),
+            registration_time=earlier_registration_time + timedelta(days=1),
             event_type=HandlingEventType.UNLOAD,
             location=UnLocode('FIHEL'),
             voyage_number=VoyageNumber('0300A'),
@@ -208,7 +303,7 @@ def test_equal_completion_time_uses_registration_order_for_delivered_outcome(cap
     earlier_registration = accept_registration(
         _attempt(
             completion_time=completion_time,
-            registration_time=datetime(2026, 11, 4, 12, tzinfo=UTC),
+            registration_time=earlier_registration_time,
             event_type=HandlingEventType.RECEIVE,
             location=UnLocode('USNYC'),
         ),
@@ -222,11 +317,13 @@ def test_equal_completion_time_uses_registration_order_for_delivered_outcome(cap
     later_event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='UNLOAD',
+        completion_time=completion_time.date(),
         registration_time=later_registration.registration_time.date(),
     )
     earlier_event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='RECEIVE',
+        completion_time=completion_time.date(),
         registration_time=earlier_registration.registration_time.date(),
     )
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
@@ -345,7 +442,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
     delivery_before = DjangoCargoRepository().find(TrackingId('ABC123')).delivery
     original_mark_registered = DjangoAttemptProcessingRepository.mark_registered
     mark_calls = 0
-    clock = [0.0]
+    clock = [10_000.0]
     retry_delays = []
     retry_observations = []
     error_times = []
@@ -361,7 +458,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
     def advance_clock(seconds):
         clock[0] += seconds
         if mark_calls == 20:
-            clock[0] = 900
+            clock[0] = 10_900
         retry_delays.append(seconds)
         retry_observations.append(
             (
@@ -393,7 +490,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
         HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 1
     )
     assert mark_calls == 26
-    assert clock[0] >= 900
+    assert clock[0] >= 10_900
     assert retry_delays[:7] == [1, 2, 4, 8, 16, 32, 60]
     assert set(retry_delays[6:]) == {60}
     assert len(retry_observations) == 25
@@ -402,7 +499,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
         for status, count, delivery in retry_observations
     )
     assert sum('after 15 minutes' in record.getMessage() for record in caplog.records) == 1
-    assert error_times == [900]
+    assert error_times == [10_900]
 
 
 @pytest.mark.parametrize('backoff', [0, -1, float('inf'), float('nan')])

@@ -2,17 +2,22 @@ role: afs-specialist-migrator
 ticket: HR-04D
 issue: martins-vds/ai-factory-pilot-target#130
 specialty: messaging
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/142
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/163
 gates:
   build: 0
   behavior: 0
   idiom: 0
   crap: 0
-  mutation_changed: 0.776
+  mutation_changed: 0.8
   regression: 0
 specialty_evidence:
   - .migration/evidence/runs/HR-04D.md
+  - .migration/evidence/mutants/HR-04D.md
   - tests/handling/test_registration_processing.py
+  - >-
+    Before the fix, repro-date-collision failed with MultipleObjectsReturned; after the fix,
+    behavior passed 287 tests, handling regression passed 116 tests, and changed-code mutation
+    scored 0.800 against the 0.8 threshold.
 worker_decision: >-
   Chose a hand-rolled Django management-command loop: PostgreSQL-backed attempts and SKIP LOCKED
   claims provide durable processing without another queue dependency or broker.
@@ -36,4 +41,4 @@ ledger_updated:
   - handling.delivered-queue
 quirk_tickets:
   - martins-vds/ai-factory-pilot-target#136
-handoff: .migration/handoffs/HR-04D.md
+handoff: none
