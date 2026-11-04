@@ -117,3 +117,9 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T04:05:32+00:00 | verifier-idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
 | 2026-11-04T04:05:32+00:00 | verifier-idiom-format-final | 0 | 0.01 | `ruff format --check` | `a7b33b14dcd88b80` |  |  |
 | 2026-11-04T04:15:05+00:00 | verifier-mutation-changed-retry | 0 | 534.96 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `f278d3fba3bd1105` |  | gate=mutation score=0.800 threshold=0.8 killed=164 survived=41 files=7 base=origin/main |
+| 2026-11-04T04:16:20+00:00 | verifier-final-build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T04:16:21+00:00 | verifier-final-build-check | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-04T04:16:21+00:00 | verifier-final-ruff | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-04T04:16:21+00:00 | verifier-final-format | 0 | 0.01 | `ruff format --check` | `a7b33b14dcd88b80` |  |  |
+| 2026-11-04T04:16:46+00:00 | verifier-final-behavior | 0 | 25.32 | `pytest -q` | `01d785000176f8fc` |  |  |
+| 2026-11-04T04:16:58+00:00 | verifier-final-regression | 0 | 12.17 | `pytest -q tests/handling` | `06513b6ba81cbf79` |  |  |
