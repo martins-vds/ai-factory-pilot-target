@@ -2,6 +2,7 @@ import json
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
+from math import isfinite
 
 import pytest
 from django.core.management import CommandError, call_command
@@ -97,6 +98,7 @@ def test_worker_processes_and_waits_with_default_settings(monkeypatch):
         pass
 
     def process_attempt(*repositories, retry_backoff_seconds):
+        assert len(repositories) == 3
         retry_backoffs.append(retry_backoff_seconds)
         return False
 
@@ -111,7 +113,9 @@ def test_worker_processes_and_waits_with_default_settings(monkeypatch):
         worker.Command().handle()
 
     assert len(retry_backoffs) == 1
+    assert isfinite(retry_backoffs[0]) and retry_backoffs[0] > 0
     assert len(sleeps) == 1
+    assert isfinite(sleeps[0]) and sleeps[0] > 0
 
 
 def _attempt(**overrides):
