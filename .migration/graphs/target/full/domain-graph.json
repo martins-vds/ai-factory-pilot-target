@@ -3,343 +3,186 @@
   "project": {
     "name": "cargotracker",
     "languages": [
-      "html",
-      "markdown",
-      "python"
+      "python",
+      "html"
     ],
     "frameworks": [
-      "Django"
+      "Django",
+      "htmx",
+      "Leaflet"
     ],
-    "description": "Cargo tracking: domains for tracking, handling, locations and voyages.",
-    "analyzedAt": "2026-11-03T17:28:35.571Z",
-    "gitCommitHash": "46261441655552d43b0564904ec4dd5cebee4676",
-    "analyzedCommit": "0b62a2fbc65e2ca4985b062a9e4715b259298668"
+    "description": "Cargo tracking application: customers look up a cargo by tracking ID to see status, ETA, next activity, handling history and map position, while handling reports from the field are queued and asynchronously registered against cargos.",
+    "analyzedAt": "2026-11-04T18:05:00.000Z",
+    "gitCommitHash": "d3453215147cdad68a9cfbd8cf187a3e9d4d6e34",
+    "analyzedCommit": "9809e1a523647f87cdf803193c6776f0502bb80a"
   },
   "nodes": [
     {
       "id": "domain:cargo-tracking",
       "type": "domain",
       "name": "Cargo Tracking",
-      "summary": "Lets customers look up a cargo by tracking ID and see status, ETA, next activity, handling history and map position. Cargo aggregates derive delivery status from route, itinerary and handling events.",
+      "summary": "Lets users look up a cargo by tracking ID and see its delivery status, ETA, next expected activity, handling history and map position. Owns the Cargo aggregate, route specification, itinerary and derived Delivery.",
       "tags": [
+        "cargo",
         "tracking",
-        "cargo"
+        "delivery"
       ],
       "complexity": "complex",
       "domainMeta": {
         "entities": [
           "Cargo",
           "TrackingId",
-          "Delivery",
+          "RouteSpecification",
           "Itinerary",
-          "RouteSpecification"
+          "Leg",
+          "Delivery",
+          "HandlingActivity"
         ],
         "businessRules": [
-          "Tracking ID must be valid and non-empty",
-          "Cargo is misdirected when handling events deviate from its itinerary",
-          "Cargo equality is by tracking ID"
+          "A cargo is identified by its tracking ID",
+          "An itinerary satisfies a route specification only if origin, destination and deadline match",
+          "Delivery progress, ETA and next expected activity are derived from the latest handling event",
+          "All datetimes are normalized to UTC"
         ],
         "crossDomainInteractions": [
-          "Reads handling events from Handling",
-          "Resolves locations via Location",
-          "Itinerary legs reference Voyages"
+          "Reads handling history from Handling Registration",
+          "Resolves locations and voyages from Reference Data"
         ]
       }
     },
     {
-      "id": "domain:cargo-handling",
+      "id": "domain:handling-registration",
       "type": "domain",
-      "name": "Cargo Handling",
-      "summary": "Records handling events (receive, load, unload, customs, claim) and builds a time-ordered, deduplicated handling history per cargo.",
+      "name": "Handling Registration",
+      "summary": "Accepts handling reports (receive, load, unload, claim, customs) and asynchronously turns them into handling events that update a cargo's delivery. Manages the lifecycle of queued registration attempts with retry and rejection.",
       "tags": [
         "handling",
-        "events"
+        "events",
+        "queue"
       ],
-      "complexity": "moderate",
+      "complexity": "complex",
       "domainMeta": {
         "entities": [
           "HandlingEvent",
-          "HandlingEventType",
-          "HandlingHistory"
+          "HandlingHistory",
+          "RegistrationAttempt"
         ],
         "businessRules": [
-          "Events are validated by type (voyage required for load/unload)",
-          "History is deduplicated and sorted by completion time"
+          "A voyage is required for load and unload events",
+          "Attempts are atomically claimed before processing",
+          "Attempts end as registered or rejected, and rejections carry a reason",
+          "Transient failures are retried; permanent failures are rejected"
         ],
         "crossDomainInteractions": [
-          "Feeds Cargo Tracking delivery calculation",
-          "References Location and Voyage"
+          "Updates Cargo delivery after registering events",
+          "Resolves locations and voyages from Reference Data"
         ]
       }
     },
     {
-      "id": "domain:location-management",
+      "id": "domain:reference-data",
       "type": "domain",
-      "name": "Location Management",
-      "summary": "Maintains locations identified by UN/LOCODE, used as origins, destinations and handling sites.",
+      "name": "Reference Data",
+      "summary": "Master data for locations (UN/LOCODE) and voyages (voyage number with carrier movement schedule). Also provides sample data seeding for demos.",
       "tags": [
-        "location"
-      ],
-      "complexity": "simple",
-      "domainMeta": {
-        "entities": [
-          "Location",
-          "UnLocode"
-        ],
-        "businessRules": [
-          "UN/LOCODE must be validated and normalized"
-        ],
-        "crossDomainInteractions": [
-          "Referenced by Cargo, Handling and Voyage"
-        ]
-      }
-    },
-    {
-      "id": "domain:voyage-scheduling",
-      "type": "domain",
-      "name": "Voyage Scheduling",
-      "summary": "Models voyages as schedules of carrier movements between locations that cargo itineraries travel on.",
-      "tags": [
+        "location",
         "voyage",
-        "schedule"
+        "master-data"
       ],
       "complexity": "moderate",
       "domainMeta": {
         "entities": [
+          "Location",
+          "UnLocode",
           "Voyage",
           "VoyageNumber",
           "Schedule",
           "CarrierMovement"
         ],
         "businessRules": [
-          "Carrier movements chain departure to arrival locations"
+          "Locations are keyed by a valid UN/LOCODE",
+          "Voyage numbers are validated",
+          "Carrier movements chain from departure to arrival location"
         ],
         "crossDomainInteractions": [
-          "Cargo legs and handling events reference voyages"
+          "Referenced by cargos' routes and itineraries",
+          "Referenced when resolving handling attempts"
         ]
       }
     },
     {
-      "id": "flow:track-cargo-by-id",
+      "id": "flow:track-cargo",
       "type": "flow",
-      "name": "Track Cargo by ID",
-      "summary": "Customer submits a tracking ID and receives a rendered tracking result.",
+      "name": "Track Cargo",
+      "summary": "User submits a tracking ID and receives cargo status, ETA, next activity, misdirection warning and handling history.",
       "tags": [
-        "cargo-tracking"
+        "tracking",
+        "http",
+        "htmx"
       ],
       "complexity": "moderate",
       "domainMeta": {
-        "entryPoint": "POST tracking form (HTMX)",
+        "entryPoint": "GET/POST /",
         "entryType": "http"
       }
     },
     {
-      "id": "step:track-cargo-by-id:submit-tracking-id",
-      "type": "step",
-      "name": "Submit tracking ID",
-      "filePath": "src/cargotracker/cargo/interfaces/forms.py",
-      "summary": "Validate the TrackingForm and strip the tracking ID.",
-      "tags": [
-        "track-cargo-by-id"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:track-cargo-by-id:lookup-cargo",
-      "type": "step",
-      "name": "Look up cargo",
-      "filePath": "src/cargotracker/cargo/application/tracking.py",
-      "lineRange": [
-        8,
-        17
-      ],
-      "summary": "TrackingLookup finds the cargo via repository by tracking ID.",
-      "tags": [
-        "track-cargo-by-id"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:track-cargo-by-id:build-history",
-      "type": "step",
-      "name": "Build handling history",
-      "filePath": "src/cargotracker/cargo/application/tracking.py",
-      "lineRange": [
-        8,
-        17
-      ],
-      "summary": "Fetch handling events and assemble the cargo's history.",
-      "tags": [
-        "track-cargo-by-id"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:track-cargo-by-id:derive-status",
-      "type": "step",
-      "name": "Derive status text and ETA",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py",
-      "lineRange": [
-        13,
-        19
-      ],
-      "summary": "Format status, ETA and next activity for display.",
-      "tags": [
-        "track-cargo-by-id"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:track-cargo-by-id:render-result",
-      "type": "step",
-      "name": "Render tracking result",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/views.py",
-      "lineRange": [
-        15,
-        45
-      ],
-      "summary": "Assemble view context and render result fragment with history rows and map frame.",
-      "tags": [
-        "track-cargo-by-id"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "flow:display-cargo-map",
+      "id": "flow:view-cargo-map",
       "type": "flow",
-      "name": "Display Cargo Map",
-      "summary": "Show cargo origin, destination and last known location on an embedded map.",
+      "name": "View Cargo Map",
+      "summary": "Renders an embeddable map showing a cargo's origin, destination and last known location, coloured by status.",
       "tags": [
-        "cargo-tracking"
+        "map",
+        "http",
+        "leaflet"
       ],
       "complexity": "simple",
       "domainMeta": {
-        "entryPoint": "GET tracking map frame",
+        "entryPoint": "GET /tracking/map/",
         "entryType": "http"
       }
     },
     {
-      "id": "step:display-cargo-map:compute-map-status",
-      "type": "step",
-      "name": "Compute map status code",
-      "filePath": "src/cargotracker/cargo/application/map_status.py",
-      "summary": "Map routing/delivery state to NOT_ROUTED, AT_DESTINATION, MISDIRECTED or transport status.",
-      "tags": [
-        "display-cargo-map"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:display-cargo-map:build-frame-url",
-      "type": "step",
-      "name": "Build map frame URL",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/adapter.py",
-      "lineRange": [
-        11,
-        26
-      ],
-      "summary": "Encode cargo locations into a query-string URL.",
-      "tags": [
-        "display-cargo-map"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:display-cargo-map:resolve-coordinates",
-      "type": "step",
-      "name": "Resolve location coordinates",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/views.py",
-      "lineRange": [
-        44,
-        49
-      ],
-      "summary": "Look up lat/long for UN/LOCODEs.",
-      "tags": [
-        "display-cargo-map"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:display-cargo-map:render-map-frame",
-      "type": "step",
-      "name": "Render map frame",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/views.py",
-      "lineRange": [
-        19,
-        41
-      ],
-      "summary": "Build marker data and render the Leaflet frame.",
-      "tags": [
-        "display-cargo-map"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "flow:derive-cargo-delivery-status",
+      "id": "flow:submit-handling-report",
       "type": "flow",
-      "name": "Derive Cargo Delivery Status",
-      "summary": "Compute transport, routing and misdirection status, ETA and next activity from itinerary and latest handling event.",
+      "name": "Submit Handling Report",
+      "summary": "A handling report arrives over REST, is validated and queued as a registration attempt.",
       "tags": [
-        "cargo-tracking"
+        "handling",
+        "rest",
+        "http"
       ],
-      "complexity": "complex",
+      "complexity": "simple",
       "domainMeta": {
-        "entryPoint": "Cargo delivery update",
-        "entryType": "manual"
+        "entryPoint": "POST /rest/handling/reports",
+        "entryType": "http"
       }
     },
     {
-      "id": "step:derive-cargo-delivery-status:check-routing",
-      "type": "step",
-      "name": "Check routing status",
-      "filePath": "src/cargotracker/cargo/domain/route_specification.py",
-      "lineRange": [
-        13,
-        38
-      ],
-      "summary": "Determine whether the cargo is routed against its route specification.",
+      "id": "flow:process-registration-attempts",
+      "type": "flow",
+      "name": "Process Registration Attempts",
+      "summary": "Worker claims queued attempts, resolves them into handling events, updates cargo delivery and marks the attempt registered or rejected.",
       "tags": [
-        "derive-cargo-delivery-status"
+        "handling",
+        "worker",
+        "cli"
       ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:derive-cargo-delivery-status:match-itinerary",
-      "type": "step",
-      "name": "Match event to itinerary",
-      "filePath": "src/cargotracker/cargo/domain/itinerary.py",
-      "lineRange": [
-        11,
-        56
-      ],
-      "summary": "Check whether the last handling event is expected by the itinerary.",
-      "tags": [
-        "derive-cargo-delivery-status"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:derive-cargo-delivery-status:derive-delivery",
-      "type": "step",
-      "name": "Derive delivery",
-      "filePath": "src/cargotracker/cargo/domain/delivery.py",
-      "lineRange": [
-        33,
-        223
-      ],
-      "summary": "Derive transport status, misdirection, ETA, last known location and next activity.",
-      "tags": [
-        "derive-cargo-delivery-status"
-      ],
-      "complexity": "simple"
+      "complexity": "complex",
+      "domainMeta": {
+        "entryPoint": "manage.py process_handling_attempts",
+        "entryType": "cli"
+      }
     },
     {
       "id": "flow:seed-sample-data",
       "type": "flow",
       "name": "Seed Sample Data",
-      "summary": "Load the characterized sample dataset of locations, voyages, cargos and events.",
+      "summary": "Populates the database with sample locations, voyages, cargos and handling events for demos.",
       "tags": [
-        "cargo-tracking"
+        "seed",
+        "cli",
+        "demo"
       ],
       "complexity": "simple",
       "domainMeta": {
@@ -348,484 +191,450 @@
       }
     },
     {
-      "id": "step:seed-sample-data:run-seed-command",
+      "id": "step:track-cargo:validate-tracking-id-form",
       "type": "step",
-      "name": "Run seed command",
-      "filePath": "src/cargotracker/cargo/management/commands/seed_sample_data.py",
-      "lineRange": [
-        14,
-        26
-      ],
-      "summary": "Wire Django repositories into the seeder.",
+      "name": "Validate Tracking ID Form",
+      "summary": "Validates the required tracking ID field submitted by the user.",
       "tags": [
-        "seed-sample-data"
+        "form",
+        "validation"
       ],
-      "complexity": "simple"
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/forms.py"
     },
     {
-      "id": "step:seed-sample-data:seed-reference-data",
+      "id": "step:track-cargo:look-up-cargo",
       "type": "step",
-      "name": "Seed locations and voyages",
-      "filePath": "src/cargotracker/cargo/application/sample_data.py",
-      "lineRange": [
-        178,
-        226
-      ],
-      "summary": "Persist locations and voyages first.",
+      "name": "Look Up Cargo",
+      "summary": "Finds the cargo by tracking ID and retrieves its handling history via repositories.",
       "tags": [
-        "seed-sample-data"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:seed-sample-data:seed-cargos-events",
-      "type": "step",
-      "name": "Seed cargos and events",
-      "filePath": "src/cargotracker/cargo/application/sample_data.py",
-      "lineRange": [
-        143,
-        175
-      ],
-      "summary": "Build cargos from seeds and record handling events.",
-      "tags": [
-        "seed-sample-data"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "flow:build-handling-history",
-      "type": "flow",
-      "name": "Build Handling History",
-      "summary": "Turn stored handling events into an ordered history for a cargo.",
-      "tags": [
-        "cargo-handling"
+        "lookup",
+        "repository"
       ],
       "complexity": "moderate",
-      "domainMeta": {
-        "entryPoint": "Tracking lookup",
-        "entryType": "manual"
-      }
+      "filePath": "src/cargotracker/cargo/application/tracking.py"
     },
     {
-      "id": "step:build-handling-history:query-events",
+      "id": "step:track-cargo:derive-delivery-status",
       "type": "step",
-      "name": "Query events for cargo",
-      "filePath": "src/cargotracker/handling/infrastructure/repository.py",
-      "lineRange": [
-        19,
-        71
-      ],
-      "summary": "Repository returns handling events for a cargo.",
+      "name": "Derive Delivery Status",
+      "summary": "Computes transport status, routing status, ETA and next expected activity from the cargo and its last handling event.",
       "tags": [
-        "build-handling-history"
+        "delivery",
+        "domain-logic"
       ],
-      "complexity": "simple"
+      "complexity": "complex",
+      "filePath": "src/cargotracker/cargo/domain/delivery.py"
     },
     {
-      "id": "step:build-handling-history:validate-events",
+      "id": "step:track-cargo:build-status-text",
       "type": "step",
-      "name": "Validate events",
-      "filePath": "src/cargotracker/handling/domain/handling_event.py",
-      "lineRange": [
-        24,
-        48
-      ],
-      "summary": "HandlingEvent validates type-specific constraints.",
+      "name": "Build Status Text",
+      "summary": "Creates the status sentence, ETA and next-activity text, distinguishing in-port and onboard states.",
       "tags": [
-        "build-handling-history"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:build-handling-history:order-dedupe",
-      "type": "step",
-      "name": "Order and deduplicate",
-      "filePath": "src/cargotracker/handling/domain/handling_history.py",
-      "lineRange": [
-        9,
-        28
-      ],
-      "summary": "HandlingHistory sorts by completion time and removes duplicates.",
-      "tags": [
-        "build-handling-history"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:build-handling-history:describe-events",
-      "type": "step",
-      "name": "Describe events",
-      "filePath": "src/cargotracker/cargo/interfaces/tracking/history.py",
-      "lineRange": [
-        21,
-        29
-      ],
-      "summary": "Produce human-readable history rows.",
-      "tags": [
-        "build-handling-history"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "flow:resolve-location",
-      "type": "flow",
-      "name": "Resolve Location",
-      "summary": "Validate a UN/LOCODE and load its location.",
-      "tags": [
-        "location-management"
+        "presentation"
       ],
       "complexity": "simple",
-      "domainMeta": {
-        "entryPoint": "Location lookup",
-        "entryType": "manual"
-      }
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py"
     },
     {
-      "id": "step:resolve-location:validate-locode",
+      "id": "step:track-cargo:describe-handling-history",
       "type": "step",
-      "name": "Validate UN/LOCODE",
-      "filePath": "src/cargotracker/location/domain/un_locode.py",
-      "summary": "UnLocode validates and normalizes identifiers.",
+      "name": "Describe Handling History",
+      "summary": "Turns handling events into readable description rows.",
       "tags": [
-        "resolve-location"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "step:resolve-location:find-location",
-      "type": "step",
-      "name": "Find location",
-      "filePath": "src/cargotracker/location/infrastructure/repository.py",
-      "lineRange": [
-        7,
-        23
-      ],
-      "summary": "Repository maps LocationRecord to Location.",
-      "tags": [
-        "resolve-location"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "flow:assemble-voyage",
-      "type": "flow",
-      "name": "Assemble Voyage",
-      "summary": "Build a voyage schedule from chained carrier movements.",
-      "tags": [
-        "voyage-scheduling"
+        "presentation",
+        "history"
       ],
       "complexity": "simple",
-      "domainMeta": {
-        "entryPoint": "Voyage construction",
-        "entryType": "manual"
-      }
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/history.py"
     },
     {
-      "id": "step:assemble-voyage:add-movements",
+      "id": "step:track-cargo:render-result",
       "type": "step",
-      "name": "Add carrier movements",
-      "filePath": "src/cargotracker/voyage/domain/voyage_builder.py",
-      "lineRange": [
-        10,
-        37
-      ],
-      "summary": "Builder chains movements from departure to arrival.",
+      "name": "Render Result",
+      "summary": "Renders the full page or HTMX partial with status, history and embedded map.",
       "tags": [
-        "assemble-voyage"
+        "view",
+        "htmx"
       ],
-      "complexity": "simple"
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/views.py"
     },
     {
-      "id": "step:assemble-voyage:build-schedule",
+      "id": "step:view-cargo-map:determine-map-status",
       "type": "step",
-      "name": "Build schedule",
-      "filePath": "src/cargotracker/voyage/domain/schedule.py",
-      "summary": "Assemble ordered movements into a Schedule.",
+      "name": "Determine Map Status",
+      "summary": "Maps the cargo's state to a status code used for marker colour.",
       "tags": [
-        "assemble-voyage"
+        "map",
+        "status"
       ],
-      "complexity": "simple"
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/map_status.py"
     },
     {
-      "id": "step:assemble-voyage:persist-voyage",
+      "id": "step:view-cargo-map:resolve-marker-coordinates",
       "type": "step",
-      "name": "Persist voyage",
-      "filePath": "src/cargotracker/voyage/infrastructure/repository.py",
-      "lineRange": [
-        8,
-        25
-      ],
-      "summary": "Repository stores voyage by number.",
+      "name": "Resolve Marker Coordinates",
+      "summary": "Looks up latitude/longitude for origin, destination and last known location by UN/LOCODE.",
       "tags": [
-        "assemble-voyage"
+        "map",
+        "coordinates"
       ],
-      "complexity": "simple"
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/coordinates.py"
+    },
+    {
+      "id": "step:view-cargo-map:render-map-frame",
+      "type": "step",
+      "name": "Render Map Frame",
+      "summary": "Builds the markers and renders the Leaflet map frame template.",
+      "tags": [
+        "map",
+        "view"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/map/views.py"
+    },
+    {
+      "id": "step:submit-handling-report:validate-report",
+      "type": "step",
+      "name": "Validate Report",
+      "summary": "Validates the incoming JSON fields of the handling report with a Django form.",
+      "tags": [
+        "validation",
+        "rest"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/interfaces/rest.py"
+    },
+    {
+      "id": "step:submit-handling-report:accept-report",
+      "type": "step",
+      "name": "Accept Report",
+      "summary": "Submits a new registration attempt through the application use case.",
+      "tags": [
+        "use-case"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/application/accept_registration.py"
+    },
+    {
+      "id": "step:submit-handling-report:queue-attempt",
+      "type": "step",
+      "name": "Queue Attempt",
+      "summary": "Persists the registration attempt as pending for later processing.",
+      "tags": [
+        "persistence",
+        "queue"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/infrastructure/attempt_submission_repository.py"
+    },
+    {
+      "id": "step:process-registration-attempts:claim-attempt",
+      "type": "step",
+      "name": "Claim Attempt",
+      "summary": "Atomically claims the next pending registration attempt.",
+      "tags": [
+        "queue",
+        "concurrency"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/cargotracker/handling/infrastructure/attempt_processing_repository.py"
+    },
+    {
+      "id": "step:process-registration-attempts:resolve-location-and-voyage",
+      "type": "step",
+      "name": "Resolve Location And Voyage",
+      "summary": "Resolves the attempt's UN/LOCODE and voyage number to domain objects, failing permanently if unknown.",
+      "tags": [
+        "resolution",
+        "validation"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/cargotracker/handling/application/process_registration_attempt.py"
+    },
+    {
+      "id": "step:process-registration-attempts:create-handling-event",
+      "type": "step",
+      "name": "Create Handling Event",
+      "summary": "Builds a validated handling event, requiring a voyage for load/unload types.",
+      "tags": [
+        "domain-logic",
+        "event"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/cargotracker/handling/domain/handling_event.py"
+    },
+    {
+      "id": "step:process-registration-attempts:update-cargo-delivery",
+      "type": "step",
+      "name": "Update Cargo Delivery",
+      "summary": "Stores the event and recomputes the cargo's delivery from its new history.",
+      "tags": [
+        "delivery",
+        "persistence"
+      ],
+      "complexity": "complex",
+      "filePath": "src/cargotracker/handling/infrastructure/repository.py"
+    },
+    {
+      "id": "step:process-registration-attempts:record-outcome",
+      "type": "step",
+      "name": "Record Outcome",
+      "summary": "Marks the attempt registered or rejected with a reason, retrying on transient failure.",
+      "tags": [
+        "retry",
+        "status"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/cargotracker/handling/application/process_registration_attempt.py"
+    },
+    {
+      "id": "step:seed-sample-data:seed-locations",
+      "type": "step",
+      "name": "Seed Locations",
+      "summary": "Upserts sample locations keyed by UN/LOCODE.",
+      "tags": [
+        "seed",
+        "location"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/location/infrastructure/repository.py"
+    },
+    {
+      "id": "step:seed-sample-data:seed-voyages",
+      "type": "step",
+      "name": "Seed Voyages",
+      "summary": "Builds voyages from chained carrier movements and persists them.",
+      "tags": [
+        "seed",
+        "voyage"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/voyage/domain/voyage_builder.py"
+    },
+    {
+      "id": "step:seed-sample-data:seed-cargos-and-events",
+      "type": "step",
+      "name": "Seed Cargos And Events",
+      "summary": "Persists sample cargos with itineraries and their handling events through the repositories.",
+      "tags": [
+        "seed",
+        "cargo"
+      ],
+      "complexity": "moderate",
+      "filePath": "src/cargotracker/cargo/application/sample_data.py"
     }
   ],
   "edges": [
     {
       "source": "domain:cargo-tracking",
-      "target": "flow:track-cargo-by-id",
+      "target": "flow:track-cargo",
       "type": "contains_flow",
       "direction": "forward",
-      "weight": 1
+      "weight": 1.0
     },
     {
-      "source": "flow:track-cargo-by-id",
-      "target": "step:track-cargo-by-id:submit-tracking-id",
+      "source": "domain:cargo-tracking",
+      "target": "flow:view-cargo-map",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-registration",
+      "target": "flow:submit-handling-report",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-registration",
+      "target": "flow:process-registration-attempts",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:reference-data",
+      "target": "flow:seed-sample-data",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:validate-tracking-id-form",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.2
     },
     {
-      "source": "flow:track-cargo-by-id",
-      "target": "step:track-cargo-by-id:lookup-cargo",
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:look-up-cargo",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.4
     },
     {
-      "source": "flow:track-cargo-by-id",
-      "target": "step:track-cargo-by-id:build-history",
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:derive-delivery-status",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.6
     },
     {
-      "source": "flow:track-cargo-by-id",
-      "target": "step:track-cargo-by-id:derive-status",
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:build-status-text",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:describe-handling-history",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "flow:track-cargo-by-id",
-      "target": "step:track-cargo-by-id:render-result",
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:render-result",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 1
+      "weight": 1.0
     },
     {
-      "source": "domain:cargo-tracking",
-      "target": "flow:display-cargo-map",
-      "type": "contains_flow",
+      "source": "flow:view-cargo-map",
+      "target": "step:view-cargo-map:determine-map-status",
+      "type": "flow_step",
       "direction": "forward",
-      "weight": 1
+      "weight": 0.3
     },
     {
-      "source": "flow:display-cargo-map",
-      "target": "step:display-cargo-map:compute-map-status",
+      "source": "flow:view-cargo-map",
+      "target": "step:view-cargo-map:resolve-marker-coordinates",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "flow:view-cargo-map",
+      "target": "step:view-cargo-map:render-map-frame",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:submit-handling-report",
+      "target": "step:submit-handling-report:validate-report",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.3
+    },
+    {
+      "source": "flow:submit-handling-report",
+      "target": "step:submit-handling-report:accept-report",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "flow:submit-handling-report",
+      "target": "step:submit-handling-report:queue-attempt",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:process-registration-attempts",
+      "target": "step:process-registration-attempts:claim-attempt",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.2
     },
     {
-      "source": "flow:display-cargo-map",
-      "target": "step:display-cargo-map:build-frame-url",
+      "source": "flow:process-registration-attempts",
+      "target": "step:process-registration-attempts:resolve-location-and-voyage",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 0.5
+      "weight": 0.4
     },
     {
-      "source": "flow:display-cargo-map",
-      "target": "step:display-cargo-map:resolve-coordinates",
+      "source": "flow:process-registration-attempts",
+      "target": "step:process-registration-attempts:create-handling-event",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:process-registration-attempts",
+      "target": "step:process-registration-attempts:update-cargo-delivery",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "flow:display-cargo-map",
-      "target": "step:display-cargo-map:render-map-frame",
+      "source": "flow:process-registration-attempts",
+      "target": "step:process-registration-attempts:record-outcome",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "domain:cargo-tracking",
-      "target": "flow:derive-cargo-delivery-status",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "flow:derive-cargo-delivery-status",
-      "target": "step:derive-cargo-delivery-status:check-routing",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.3
-    },
-    {
-      "source": "flow:derive-cargo-delivery-status",
-      "target": "step:derive-cargo-delivery-status:match-itinerary",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "flow:derive-cargo-delivery-status",
-      "target": "step:derive-cargo-delivery-status:derive-delivery",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "domain:cargo-tracking",
-      "target": "flow:seed-sample-data",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1
+      "weight": 1.0
     },
     {
       "source": "flow:seed-sample-data",
-      "target": "step:seed-sample-data:run-seed-command",
+      "target": "step:seed-sample-data:seed-locations",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.3
     },
     {
       "source": "flow:seed-sample-data",
-      "target": "step:seed-sample-data:seed-reference-data",
+      "target": "step:seed-sample-data:seed-voyages",
       "type": "flow_step",
       "direction": "forward",
       "weight": 0.7
     },
     {
       "source": "flow:seed-sample-data",
-      "target": "step:seed-sample-data:seed-cargos-events",
+      "target": "step:seed-sample-data:seed-cargos-and-events",
       "type": "flow_step",
       "direction": "forward",
-      "weight": 1
+      "weight": 1.0
     },
     {
-      "source": "domain:cargo-handling",
-      "target": "flow:build-handling-history",
-      "type": "contains_flow",
+      "source": "domain:handling-registration",
+      "target": "domain:cargo-tracking",
+      "type": "cross_domain",
       "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "flow:build-handling-history",
-      "target": "step:build-handling-history:query-events",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.2
-    },
-    {
-      "source": "flow:build-handling-history",
-      "target": "step:build-handling-history:validate-events",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.5
-    },
-    {
-      "source": "flow:build-handling-history",
-      "target": "step:build-handling-history:order-dedupe",
-      "type": "flow_step",
-      "direction": "forward",
+      "description": "Registered handling events update cargo delivery status",
       "weight": 0.8
     },
     {
-      "source": "flow:build-handling-history",
-      "target": "step:build-handling-history:describe-events",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "domain:location-management",
-      "target": "flow:resolve-location",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "flow:resolve-location",
-      "target": "step:resolve-location:validate-locode",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.5
-    },
-    {
-      "source": "flow:resolve-location",
-      "target": "step:resolve-location:find-location",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "domain:voyage-scheduling",
-      "target": "flow:assemble-voyage",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
-      "source": "flow:assemble-voyage",
-      "target": "step:assemble-voyage:add-movements",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.3
-    },
-    {
-      "source": "flow:assemble-voyage",
-      "target": "step:assemble-voyage:build-schedule",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "flow:assemble-voyage",
-      "target": "step:assemble-voyage:persist-voyage",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1
-    },
-    {
       "source": "domain:cargo-tracking",
-      "target": "domain:cargo-handling",
+      "target": "domain:handling-registration",
       "type": "cross_domain",
       "direction": "forward",
-      "description": "Reads handling history to derive delivery status",
+      "description": "Tracking reads handling history to show events and status",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:handling-registration",
+      "target": "domain:reference-data",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Resolves UN/LOCODE and voyage numbers for attempts",
       "weight": 0.6
     },
     {
       "source": "domain:cargo-tracking",
-      "target": "domain:location-management",
+      "target": "domain:reference-data",
       "type": "cross_domain",
       "direction": "forward",
-      "description": "Uses locations for origin, destination and map",
-      "weight": 0.6
-    },
-    {
-      "source": "domain:cargo-tracking",
-      "target": "domain:voyage-scheduling",
-      "type": "cross_domain",
-      "direction": "forward",
-      "description": "Itinerary legs reference voyages",
-      "weight": 0.6
-    },
-    {
-      "source": "domain:cargo-handling",
-      "target": "domain:location-management",
-      "type": "cross_domain",
-      "direction": "forward",
-      "description": "Events occur at locations",
-      "weight": 0.6
-    },
-    {
-      "source": "domain:cargo-handling",
-      "target": "domain:voyage-scheduling",
-      "type": "cross_domain",
-      "direction": "forward",
-      "description": "Load/unload events reference voyages",
-      "weight": 0.6
-    },
-    {
-      "source": "domain:voyage-scheduling",
-      "target": "domain:location-management",
-      "type": "cross_domain",
-      "direction": "forward",
-      "description": "Carrier movements connect locations",
+      "description": "Routes, itineraries and map markers reference locations and voyages",
       "weight": 0.6
     }
   ],
