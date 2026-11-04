@@ -63,8 +63,6 @@ FIELD_ERRORS_88 = {
     'missing_unlocode': 'unLocode',
     'tracking_id_too_short': 'trackingId',
     'unknown_event_type': 'eventType',
-    'unknown_location': 'unLocode',
-    'unknown_voyage': 'voyageNumber',
     'unlocode_too_long': 'unLocode',
     'unlocode_too_short': 'unLocode',
     'unparseable_time': 'completionTime',
@@ -310,6 +308,10 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
         for field, value in ATOMIC_CARGO_FIELDS_87.get(case_name, {}).items():
             expected['cargo'][field] = value
         if case_name in STATUS_TEXT_REPLACEMENTS_13:
+            assert (
+                expected['tracking']['result']['status_text']
+                != STATUS_TEXT_REPLACEMENTS_13[case_name]
+            )
             expected['tracking']['result']['status_text'] = STATUS_TEXT_REPLACEMENTS_13[case_name]
         if expected['tracking']['result'] is None:
             expected['tracking']['status_section'] = False
@@ -318,9 +320,12 @@ def test_each_handling_registration_golden_matches_target(golden_path, client):
             expected['tracking']['status_section'] = True
             expected['tracking']['history_section'] = True
         if case_name == 'event_claim':
+            assert expected['tracking']['result']['eta'] is not None
             expected['tracking']['result']['eta'] = None
 
     if malformed:
+        if case_name in {'unknown_event_type', 'unparseable_time'}:
+            assert expected['post']['status'] == 500
         expected['post'] = {'status': 400, 'content_type': 'application/json'}
     elif 'posts' in expected:
         expected['posts'] = [{'status': status, 'content_type': ''} for status in expected['posts']]

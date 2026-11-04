@@ -1,7 +1,7 @@
 role: afs-verifier
 ticket: HR-04E
 issue: martins-vds/ai-factory-pilot-target#131
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/167
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/169
 verdict: changes-required
 gates:
   build: 0
@@ -14,44 +14,12 @@ evidence_logs:
   - .migration/evidence/runs/HR-04E.md
 findings:
   - severity: major
-    where: src/cargotracker/handling/infrastructure/models.py:23
-    what: CompletionTime is persisted as a date, so every noon golden event reappears at midnight.
-  - severity: major
-    where: src/cargotracker/cargo/domain/delivery.py:55-74,153-164
-    what: Re-derived cargo/history fields diverge from goldens, including status and ETA for ABC123 and status/location for DEF789.
+    where: src/cargotracker/handling/infrastructure/models.py:23-24
+    what: Golden noon event times replay at midnight; source DATE annotations coexist with noon runtime observations, leaving cause and the #136 impact unresolved.
   - severity: minor
     where: src/cargotracker/handling/interfaces/rest.py:109
-    what: Accepted 204 responses expose text/html Content-Type; the source goldens record an empty content type.
+    what: Accepted 204 responses expose text/html Content-Type; source goldens record empty and #88 does not approve this difference.
 tests_added:
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[completion_time_too_long]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[completion_time_too_short]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_claim]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_customs]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_load]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_load_dallas]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_receive]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_type_too_long]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_type_too_short]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[event_unload]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[load_without_voyage]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[misdirected_off_itinerary]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[missing_completion_time]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[missing_event_type]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[missing_tracking_id]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[missing_unlocode]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[tracking_id_too_short]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[two_reports_ordered_by_completion_time]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unknown_event_type]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unknown_location]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unknown_tracking_id]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unknown_voyage]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unload_at_destination]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unlocode_too_long]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unlocode_too_short]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[unparseable_time]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[voyage_number_too_long]
-  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target[voyage_number_too_short]
-  - tests/differential/test_handling_registration.py::test_accepted_handling_attempt_is_processed_after_one_second
-  - tests/differential/test_handling_registration.py::test_registration_and_inspection_updates_roll_back_together
+  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target
 ledger_issues: []
 quirk_tickets: []
