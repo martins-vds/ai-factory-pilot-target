@@ -171,6 +171,8 @@ def test_rest_accepted_report_is_processed_into_handling_event_and_cargo_deliver
     attempt = RegistrationAttemptRecord.objects.get()
 
     assert response.status_code == 204
+    assert response.content == b''
+    assert response.headers.get('Content-Type') is None
     assert attempt.status == 'accepted'
     assert HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before
     assert DjangoCargoRepository().find(TrackingId('ABC123')).delivery == delivery_before
@@ -180,8 +182,8 @@ def test_rest_accepted_report_is_processed_into_handling_event_and_cargo_deliver
     event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='RECEIVE',
-        completion_time=completion_time.date(),
-        registration_time=attempt.registration_time.date(),
+        completion_time=completion_time,
+        registration_time=attempt.registration_time,
     )
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
 
@@ -207,7 +209,7 @@ def test_processing_registers_attempt_once_and_rederives_cargo_delivery():
     event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='RECEIVE',
-        completion_time=attempt.completion_time.date(),
+        completion_time=attempt.completion_time,
     )
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
 
@@ -273,10 +275,7 @@ def test_unknown_references_reject_attempt_without_storing_event(
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('earlier_registration_day', [4, 5])
-def test_equal_completion_time_uses_registration_order_for_delivered_outcome(
-    caplog, monkeypatch, earlier_registration_day
-):
+def test_equal_completion_time_uses_registration_order_for_delivered_outcome(caplog, monkeypatch):
     fixed_now = datetime(2026, 11, 4, 12, tzinfo=UTC)
 
     class FrozenDateTime(datetime):
@@ -287,13 +286,14 @@ def test_equal_completion_time_uses_registration_order_for_delivered_outcome(
     monkeypatch.setattr(seed_sample_data.timezone, 'now', lambda: fixed_now)
     monkeypatch.setattr(sample_data, 'datetime', FrozenDateTime)
     call_command('seed_sample_data')
-    completion_time = datetime(2026, 11, 3, 12, tzinfo=UTC)
+    completion_time = datetime(2026, 11, 3, 12, 15, 16, 123456, tzinfo=UTC)
     attempts = DjangoAttemptSubmissionRepository()
-    earlier_registration_time = datetime(2026, 11, earlier_registration_day, 12, tzinfo=UTC)
+    earlier_registration_time = datetime(2026, 11, 4, 12, 15, 16, 100000, tzinfo=UTC)
+    later_registration_time = datetime(2026, 11, 4, 12, 15, 16, 900000, tzinfo=UTC)
     later_registration = accept_registration(
         _attempt(
             completion_time=completion_time,
-            registration_time=earlier_registration_time + timedelta(days=1),
+            registration_time=later_registration_time,
             event_type=HandlingEventType.UNLOAD,
             location=UnLocode('FIHEL'),
             voyage_number=VoyageNumber('0300A'),
@@ -317,19 +317,23 @@ def test_equal_completion_time_uses_registration_order_for_delivered_outcome(
     later_event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='UNLOAD',
-        completion_time=completion_time.date(),
-        registration_time=later_registration.registration_time.date(),
+        completion_time=completion_time,
+        registration_time=later_registration.registration_time,
     )
     earlier_event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='RECEIVE',
-        completion_time=completion_time.date(),
-        registration_time=earlier_registration.registration_time.date(),
+        completion_time=completion_time,
+        registration_time=earlier_registration.registration_time,
     )
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
 
     assert later_event.pk < earlier_event.pk
     assert cargo.delivery.last_event_id == later_event.pk
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
+    assert [event.id for event in history.events[-2:]] == [earlier_event.pk, later_event.pk]
+    assert history.events[-1].completion_time == completion_time
+    assert history.events[-1].registration_time == later_registration_time
     assert cargo.delivery.unloaded_at_destination is True
     assert 'Cargo ABC123 delivered' in [record.getMessage() for record in caplog.records]
 
@@ -367,20 +371,26 @@ def test_equal_completion_and_registration_times_use_event_id_for_delivery(caplo
     receive_event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='RECEIVE',
-        completion_time=completion_time.date(),
-        registration_time=registration_time.date(),
+        completion_time=completion_time,
+        registration_time=registration_time,
     )
     unload_event = HandlingEventRecord.objects.get(
         cargo__tracking_id='ABC123',
         event_type='UNLOAD',
-        completion_time=completion_time.date(),
-        registration_time=registration_time.date(),
+        completion_time=completion_time,
+        registration_time=registration_time,
     )
     cargo = DjangoCargoRepository().find(TrackingId('ABC123'))
 
     assert receive_event.pk < unload_event.pk
     assert cargo.delivery.last_event_id == unload_event.pk
     assert cargo.delivery.unloaded_at_destination is True
+    history = DjangoHandlingEventRepository().lookup_handling_history_of_cargo(TrackingId('ABC123'))
+    assert [event.id for event in history.events[-2:]] == [
+        receive_event.pk,
+        unload_event.pk,
+    ]
+    assert history.most_recent_event_id == cargo.delivery.last_event_id
     assert 'Cargo ABC123 delivered' in [record.getMessage() for record in caplog.records]
 
 

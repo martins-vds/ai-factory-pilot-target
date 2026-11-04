@@ -25,6 +25,7 @@ everything behind it.
   - An accepted attempt is never lost: no time-to-live.
   - Processing is at least once, and registration is idempotent per attempt.
   - Attempts are processed in no promised order; handling history is ordered by completion time.
+  - Handling-event completion and registration values retain their full UTC instants after reload.
 - **Rejections.** An attempt that can never succeed (unknown cargo, voyage or location, or invalid data)
   is marked *rejected* immediately, with a reason code and message. The rejected row is the rejection
   record, kept indefinitely and logged. No UI shows it (an admin view is out of scope).
@@ -35,6 +36,17 @@ everything behind it.
 - **Running and testing.** The worker is its own `worker` service in `compose.yaml`. Tests call the
   processing step directly, so CI's test services stay `[db]`. The worker library (hand-rolled loop or a
   PostgreSQL task queue such as Procrastinate) is the slice's choice, within these rules.
+
+## Handling-event timestamps
+
+The target stores completion and accepted-registration values as timezone-aware instants and passes
+the attempt's original registration time to the event; processing time is not substituted. Per the
+approved precision divergence [#171](https://github.com/martins-vds/ai-factory-pilot-target/issues/171),
+this intentionally retains source observations that its DATE columns lose after cache clearing;
+see the [research evidence in PR #173](https://github.com/martins-vds/ai-factory-pilot-target/pull/173).
+The forward schema migration maps every existing date to midnight UTC, independent of the database
+session timezone. Reversing it converts each instant to its UTC calendar date and irreversibly drops
+time-of-day precision.
 
 ## Considered options
 - **Celery with Redis or RabbitMQ**: a new broker to run, and "never lost once accepted" would still need

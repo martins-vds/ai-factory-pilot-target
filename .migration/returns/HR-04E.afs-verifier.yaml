@@ -1,0 +1,19 @@
+role: afs-verifier
+ticket: HR-04E
+issue: martins-vds/ai-factory-pilot-target#176
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/177
+verdict: pass
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 19.0
+  mutation_changed: 0.902
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/HR-04E.md
+findings: []
+tests_added:
+  - tests/handling/test_migration.py::test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnight
+ledger_issues: []
+quirk_tickets: []

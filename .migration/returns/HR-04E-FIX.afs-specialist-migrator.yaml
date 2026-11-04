@@ -1,0 +1,33 @@
+role: afs-specialist-migrator
+ticket: HR-04E-FIX
+issue: martins-vds/ai-factory-pilot-target#174
+specialty: data
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/175
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.902
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/HR-04E-FIX.md
+  - .migration/evidence/mutants/HR-04E-FIX.md
+  - tests/handling/test_migration.py::test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnight
+  - tests/handling/test_repository.py::test_repository_preserves_aware_completion_and_registration_instants
+  - tests/handling/test_repository.py::test_repository_orders_same_day_events_by_instants_before_persisted_id
+  - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
+  - tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery
+  - tests/differential/test_handling_registration.py::test_each_handling_registration_golden_matches_target
+ledger_updated:
+  - handling.cargo-inspection
+  - handling.event-table
+  - handling.history-ordering
+  - handling.registration-flow
+  - handling.registration-service
+  - handling.rest-report-contract
+  - track-cargo.data-handling-event
+  - track-cargo.domain-history-order
+  - track-cargo.handling-history
+quirk_tickets: []
+handoff: none
