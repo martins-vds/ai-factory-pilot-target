@@ -1,40 +1,42 @@
-# HR-04F-DURABLE — pinned acceptance harness rollout
+# HR-04F-DURABLE — pinned acceptance harness installation
 
 - Issue: [martins-vds/ai-factory-pilot-target#185](https://github.com/martins-vds/ai-factory-pilot-target/issues/185)
 - Acceptance issue: [martins-vds/ai-factory-pilot-target#132](https://github.com/martins-vds/ai-factory-pilot-target/issues/132)
 - Setup PR: [#186](https://github.com/martins-vds/ai-factory-pilot-target/pull/186)
-- Requested pilot main: `5cace249987e3ddd4ce3345a845168ca545bab55`
-- Requested harness pin: `344241e92256a6048183f99063ca297fb96780de`
-- Outcome: **blocked** — the public harness checkout was acquired and verified at the requested clean pin, but normal bootstrap could not fetch a pinned skill dependency without GitHub credentials.
+- Pilot baseline: `5cace249987e3ddd4ce3345a845168ca545bab55`
+- Installed harness pin: `344241e92256a6048183f99063ca297fb96780de`
+- Outcome: **normal installation and independent verification pass; conditional human review remains.**
 
-## Evidence
+## Execution and independent verification
 
-The committed journal at `../runs/HR-04F-DURABLE.md` contains each command, exit code and log fingerprint.
+The committed journal at `../runs/HR-04F-DURABLE.md` preserves the initial worker failures, the coordinator's bootstrap and verification, and this session's independent checks. Raw logs are not committed.
 
 | Check | Result |
 |---|---|
-| Named pilot inputs | Pass — source lock, existing profile, and capability checklist all exist. |
-| Public harness acquisition and preflight | Pass — fresh clone at `/tmp/afs-HR-04F-DURABLE.E63zhQ/harness`; `HEAD=344241e92256a6048183f99063ca297fb96780de`, clean worktree, `tools/bootstrap.py` and `stacks/java-to-django.json` present. See run `clone-and-pin-harness`. |
-| Normal pinned bootstrap | **Blocked** — exit 1 while fetching skill source `martins-vds/code-migration-hackathon` at `4de661a9a830aaef70ff55e879c0cc540599cad8`. See run `bootstrap`. The bootstrap traceback reports Git exit 128. |
-| Exact dependency fetch diagnostic | **Blocked** — recorded fetch command exited 128 with `fatal: unable to get password from user`. See run `dependency-fetch-diagnostic`. No credentials were copied or supplied, and the dependency was not skipped. |
-| Partial bootstrap rollback | Pass — bootstrap's partial `.github/skills/` changes were restored to requested pilot main. The post-failure installed integrity check passes: existing pin `9b805e17624c50d1e74cb008b3f1b0454c1be177`, 77 entries / 387 files, zero problems. |
-| Migration-state validation | Pass — final post-rollback validation checked 86 files, zero errors (run `refreshed-output-validation`). |
-| Protected input and prior-output preservation | Pass — final `git diff --exit-code` against requested main found no changes to application/test/characterization files, profile, source lock, capabilities, slices, graphs, ledger, `.github/skills/`, prior returns, prior costs, or prior HR-04F-HARNESS evidence/journals. The check excludes only this session's expected cost record and this ticket's own journal. |
-| Source graph flow | Pass — 0 failures; 27 entry points, 18 reaching data. |
-| Target graph flow | Pass — 0 failures; 7 entry points, 3 reaching data. |
-| Both graph freshness | Pass — source and target graphs fresh. No graph was edited or rebuilt. |
-| Requested acceptance installation | **Not installed** — current manifest pin is `9b805e17624c50d1e74cb008b3f1b0454c1be177`; requested pin check, executable `afs-acceptance` check, and `afs-acceptance.yml` existence check all fail. |
+| Coordinator normal bootstrap | Pass — coordinator's `coordinator-normal-bootstrap` row records exit 0 using a fresh checkout at the exact approved pin and the existing profile, capability checklist, and Java-to-Django stack pack. The coordinator executed this bootstrap; this verification session did not. |
+| Independent public harness preflight | Pass — this session cloned the public repository to `/tmp/afs-HR-04F-DURABLE-review.mm0ATp/harness` and verified exact `HEAD=344241e92256a6048183f99063ca297fb96780de` and a clean worktree (`independent-clean-harness-pin`). |
+| Generated delta source parity | Pass — changed evidence skills and `afs-acceptance` match files at the clean pin; existing workflow changes are pin-header-only; the new acceptance workflow exactly matches the pinned template rendered with the target profile's Python version. |
+| Installed integrity | Pass — this session's `independent-installed-integrity`: pin `344241e`, 77 entries / 388 files, zero problems. The coordinator's `coordinator-installed-integrity` also passed. |
+| Acceptance runner | Pass — executable `.migration/harness/tools/afs-acceptance` responds to `--help`; its SHA-256 matches the installed manifest and the file at the independent clean harness pin. No acceptance gates were run. |
+| Generated workflow constraints | Pass (`acceptance-profile-contract`) — exact pinned-template rendering with profile-derived Python 3.13; manual `workflow_dispatch` only; `contents: read`; 360-minute job timeout; 330-minute gate timeout; artifact upload step uses `if: always()`. |
+| Capability decisions | Pass — independent comparison against baseline confirms all capability/provider data is identical; only `checked_at` refreshed from `2026-11-04T18:58:45Z` to `2026-11-04T21:49:32Z`. |
+| Protected input and history preservation | Pass — independent baseline comparison found source/app/test/template/profile/source-lock/slices/graphs/ledger unchanged, and all prior returns, other-role evidence, journals, handoffs, and costs unchanged. Only this ticket's own return/report/journal/handoff and this session's cost record are excluded. Prior rows of this ticket's journal are preserved byte-for-byte as a prefix. |
+| Migration-state validation | Pass — this session checked 86 files, zero errors (`independent-migration-validation`, `final-schema-validation`, and `final-output-validation-current`). Coordinator output validation also passed. |
+| Profile runtime | Pass — Python 3.13.17 matches the profile (`independent-runtime`). |
+| Source/target graph freshness | Pass — both graphs remain fresh (`independent-graph-freshness`). |
+| Source flow gate | Pass — 0 failures; 27 entry points, 18 reaching data (`independent-source-flow`). |
+| Target flow gate | Pass — 0 failures; 7 entry points, 3 reaching data (`independent-target-flow`). |
 
-The clean public harness checkout was used with the existing profile, capability checklist, and Java-to-Django stack pack through the normal bootstrap command. Bootstrap stopped at its pinned skill dependency fetch; no retry with alternate credentials, dependency skip, or hand-edit of generated files was used. Consequently, the generated workflow's profile-derived Python, manual-only/read-only behavior, timeout, and failure/cancellation artifact upload cannot be verified.
+No application changes or graph rebuilds occurred. No Auditor #184 evidence was edited.
 
-An earlier workspace-location probe returned no checkout, but was not treated as an access failure; the later public clone and exact-pin preflight succeeded. An initial preservation command also included this session's newly generated cost record and failed; the corrected preservation check excluding only that expected record passed.
+## Preserved attempt history
 
-The initial CI run [41916185215](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/41916185215) failed only because the plan-only commit did not yet contain the required return file. Its logs show migration-state, graph and changed-code gates passed. This return is added in the blocked handoff.
+Earlier worker runs `bootstrap` and `dependency-fetch-diagnostic` remain in the journal and document the restricted worker's credential prompt for a pinned skill dependency. The coordinator then completed normal bootstrap in its authorized environment without transferring credentials. Its first preservation check failed because it treated the normal `checked_at` refresh as a capability decision change; the corrected `coordinator-preserved-decisions` check passed. These failed rows remain as history and are not the current installation result.
 
-## Scope and acceptance boundary
+The initial CI run [41916185215](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/41916185215) failed because the plan-only commit lacked a return file. CI on the coordinator-installed input head `43f538e3b73522ccbfef280643a2bd0a34d6f633` passed ([run 849](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/41920057694)). The evidence-finalization commit must also have green CI on its own final head before human merge review.
 
-No application, tests, templates, thresholds, source lock, capability decisions, slices, graphs, ledger, other-role returns, prior journals, or cost records were changed. No acceptance workflow was dispatched, no full mutation run was started, and no slice acceptance or human flow signoff is claimed.
+## Acceptance boundary and next step
 
-## Next step
+This installs execution tooling only. No acceptance workflow was dispatched, no full mutation run was started in this worker, and no slice acceptance, full-mutation result, or human flow signoff is claimed. Research #173 remains excluded.
 
-Provide approved GitHub access for fetching the pinned `martins-vds/code-migration-hackathon` dependency at `4de661a9a830aaef70ff55e879c0cc540599cad8`, or make that exact pinned input fetchable without credentials. Then rerun normal bootstrap from the already verified clean harness checkout and complete the generated-installation checks. Do not merge without separate named approval.
+Next: independent final-head review and green final-head CI, followed by the coordinator's separately authorized human merge approval. Do not merge before those conditions.

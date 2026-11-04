@@ -3,10 +3,10 @@ ticket: HR-04F-DURABLE
 issue: martins-vds/ai-factory-pilot-target#185
 setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/186
 characterization_tier: A
-tier_evidence: Existing approved source characterization retained; this blocked pin installation did not rerun or reclassify it.
+tier_evidence: Existing approved source characterization retained; coordinator bootstrap installed the reviewed harness and refreshed capability checked_at only.
 capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
 gap_tickets: []
-validation: "blocked: clean harness checkout at 344241e92256a6048183f99063ca297fb96780de verified; normal bootstrap and direct fetch of martins-vds/code-migration-hackathon at 4de661a9a830aaef70ff55e879c0cc540599cad8 failed with exit 128: fatal: unable to get password from user. Partial generated skill changes restored; migration validation passes."
+validation: "pass: coordinator normal bootstrap exit 0 at harness pin 344241e92256a6048183f99063ca297fb96780de; independent installed-integrity, output validation, runtime, preserved-decision/history, acceptance tool/workflow source parity, and both graph freshness/flow checks pass. Coordinator execution is distinguished from this session's independent verification in the evidence report and journal; final-head CI and human review remain."
 handoff: .migration/handoffs/HR-04F-DURABLE.md
 evidence: .migration/evidence/HR-04F-DURABLE/report.md
 evidence_logs: .migration/evidence/runs/HR-04F-DURABLE.md

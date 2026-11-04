@@ -42,3 +42,37 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-04T21:51:20+00:00 | coordinator-source-flow | 0 | 0.07 | `python3 .migration/harness/tools/graph_gate.py --side source --require-graph` | `c070c957323aa7e9` |  | gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=1352 |
 | 2026-11-04T21:51:20+00:00 | coordinator-target-flow | 0 | 0.05 | `python3 .migration/harness/tools/graph_gate.py --side target --require-graph` | `4b734ce13b6fa527` |  | gate=graph side=target verdict=pass failures=0 entry_points=7 reaching_data=3 enriched_edges=510 |
 | 2026-11-04T21:54:33+00:00 | setup-probe-finalization | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T21:55:24+00:00 | independent-clean-harness-pin | 0 | 0.8 | `bash -c 'set -euo pipefail; work="$(mktemp -d /tmp/afs-HR-04F-DURABLE-review.XXXXXX)"; echo "harness=$work/harness"; git clone --no-checkout https://github.com/martins-vds/ai-factory-swarm.git "$work/harness"; git -C "$work/harness" checkout --detach 344241e92256a6048183f99063ca297fb96780de; test "$(git -C "$work/harness" rev-parse HEAD)" = 344241e92256a6048183f99063ca297fb96780de; test -z "$(git ` | `2d178e91b2c3d8cf` |  |  |
+| 2026-11-04T21:56:27+00:00 | independent-installed-integrity | 0 | 0.08 | `python .migration/harness/tools/check_installed.py` | `1b22ec25ad38f843` |  |  |
+| 2026-11-04T21:56:28+00:00 | independent-migration-validation | 0 | 0.81 | `python .migration/harness/tools/validate.py .migration` | `a71c6a78c9e8726a` |  |  |
+| 2026-11-04T21:56:28+00:00 | independent-runtime | 0 | 0.07 | `python .migration/harness/tools/check_runtime.py` | `d07c895212ff2443` |  |  |
+| 2026-11-04T21:56:28+00:00 | capability-decision-preservation | 0 | 0.06 | `python -c 'import subprocess,yaml; base="5cace249987e3ddd4ce3345a845168ca545bab55:.migration/capabilities.yaml"; old=yaml.safe_load(subprocess.check_output(["git","show",base])); new=yaml.safe_load(open(".migration/capabilities.yaml")); before=old.pop("checked_at"); after=new.pop("checked_at"); assert old==new, "capability decision/provider drift"; print("all capability decisions/providers identic` | `0413a031062176b5` |  |  |
+| 2026-11-04T21:56:28+00:00 | protected-input-history | 0 | 0.01 | `bash -c 'git diff --exit-code 5cace249987e3ddd4ce3345a845168ca545bab55 -- src templates tests characterization .migration/profile.yaml .migration/source.lock .migration/slices .migration/graphs .migration/ledger .migration/returns .migration/evidence .migration/handoffs .migration/costs ":(exclude).migration/returns/HR-04F-DURABLE.afs-bootstrapper.yaml" ":(exclude).migration/evidence/HR-04F-DURABL` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-04T21:56:28+00:00 | acceptance-tool-workflow-verification | 1 | 0.06 | `python -c 'import hashlib,json,os,pathlib,yaml; root=pathlib.Path("."); source=pathlib.Path("/tmp/afs-HR-04F-DURABLE-review.mm0ATp/harness"); manifest=json.loads((root/".migration/harness/installed.json").read_text()); tool=root/".migration/harness/tools/afs-acceptance"; expected=(source/"tools/afs-acceptance"); assert manifest["harness_commit"]=="344241e92256a6048183f99063ca297fb96780de"; assert ` | `65193d4b663a99cf` | Traceback (most recent call last): |  |
+| 2026-11-04T21:56:43+00:00 | acceptance-tool-workflow-verification-re | 0 | 0.05 | `python -c 'exec("""import hashlib,json,os,pathlib,yaml
+root=pathlib.Path(".")
+source=pathlib.Path("/tmp/afs-HR-04F-DURABLE-review.mm0ATp/harness")
+manifest=json.loads((root/".migration/harness/installed.json").read_text())
+assert manifest["harness_commit"]=="344241e92256a6048183f99063ca297fb96780de", "manifest pin"
+tool=root/".migration/harness/tools/afs-acceptance"
+source_tool=source/"tools/afs-a` | `e22d9d29fd926c22` |  |  |
+| 2026-11-04T21:57:03+00:00 | independent-graph-freshness | 0 | 0.09 | `python .migration/harness/tools/check_graph_fresh.py --require source,target` | `e58be4641e00fbe4` |  |  |
+| 2026-11-04T21:57:03+00:00 | independent-source-flow | 0 | 0.11 | `python .migration/harness/tools/graph_gate.py --side source --require-graph` | `c070c957323aa7e9` |  | gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=18 enriched_edges=1352 |
+| 2026-11-04T21:57:04+00:00 | independent-target-flow | 0 | 0.08 | `python .migration/harness/tools/graph_gate.py --side target --require-graph` | `4b734ce13b6fa527` |  | gate=graph side=target verdict=pass failures=0 entry_points=7 reaching_data=3 enriched_edges=510 |
+| 2026-11-04T21:57:04+00:00 | acceptance-tool-help | 0 | 0.07 | `.migration/harness/tools/afs-acceptance --help` | `d1b312848c8e7669` |  |  |
+| 2026-11-04T21:58:20+00:00 | generated-delta-source-parity | 0 | 0.05 | `python -c 'exec("""import hashlib,json,pathlib,subprocess
+root=pathlib.Path(".")
+source=pathlib.Path("/tmp/afs-HR-04F-DURABLE-review.mm0ATp/harness")
+base="5cace249987e3ddd4ce3345a845168ca545bab55"
+for target,origin in [(".github/skills/afs-evidence/SKILL.md","skills/afs-evidence/SKILL.md"),(".github/skills/afs-migration-contract/references/gates.md","skills/afs-migration-contract/references/gates` | `4b083d526db0447d` |  |  |
+| 2026-11-04T21:58:20+00:00 | prior-journal-history-preserved | 0 | 0.04 | `python -c 'import pathlib,subprocess; p=".migration/evidence/runs/HR-04F-DURABLE.md"; old=subprocess.check_output(["git","show","43f538e3b73522ccbfef280643a2bd0a34d6f633:"+p]).decode(); now=pathlib.Path(p).read_text(); assert now.startswith(old), "pre-existing journal rows changed"; print("all journal rows present at reviewed input head are preserved; this session appended only")'` | `07939427903f48e3` |  |  |
+| 2026-11-04T21:58:21+00:00 | final-schema-validation | 0 | 0.81 | `python .migration/harness/tools/validate.py .migration` | `a71c6a78c9e8726a` |  |  |
+| 2026-11-04T21:59:06+00:00 | acceptance-profile-contract | 0 | 0.06 | `python -c 'exec("""import pathlib,yaml
+profile=yaml.safe_load(pathlib.Path(".migration/profile.yaml").read_text())
+python_stack=next(x for x in profile["target"]["stacks"]["backend"] if x.startswith("python-"))
+python_version=python_stack.removeprefix("python-")
+source=pathlib.Path("/tmp/afs-HR-04F-DURABLE-review.mm0ATp/harness")
+tpl=(source/"templates/target/afs-acceptance.yml").read_text()
+rende` | `2255864cacdb2e57` |  |  |
+| 2026-11-04T21:59:07+00:00 | final-output-validation-current | 0 | 0.8 | `python .migration/harness/tools/validate.py .migration` | `a71c6a78c9e8726a` |  |  |
+| 2026-11-04T21:59:22+00:00 | final-report-schema | 0 | 0.82 | `python .migration/harness/tools/validate.py .migration` | `a71c6a78c9e8726a` |  |  |
