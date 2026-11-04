@@ -8,7 +8,11 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Inspection loads cargo and its full handling history, re-derives Delivery from route, itinerary and history, emits applicable outcome notifications, persists cargo, then fires CargoInspected."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#87, martins-vds/ai-factory-pilot-target#127]
+tickets:
+  - martins-vds/ai-factory-pilot-target#86
+  - martins-vds/ai-factory-pilot-target#87
+  - martins-vds/ai-factory-pilot-target#127
+  - martins-vds/ai-factory-pilot-target#171
 target:
   components:
     - cargotracker.handling.application.process_registration_attempt.process_registration_attempt
@@ -39,5 +43,6 @@ notes: >-
   outcomes; CargoLifecycleScenarioTest includes lifecycle behavior. Decision #87 combines
   registration and inspection in one target transaction and removes the source consistency
   window. HR-04D implements both outcomes as independent log lines and uses ruling #136 for
-  equal-completion-time events.
+  equal-completion-time events. Full UTC completion and accepted-registration instants survive
+  reloads per approved divergence #171, as characterized by research PR #173.
 quirks: [martins-vds/ai-factory-pilot-target#136]

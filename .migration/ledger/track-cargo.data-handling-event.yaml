@@ -8,7 +8,10 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "HandlingEvent.findByTrackingId reads event rows for a cargo; fields used include type, voyage_id, location_id, completionTime and cargo_id."
 slice: track-cargo
-tickets: [martins-vds/ai-factory-pilot-target#25, martins-vds/ai-factory-pilot-target#26]
+tickets:
+  - martins-vds/ai-factory-pilot-target#25
+  - martins-vds/ai-factory-pilot-target#26
+  - martins-vds/ai-factory-pilot-target#171
 status: migrated
 verification: differential
 characterization_tier: A
@@ -21,7 +24,10 @@ evidence:
   - ".migration/evidence/track-cargo/differential/report.md"
   - "tests/handling/test_repository.py::test_handling_event_schema_matches_source_jpa_mapping"
   - "tests/handling/test_repository.py::test_repository_reads_and_orders_deduplicated_handling_history"
-  - "tests/handling/test_repository.py::test_repository_stores_event_relations_and_completion_dates"
+  - "tests/handling/test_repository.py::test_repository_stores_event_relations_and_completion_timestamps"
+  - tests/handling/test_repository.py::test_repository_preserves_aware_completion_and_registration_instants
+  - tests/handling/test_repository.py::test_repository_orders_same_day_events_by_instants_before_persisted_id
+  - tests/handling/test_migration.py::test_handling_event_timestamp_migration_preserves_legacy_dates_at_utc_midnight
   - ".migration/evidence/runs/TC-05.md"
   - "tests/cargo/test_sample_data.py::test_seed_sample_data_is_idempotent_and_supports_golden_lookups"
   - ".migration/evidence/runs/TC-06.md"
@@ -35,4 +41,10 @@ target:
     - cargotracker.cargo.infrastructure.models.CargoRecord.last_event
     - cargotracker.cargo.application.sample_data.SampleDataSeeder
     - cargotracker.cargo.management.commands.seed_sample_data.Command
-notes: "The entity also maps id and registration, which this display does not use. JpaHandlingEventRepository wraps results in HandlingHistory. HandlingEventTest and HandlingHistoryTest cover event and history rules; HandlingEventServiceTest covers adjacent registration, not the public query. Coverage input unavailable."
+notes: >-
+  The entity also maps id and registration, which this display does not use.
+  JpaHandlingEventRepository wraps results in HandlingHistory. HandlingEventTest and
+  HandlingHistoryTest cover event and history rules; HandlingEventServiceTest covers adjacent
+  registration, not the public query. Approved divergence #171 keeps full UTC event instants
+  available to history after reload instead of reproducing source DATE-column loss; research PR
+  #173 records the source's cache-dependent observation. Coverage input unavailable.

@@ -20,8 +20,8 @@ class HandlingEventRecord(models.Model):
         on_delete=models.PROTECT,
         related_name='+',
     )
-    completion_time = models.DateField(db_column='completionTime')
-    registration_time = models.DateField(db_column='registration')
+    completion_time = models.DateTimeField(db_column='completionTime')
+    registration_time = models.DateTimeField(db_column='registration')
     cargo = models.ForeignKey(
         'cargo.CargoRecord',
         db_column='cargo_id',

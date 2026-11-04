@@ -8,7 +8,13 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "HandlingHistory deduplicates events, orders by completion time, then registration time and event ID, and returns the last as most recent."
 slice: handling-registration
-tickets: [martins-vds/ai-factory-pilot-target#3, martins-vds/ai-factory-pilot-target#86, martins-vds/ai-factory-pilot-target#94, martins-vds/ai-factory-pilot-target#130, martins-vds/ai-factory-pilot-target#136]
+tickets:
+  - martins-vds/ai-factory-pilot-target#3
+  - martins-vds/ai-factory-pilot-target#86
+  - martins-vds/ai-factory-pilot-target#94
+  - martins-vds/ai-factory-pilot-target#130
+  - martins-vds/ai-factory-pilot-target#136
+  - martins-vds/ai-factory-pilot-target#171
 target:
   components:
     - cargotracker.handling.domain.handling_history.HandlingHistory
@@ -24,11 +30,13 @@ evidence:
   - tests/handling/test_domain.py::test_handling_history_breaks_completion_time_ties_by_registration_time_then_id
   - tests/handling/test_registration_processing.py::test_equal_completion_time_uses_registration_order_for_delivered_outcome
   - tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery
+  - tests/handling/test_repository.py::test_repository_orders_same_day_events_by_instants_before_persisted_id
   - .migration/evidence/runs/HR-04D.md
 notes: >-
   JpaHandlingEventRepository builds this value from all HandlingEvent rows for the cargo.
   HandlingHistoryTest.testDistinctEventsByCompletionTime verifies deduplication and ordering;
   testMostRecentlyCompletedEvent verifies the latest event. Decision #94 specifies target
   history ordering by completion time and no processing-order promise. Ruling #136 fixes ties
-  by registration time, then event ID.
+  by registration time, then event ID. The target retains full UTC instants after reload per
+  approved divergence #171; research PR #173 documents the source's cache-dependent DATE behavior.
 quirks: [martins-vds/ai-factory-pilot-target#136]

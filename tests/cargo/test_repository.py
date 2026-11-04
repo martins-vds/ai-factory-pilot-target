@@ -177,8 +177,8 @@ def test_repository_reads_cargo_embedded_fields_and_legs_by_tracking_id():
         location=last_known_record,
         voyage=voyage_record,
         event_type='UNLOAD',
-        completion_time=date(2026, 11, 2),
-        registration_time=date(2026, 11, 2),
+        completion_time=datetime(2026, 11, 2, tzinfo=UTC),
+        registration_time=datetime(2026, 11, 2, tzinfo=UTC),
     )
     cargo_record.last_event = last_event
     cargo_record.save(update_fields=['last_event'])

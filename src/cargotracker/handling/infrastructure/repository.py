@@ -1,5 +1,3 @@
-from datetime import UTC, datetime, time
-
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
@@ -27,8 +25,8 @@ class DjangoHandlingEventRepository(HandlingEventRepository):
                 else None
             ),
             event_type=event.event_type.value,
-            completion_time=event.completion_time.date(),
-            registration_time=event.registration_time.date(),
+            completion_time=event.completion_time,
+            registration_time=event.registration_time,
         )
 
     def upsert(self, event: HandlingEvent) -> int:
@@ -42,8 +40,8 @@ class DjangoHandlingEventRepository(HandlingEventRepository):
             ),
             event_type=event.event_type.value,
             defaults={
-                'completion_time': event.completion_time.date(),
-                'registration_time': event.registration_time.date(),
+                'completion_time': event.completion_time,
+                'registration_time': event.registration_time,
             },
         )
         return record.pk
@@ -63,8 +61,8 @@ class DjangoHandlingEventRepository(HandlingEventRepository):
         cargo = DjangoCargoRepository().find(TrackingId(record.cargo.tracking_id))
         return HandlingEvent(
             cargo,
-            datetime.combine(record.completion_time, time.min, tzinfo=UTC),
-            datetime.combine(record.registration_time, time.min, tzinfo=UTC),
+            record.completion_time,
+            record.registration_time,
             HandlingEventType(record.event_type),
             Location(UnLocode(record.location.unlocode), record.location.name),
             (
