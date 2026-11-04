@@ -1,0 +1,9 @@
+role: afs-bootstrapper
+ticket: HR-04F-HARNESS
+issue: martins-vds/ai-factory-pilot-target#181
+setup_pr: null
+characterization_tier: A
+tier_evidence: Existing approved source characterization retained; this pin rollout does not rerun or reclassify the source.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: pass
