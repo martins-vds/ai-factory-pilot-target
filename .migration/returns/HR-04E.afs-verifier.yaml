@@ -17,7 +17,7 @@ findings:
     where: src/cargotracker/handling/infrastructure/models.py:23
     what: CompletionTime is persisted as a date, so every noon golden event reappears at midnight.
   - severity: major
-    where: src/cargotracker/cargo/domain/delivery.py:153
+    where: src/cargotracker/cargo/domain/delivery.py:55-74,153-164
     what: Re-derived cargo/history fields diverge from goldens, including status and ETA for ABC123 and status/location for DEF789.
   - severity: minor
     where: src/cargotracker/handling/interfaces/rest.py:109
