@@ -1,0 +1,19 @@
+role: afs-slice-coordinator
+ticket: COORDINATOR-L1-VALIDATION
+issue: martins-vds/ai-factory-pilot-target#194
+slice: handling-registration #113 post-landing reconciliation
+tickets:
+  total: null
+  merged: null
+  open: null
+  blocked:
+    - setup validation: inherited verifier returns lack meaningful PR references
+acceptance:
+  report: null
+  gates: null
+  mutation_score: null
+  coverage_gaps: null
+human_check: null
+human_check_issues: null
+quirk_tickets: []
+handoff: .migration/handoffs/COORDINATOR-L1-VALIDATION.md
