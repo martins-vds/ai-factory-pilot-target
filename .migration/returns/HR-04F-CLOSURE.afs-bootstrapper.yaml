@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HR-04F-CLOSURE
+issue: martins-vds/ai-factory-pilot-target#187
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/188
+characterization_tier: A
+tier_evidence: Existing approved Tier A characterization is retained; no characterization or source behavior was re-evaluated in this blocked rollout proposal.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "blocked: normal bootstrap was not run because the exact approved harness checkout and stack pack are absent; existing migration state validates (88 files, 0 errors), and no approved-pin install or graph/epic verification is claimed."
+handoff: .migration/handoffs/HR-04F-CLOSURE.md
+evidence: .migration/evidence/HR-04F-CLOSURE/report.md
+evidence_logs: .migration/evidence/runs/HR-04F-CLOSURE.md
