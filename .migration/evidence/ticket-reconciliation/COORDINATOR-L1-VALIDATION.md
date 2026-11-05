@@ -24,3 +24,13 @@ The failing setup-validator invocation was not run through `afs-run`; the setup 
 ## Required next step
 
 Have the owner resolve the two inherited return-validation blockers without altering protected historical artifacts, then restart setup checks in a fresh session. Only after setup passes should the coordinator fetch complete history, inspect live issue descendants and attributable landing/role evidence, verify immutable acceptance and human-sign-off references, and run the installed read-only checks through this ticket's journal. Do not infer completion from issue states or prior returns.
+
+## Continuation correction — 2026-11-05
+
+The initial validator run above happened while this checkout was shallow and is preserved as historical output, not as evidence that the inherited returns are malformed. After the ordinary `git fetch --unshallow origin`, `git rev-parse --is-shallow-repository` returned `false`; required baseline `a284b840e97e06452ca5370b941d22c4c6ae4f2d` is an ancestor of the current role branch, and `origin/main` is that exact baseline. With complete ancestry, the initial inherited-return errors disappear. The prior PR-195 CI then isolated this role's malformed `tickets.blocked[0]` YAML type; only this role's item was quoted.
+
+The corrected return now passes `python .migration/harness/tools/validate.py .migration` through this ticket's `afs-run` journal: 94 files checked, 0 errors. Runtime, DB service, and ticket-input checks also pass. The original shallow-history diagnosis above is superseded by this observed full-history result; no inherited return was edited.
+
+This continuation queried the live #113 child lists recursively through GitHub: nine direct children and 12 nested descendants, 21 total, with no deeper children and no in-scope research-labeled issue. It verified the historical acceptance run/artifact and the human attestation separately; details and the unresolved recursive-return evidence are in `COORDINATOR-L1-VALIDATION-review.md`. The ADR-0030 report at `113.yaml` is a candidate on this branch, not an artifact already present on `origin/main`.
+
+The installed reconciliation CLI has not yet passed. `gh auth status` reports that no GitHub host is authenticated in this environment, while `ticket_guard.py` obtains live issue/PR data with `gh api`. The role will make the required bounded read-only afs-run attempts without `--reopen`; any authentication failure remains a blocker, not a passing checker result.
