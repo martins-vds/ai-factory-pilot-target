@@ -24,3 +24,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-05T19:15:01+00:00 | protected-input-tree-audit | 0 | 0.62 | `python /tmp/afs-verify-harness-robustness.py` | `860f314ca6168e90` |  |  |
 | 2026-11-05T19:15:17+00:00 | coordinator-baseline-preservation | 0 | 0.62 | `python /tmp/afs-verify-harness-robustness.py` | `a1408a93ef93fbc3` |  |  |
 | 2026-11-05T19:15:31+00:00 | coordinator-baseline-preservation-count | 0 | 0.62 | `python /tmp/afs-verify-harness-robustness.py` | `213393e01370ccd5` |  |  |
+| 2026-11-05T19:16:48+00:00 | final-return-state-validation | 0 | 0.63 | `python .migration/harness/tools/validate.py .migration` | `c784e0bf7a2d7bdb` |  |  |
