@@ -10,3 +10,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-05T22:31:44+00:00 | installed-ticket-reconciliation | 1 | 0.09 | `python .migration/harness/tools/ticket_guard.py --repo martins-vds/ai-factory-pilot-target --reconcile-epic 113` | `af95a491efd07594` |  |  |
 | 2026-11-05T22:31:44+00:00 | slice-return-check | 1 | 0.23 | `python .migration/harness/tools/check_slice_returns.py --repo martins-vds/ai-factory-pilot-target --epic 113` | `38a0c2f8af9c6c5f` |  |  |
 | 2026-11-05T22:32:29+00:00 | final-migration-validate | 0 | 0.91 | `python .migration/harness/tools/validate.py .migration` | `ee0d254997a7a3b1` |  |  |
+| 2026-11-05T23:17:20+00:00 | continuation-setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
