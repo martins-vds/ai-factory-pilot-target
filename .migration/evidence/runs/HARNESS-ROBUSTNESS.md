@@ -13,3 +13,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-05T19:06:24+00:00 | coordinator-installed-state | 1 | 0.72 | `python3 .migration/harness/tools/validate.py .migration` | `d1cb431a977bc0f6` | 92 file(s) checked, 2 error(s) |  |
 | 2026-11-05T19:07:48+00:00 | coordinator-source-preservation | 1 | 0.42 | `python3 ../verify-pilot193-install.py` | `582049862d083df8` | Traceback (most recent call last): |  |
 | 2026-11-05T19:08:01+00:00 | coordinator-source-preservation | 0 | 0.1 | `python3 ../verify-pilot193-install.py` | `4fd7dfbb93c3bdb4` |  |  |
+| 2026-11-05T19:08:02+00:00 | coordinator-committed-state | 0 | 0.76 | `python3 .migration/harness/tools/validate.py .migration` | `c784e0bf7a2d7bdb` |  |  |
+| 2026-11-05T19:09:28+00:00 | coordinator-final-preservation | 0 | 0.1 | `python3 ../verify-pilot193-install.py` | `4fd7dfbb93c3bdb4` |  |  |
+| 2026-11-05T19:09:28+00:00 | coordinator-final-state | 0 | 0.68 | `python3 .migration/harness/tools/validate.py .migration` | `c784e0bf7a2d7bdb` |  |  |
