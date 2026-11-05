@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "2c8e00ab87e99f3d77976e3cf78c2a89011627fb",
-  "installed_at": "2026-11-05T14:13:17Z",
+  "harness_commit": "ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1",
+  "installed_at": "2026-11-05T19:05:58Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -35,7 +35,7 @@
       "path": ".github/agents/afs-migrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-migrator.agent.md": "9ab1fed13904d9c0d243304773e47deaf2faeebe48cf5a0a37aa78b8a44ad739"
+        ".github/agents/afs-migrator.agent.md": "a188bf95d21ce402dfcf3b37f345eef354eedb64077070ece3c1849fed7b81b5"
       }
     },
     {
@@ -49,28 +49,28 @@
       "path": ".github/agents/afs-program-orchestrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-program-orchestrator.agent.md": "3261fda35048c661c4019ff28285cc4fba1ebec8205c2ffefcef45cf3320db23"
+        ".github/agents/afs-program-orchestrator.agent.md": "1553457accd5be316ba3892f5e0414a53112409af4e6d21e0d1bbae57818a6cb"
       }
     },
     {
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "90740aa36169945506c5c0fcba8503b8ba328ecaa7767163dfe4b830ec1f7e7c"
+        ".github/agents/afs-slice-coordinator.agent.md": "a615aca3100dab80cf3aab6f7f703f775a5f04ebee1c63908d893e8c7ea6507c"
       }
     },
     {
       "path": ".github/agents/afs-specialist-migrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-specialist-migrator.agent.md": "4fb081aa79c5a45ef24e5a0e0fc5351101cfc44afa73a5ae5ef04a742fc535ad"
+        ".github/agents/afs-specialist-migrator.agent.md": "75647722c7474187ea145bb17f64b5cdc0463b3b3b42bb5455ab1a41c3020f82"
       }
     },
     {
       "path": ".github/agents/afs-verifier.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-verifier.agent.md": "4fda52faf3b5599df4d206583333df3291d67c843d744832bedd25d7724580bb"
+        ".github/agents/afs-verifier.agent.md": "be49becd93f8533ea518b88888e41d7851780122ffdf91c1e1072102826c7765"
       }
     },
     {
@@ -1090,9 +1090,9 @@
         ".migration/harness/tools/check_graph_fresh.py": "4614d42059d03b4fa0926c21e403cde35426bcad16efc0f7de1061c4b3c6aebb",
         ".migration/harness/tools/check_inputs.py": "9ce77441102ed8134e2a83a5c199fe476790c8cbf113f739a5499ce772846f5e",
         ".migration/harness/tools/check_installed.py": "6f95e854ed5513ab5e7c0596898a9ae27f77a7413ba525faf8152e372bfe6c42",
-        ".migration/harness/tools/check_return_contract.py": "c4a346a9a2184f5bad1bd2f4d8d3e1cab892357ba32599034891c550cb60cb5a",
+        ".migration/harness/tools/check_return_contract.py": "4682ed9c26ebe92cda97e53d746728534365134844c1b79e4a32e9e4e73b2683",
         ".migration/harness/tools/check_runtime.py": "ba09b4b13ba86cbb29586feb54824646abcefaf952b76b1e40e3c32276fda547",
-        ".migration/harness/tools/check_slice_returns.py": "dd2d0204aac2a5d2979b3bf094770a536beb076f25291fa0c82dc39fd4adbcf8",
+        ".migration/harness/tools/check_slice_returns.py": "331e907734b9e9e88c3a6a337ff50968755d96dfbb0e03a6f782bf6c0a1bbc14",
         ".migration/harness/tools/check_stack_base.py": "8b7430f4241b0409581d82cca1ccc3505d1e998bff0b8d09ffe3ccb6bf92b66d",
         ".migration/harness/tools/crap.py": "78f19ab57dcdeca3bb7f024ba731f00d8a31671ed670aff6ab292d0c3f3f2797",
         ".migration/harness/tools/enrich_graph.py": "cc6707e47e0a2cf1b54ebb2a8b72d8a1c9af219826541801176e6a8e466ac086",
@@ -1101,9 +1101,9 @@
         ".migration/harness/tools/graph_gate.py": "bf91811120dea310d932796863124e5183e0644ad1d2551babc9fadf1e147a9a",
         ".migration/harness/tools/harness_coverage.py": "e9fdef47dbf7273168b9a2a19f4cbe38a3368602b7f110e6b54fe4a9b3d5bcfd",
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
-        ".migration/harness/tools/ticket_guard.py": "ad328a7b79a6686bbe401ac8bf6ce228bc8a4cfa6eac10df303645a4bcb48c72",
+        ".migration/harness/tools/ticket_guard.py": "13f71f784e1dea80eda506176a4506b78a056d584a4ff28e5d2338d179b751de",
         ".migration/harness/tools/understand.py": "5e540c4c39098780fb89529f59cbcd879cd74d256e3e097e60f9f05aee09f2b4",
-        ".migration/harness/tools/validate.py": "59ac8dc5d4d0e1f9e16ec23dc7885f0f497068b319a02f09d40fc26e8c7bc511"
+        ".migration/harness/tools/validate.py": "e9582a8e4073eb102fb895d1fe36beaefc030983073238e0287048ba191a6da5"
       }
     },
     {
