@@ -1,0 +1,223 @@
+{
+  "branch": "copilot/hr-04f-accept-handling-registration-slice",
+  "diagnostics": {
+    "data_keys": {
+      "assistant.message": [
+        "apiCallId",
+        "chunkCount",
+        "chunkIndex",
+        "clientRequestId",
+        "content",
+        "encryptedContent",
+        "interactionId",
+        "messageId",
+        "model",
+        "outputTokens",
+        "phase",
+        "reasoningOpaque",
+        "requestId",
+        "rte",
+        "serviceRequestId",
+        "toolRequests",
+        "turnId"
+      ],
+      "assistant.turn_end": [
+        "turnId"
+      ],
+      "assistant.turn_start": [
+        "interactionId",
+        "turnId"
+      ],
+      "external_tool.completed": [
+        "requestId"
+      ],
+      "external_tool.requested": [
+        "arguments",
+        "requestId",
+        "sessionId",
+        "toolCallId",
+        "toolName",
+        "workingDirectory"
+      ],
+      "hook.end": [
+        "hookInvocationId",
+        "hookType",
+        "success"
+      ],
+      "hook.start": [
+        "hookInvocationId",
+        "hookType",
+        "input"
+      ],
+      "permission.completed": [
+        "requestId",
+        "result",
+        "toolCallId"
+      ],
+      "permission.requested": [
+        "permissionRequest",
+        "promptRequest",
+        "requestId"
+      ],
+      "session.resume": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "continuePendingWork",
+        "eventCount",
+        "eventsFileSizeBytes",
+        "reasoningEffort",
+        "remoteSteerable",
+        "resumeTime",
+        "selectedModel",
+        "sessionLimits",
+        "sessionWasActive"
+      ],
+      "session.start": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "copilotVersion",
+        "producer",
+        "reasoningEffort",
+        "remoteSteerable",
+        "selectedModel",
+        "sessionId",
+        "startTime",
+        "version"
+      ],
+      "session.usage_checkpoint": [
+        "modelCacheState",
+        "totalNanoAiu",
+        "totalPremiumRequests"
+      ],
+      "skill.invoked": [
+        "allowedTools",
+        "content",
+        "description",
+        "model",
+        "name",
+        "path",
+        "source",
+        "trigger"
+      ],
+      "system.message": [
+        "content",
+        "interactionId",
+        "role"
+      ],
+      "tool.execution_complete": [
+        "error",
+        "interactionId",
+        "model",
+        "result",
+        "rte",
+        "success",
+        "toolCallId",
+        "toolTelemetry",
+        "turnId"
+      ],
+      "tool.execution_start": [
+        "arguments",
+        "mcpServerName",
+        "mcpToolName",
+        "model",
+        "rte",
+        "shellToolInfo",
+        "toolCallId",
+        "toolName",
+        "turnId"
+      ],
+      "user.message": [
+        "attachments",
+        "content",
+        "delivery",
+        "interactionId",
+        "parentAgentTaskId",
+        "source",
+        "supportedNativeDocumentMimeTypes",
+        "transformedContent"
+      ]
+    },
+    "event_types": {
+      "assistant.message": 134,
+      "assistant.turn_end": 87,
+      "assistant.turn_start": 87,
+      "external_tool.completed": 3,
+      "external_tool.requested": 3,
+      "hook.end": 296,
+      "hook.start": 297,
+      "permission.completed": 152,
+      "permission.requested": 152,
+      "session.resume": 2,
+      "session.start": 1,
+      "session.usage_checkpoint": 2,
+      "skill.invoked": 11,
+      "system.message": 3,
+      "tool.execution_complete": 170,
+      "tool.execution_start": 170,
+      "user.message": 14
+    },
+    "events": 1584,
+    "usage_fields": []
+  },
+  "ended_at": "2026-11-04T23:51:45.456Z",
+  "event": "sessionEnd",
+  "harness_tools": [
+    {
+      "count": 6,
+      "exit": 0,
+      "tool": "afs-acceptance"
+    },
+    {
+      "count": 4,
+      "exit": 0,
+      "tool": "afs-mutation"
+    },
+    {
+      "count": 6,
+      "exit": 0,
+      "tool": "afs-run"
+    },
+    {
+      "count": 4,
+      "exit": 0,
+      "tool": "afs-services"
+    },
+    {
+      "count": 6,
+      "exit": 0,
+      "tool": "check_inputs.py"
+    },
+    {
+      "count": 6,
+      "exit": 0,
+      "tool": "check_runtime.py"
+    },
+    {
+      "count": 22,
+      "exit": 0,
+      "tool": "validate.py"
+    },
+    {
+      "count": 1,
+      "exit": 0,
+      "tool": "afs-cost-hook"
+    }
+  ],
+  "log": "/home/runner/.copilot/session-state/2f82f129-357e-4a4c-9bf9-f18e37e0b016/events.jsonl",
+  "models": {
+    "gpt-6-luna": {
+      "output": 64670,
+      "requests": 134
+    }
+  },
+  "prompt_head": null,
+  "recorded_at": "2026-11-04T23:51:46+00:00",
+  "schema": "afs-cost/1",
+  "session_id": "2f82f129-357e-4a4c-9bf9-f18e37e0b016",
+  "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
+  "started_at": "2026-11-04T20:31:32.932Z",
+  "surface": "coding-agent",
+  "usage_source": "assistant.message (output only, partial)"
+}
