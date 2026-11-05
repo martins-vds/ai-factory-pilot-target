@@ -16,3 +16,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-05T19:08:02+00:00 | coordinator-committed-state | 0 | 0.76 | `python3 .migration/harness/tools/validate.py .migration` | `c784e0bf7a2d7bdb` |  |  |
 | 2026-11-05T19:09:28+00:00 | coordinator-final-preservation | 0 | 0.1 | `python3 ../verify-pilot193-install.py` | `4fd7dfbb93c3bdb4` |  |  |
 | 2026-11-05T19:09:28+00:00 | coordinator-final-state | 0 | 0.68 | `python3 .migration/harness/tools/validate.py .migration` | `c784e0bf7a2d7bdb` |  |  |
+| 2026-11-05T19:11:42+00:00 | resumed-setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
