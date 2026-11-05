@@ -7,7 +7,7 @@ Required baseline object exists locally: `a284b840e97e06452ca5370b941d22c4c6ae4f
 
 ## Result
 
-The required migration-state setup check failed, so the installed stop rule blocks further coordinator work. No issue #113 descendants were enumerated; no ADR-0030 reconciliation report for `113.yaml`, landing review, acceptance/sign-off verification, reconciliation checker, or return checks were performed. This file records only the observed setup block and is not reconciliation or acceptance evidence.
+In the initial attempt, the required migration-state setup check failed, so the installed stop rule blocked further coordinator work. At that time, no issue #113 descendants were enumerated; no ADR-0030 reconciliation report for `113.yaml`, landing review, acceptance/sign-off verification, reconciliation checker, or return checks were performed. This initial section is historical setup-block evidence, not reconciliation or acceptance evidence.
 
 ## Setup observations
 
@@ -34,3 +34,11 @@ The corrected return now passes `python .migration/harness/tools/validate.py .mi
 This continuation queried the live #113 child lists recursively through GitHub: nine direct children and 12 nested descendants, 21 total, with no deeper children and no in-scope research-labeled issue. It verified the historical acceptance run/artifact and the human attestation separately; details and the unresolved recursive-return evidence are in `COORDINATOR-L1-VALIDATION-review.md`. The ADR-0030 report at `113.yaml` is a candidate on this branch, not an artifact already present on `origin/main`.
 
 The installed reconciliation CLI and related return checker were run read-only through this ticket's afs-run journal, both without `--reopen`. Both exited 1 before loading the report because `gh api` requires `GH_TOKEN` in this environment; the precise command and log paths are in the role handoff and run journal. `gh --version` is `2.103.2`, and `gh auth status` reports no authenticated host. These are failed checks, not a passing reconciliation result.
+
+## Bounded provenance continuation — 2026-11-05
+
+The checkout was shallow at the beginning of this fresh continuation. The first state-validator attempt failed on inherited null-PR history as expected for shallow ancestry; after ordinary `git fetch --unshallow origin`, the repository reported non-shallow, `origin/main` and the required baseline were `a284b840e97e06452ca5370b941d22c4c6ae4f2d`, and the journaled `resumed-setup-validate` passed (94 files, 0 errors). Runtime, services, inputs and a fresh own setup probe passed. No inherited return changed.
+
+The candidate/report review now omits the nonpassing #127/#128 Verifier returns from passing witness lists, records their `changes-required` history separately, and adds exact child-work/correction PR plus parent-owned role-return identities for #147/#149/#155/#162/#164/#168 and #160's failed #161 snapshot/replacement. For the six child continuations, the report leaves `returns: []` because no same-path role return attributes to the child issue; it does not fabricate a pass.
+
+The coordinator did not rerun or copy parent executions. Parent comment https://github.com/martins-vds/ai-factory-pilot-target/pull/195#issuecomment-6671481341 records the actual unchanged installed checker results: 21 tickets / 16 reconciliation failures and 21 tickets / 6 return failures, using the parent's authorized CLI. Those results are separate from this role's failed unauthenticated runs above. The full harness pin for review is `ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1`; source repairs #79/#80 and setup/example repair #78 remain separate, not installed. This candidate remains blocked and is not main evidence.

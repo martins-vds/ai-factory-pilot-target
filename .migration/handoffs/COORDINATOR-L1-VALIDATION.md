@@ -45,3 +45,28 @@ Resolve the inherited setup-validation block under the issue's preservation cons
 - Both stop on `gh api repos/martins-vds/ai-factory-pilot-target/issues/113`: “To use GitHub CLI in a GitHub Actions workflow, set the GH_TOKEN environment variable.” No gate was forced past this failure.
 ### Next step for the next session
 Provide this same role with the permitted authenticated GitHub CLI runtime (do not copy credentials into files or conversation), rerun setup checks, then rerun both committed read-only commands through afs-run and record their actual findings. Keep the candidate report distinct from main and stop if the authenticated guard identifies unresolved returns.
+
+## Handoff — afs-slice-coordinator · 2026-11-05T23:19:00Z
+**State:** blocked · **Branch / PR:** copilot/validate-slice-coordinator-role / PR #195 · **Last commit:** 543a9b0
+### Done
+- Ordinary `git fetch --unshallow origin` restored full target ancestry; `git rev-parse --is-shallow-repository` is `false`, HEAD is `543a9b0d9378571216f609da8deccab7aa7d4438`, and `origin/main` is baseline `a284b840e97e06452ca5370b941d22c4c6ae4f2d`.
+- Setup checks: ticket inputs 0 missing; RTK 1.1.0; Python 3.13.17; DB healthy; own setup probe passed. After full history, `afs-run ... resumed-setup-validate -- python .migration/harness/tools/validate.py .migration` passed: 94 files, 0 errors. The fresh shallow-clone validation failure and prior full-history validation remain historical journal observations; no inherited return was edited.
+- Corrected the ADR-0030 candidate and review only: #127/#128 list successful owning-role returns, with failed Verifier outcomes separately identified as nonpassing; #147/#149/#155/#162/#164/#168 now cite exact child-work and current owning/correction PRs plus their real parent-ticket return identity. #160's exact failed snapshot and replacement attribution are clarified.
+- Corrected the review's installed pin to the full 40-character `ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1`.
+- Parent's independently executed check results remain cited as parent evidence only: 21 tickets / 16 reconciliation failures and 21 tickets / 6 return failures (PR #195 comment 6671481341). They were not copied into this role's afs-run journal.
+- CI run 42122477324 on the previous finished head `543a9b0d9378571216f609da8deccab7aa7d4438` completed success; this is historical CI for that exact head, not a check of the pending provenance edits.
+### Remaining
+- [ ] After independently reviewed source corrections #79/#80 and separately approved normal pinned rollout, verify permitted guard behavior against exact final proposal evidence; no L1 success or L0 dispatch is claimed.
+- [ ] Keep unresolved child-attribution and #160 failure-return gaps explicit unless genuine attributable artifacts become available; never manufacture returns or relax checker rules.
+### Decisions made
+- This continuation is limited to evidence/provenance corrections while source-side repair proceeds. Did not retry unauthenticated `gh`, rerun checker commands, or include parent-run output in this role's journal.
+- Candidate report is a proposal on this branch, not already landed main evidence. No issue state or inherited artifact changed.
+### Blockers / questions
+- The actual installed checker results supplied by the parent identify reusable source defects now tracked in `martins-vds/ai-factory-swarm#79` and #80. Setup/example corrections #78 are also unmerged; the installed target pin remains `ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1`.
+- Exact child role returns are absent for #147/#149/#155/#162/#164/#168 and the PR #161 failure return snapshot identifies #130, not #160. The current report names actual parent-owned returns but sets child `returns: []`; the guard must not be made to pass by pretending those returns belong to child issues.
+- #127/#128 retain genuine `changes-required` Verifier history. It is not listed as successful evidence; owning specialist returns remain cited.
+### Failing commands
+- Current session did not rerun reconciliation/return checkers or retry `gh`; prior local unauthenticated failures remain documented in the preceding handoff section and journal. Parent's authorized runs are explicitly parent-attributed in the review, not role runs.
+- Initial validation in this fresh session occurred before detecting shallow history and failed on inherited null-PR attribution. After `git fetch --unshallow origin`, the own journaled validation passed with 94 files / 0 errors.
+### Next step for the next session
+Continue only after a separately reviewed/approved normal rollout resolves the source-side semantics. Verify setup with full target history first, then use an authorized runtime for read-only checker execution; preserve exact actual outcomes and stop if any child attribution remains unsupported. No acceptance/mutation rerun, issue mutation, dispatch, or merge.

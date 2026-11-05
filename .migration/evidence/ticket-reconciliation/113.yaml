@@ -18,16 +18,24 @@ issues:
       - .migration/returns/HR-04.afs-planner.yaml
   - number: 127
     disposition: completed
-    pull_requests: [133, 137]
+    pull_requests: [133]
     returns:
       - .migration/returns/HR-04A.afs-specialist-migrator.yaml
-      - .migration/returns/HR-04A.afs-verifier.yaml
+    observed_nonpassing_reviews:
+      - pull_request: 137
+        return: .migration/returns/HR-04A.afs-verifier.yaml
+        verdict: changes-required
+        evidence: "PR #137 flags stale quirk-draft links; retain as failed review evidence, not a passing witness."
   - number: 128
     disposition: completed
-    pull_requests: [134, 139]
+    pull_requests: [134]
     returns:
       - .migration/returns/HR-04B.afs-specialist-migrator.yaml
-      - .migration/returns/HR-04B.afs-verifier.yaml
+    observed_nonpassing_reviews:
+      - pull_request: 139
+        return: .migration/returns/HR-04B.afs-verifier.yaml
+        verdict: changes-required
+        evidence: "PR #139 flags an out-of-scope generated cost artifact; retain as failed review evidence, not a passing witness."
   - number: 129
     disposition: completed
     pull_requests: [154]
@@ -57,18 +65,34 @@ issues:
   - number: 147
     disposition: completed
     pull_requests: [154]
-    returns:
-      - .migration/returns/HR-04C.afs-migrator.yaml
+    returns: []
+    continuation:
+      child_work_pr: 148
+      child_work_pr_state: closed-unmerged
+      current_owning_pr: 154
+      parent_return: .migration/returns/HR-04C.afs-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#129
+      attribution: "No committed same-path return names child #147; PR #148 is unmerged. PR #154 carries the correction, but its HR-04C return is attributed to parent #129."
   - number: 149
     disposition: completed
-    pull_requests: [150]
-    returns:
-      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
+    pull_requests: [150, 163]
+    returns: []
+    continuation:
+      child_work_pr: 150
+      current_owning_pr: 163
+      parent_return: .migration/returns/HR-04D.afs-specialist-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#130
+      attribution: "The current HR-04D specialist return owns PR #163 and names parent #130; no same-path return names child #149."
   - number: 155
     disposition: completed
-    pull_requests: [156]
-    returns:
-      - .migration/returns/HR-04C.afs-migrator.yaml
+    pull_requests: [156, 154]
+    returns: []
+    continuation:
+      child_work_pr: 156
+      current_owning_pr: 154
+      parent_return: .migration/returns/HR-04C.afs-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#129
+      attribution: "PR #156 contains the child mutation remediation; the current HR-04C return is carried by PR #154 and names parent #129, not child #155."
   - number: 158
     disposition: completed
     pull_requests: [159]
@@ -80,21 +104,47 @@ issues:
     failure:
       pull_request: 161
       return: .migration/returns/HR-04D.afs-verifier.yaml
+    continuation:
+      failure_pr_state: closed-unmerged
+      failure_return_issue_at_pr_head: martins-vds/ai-factory-pilot-target#130
+      failure_verdict: changes-required
+      replacement_owning_pr: 165
+      replacement_return: .migration/returns/HR-04D.afs-verifier.yaml
+      replacement_return_issue: martins-vds/ai-factory-pilot-target#130
+      attribution: "PR #161's exact verifier snapshot fails the review but names parent #130 rather than child #160; replacement #164 was re-verified in PR #165, whose return also names #130. No child-#160 failure return is claimed."
   - number: 162
     disposition: completed
     pull_requests: [163]
-    returns:
-      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
+    returns: []
+    continuation:
+      child_work_pr: 163
+      current_owning_pr: 163
+      parent_return: .migration/returns/HR-04D.afs-specialist-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#130
+      attribution: "PR #163 addresses child #162, but the committed HR-04D specialist return is for parent #130; no child-#162 return exists."
   - number: 164
     disposition: completed
     pull_requests: [165]
-    returns:
-      - .migration/returns/HR-04D.afs-verifier.yaml
+    returns: []
+    continuation:
+      child_work_pr: 165
+      current_owning_pr: 165
+      parent_return: .migration/returns/HR-04D.afs-verifier.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#130
+      attribution: "PR #165 re-verifies parent work #130 after child #162; its verifier return names #130, not child #164."
   - number: 168
     disposition: completed
-    pull_requests: [169]
-    returns:
-      - .migration/returns/HR-04E.afs-verifier.yaml
+    pull_requests: [169, 175, 177]
+    returns: []
+    continuation:
+      child_work_pr: 169
+      correction_pr: 175
+      current_verifier_pr: 177
+      historical_parent_issue: martins-vds/ai-factory-pilot-target#131
+      historical_parent_return_commit: 1c8716c7afe972c60b750b36aca91ffa80597a79
+      current_return: .migration/returns/HR-04E.afs-verifier.yaml
+      current_return_issue: martins-vds/ai-factory-pilot-target#176
+      attribution: "PR #169 corrects parent HR-04E/#131 evidence for child #168; PR #175 implements the approved fixes and PR #177 verifies them. Same-path history preserves #131 then supersedes it with #176; no return names child #168."
   - number: 174
     disposition: completed
     pull_requests: [175]
