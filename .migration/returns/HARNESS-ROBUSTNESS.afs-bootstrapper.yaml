@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HARNESS-ROBUSTNESS
+issue: martins-vds/ai-factory-pilot-target#192
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/193
+characterization_tier: A
+tier_evidence: The existing profile declares tier A; this bounded harness rollout did not repeat source characterization.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "pass: coordinator normal bootstrap at martins-vds/ai-factory-swarm@ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1 (install commit f369d19de2747d3f9939e3a2f3dcdeec7a898b2f); this worker independently verified exact-source parity, installed integrity, migration state, completion workflow and return attribution, runtime, graph freshness/flow, and protected-input preservation. Final exact-head review and current CI remain pending."
+handoff: .migration/handoffs/HARNESS-ROBUSTNESS.md
+evidence: .migration/evidence/HARNESS-ROBUSTNESS/report.md
+evidence_logs: .migration/evidence/runs/HARNESS-ROBUSTNESS.md
