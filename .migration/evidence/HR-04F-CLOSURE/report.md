@@ -17,7 +17,7 @@
 | Setup probe | Pass — `true`, recorded in `.migration/evidence/runs/HR-04F-CLOSURE.md`. |
 | Pinned bootstrap inputs | **Blocked** — `bootstrap-inputs` exited 1; `.migration/harness/tools/bootstrap.py` and `stacks/java-to-django.json` are absent. No clean harness checkout exists in the available workspace. See `.migration/runs/HR-04F-CLOSURE/20261105T140903835721Z-bootstrap-inputs.log`. |
 
-The installed manifest identifies the existing pin as `344241e92256a6048183f99063ca297fb96780de`, not the approved commit. No normal bootstrap was attempted without the exact approved source and its stack pack. The current installation, profile, source lock, capability decisions/providers, graphs, ledger, application, tests, returns, prior journals, costs, and acceptance archive were not changed by this proposal. The existing Tier A characterization and capability checklist are retained; capability counts remain 14 met, 0 gap, 0 waived, and 1 not applicable.
+The installed manifest identifies the existing pin as `344241e92256a6048183f99063ca297fb96780de`, not the approved commit. No normal bootstrap was attempted without the exact approved source and its stack pack. The current installation, profile, source lock, capability decisions/providers, graphs, ledger, application, tests, pre-existing returns, prior journal rows, costs, and acceptance archive were not changed by this proposal. The existing Tier A characterization and capability checklist are retained; capability counts remain 14 met, 0 gap, 0 waived, and 1 not applicable.
 
 ## Not claimed
 
