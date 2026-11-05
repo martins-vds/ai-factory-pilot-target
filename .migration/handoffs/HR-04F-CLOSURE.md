@@ -1,25 +1,25 @@
-## Handoff — afs-bootstrapper · 2026-11-05T14:09:03Z
-**State:** blocked · **Branch / PR:** `copilot/hr-04f-closure-install-historical-attribution-epic` / https://github.com/martins-vds/ai-factory-pilot-target/pull/188 · **Last commit:** `348a856d8f62edcb6ea61fc7a818e908f960ca57`
+## Handoff — afs-bootstrapper · 2026-11-05T14:22:30Z
+**State:** needs human · **Branch / PR:** `copilot/hr-04f-closure-install-historical-attribution-epic` / https://github.com/martins-vds/ai-factory-pilot-target/pull/188 · **Last verified bootstrap commit:** `2db4f098f1764740d21b9ed76a7210282c88af5c`
 ### Done
-- Source checkout matches `.migration/source.lock` at `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`; it is read-only and ignored.
-- Migration-state validation passed: 88 files, 0 errors. Runtime check passed at Python 3.13.17; configured `db` service is healthy.
-- Setup probe passed (`true`); see `.migration/evidence/runs/HR-04F-CLOSURE.md`.
-- The existing installed pin is `344241e92256a6048183f99063ca297fb96780de`, not the approved harness commit `2c8e00ab87e99f3d77976e3cf78c2a89011627fb`.
-- No exact-pin harness checkout is available. The required-input check identifies absent `.migration/harness/tools/bootstrap.py` and `stacks/java-to-django.json`; see the run journal and `.migration/runs/HR-04F-CLOSURE/20261105T140903835721Z-bootstrap-inputs.log`.
-- No bootstrap or installed-file modification occurred. Protected inputs, prior evidence, and acceptance archives remain unchanged. Details: `.migration/evidence/HR-04F-CLOSURE/report.md`.
+- Coordinator performed normal bootstrap from the exact approved harness pin `2c8e00ab87e99f3d77976e3cf78c2a89011627fb`; the `coordinator-normal-bootstrap` row records exit 0 (30.48s). This worker did not execute bootstrap.
+- Independent checks passed: exact guard/contract blob parity and exact rendered fog-workflow template parity; installed integrity (77 entries / 388 files / 0 problems); profile runtime Python 3.13.17; migration validation (90 files / 0 errors); services; both graph freshness and flow gates; protected-input and standard capability timestamp preservation.
+- Current HR-04E Verifier return for issue #176 / PR #177 remains byte-identical to baseline. Original acceptance artifacts and survivor report remain unchanged.
+- Coordinator's actual read-only installed guard run passed for epic113: 9 tickets / 0 failures. This worker independently ran the installed attribution logic against the live nine-ticket GitHub MCP snapshot and full local ancestry; it attributed #131 to historical return at `1c8716c7afe972c60b750b36aca91ffa80597a79` with zero failures.
+- Full evidence and actor distinction: `.migration/evidence/HR-04F-CLOSURE/report.md` and `.migration/evidence/runs/HR-04F-CLOSURE.md`.
 ### Remaining
-- [ ] Coordinator: perform normal bootstrap using the exact approved clean harness checkout, existing profile/capabilities and Java-to-Django stack pack; resolve the private skill dependency through the authorized environment without skipping it or transferring credentials.
-- [ ] Fresh Bootstrapper session: independently verify installation/source/template parity and run the specified afs-run integrity, migration-state, fog-workflow, graph freshness/flow, and read-only epic113 guard checks.
-- [ ] Finalize evidence on PR #188, validate the durable outputs, and request review; do not merge.
+- [ ] Coordinator: review the exact final PR #188 head and current CI, then perform the separately authorized merge and subsequent epic action.
+- [ ] If an independent full CLI invocation is required before that review, provide the existing authorized GitHub CLI context to the coordinator-run check; this worker has no `GH_TOKEN` and did not transfer credentials.
 ### Decisions made
-- Stop before bootstrap because the exact approved harness source and required stack pack are absent; retaining the prior install is safer and preserves the proposal boundary.
-- Existing Tier A characterization and capability decisions are retained, not reclassified or refreshed. No gate or acceptance result is claimed for the approved pin.
-- The authorized coordinator must be named as execution actor if it performs bootstrap; a fresh Bootstrapper must report only its independent verification.
+- The coordinator's bootstrap and end-to-end guard execution are reported as coordinator execution, not this worker's.
+- This worker's direct guard CLI attempt failed because `GH_TOKEN` is unavailable; unauthenticated public API returned HTTP 403. The independent local attribution-logic check used the real current nine-ticket snapshot via GitHub MCP and full HEAD ancestry. No synthetic gate result was created.
+- The user's explicit rollout merge and subsequent epic-action approval is recorded but unconsumed. This worker performed neither action.
+- Existing accepted evidence remains tied to its original execution revision; no full-mutation rerun, acceptance refresh, or fingerprint claim was made.
 ### Blockers / questions
-- Coordinator-assisted access to the exact approved harness checkout and pinned private skill dependency is required. Do not send or request credential material in this session.
-- No setup installation PR was generated; PR #188 is the bounded rollout proposal only. No pilot merge approval exists.
-- Epic113 remains open; do not run `--reopen`, close the epic, create a fog task, rebuild graphs, or alter accepted Auditor evidence.
+- No blocker remains for the normal installation or recorded independent checks. Exact final-head review and current CI remain with the coordinator.
+- Do not merge or alter epic113 from this worker session. Preserve issue131's historical return attribution and current issue176/PR177 return.
 ### Failing commands
-- `rtk .migration/harness/tools/afs-run --ticket HR-04F-CLOSURE --name bootstrap-inputs -- python .migration/harness/tools/check_inputs.py --text 'Normal bootstrap requires .migration/profile.yaml .migration/capabilities.yaml .migration/source.lock .migration/harness/tools/bootstrap.py stacks/java-to-django.json'` → exit 1, see `.migration/runs/HR-04F-CLOSURE/20261105T140903835721Z-bootstrap-inputs.log`.
+- `python .migration/harness/tools/check_slice_returns.py --repo martins-vds/ai-factory-pilot-target --epic 113` → exit 1 because GitHub CLI requires `GH_TOKEN`; see `.migration/runs/HR-04F-CLOSURE/20261105T141948264301Z-epic113-read-only.log`.
+- Read-only public REST transport attempt → exit 1, HTTP 403; see `.migration/runs/HR-04F-CLOSURE/20261105T142057460449Z-epic113-read-only-public-api.log`.
+- Initial local attribution attempt → exit 1 because repository ancestry was shallow; after `git fetch --unshallow origin`, the complete-history attribution check passed. See `.migration/runs/HR-04F-CLOSURE/20261105T142117545494Z-historical-attribution-local.log` and `.migration/runs/HR-04F-CLOSURE/20261105T142143326326Z-epic113-local-attribution.log`.
 ### Next step for the next session
-Ask the authorized coordinator to perform the normal bootstrap with the exact approved harness checkout and required private dependency, then resume in a fresh Bootstrapper session to independently verify the generated proposal and complete the remaining read-only checks.
+Coordinator: inspect this committed report/journal/return on the exact final PR head, confirm current CI, and handle only the approved merge and later epic work.
