@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HARNESS-ROBUSTNESS
+issue: martins-vds/ai-factory-pilot-target#192
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/193
+characterization_tier: A
+tier_evidence: The existing profile declares tier A; this bounded harness rollout did not repeat source characterization.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "blocked: normal bootstrap exit 1 fetching pinned private dependency martins-vds/code-migration-hackathon@4de661a9a830aaef70ff55e879c0cc540599cad8 (fatal: unable to get password from user); final migration validation passed with 92 files and 0 errors; post-install checks await coordinator-assisted bootstrap"
+handoff: .migration/handoffs/HARNESS-ROBUSTNESS.md
+evidence: .migration/evidence/HARNESS-ROBUSTNESS/report.md
+evidence_logs: .migration/evidence/runs/HARNESS-ROBUSTNESS.md
