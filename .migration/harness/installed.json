@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "344241e92256a6048183f99063ca297fb96780de",
-  "installed_at": "2026-11-04T21:49:32Z",
+  "harness_commit": "2c8e00ab87e99f3d77976e3cf78c2a89011627fb",
+  "installed_at": "2026-11-05T14:13:17Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -79,7 +79,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-migration-contract/SKILL.md": "68184139376356a0ea57211e6339de067a1603eae8c4c53f8f117847debf2c6f",
+        ".github/skills/afs-migration-contract/SKILL.md": "c765aaf236068a6bddca859e9a080238e13e1597760974ca5b2a91e29a8895ba",
         ".github/skills/afs-migration-contract/references/capability-coverage.md": "a0b43baddc3a0e2be7396e68361704d9db49761698c10c3753545038c8782ffd",
         ".github/skills/afs-migration-contract/references/characterization.md": "59bedbcabd36825d268b1362596e8215e5363c0fec308fc2cd58981bebbe3d07",
         ".github/skills/afs-migration-contract/references/final-verification.md": "847e361034d3f5a7f0ddcf26a0602183588b752cb91206c298c55c4c3cfcb12b",
@@ -1092,7 +1092,7 @@
         ".migration/harness/tools/check_installed.py": "6f95e854ed5513ab5e7c0596898a9ae27f77a7413ba525faf8152e372bfe6c42",
         ".migration/harness/tools/check_return_contract.py": "c4a346a9a2184f5bad1bd2f4d8d3e1cab892357ba32599034891c550cb60cb5a",
         ".migration/harness/tools/check_runtime.py": "ba09b4b13ba86cbb29586feb54824646abcefaf952b76b1e40e3c32276fda547",
-        ".migration/harness/tools/check_slice_returns.py": "2c17731be056374ee46080dcf8200cc60d522c07516fae4e8e07c3cc1bf8b371",
+        ".migration/harness/tools/check_slice_returns.py": "dd2d0204aac2a5d2979b3bf094770a536beb076f25291fa0c82dc39fd4adbcf8",
         ".migration/harness/tools/check_stack_base.py": "8b7430f4241b0409581d82cca1ccc3505d1e998bff0b8d09ffe3ccb6bf92b66d",
         ".migration/harness/tools/crap.py": "78f19ab57dcdeca3bb7f024ba731f00d8a31671ed670aff6ab292d0c3f3f2797",
         ".migration/harness/tools/enrich_graph.py": "cc6707e47e0a2cf1b54ebb2a8b72d8a1c9af219826541801176e6a8e466ac086",

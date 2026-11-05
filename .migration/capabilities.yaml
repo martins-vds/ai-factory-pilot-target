@@ -1,6 +1,6 @@
 # Capability checklist (ADR-0012), written by bootstrap. A gap blocks Phase 2 until its ticket is resolved.
 harness_version: 0.2.0
-checked_at: '2026-11-04T21:49:32Z'
+checked_at: '2026-11-05T14:13:17Z'
 characterization:
   legacy_environment: available
   source_builds: partial

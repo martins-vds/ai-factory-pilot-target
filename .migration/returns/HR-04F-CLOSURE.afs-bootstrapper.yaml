@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HR-04F-CLOSURE
+issue: martins-vds/ai-factory-pilot-target#187
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/188
+characterization_tier: A
+tier_evidence: Existing approved Tier A characterization is retained; coordinator completed normal bootstrap at the approved harness pin and this session independently verified the generated rollout.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "pass with limitation: coordinator normal bootstrap used the exact approved harness pin and existing profile/capabilities/stack pack; independent source/template parity, installed integrity (77 entries/388 files/0 problems), migration validation (90 files/0 errors), Python 3.13.17 runtime, protected-input and capability preservation, current issue176 return byte identity, and both graph freshness/flow checks passed. Coordinator's actual read-only epic113 guard run passed 9 tickets/0 failures. This session independently ran installed attribution logic over the live nine-ticket GitHub MCP snapshot and full ancestry, attributing issue131 to commit 1c8716c7afe972c60b750b36aca91ffa80597a79 with zero failures. This worker's direct CLI invocation lacked GH_TOKEN; see report and journal. No acceptance or new full-mutation claim."
+handoff: .migration/handoffs/HR-04F-CLOSURE.md
+evidence: .migration/evidence/HR-04F-CLOSURE/report.md
+evidence_logs: .migration/evidence/runs/HR-04F-CLOSURE.md
