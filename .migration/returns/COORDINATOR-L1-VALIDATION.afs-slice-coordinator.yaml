@@ -7,7 +7,7 @@ tickets:
   merged: null
   open: null
   blocked:
-    - setup validation: inherited verifier returns lack meaningful PR references
+    - "setup validation: inherited verifier returns lack meaningful PR references"
 acceptance:
   report: null
   gates: null
