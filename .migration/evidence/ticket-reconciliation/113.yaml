@@ -1,0 +1,193 @@
+epic: 113
+scope: slice-epic-descendants
+issues:
+  - number: 114
+    disposition: completed
+    pull_requests: [115]
+    returns:
+      - .migration/returns/HR-02.afs-analyst.yaml
+  - number: 118
+    disposition: completed
+    pull_requests: [119]
+    returns:
+      - .migration/returns/HR-03.afs-characterizer.yaml
+  - number: 123
+    disposition: completed
+    pull_requests: [126]
+    returns:
+      - .migration/returns/HR-04.afs-planner.yaml
+  - number: 127
+    disposition: completed
+    pull_requests: [133]
+    returns:
+      - .migration/returns/HR-04A.afs-specialist-migrator.yaml
+    observed_nonpassing_reviews:
+      - pull_request: 137
+        return: .migration/returns/HR-04A.afs-verifier.yaml
+        verdict: changes-required
+        evidence: "PR #137 flags stale quirk-draft links; retain as failed review evidence, not a passing witness."
+  - number: 128
+    disposition: completed
+    pull_requests: [134]
+    returns:
+      - .migration/returns/HR-04B.afs-specialist-migrator.yaml
+    observed_nonpassing_reviews:
+      - pull_request: 139
+        return: .migration/returns/HR-04B.afs-verifier.yaml
+        verdict: changes-required
+        evidence: "PR #139 flags an out-of-scope generated cost artifact; retain as failed review evidence, not a passing witness."
+  - number: 129
+    disposition: completed
+    pull_requests: [154]
+    returns:
+      - .migration/returns/HR-04C.afs-migrator.yaml
+  - number: 130
+    disposition: completed
+    pull_requests: [163, 165]
+    returns:
+      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
+      - .migration/returns/HR-04D.afs-verifier.yaml
+  - number: 131
+    disposition: completed
+    pull_requests: [167, 169, 175, 177]
+    returns:
+      - .migration/returns/HR-04E.afs-verifier.yaml
+  - number: 132
+    disposition: completed
+    pull_requests: [184]
+    returns:
+      - .migration/returns/HR-04F.afs-auditor.yaml
+  - number: 143
+    disposition: completed
+    pull_requests: [159]
+    returns:
+      - .migration/returns/HR-04C.afs-verifier.yaml
+  - number: 147
+    disposition: completed
+    pull_requests: [148, 154]
+    returns:
+      - .migration/returns/HR-04C.afs-migrator.yaml
+    continuation:
+      child_work_pr: 148
+      child_work_pr_state: closed-unmerged
+      child_work_pr_head: 5356b3e386ad16bf1bc577ec1c1b4228b15dbea2
+      child_work_head_in_main: true
+      current_owner_landing_commit: 785b23b39e5ff5fc5104c59d95e59672ca5d98f0
+      current_owning_pr: 154
+      parent_return: .migration/returns/HR-04C.afs-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#129
+      current_return_issue: martins-vds/ai-factory-pilot-target#129
+      current_return_pr: 154
+      attribution: "The closed-unmerged PR #148 head is in default-branch ancestry and changed this exact return path; current passing parent return #129 is in owning PR #154, which is cited with #148."
+  - number: 149
+    disposition: completed
+    pull_requests: [150, 163]
+    returns:
+      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
+    continuation:
+      child_work_pr: 150
+      child_work_pr_landing_commit: 86af21202a483f38cc41d0ea4388d4b0e75a84f5
+      current_owning_pr: 163
+      current_owner_landing_commit: 0d1f54042e2d178ca4389931313ec1dba2f171f2
+      parent_return: .migration/returns/HR-04D.afs-specialist-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_pr: 163
+      attribution: "Child PR #150 changed this exact role-return path and closes #149; current passing parent return #130 is in owning PR #163, which is cited with #150."
+  - number: 155
+    disposition: completed
+    pull_requests: [156, 154]
+    returns:
+      - .migration/returns/HR-04C.afs-migrator.yaml
+    continuation:
+      child_work_pr: 156
+      child_work_pr_landing_commit: 408d7d11b1f58fc9ca8077579f1b66182ba4fbec
+      current_owning_pr: 154
+      current_owner_landing_commit: 785b23b39e5ff5fc5104c59d95e59672ca5d98f0
+      parent_return: .migration/returns/HR-04C.afs-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#129
+      current_return_issue: martins-vds/ai-factory-pilot-target#129
+      current_return_pr: 154
+      attribution: "Child PR #156 changed this exact role-return path and closes #155; current passing parent return #129 is in owning PR #154, which is cited with #156."
+  - number: 158
+    disposition: completed
+    pull_requests: [159]
+    returns:
+      - .migration/returns/HR-04C.afs-verifier.yaml
+  - number: 160
+    disposition: superseded
+    replacement: 164
+    failure:
+      pull_request: 161
+      return: .migration/returns/HR-04D.afs-verifier.yaml
+    continuation:
+      failure_pr_state: closed-unmerged
+      failure_return_issue_at_pr_head: martins-vds/ai-factory-pilot-target#130
+      failure_verdict: changes-required
+      replacement_owning_pr: 165
+      replacement_return: .migration/returns/HR-04D.afs-verifier.yaml
+      replacement_return_issue: martins-vds/ai-factory-pilot-target#130
+      attribution: "PR #161's exact verifier snapshot fails the review but names parent #130 rather than child #160; replacement #164 was re-verified in PR #165, whose return also names #130. No child-#160 failure return is claimed."
+  - number: 162
+    disposition: completed
+    pull_requests: [163]
+    returns:
+      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
+    continuation:
+      child_work_pr: 163
+      child_work_pr_landing_commit: 0d1f54042e2d178ca4389931313ec1dba2f171f2
+      current_owning_pr: 163
+      current_owner_landing_commit: 0d1f54042e2d178ca4389931313ec1dba2f171f2
+      parent_return: .migration/returns/HR-04D.afs-specialist-migrator.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_pr: 163
+      attribution: "PR #163 closes #162, changes the exact return path and owns the current passing parent #130 return; the same PR supplies both child-work and current-owner evidence."
+  - number: 164
+    disposition: completed
+    pull_requests: [165]
+    returns:
+      - .migration/returns/HR-04D.afs-verifier.yaml
+    continuation:
+      child_work_pr: 165
+      child_work_pr_landing_commit: 598bec3865aad1d91c042be662e66354ef9c93f4
+      current_owning_pr: 165
+      current_owner_landing_commit: 598bec3865aad1d91c042be662e66354ef9c93f4
+      parent_return: .migration/returns/HR-04D.afs-verifier.yaml
+      parent_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_pr: 165
+      attribution: "PR #165 closes #164, changes the exact return path and owns the current passing parent #130 verifier return."
+  - number: 168
+    disposition: completed
+    pull_requests: [169, 175, 177]
+    returns:
+      - .migration/returns/HR-04E.afs-verifier.yaml
+    continuation:
+      child_work_pr: 169
+      child_work_pr_landing_commit: 135665c067722a4c52001f8880ec17753a96df63
+      correction_pr: 175
+      correction_pr_landing_commit: e25ccc8ecb4c0fe979e85116940fe2b6e9ce36ed
+      current_verifier_pr: 177
+      current_owner_landing_commit: b04e4a60b994aecd6ac5597ecc0f9abd6a139a1c
+      historical_parent_issue: martins-vds/ai-factory-pilot-target#131
+      historical_parent_return_commit: 1c8716c7afe972c60b750b36aca91ffa80597a79
+      current_return: .migration/returns/HR-04E.afs-verifier.yaml
+      current_return_issue: martins-vds/ai-factory-pilot-target#176
+      current_return_pr: 177
+      attribution: "Child PR #169 closes #168 and changes the exact verifier return path; PR #175 carries the corrections and current passing PR #177 owns the same-path return for sibling #176. Preserve predecessor #131 at the cited commit and current issue #176 as distinct lineage."
+  - number: 174
+    disposition: completed
+    pull_requests: [175]
+    returns:
+      - .migration/returns/HR-04E-FIX.afs-specialist-migrator.yaml
+  - number: 176
+    disposition: completed
+    pull_requests: [177]
+    returns:
+      - .migration/returns/HR-04E.afs-verifier.yaml
+  - number: 178
+    disposition: completed
+    pull_requests: [179]
+    returns:
+      - .migration/returns/HR-04E-HARNESS.afs-bootstrapper.yaml

@@ -1,0 +1,18 @@
+role: afs-slice-coordinator
+ticket: COORDINATOR-L1-VALIDATION
+issue: martins-vds/ai-factory-pilot-target#194
+slice: handling-registration #113 post-landing reconciliation; historical acceptance is not a new acceptance run
+tickets:
+  total: 21
+  merged: 20
+  open: 0
+  blocked: []
+acceptance:
+  report: .migration/evidence/handling-registration/acceptance.md
+  gates: .migration/evidence/runs/HR-04F.md
+  mutation_score: "n/a: historical acceptance only; not rerun by this reconciliation ticket"
+  coverage_gaps: "n/a: historical Auditor report records 19 capabilities and no established gaps; no new acceptance audit"
+human_check: passed
+human_check_issues: []
+quirk_tickets: []
+handoff: .migration/handoffs/COORDINATOR-L1-VALIDATION.md
