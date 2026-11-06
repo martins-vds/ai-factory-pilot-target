@@ -97,6 +97,7 @@ Do not use offline/private-skip flags or create new issues. Then resume this sam
 - Parent-head harness CI `42238908342` / attempt 1 / SHA `04bff46` was independently observed successful through MCP (four jobs; no failed jobs). Setup run `42238908315` was also successful. Neither substitutes for final-head/current-CI review after this continuation.
 - Only own return, append-only handoff/journal and hook-generated own session accounting are finalized. All other inherited evidence/costs, both parent files, application/tests/templates, profile/source.lock/thresholds, provider decisions, ledger/slices/anchors and source/target graphs remain protected.
 - The runtime retained the original transcript/session ID. The unchanged normal cost hook refreshed that worker-owned cumulative session record; no cost JSON was manually edited, no session ID was invented, and no other inherited session record was changed.
+- Secret scanning of all four finalized worker outputs found no secrets. CodeQL review was requested with a non-trivial declaration for the full installed-repair PR; the tool reported no changed code in analyzable languages and performed **no analysis**. This is not a clean CodeQL-analysis claim.
 - Installation on proposal #209 is verified; **pilot main is not updated**, and admin-map graph coverage or slice acceptance is not established. No self-merge, graph generation, acceptance/full mutation/UAT, application work, issue churn, credentials transfer, excluded research or other slice work occurred.
 
 ### Next gate
