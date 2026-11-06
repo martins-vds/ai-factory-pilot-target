@@ -3,6 +3,7 @@ kind: ui
 title: Open the selected cargo admin page
 source:
   graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  flow: Admin Live Cargo Map
   location: "src/main/webapp/admin/tracking/mapFrame.xhtml:209-230"
   risk: {crap: 110, complexity: 10, coverage: 0}
 boundary: "Clicking a marker opens /admin/show.xhtml?trackingId=<id> in a new winMap window, using http, the current host, and the first URL path segment; its requested dimensions match the frame viewport."
