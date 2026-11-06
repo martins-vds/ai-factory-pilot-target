@@ -1,0 +1,52 @@
+role: afs-bootstrapper
+ticket: HARNESS-ADMIN-LIVE-MAP-GRAPH
+issue: martins-vds/ai-factory-pilot-target#208
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/209
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/209
+status: blocked
+characterization_tier: A
+tier_evidence: >-
+  Inherited unchanged from the existing profile and capabilities: Java 8 /
+  Payara 4.1.2.181 served the scratch-built WAR with HTTP 200. No new
+  characterization, graph regeneration or acceptance was performed.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: >-
+  pass: final state validation checked 101 files with 0 errors; existing E519
+  installation integrity checked 77 entries / 388 files with 0 problems.
+  Rollout remains blocked: complete approved source acquisition returned
+  HTTP 403 (curl exit 22); unchanged bootstrap was not executed.
+handoff: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-GRAPH.md
+evidence_logs:
+  - .migration/evidence/runs/HARNESS-ADMIN-LIVE-MAP-GRAPH.md
+baseline:
+  commit: d77b7bec98d26e7ee291488091d009e89f595117
+  initial_worker_head: cc5669aa0fe3a22d6e428933f46f7f613fa78525
+  tracked_paths: 817
+  historical_yaml_returns: 44
+  complete_target_ancestry: true
+  comparison: >-
+    Initial worker HEAD has no content differences from baseline; tracked
+    working files were also unchanged at the preservation check. Only this
+    ticket's new return, handoff, journal and hook-owned session record are
+    permitted additions. All historical outputs remain protected.
+release:
+  repository: martins-vds/ai-factory-swarm
+  approved_commit: bdf1f43b613f5ed6c7719380cede7c02bca1c778
+  approved_tree: 3dab8a5346ae5ca95dfb68225a353ed91597df98
+  commit_metadata_verified_via: github-mcp-server-get_commit
+  tree_verification: not reached; expected tree is supplied by issue 208
+  complete_checkout_obtained: false
+installation:
+  installed_commit_before: e51998d716c229930e1e072cdcb05be0a872b4ef
+  installed_commit_after: e51998d716c229930e1e072cdcb05be0a872b4ef
+  bootstrap_executed: false
+  installer_actor: null
+  verifier_actor: Copilot afs-bootstrapper worker for issue 208 / proposal 209
+  verification_scope: existing E519 integrity and protected baseline only
+  parent_installed_result_verified: false
+  required_followup: >-
+    Authorized parent owns source/dependency access and any expressly
+    parent-performed normal installation. The same original worker must
+    independently verify that result afterward, recording the actual installer
+    separately. Parent exact-head/current-CI review and merge remain separate.
