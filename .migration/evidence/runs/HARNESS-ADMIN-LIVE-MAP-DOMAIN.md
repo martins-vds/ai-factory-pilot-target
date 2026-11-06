@@ -9,3 +9,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-06T16:20:20+00:00 | source-head-metadata | 128 | 0.0 | `git -C /tmp/afs-admin-map-source/tree rev-parse HEAD` | `e000a2af1ee89f0a` | fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree. |  |
 | 2026-11-06T16:20:54+00:00 | migration-state-validation | 0 | 0.96 | `python .migration/harness/tools/validate.py .migration` | `446108b8fc1c3e05` |  |  |
 | 2026-11-06T16:21:16+00:00 | final-migration-state-validation | 0 | 0.95 | `python .migration/harness/tools/validate.py .migration` | `446108b8fc1c3e05` |  |  |
+| 2026-11-06T16:32:55+00:00 | resume-setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
