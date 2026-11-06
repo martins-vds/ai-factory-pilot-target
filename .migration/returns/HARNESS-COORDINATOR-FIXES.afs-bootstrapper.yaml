@@ -6,7 +6,7 @@ characterization_tier: A
 tier_evidence: The existing profile declares tier A; this bounded harness rollout did not repeat source characterization.
 capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
 gap_tickets: []
-validation: "blocked: pinned normal bootstrap exited 1 fetching martins-vds/code-migration-hackathon@4de661a9a830aaef70ff55e879c0cc540599cad8 (git exit 128); migration validation passes after complete target history was fetched, but installation is not complete."
+validation: "installed by parent at martins-vds/ai-factory-swarm@e51998d716c229930e1e072cdcb05be0a872b4ef (tree 728ee39572de27bd9ab01999a93d6bec28f0a555); this original Bootstrapper independently verified 77 entries/388 files/0 integrity problems, 64/64 exact-source file hashes, 780 protected baseline files unchanged, all 40 pre-existing returns unchanged, and migration state 94/0. Current AFS harness check 42152379401 fails one unchanged application test (320 passed, 1 failed); cause unknown. No coordinator-role coverage is claimed."
 handoff: .migration/handoffs/HARNESS-COORDINATOR-FIXES.md
 evidence: .migration/evidence/HARNESS-COORDINATOR-FIXES/report.md
 evidence_logs: .migration/evidence/runs/HARNESS-COORDINATOR-FIXES.md

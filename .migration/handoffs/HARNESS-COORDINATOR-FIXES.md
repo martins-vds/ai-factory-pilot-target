@@ -29,3 +29,31 @@
 
 ### Next step for the next session
 The parent provides normal-bootstrap assistance for the exact pinned dependency. Then this same original Bootstrapper resumes on PR #198, repeats setup validation, runs the normal pinned bootstrap and independently finalizes evidence. Do not launch a duplicate Bootstrapper or merge the proposal.
+
+## Handoff — afs-bootstrapper · 2026-11-06T02:51:46Z
+**State:** blocked · **Branch / PR:** `copilot/harness-coordinator-fixes-install-verified-harness` / https://github.com/martins-vds/ai-factory-pilot-target/pull/198 · **Verified install head:** `cacfb625f9b9280173614276b51fa85e1797e2b2`
+
+### Done
+- Resumed as the same original Bootstrapper after the parent published normal-bootstrap assistance. The parent, not this worker, installed the harness on the proposal from exact source commit `e51998d716c229930e1e072cdcb05be0a872b4ef`, tree `728ee39572de27bd9ab01999a93d6bec28f0a555`; installer evidence is `.migration/evidence/HARNESS-COORDINATOR-FIXES/parent-installation.md`.
+- Independently completed setup: fetched full target ancestry; source lock pin, source read-only status, migration validation (94 files / 0 errors), ticket inputs (0 missing), services (`db` healthy), Python 3.13.17 and RTK 1.1.0 checked.
+- Independently verified installed integrity (77 entries / 388 files / 0 problems) and direct exact-release parity (64 files / 64 matched, 0 mismatches). Run journal: `.migration/evidence/runs/HARNESS-COORDINATOR-FIXES.md`.
+- Compared 780 baseline tracked files outside the expected generated-install and own-journal allowlist: 0 changes / 0 missing; all 40 pre-existing YAML returns match main. Profile, source lock, capabilities semantics (only checked_at refreshed), graphs, slices, ledgers, costs, accepted evidence, application inputs and original worker evidence are preserved. The run journal is append-only from the original completion.
+- Reviewed current PR checks. Setup steps pass at head `cacfb625`; the AFS harness check fails one test as detailed in the report. Application and test files were not edited.
+- Updated the return and report with actual installer-versus-verifier attribution, exact source pin and PR #198. This remains a pinned harness installation only, not Slice Coordinator or Program Orchestrator coverage.
+
+### Remaining
+- [ ] Parent: review exact PR #198 head and determine the separate owner/next step for the current AFS harness check failure before landing.
+- [ ] Do not alter application/tests, rerun acceptance/mutation-full/human-flow, rebuild graphs, change hierarchy, start another slice, or self-merge as part of this bounded installation.
+
+### Decisions made
+- The historical original access failure remains documented; the parent later used existing authorized access for the unchanged normal bootstrap. No credential transfer, private-source skip, offline mode, installed hotpatch, or repeat of the inaccessible dependency fetch was used.
+- The current test failure is reported without a cause attribution or a claim that it is flaky. No coordinator-role coverage, acceptance, or human attestation is claimed.
+
+### Blockers / questions
+- Current AFS harness check run `42152379401` at exact head `cacfb625f9b9280173614276b51fa85e1797e2b2` fails `tests/handling/test_registration_processing.py::test_equal_completion_and_registration_times_use_event_id_for_delivery` (320 passed, 1 failed; actual last event ID 810, expected 821). The same test failed on earlier head `7002c5e` in run `42151830272`. Root cause is unknown.
+
+### Failing commands
+- Current PR AFS harness check: https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42152379401; failed tests log `.migration/runs/ci/20261106T024635345820Z-tests-0.log` and CRAP log `.migration/runs/ci/20261106T024706803070Z-crap-0.log` in the CI job workspace. GitHub job `127678454695` records the failure details.
+
+### Next step for the next session
+Parent independently reviews exact head `cacfb625` and decides how to handle the unchanged application-test failure. Keep the installation evidence and role return intact; do not self-merge or broaden scope.
