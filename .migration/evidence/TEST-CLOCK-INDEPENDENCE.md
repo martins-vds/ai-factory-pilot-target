@@ -2,6 +2,7 @@
 
 - Issue: [martins-vds/ai-factory-pilot-target#199](https://github.com/martins-vds/ai-factory-pilot-target/issues/199)
 - Target base: `a284b840e97e06452ca5370b941d22c4c6ae4f2d` (`origin/main`)
+- Owning proposal: [PR #200](https://github.com/martins-vds/ai-factory-pilot-target/pull/200), targeting `main`
 - Scope: test-only; no application, harness, profile, ledger, or acceptance changes.
 
 ## Reproduction and repair
@@ -24,4 +25,8 @@ All commands ran through `afs-run`; complete durable results are in [the TEST-CL
 | CRAP | Exit 0; maximum 19.0, threshold 30 |
 | Changed-code mutation | Exit 0; `n/a: no mutable code changed` (only tests changed; full mutation was not run) |
 
-The verifier return is `.migration/returns/TEST-CLOCK-INDEPENDENCE.afs-verifier.yaml`. An owning proposal PR has not yet been created; see `.migration/handoffs/TEST-CLOCK-INDEPENDENCE.md`.
+## Current-head CI and disposition
+
+PR #200 head `c7225eefaa98d9b4726ab7e865b50c343f1fd3dd` targets `main` at the recorded base. AFS harness runs [42154790196](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42154790196) and [42154809042](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42154809042) both completed successfully at that exact head, including gates, migration state, and stacked-PR ancestry checks. The independent parent review and any merge decision remain separate from this verifier verdict; no self-merge was performed.
+
+The verifier return is `.migration/returns/TEST-CLOCK-INDEPENDENCE.afs-verifier.yaml`; the handoff records the external review/merge follow-up.

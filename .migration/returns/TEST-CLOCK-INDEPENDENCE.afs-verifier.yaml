@@ -1,8 +1,8 @@
 role: afs-verifier
 ticket: TEST-CLOCK-INDEPENDENCE
 issue: martins-vds/ai-factory-pilot-target#199
-pr: null
-verdict: blocked
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/200
+verdict: pass
 gates:
   build: 0
   behavior: 0
