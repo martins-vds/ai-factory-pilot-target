@@ -1,0 +1,14 @@
+id: admin-live-map.marker-coordinates
+kind: behavioral
+title: Select a city coordinate and create cargo markers
+source:
+  graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  location: "src/main/webapp/admin/tracking/mapFrame.xhtml:20-82,172-195"
+  risk: {crap: 110, complexity: 10, coverage: 0}
+boundary: "NOT_RECEIVED cargo uses its origin; other cargo uses lastKnownLocation. Static LOCODE/name/latitude/longitude maps cover 13 cities, and each coordinate axis receives an independent random -3..-1 degree offset."
+slice: admin-live-map
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#14", "martins-vds/ai-factory-pilot-target#99"]
+status: pending
+verification: pending
+evidence: [".migration/evidence/admin-live-map/report.md"]
+notes: "Applicability of Track Cargo ruling #14 to this separate map remains undecided. See local draft .migration/quirks/admin-live-map-random-offset.md. The Unknown sentinel is absent from coordinate/name maps; see .migration/quirks/admin-live-map-unknown-location.md."

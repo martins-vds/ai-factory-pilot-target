@@ -1,0 +1,14 @@
+id: admin-live-map.connection-status
+kind: ui
+title: Show the WebSocket connection label
+source:
+  graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  location: "src/main/webapp/admin/tracking/mapFrame.xhtml:151-162,237-259"
+  risk: {crap: 2, complexity: 1, coverage: 0}
+boundary: "The initial label is Offline; WebSocket open sets online, each message briefly sets the misspelled mesage label before reload, close sets offline, and clicking the status box forces a reload."
+slice: admin-live-map
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#90", "martins-vds/ai-factory-pilot-target#100"]
+status: pending
+verification: pending
+evidence: [".migration/evidence/admin-live-map/report.md"]
+notes: "The /tracking socket and online/offline label are approved intentional drops under #90 / ADR-0005 #100; list them so parity review does not mistake them for omissions."

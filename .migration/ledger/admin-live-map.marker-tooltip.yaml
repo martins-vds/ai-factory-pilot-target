@@ -1,0 +1,14 @@
+id: admin-live-map.marker-tooltip
+kind: ui
+title: Show cargo status and locations in a marker tooltip
+source:
+  graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  location: "src/main/webapp/admin/tracking/mapFrame.xhtml:36-48,215-226"
+  risk: {crap: 110, complexity: 10, coverage: 0}
+boundary: "The marker tooltip shows tracking id, routing status, misdirected, transport status, at-destination, origin, and last-known location; destination is not shown."
+slice: admin-live-map
+tickets: ["martins-vds/ai-factory-pilot-target#203"]
+status: pending
+verification: pending
+evidence: [".migration/evidence/admin-live-map/report.md"]
+notes: "Routing/transport labels and location names are resolved from fixed dictionaries; the IN_PORT label includes a leading space (draft .migration/quirks/admin-live-map-in-port-label.md), and an unmapped key yields an undefined lookup."

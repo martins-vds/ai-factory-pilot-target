@@ -1,0 +1,33 @@
+role: afs-analyst
+ticket: AM-02
+issue: martins-vds/ai-factory-pilot-target#203
+graphs:
+  knowledge: .migration/graphs/source/full/knowledge-graph.json
+  domain: .migration/graphs/source/full/domain-graph.json
+  nodes: 1080
+  edges: 2137
+  flows: 9
+ledger:
+  entries: 11
+  by_kind: {structural: 1, behavioral: 3, ui: 4, integration: 2, data: 1}
+risk_map:
+  path: .migration/risk-map/admin-live-map/
+  methods: 40
+  above_threshold: 3
+  hot_spots:
+    - "mapFrame.xhtml:init — CRAP 110, CCN 10"
+    - "Delivery.calculateNextExpectedActivity — CRAP 156, CCN 12 (shared dependency)"
+    - "Delivery.calculateTransportStatus — CRAP 56, CCN 7 (shared dependency)"
+quirk_tickets:
+  - .migration/quirks/admin-live-map-random-offset.md
+  - .migration/quirks/admin-live-map-unknown-location.md
+  - .migration/quirks/admin-live-map-in-port-label.md
+graph_discrepancies:
+  - "No domain flow represents admin-live-map page/frame, marker, status, tooltip, or navigation behavior; request normal graph workflow augmentation."
+  - "Graph-check lists admin/tracking/map.xhtml as having no data path although source page embeds mapFrame, whose graph route reaches GET /cargo and the Cargo query chain; the iframe edge is missing."
+  - "Knowledge-graph summary says mapFrame renders voyage paths; pinned source renders cargo markers only."
+handoff: .migration/handoffs/AM-02.md
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/204
+evidence_logs:
+  - .migration/evidence/runs/AM-02.md
+  - .migration/evidence/admin-live-map/report.md
