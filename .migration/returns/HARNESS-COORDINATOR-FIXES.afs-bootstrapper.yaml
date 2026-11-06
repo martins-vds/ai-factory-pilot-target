@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HARNESS-COORDINATOR-FIXES
+issue: martins-vds/ai-factory-pilot-target#197
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/198
+characterization_tier: A
+tier_evidence: The existing profile declares tier A; this bounded harness rollout did not repeat source characterization.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "parent installed martins-vds/ai-factory-swarm@e51998d716c229930e1e072cdcb05be0a872b4ef (tree 728ee39572de27bd9ab01999a93d6bec28f0a555); this original Bootstrapper independently verified 77 entries/388 files/0 integrity problems, 64/64 exact-source hashes, all 41 pre-existing returns and 216 protected baseline files unchanged against main bce0c54cfa9b9c424e911b08f17c8f6bee75139f, and migration state 96/0. Main AFS run 42156736164 passed all four jobs/323 tests; exact integrated PR head 7535e01 passed AFS run 42157358781, all four jobs, including the return-contract check. The earlier ordering-test failure was resolved by the separate user-authorized PR #200 test-only repair. No coordinator-role coverage is claimed."
+handoff: .migration/handoffs/HARNESS-COORDINATOR-FIXES.md
+evidence: .migration/evidence/HARNESS-COORDINATOR-FIXES/report.md
+evidence_logs: .migration/evidence/runs/HARNESS-COORDINATOR-FIXES.md
