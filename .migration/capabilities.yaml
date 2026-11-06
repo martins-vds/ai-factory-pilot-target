@@ -117,10 +117,12 @@ capabilities:
     name: agent-browser
 - id: data-migration
   applies_to: both
-  status: not-applicable
-  notes: 'Not applicable for this pilot (martins-vds, 2026-11-01, #1): the source has no production data; its embedded
-    Derby database is generated at startup by SampleDataGenerator. The target regenerates the same sample data as
-    fixtures (plan ticket TC-06).'
+  status: gap
+  ticket: martins-vds/ai-factory-pilot-target#1
+  notes: 'Reopened by the operator (martins-vds, 2026-11-06, #1): a snapshot of the running legacy app''s Derby
+    database counts as production data, so the data-migration workstream (ADR-0010, #223) applies. No pinned skill
+    or tool covers Derby -> PostgreSQL (the stack pack''s data skills are Oracle -> PostgreSQL). Previously
+    not-applicable (2026-11-01): TC-06''s regenerated fixtures stay as test seed data.'
 - id: output-filtering
   applies_to: both
   status: met
