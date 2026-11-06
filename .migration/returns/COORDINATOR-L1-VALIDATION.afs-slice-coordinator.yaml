@@ -6,8 +6,7 @@ tickets:
   total: 21
   merged: 20
   open: 0
-  blocked:
-    - "The current installed read-only reconciliation and slice-return checks remain unexecuted by this role because gh auth status reports no authenticated GitHub host; parent-owned authorized runs are required against the final committed head."
+  blocked: []
 acceptance:
   report: .migration/evidence/handling-registration/acceptance.md
   gates: .migration/evidence/runs/HR-04F.md

@@ -18,3 +18,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-06T03:57:05+00:00 | resumed-current-main-validation | 0 | 0.87 | `python .migration/harness/tools/validate.py .migration` | `b892cfd2b0409c47` |  |  |
 | 2026-11-06T03:57:37+00:00 | final-candidate-validation | 0 | 0.88 | `python .migration/harness/tools/validate.py .migration` | `b892cfd2b0409c47` |  |  |
 | 2026-11-06T04:17:48+00:00 | resumed-parent-evidence-setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-06T04:21:05+00:00 | final-parent-evidence-validation | 0 | 0.53 | `python .migration/harness/tools/validate.py .migration` | `b892cfd2b0409c47` |  |  |
+| 2026-11-06T04:22:15+00:00 | final-reconciliation-interpretation-vali | 0 | 0.54 | `python .migration/harness/tools/validate.py .migration` | `b892cfd2b0409c47` |  |  |
+| 2026-11-06T04:22:43+00:00 | final-return-review-validation | 0 | 0.52 | `python .migration/harness/tools/validate.py .migration` | `b892cfd2b0409c47` |  |  |
