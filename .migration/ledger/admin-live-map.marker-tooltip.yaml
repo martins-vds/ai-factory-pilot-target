@@ -11,4 +11,7 @@ tickets: ["martins-vds/ai-factory-pilot-target#203"]
 status: pending
 verification: pending
 evidence: [".migration/evidence/admin-live-map/report.md"]
-notes: "Routing/transport labels and location names are resolved from fixed dictionaries; the IN_PORT label includes a leading space (draft .migration/quirks/admin-live-map-in-port-label.md), and an unmapped key yields an undefined lookup."
+quirks:
+  - martins-vds/ai-factory-pilot-target#206
+  - martins-vds/ai-factory-pilot-target#207
+notes: "Routing/transport labels and location names are resolved from fixed dictionaries; #207 concerns the literal IN_PORT spacing (the actual visible browser whitespace is uncharacterized), and #206 concerns the unmapped Unknown location."

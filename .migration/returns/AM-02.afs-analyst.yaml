@@ -19,9 +19,9 @@ risk_map:
     - "Delivery.calculateNextExpectedActivity — CRAP 156, CCN 12 (shared dependency)"
     - "Delivery.calculateTransportStatus — CRAP 56, CCN 7 (shared dependency)"
 quirk_tickets:
-  - .migration/quirks/admin-live-map-random-offset.md
-  - .migration/quirks/admin-live-map-unknown-location.md
-  - .migration/quirks/admin-live-map-in-port-label.md
+  - martins-vds/ai-factory-pilot-target#205
+  - martins-vds/ai-factory-pilot-target#206
+  - martins-vds/ai-factory-pilot-target#207
 graph_discrepancies:
   - "No domain flow represents admin-live-map page/frame, marker, status, tooltip, or navigation behavior; request normal graph workflow augmentation."
   - "Graph-check lists admin/tracking/map.xhtml as having no data path although source page embeds mapFrame, whose graph route reaches GET /cargo and the Cargo query chain; the iframe edge is missing."

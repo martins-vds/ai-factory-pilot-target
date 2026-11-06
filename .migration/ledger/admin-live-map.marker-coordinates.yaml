@@ -11,4 +11,7 @@ tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pil
 status: pending
 verification: pending
 evidence: [".migration/evidence/admin-live-map/report.md"]
-notes: "Applicability of Track Cargo ruling #14 to this separate map remains undecided. See local draft .migration/quirks/admin-live-map-random-offset.md. The Unknown sentinel is absent from coordinate/name maps; see .migration/quirks/admin-live-map-unknown-location.md."
+quirks:
+  - martins-vds/ai-factory-pilot-target#205
+  - martins-vds/ai-factory-pilot-target#206
+notes: "Applicability of Track Cargo ruling #14 to this separate map remains undecided in #205. The Unknown sentinel is absent from coordinate/name maps; #206 is unresolved."

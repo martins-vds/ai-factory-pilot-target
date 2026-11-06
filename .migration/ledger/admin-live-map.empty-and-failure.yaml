@@ -11,4 +11,5 @@ tickets: ["martins-vds/ai-factory-pilot-target#203"]
 status: pending
 verification: pending
 evidence: [".migration/evidence/admin-live-map/report.md"]
-notes: "Unknown locations and absent status/location dictionary keys are covered by the related coordinate and marker-status capabilities; their live browser outcome was not run."
+quirks: ["martins-vds/ai-factory-pilot-target#206"]
+notes: "Unknown-location presentation remains unresolved under #206; related coordinate and tooltip behavior is tracked in those capabilities. The live browser outcome was not run."

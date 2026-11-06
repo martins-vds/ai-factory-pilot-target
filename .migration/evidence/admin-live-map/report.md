@@ -3,7 +3,7 @@
 - Source: `eclipse-ee4j/cargotracker@f3beacf78de4f6d34edc4971ac87e38a5c6fe59d` (read-only).
 - Ticket: `martins-vds/ai-factory-pilot-target#203` · Slice: `admin-live-map` · Owning proposal: [#204](https://github.com/martins-vds/ai-factory-pilot-target/pull/204).
 - Graphs: `.migration/graphs/source/full/knowledge-graph.json` and `domain-graph.json`, merged from source SHA above; no graph was rebuilt.
-- Target decision citations: [#90](https://github.com/martins-vds/ai-factory-pilot-target/issues/90) and ADR-0005 ([#100](https://github.com/martins-vds/ai-factory-pilot-target/issues/100)); exact-coordinate ruling [#14](https://github.com/martins-vds/ai-factory-pilot-target/issues/14) remains scoped to Track Cargo unless a human extends it.
+- Target decision citations: [#90](https://github.com/martins-vds/ai-factory-pilot-target/issues/90) and ADR-0005 ([#100](https://github.com/martins-vds/ai-factory-pilot-target/issues/100)); exact-coordinate ruling [#14](https://github.com/martins-vds/ai-factory-pilot-target/issues/14) remains scoped to Track Cargo unless a human extends it. Published unresolved quirk issues: [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205), [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206), and [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207).
 
 ## Graph findings and gaps
 
@@ -51,9 +51,9 @@ For `NOT_RECEIVED`, the marker uses cargo origin; otherwise it uses last-known l
 | USNYC | New York | 41 | -74 |
 | USDAL | Dallas | 33 | -97 |
 
-Each axis adds an independent `Math.floor((Math.random() * 3) - 3)`, which yields only -3, -2, or -1 degrees. It is not centered around zero and changes on each load. The source has a `TODO` to find a latitude/longitude service. This is the source behavior; whether Track Cargo ruling #14 applies to this separate map remains unresolved under #99. Draft: `.migration/quirks/admin-live-map-random-offset.md`.
+Each axis adds an independent `Math.floor((Math.random() * 3) - 3)`, which yields only -3, -2, or -1 degrees. It is not centered around zero and changes on each load. The source has a `TODO` to find a latitude/longitude service. This is the source behavior; whether Track Cargo ruling #14 applies to this separate map remains unresolved under #99 and published issue [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205). Issue publication is not a ruling.
 
-The REST endpoint maps the `XXXXX` location sentinel to the string `Unknown`, but the frame's names and coordinate dictionaries have no `Unknown` entry. The lookup is therefore undefined before the offset is added; no live browser result was produced here. Draft: `.migration/quirks/admin-live-map-unknown-location.md`.
+The REST endpoint maps the `XXXXX` location sentinel to the string `Unknown`, but the frame's names and coordinate dictionaries have no `Unknown` entry. The lookup is therefore undefined before the offset is added; no live browser result was produced here. The target behavior remains unresolved under published issue [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206).
 
 ### Status precedence and marker colors
 
@@ -81,7 +81,9 @@ Routing labels are `Not routed`, `Routed`, and `Misrouted`. Transport labels are
 
 ### Tooltips and navigation
 
-Each marker binds a tooltip with tracking ID, routing status, misdirected Yes/No, transport status, at-destination Yes/No, origin name, and last-known-location name. Destination is in the REST JSON but is not shown in this tooltip. City names are resolved through the fixed location-name dictionary; an absent key renders as an undefined lookup.
+Each marker binds a tooltip with tracking ID, routing status, misdirected Yes/No, transport status, at-destination Yes/No, origin name, and last-known-location name. The REST JSON contains seven fields and does not include destination. City names are resolved through the fixed location-name dictionary; an absent key renders as an undefined lookup.
+
+The composed tooltip HTML contains two literal spaces after `Transport Status:` for `IN_PORT`: the label is `" In port"` and the prefix already ends with a space. This is source-string behavior only; HTML/browser whitespace may collapse, and no live-browser observation established a visibly doubled gap. The target tooltip-spacing question is unresolved in published issue [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207).
 
 Clicking a marker opens `/admin/show.xhtml?trackingId=<id>` in a new window named `winMap`, with the current frame dimensions. The URL is assembled with `http://`, the current host, and the first path segment as the application path.
 
@@ -122,7 +124,7 @@ Best-effort source risk artifacts are under `.migration/risk-map/admin-live-map/
 ## Durable outputs
 
 - New pending ledger entries: `.migration/ledger/admin-live-map.*.yaml` (11 entries).
-- Human decision drafts: `.migration/quirks/admin-live-map-random-offset.md`, `.migration/quirks/admin-live-map-unknown-location.md`, and `.migration/quirks/admin-live-map-in-port-label.md`.
+- Published, unresolved human decisions: [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205) (marker offset), [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206) (unknown location), and [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207) (IN_PORT literal spacing). Parent publication did not decide any option.
 - Return and graph-gap handoff: `.migration/returns/AM-02.afs-analyst.yaml` and `.migration/handoffs/AM-02.md`.
 - Risk reports and raw tool CSVs: `.migration/risk-map/admin-live-map/`.
 - No source, target application code, existing ledger, accepted return, graph, or historical evidence was modified.
