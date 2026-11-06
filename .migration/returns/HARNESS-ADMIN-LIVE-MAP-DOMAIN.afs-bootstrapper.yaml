@@ -1,0 +1,75 @@
+role: afs-bootstrapper
+ticket: HARNESS-ADMIN-LIVE-MAP-DOMAIN
+issue: martins-vds/ai-factory-pilot-target#210
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/211
+status: complete
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/211
+characterization_tier: A
+tier_evidence: >-
+  Inherited from the existing profile: Java 8 / Payara 4.1.2.181 served the
+  scratch-built WAR with HTTP 200. No new characterization was performed.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: >-
+  pass: fresh setup validation checked 103 files with 0 errors after completing
+  ancestry. Independently verified installed integrity (77 entries / 389 files /
+  0 problems), exact 9FC manifest pin and exact-commit runner/checker blob IDs;
+  compared the 823-path main baseline (813 unchanged, 10 normal modifications),
+  all 45 baseline returns, initial worker outputs and parent provenance; bounded
+  checker, runner, tracing and workflow controls passed without graph generation.
+handoff: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-DOMAIN.md
+report: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-DOMAIN.md
+evidence_logs:
+  - .migration/evidence/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN.md
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162016063247Z-source-tree-and-current-state.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162020021601Z-source-head-metadata.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162053657766Z-migration-state-validation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T163255596606Z-resume-setup-probe.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T163436502883Z-final-own-return-schema-validation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171044603169Z-resumed-migration-state-validation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171045502493Z-resumed-setup-probe.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171134695095Z-installed-integrity.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171319200856Z-baseline-and-artifact-preservation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171354281056Z-bounded-runner-checker-workflow-controls.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171400943591Z-installed-tool-tracing.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171449631502Z-workflow-wiring-safety.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171602691067Z-final-migration-state-validation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171639548089Z-installed-and-baseline-pins.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171658091951Z-final-return-and-state-validation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T171807653859Z-full-current-baseline-preservation.log
+release:
+  repository: martins-vds/ai-factory-swarm
+  approved_commit: 9fcf4deb0565229bc4c3078e9da0c9bfece045c7
+  approved_tree: db4d5e74d056c69f401564d31d1fb812d4fd440c
+  source_tree_verified: true
+  complete_git_checkout_obtained: false
+  complete_git_checkout_obtained_by_parent: true
+installation:
+  bootstrap_executed: true
+  bootstrap_executed_by_worker: false
+  installer_actor: parent coordinator
+  installer_commit: 9b21510ded472fa77121ca6d8760779ec29ca4c4
+  verifier_actor: this same original afs-bootstrapper worker
+  verifier_commit: f81b9fc2952efdeca01c609b4e74239925290688
+  verifier_tree: e925f54a61798f1fca57f421bf5b9192ccceb823
+  independent_verification: true
+  installed_commit_before: bdf1f43b613f5ed6c7719380cede7c02bca1c778
+  installed_commit_after: 9fcf4deb0565229bc4c3078e9da0c9bfece045c7
+baseline:
+  commit: 35f014a9f63619844810000024dc4c51362fb040
+  tracked_paths: 823
+  historical_yaml_returns: 45
+  unchanged_paths: 813
+  normal_generated_modifications: 10
+  additions_at_install: 7
+  parent_provenance_files_preserved: 2
+source_verification:
+  worker_complete_git_checkout: false
+  worker_archive_tree: db4d5e74d056c69f401564d31d1fb812d4fd440c
+  parent_complete_checkout_and_bootstrap_provenance: .migration/evidence/HARNESS-ADMIN-LIVE-MAP-DOMAIN/parent-installation.md
+  exact_commit_file_reads:
+    understand.py: ab4560600ee36d5cf9b4a5a5c47644d9c7f5a4f8
+    check_domain_coverage.py: 6354c909dba7933c75ef01230ff8a2a45a5cd2b3
+parent_evidence:
+  report: .migration/evidence/HARNESS-ADMIN-LIVE-MAP-DOMAIN/parent-installation.md
+  journal: .migration/evidence/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN-PARENT.md
