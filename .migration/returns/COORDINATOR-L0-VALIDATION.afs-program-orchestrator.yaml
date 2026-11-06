@@ -1,0 +1,15 @@
+role: afs-program-orchestrator
+ticket: COORDINATOR-L0-VALIDATION
+issue: martins-vds/ai-factory-pilot-target#196
+phase: 4
+decisions:
+  - "The actual L1 coordinator finished retrospective reconciliation of accepted epic #113: 21 descendants, 20 completed landings, one superseded, zero open, no remaining ticket blocker."
+  - "L1's two current installed guard passes were explicitly parent-executed against candidate F52/e519, not autonomous worker CLI execution; this L0 session did not perform the earlier L1 dispatch."
+  - "The handling-registration acceptance, full-mutation score, and human sign-off are verified historical evidence only; this role ran no acceptance, mutation, or human-flow check."
+  - "The current next frontier is Phase 4 planning for open map tasks #99, #101, and #112; accepted #113 and the completed re-walk #189 remain accepted/closed."
+  - "Research #172 and draft PR #173 remain excluded; no new reusable harness defect was confirmed in this bounded review."
+dispatched: []
+awaiting_human:
+  - "Operator: prioritize and authorize planning of #99, #101, and #112; approve each future slice plan before its tickets are published."
+  - "Parent: independently review this role's finished exact-head evidence and current CI before deciding whether to merge the role-evidence-only proposal; this role did not merge."
+next_step: "Keep #113 accepted and #3 open; await operator direction on the next slice-plan frontier, then start any new work only under a separately authorized assignment."
