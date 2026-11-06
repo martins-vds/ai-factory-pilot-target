@@ -6,16 +6,17 @@
 
 ## understand
 
-- Seconds: 289
+- Seconds: 272
 - Error: none
-- Model calls: 132; tokens in 5,072,327, out 80,138, cache read 4,649,186
-- Tool calls: bash 87, view 22, task 16, read_agent 13, create 8, skill 2
+- Model calls: 133; tokens in 5,170,300, out 73,380, cache read 4,658,958
+- Tool calls: bash 77, view 30, task 17, read_agent 13, create 6, skill 2
 
 ## understand-domain
 
-- Seconds: 76
+- Seconds: 27
 - Error: none
-- Model calls: 9; tokens in 306,018, out 12,804, cache read 269,719
-- Tool calls: bash 5, skill 2, create 1
+- Model calls: 7; tokens in 193,541, out 3,214, cache read 170,428
+- Tool calls: bash 5, skill 1
 
+Domain coverage: DEFERRED; caller must run check_domain_coverage.py after enrichment
 Graphs: knowledge-graph.json, domain-graph.json
