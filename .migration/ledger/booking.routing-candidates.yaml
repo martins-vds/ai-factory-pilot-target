@@ -1,0 +1,17 @@
+id: booking.routing-candidates
+kind: behavioral
+title: Request and validate route candidates
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:51-60
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "Missing cargo returns an empty list; otherwise RoutingService candidates are converted from transit paths to Itineraries and retained only when origin, destination and strict arrival-deadline checks pass."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRouteCandidates"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsSatisfiedBySuccess"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByMissedDeadline"
+notes: "Deadline is omitted from the source HTTP request and the graph service ignores its deadline parameter; post-filtering may yield no candidates (.migration/quirks/booking-routing-ignores-deadline.md). ExternalRoutingServiceTest.testCalculatePossibleRoutes lacks @Test and is not executable JUnit evidence (.migration/quirks/booking-routing-test-not-discovered.md). Unknown cargo lookup also fails without a not-found response (.migration/quirks/booking-cargo-not-found-unhandled.md)."

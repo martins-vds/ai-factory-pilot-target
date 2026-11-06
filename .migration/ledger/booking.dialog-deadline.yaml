@@ -1,0 +1,15 @@
+id: booking.dialog-deadline
+kind: ui
+title: Edit cargo deadline in a modal dialog
+source:
+  graph_node: page:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml:src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml
+  location: src/main/webapp/admin/dialogs/changeArrivalDeadlineDate.xhtml:9-33
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "Deadline dialog receives trackingId, displays origin/destination, offers a date picker, and provides Cancel and Update with a full-page refresh on completion."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDeadline"
+notes: "The named test covers service state, not modal interaction, parsing errors, cancellation or refresh behavior. Parse failures only print a stack trace (.migration/quirks/booking-deadline-dialog-parse-error.md)."

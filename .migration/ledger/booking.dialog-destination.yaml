@@ -1,0 +1,15 @@
+id: booking.dialog-destination
+kind: ui
+title: Edit cargo destination in a modal dialog
+source:
+  graph_node: page:src/main/webapp/admin/dialogs/changeDestination.xhtml:src/main/webapp/admin/dialogs/changeDestination.xhtml
+  location: src/main/webapp/admin/dialogs/changeDestination.xhtml:9-40
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "Destination dialog receives trackingId, displays origin/current destination, offers destinations excluding both, and provides Cancel and Update with a full-page refresh on completion."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDestination"
+notes: "The named test covers service state, not modal options, cancellation or refresh behavior; destination option filtering mutates the bean list (see quirk draft)."

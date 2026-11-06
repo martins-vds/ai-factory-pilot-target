@@ -1,0 +1,40 @@
+role: afs-analyst
+ticket: BK-02
+issue: martins-vds/ai-factory-pilot-target#225
+graphs:
+  knowledge: .migration/graphs/source/full/knowledge-graph.json
+  domain: .migration/graphs/source/full/domain-graph.json
+  nodes: 1009
+  edges: 2093
+  flows: 1
+ledger:
+  entries: 25
+  by_kind:
+    structural: 4
+    behavioral: 8
+    ui: 12
+    integration: 1
+    data: 0
+risk_map:
+  path: .migration/risk-map/booking/risk-map.md
+  methods: 224
+  above_threshold: 3
+  hot_spots:
+    - "Itinerary::isExpected (CRAP 182, CCN 13)"
+    - "Delivery::calculateNextExpectedActivity (CRAP 156, CCN 12)"
+    - "Delivery::calculateTransportStatus (CRAP 56, CCN 7)"
+    - "GraphDao::getVoyageNumber (CRAP 30, CCN 5)"
+    - "ListCargo::getRoutedUnclaimedCargos (CRAP 20, CCN 4)"
+quirk_tickets:
+  - .migration/quirks/booking-destination-options-mutate-state.md
+  - .migration/quirks/booking-route-selection-redirect.md
+  - .migration/quirks/booking-routing-ignores-deadline.md
+  - .migration/quirks/booking-routing-test-not-discovered.md
+  - .migration/quirks/booking-cargo-not-found-unhandled.md
+  - .migration/quirks/booking-deadline-dialog-parse-error.md
+  - .migration/quirks/booking-claimed-history-link.md
+  - .migration/quirks/booking-routed-table-test-dialog.md
+graph_discrepancies:
+  - "The domain graph has only Admin Live Cargo Map flow; it contains no booking or routing flow for the scoped pages."
+  - "The knowledge graph represents services as class/method nodes, with zero nodes typed service; source code was needed to establish the BookingServiceFacade → BookingService → RoutingService → graph-traversal path."
+  - "The graph's route chain is incomplete at the graph-traversal endpoint; source code shows ExternalRoutingService calling GraphTraversalService and maps candidate paths through Voyage/Location repositories."

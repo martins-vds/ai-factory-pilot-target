@@ -1,0 +1,13 @@
+id: booking.screen-claimed-table
+kind: ui
+title: Display claimed cargo
+source:
+  graph_node: page:src/main/webapp/admin/tables/listClaimed.xhtml:src/main/webapp/admin/tables/listClaimed.xhtml
+  location: src/main/webapp/admin/tables/listClaimed.xhtml:5-39
+  risk: {crap: 12, complexity: 3, coverage: 0.0}
+boundary: "Claimed Cargo table shows tracking ID/detail link, origin, destination and deadline, with a history tooltip."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "No named JUnit class directly tests this table or its history link. The tooltip-to-routing-details mismatch is in .migration/quirks/booking-claimed-history-link.md."

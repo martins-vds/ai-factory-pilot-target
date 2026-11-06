@@ -1,0 +1,16 @@
+id: booking.registration
+kind: behavioral
+title: Register a new cargo
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:36-49
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Booking generates a tracking ID, resolves origin/destination, creates a RouteSpecification and Cargo, persists it, logs the booking, and returns the tracking ID to the facade."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRegisterNew"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java::testCargoFromHongkongToStockholm"
+notes: "JpaCargoRepository creates an uppercase UUID prefix; a new cargo begins NOT_ROUTED with an empty itinerary and default delivery state. The Cargo table and embedded route/delivery fields are already covered by track-cargo.data-cargo."

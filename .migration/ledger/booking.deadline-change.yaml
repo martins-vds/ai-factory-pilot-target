@@ -1,0 +1,15 @@
+id: booking.deadline-change
+kind: behavioral
+title: Change cargo arrival deadline and recalculate route state
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:87-98
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "Changing deadline preserves origin, destination and itinerary, creates a new RouteSpecification, updates delivery routing state, stores the cargo and logs the change."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDeadline"
+notes: "The dialog parses its current deadline with MM/dd/yyyy; ParseException is printed and swallowed, leaving the date unset (.migration/quirks/booking-deadline-dialog-parse-error.md). BookingServiceTest checks the changed date and MISROUTED state."

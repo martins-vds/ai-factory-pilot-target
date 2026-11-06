@@ -1,0 +1,13 @@
+id: booking.dashboard-filters
+kind: behavioral
+title: Partition cargo into dashboard table states
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:ListCargo
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:41-89
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "The dashboard filters the facade's full cargo list into routed-unclaimed, not-routed and claimed lists; each getter builds a fresh list and the XHTML tables render empty results without a custom empty-state message."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "The additional getRoutedCargos() getter returns all routed cargo but is not bound by the scoped dashboard pages. No named JUnit class directly tests these view-level partitions."

@@ -1,0 +1,13 @@
+id: booking.dashboard-chain
+kind: structural
+title: Resolve the admin dashboard and cargo-list chain
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:ListCargo
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ListCargo.java:25-44
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "admin/dashboard.xhtml includes the three cargo table pages; request-scoped ListCargo loads CargoRoute DTOs through BookingServiceFacade.listAllCargos and JpaCargoRepository.findAll."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "Cargo, Leg, Location and Voyage persistence overlaps accepted track-cargo and handling ledger entries; this entry does not duplicate those data capabilities. The shared admin template links to the live map; dashboard content is the three tables."
