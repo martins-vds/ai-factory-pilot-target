@@ -16,3 +16,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-06T03:06:24+00:00 | crap-lizard | 0 | 0.1 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-06T03:06:24+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `34d1ce024bdfe792` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
 | 2026-11-06T03:06:27+00:00 | mutation-changed | 0 | 0.06 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
+| 2026-11-06T03:15:48+00:00 | finalization-setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
