@@ -77,3 +77,5 @@ services:
 # costs:                     # ADR-0021: set to the account that pays for Copilot (operator-setup.md)
 #   billing: {scope: organization, account: <org>}
 translation_rules: .migration/translation-rules.md
+signoff:                     # ADR-0031: whose approving review on the coordinator's PR is the human sign-off
+  approvers: [martins-vds]
