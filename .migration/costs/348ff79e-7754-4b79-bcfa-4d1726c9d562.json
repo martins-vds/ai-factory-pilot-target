@@ -59,6 +59,27 @@
         "promptRequest",
         "requestId"
       ],
+      "session.compaction_complete": [
+        "checkpointNumber",
+        "checkpointPath",
+        "compactionTokensUsed",
+        "preCompactionMessagesLength",
+        "preCompactionTokens",
+        "requestId",
+        "serviceRequestId",
+        "success",
+        "summaryContent",
+        "tokenLimit",
+        "trigger"
+      ],
+      "session.compaction_start": [
+        "conversationTokens",
+        "currentTokens",
+        "systemTokens",
+        "tokenLimit",
+        "toolDefinitionsTokens",
+        "trigger"
+      ],
       "session.resume": [
         "alreadyInUse",
         "context",
@@ -148,69 +169,76 @@
       ]
     },
     "event_types": {
-      "assistant.message": 120,
-      "assistant.turn_end": 69,
-      "assistant.turn_start": 69,
-      "external_tool.completed": 2,
-      "external_tool.requested": 2,
-      "hook.end": 257,
-      "hook.start": 258,
-      "permission.completed": 94,
-      "permission.requested": 94,
-      "session.resume": 1,
+      "assistant.message": 195,
+      "assistant.turn_end": 122,
+      "assistant.turn_start": 122,
+      "external_tool.completed": 4,
+      "external_tool.requested": 4,
+      "hook.end": 439,
+      "hook.start": 440,
+      "permission.completed": 142,
+      "permission.requested": 142,
+      "session.compaction_complete": 1,
+      "session.compaction_start": 1,
+      "session.resume": 2,
       "session.start": 1,
-      "session.usage_checkpoint": 1,
-      "skill.invoked": 5,
+      "session.usage_checkpoint": 2,
+      "skill.invoked": 7,
       "subagent.selected": 1,
-      "system.message": 2,
+      "system.message": 3,
       "system.notification": 2,
-      "tool.execution_complete": 133,
-      "tool.execution_start": 133,
-      "user.message": 7
+      "tool.execution_complete": 215,
+      "tool.execution_start": 215,
+      "user.message": 10
     },
-    "events": 1251,
+    "events": 2070,
     "usage_fields": []
   },
-  "ended_at": "2026-11-06T02:56:48.979Z",
+  "ended_at": "2026-11-06T03:40:42.135Z",
   "event": "sessionEnd",
   "harness_tools": [
     {
-      "count": 8,
+      "count": 10,
       "exit": 0,
       "tool": "afs-mutation"
     },
     {
-      "count": 41,
+      "count": 57,
       "exit": 0,
       "tool": "afs-run"
     },
     {
-      "count": 8,
+      "count": 10,
       "exit": 1,
       "tool": "afs-run"
     },
     {
-      "count": 7,
+      "count": 11,
       "exit": 0,
       "tool": "afs-services"
     },
     {
-      "count": 4,
+      "count": 6,
       "exit": 0,
       "tool": "check_inputs.py"
     },
     {
-      "count": 10,
+      "count": 12,
       "exit": 0,
       "tool": "check_installed.py"
     },
     {
-      "count": 6,
+      "count": 2,
+      "exit": 1,
+      "tool": "check_return_contract.py"
+    },
+    {
+      "count": 10,
       "exit": 0,
       "tool": "check_runtime.py"
     },
     {
-      "count": 24,
+      "count": 32,
       "exit": 0,
       "tool": "validate.py"
     },
@@ -228,12 +256,12 @@
   "log": "/home/runner/.copilot/session-state/348ff79e-7754-4b79-bcfa-4d1726c9d562/events.jsonl",
   "models": {
     "gpt-6-luna": {
-      "output": 68770,
-      "requests": 120
+      "output": 103455,
+      "requests": 195
     }
   },
   "prompt_head": null,
-  "recorded_at": "2026-11-06T02:56:49+00:00",
+  "recorded_at": "2026-11-06T03:40:42+00:00",
   "schema": "afs-cost/1",
   "session_id": "348ff79e-7754-4b79-bcfa-4d1726c9d562",
   "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
