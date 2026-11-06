@@ -57,3 +57,33 @@ The parent provides normal-bootstrap assistance for the exact pinned dependency.
 
 ### Next step for the next session
 Parent independently reviews exact head `cacfb625` and decides how to handle the unchanged application-test failure. Keep the installation evidence and role return intact; do not self-merge or broaden scope.
+
+## Handoff — afs-bootstrapper · 2026-11-06T03:32:50Z
+**State:** in progress · **Branch / PR:** `copilot/harness-coordinator-fixes-install-verified-harness` / https://github.com/martins-vds/ai-factory-pilot-target/pull/198 · **Integration merge:** `2b11a9950c7644f2fc7131e7f594fdf27e9ee62a`
+
+### Done
+- Confirmed post-merge main `bce0c54cfa9b9c424e911b08f17c8f6bee75139f` / tree `a470025b3ba7823c7fda80dfef06608310d4f5f4`; its AFS run `42156736164` passed all four jobs, including 323 tests.
+- Completed the setup check on the current continuation: full target ancestry, matching pinned read-only `.source`, migration validation 96/0 after merge, ticket inputs 0 missing, `db` healthy, Python 3.13.17 and RTK 1.1.0.
+- Normally merged `origin/main` into PR #198 as merge commit `2b11a9950c7644f2fc7131e7f594fdf27e9ee62a`; it has the prior PR head and `bce0c54` as parents. The separately reviewed test-only repair and its evidence/cost were not reimplemented.
+- Independently verified exact installed pin `e51998d716c229930e1e072cdcb05be0a872b4ef` / tree `728ee39572de27bd9ab01999a93d6bec28f0a555`, installed integrity 77 entries / 388 files / 0 problems, and exact-source parity 64/64.
+- Against current main, all 41 pre-existing YAML returns and all 216 protected baseline files (application, tests, templates, graphs, slices, ledgers, costs, acceptance evidence) are unchanged; profile/source.lock are byte-identical, capability semantics unchanged, and the six test-repair test/evidence/cost files match main exactly.
+- The original worker's access/verification history in the handoff and return and the parent installation evidence remain preserved; the report is updated for this continuation. The run journal is append-only. Current checks are recorded in `.migration/evidence/runs/HARNESS-COORDINATOR-FIXES.md`.
+
+### Remaining
+- [ ] Verify the actual AFS harness check on the final pushed PR #198 head. Main's green run is not a substitute for this check.
+- [ ] Parent independently reviews the exact integrated PR head and current CI; only then may the standing authorized merge proceed.
+
+### Decisions made
+- The historical red CI is resolved on main by the separately authorized test-only repair; this Bootstrapper neither duplicated that work nor changed application/test behavior.
+- No bootstrap rerun, credential/private-source workaround, acceptance/full mutation/human-flow rerun, graph rebuild, hierarchy change, other slice work, or coordinator-role coverage claim was made.
+- The first parity invocation in this continuation failed only because the previous session's temporary source worktree no longer existed. The exact immutable release was reacquired and the full 64-file check passed.
+
+### Blockers / questions
+- The exact AFS harness result for the final integrated PR head must be checked after push; do not assume main's successful AFS result applies to the PR head.
+
+### Failing commands
+- Initial current-main parity invocation: `python -c ...` exited 1 because `/tmp/afs-source-e51998d716c229930e1e072cdcb05be0a872b4ef/skills.lock.json` was absent in this fresh session. The source was reacquired at the exact commit/tree; subsequent `current-main-parity` passed 64/64 with 0 mismatches.
+- Previous-head failures `42152379401` and `42153195105` are historical; their unchanged test was repaired by PR #200 and main's post-merge run `42156736164` passed.
+
+### Next step for the next session
+Read the live AFS check on the final PR #198 head after these updates are pushed. If it passes, leave exact-head review and the standing merge authority to the parent; do not self-merge.
