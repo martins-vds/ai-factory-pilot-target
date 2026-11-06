@@ -25,11 +25,12 @@ baseline:
   tracked_paths: 817
   historical_yaml_returns: 44
   complete_target_ancestry: true
+  committed_paths_after: 821
+  committed_yaml_returns_after: 45
   comparison: >-
-    Initial worker HEAD has no content differences from baseline; tracked
-    working files were also unchanged at the preservation check. Only this
-    ticket's new return, handoff, journal and hook-owned session record are
-    permitted additions. All historical outputs remain protected.
+    Committed-head preservation check verified all 817 baseline paths and 44
+    historical YAML returns unchanged, with exactly four additions: this
+    ticket's return, handoff, journal and hook-owned session record.
 release:
   repository: martins-vds/ai-factory-swarm
   approved_commit: bdf1f43b613f5ed6c7719380cede7c02bca1c778

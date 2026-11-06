@@ -14,6 +14,7 @@
 - Investigated initial proposal CI run `42236949562` using Actions listing and failed-job logs: job `127957001998` failed because the initial plan commit had no return file. This proposal now supplies its own issue-208 return; final exact-head CI still needs parent review.
 - Durable run results, exact commands and raw-log hashes: [ticket journal](../evidence/runs/HARNESS-ADMIN-LIVE-MAP-GRAPH.md). Raw logs are temporary, not committed.
 - Final validation with this return and hook-generated session record: exit 0, 101 files checked, zero errors. Repeated installed integrity: exit 0, E519 / 77 entries / 388 files / zero problems. Only four new ticket-owned files are pending: this handoff, return, journal and session record; no inherited file was edited.
+- Committed-head preservation check at `c7b50bf`: exit 0, all 817 baseline paths and 44 historical YAML returns unchanged; exactly four additions, yielding 821 paths / 45 YAML returns. Direct owning-proposal attribution check: exit 0, issue 208 / proposal 209 / Bootstrapper / blocked installer declaration verified. `check_return_contract.py --base origin/main` returned zero but explicitly did nothing outside a PR event; it is **not** a fresh CI verdict.
 
 ### Remaining
 
