@@ -1,0 +1,12 @@
+role: afs-bootstrapper
+ticket: HARNESS-COORDINATOR-FIXES
+issue: martins-vds/ai-factory-pilot-target#197
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/198
+characterization_tier: A
+tier_evidence: The existing profile declares tier A; this bounded harness rollout did not repeat source characterization.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: "blocked: pinned normal bootstrap exited 1 fetching martins-vds/code-migration-hackathon@4de661a9a830aaef70ff55e879c0cc540599cad8 (git exit 128); migration validation passes after complete target history was fetched, but installation is not complete."
+handoff: .migration/handoffs/HARNESS-COORDINATOR-FIXES.md
+evidence: .migration/evidence/HARNESS-COORDINATOR-FIXES/report.md
+evidence_logs: .migration/evidence/runs/HARNESS-COORDINATOR-FIXES.md
