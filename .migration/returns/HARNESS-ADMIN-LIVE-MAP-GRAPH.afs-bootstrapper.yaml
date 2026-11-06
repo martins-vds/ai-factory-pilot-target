@@ -1,0 +1,96 @@
+role: afs-bootstrapper
+ticket: HARNESS-ADMIN-LIVE-MAP-GRAPH
+issue: martins-vds/ai-factory-pilot-target#208
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/209
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/209
+status: complete
+characterization_tier: A
+tier_evidence: >-
+  Inherited unchanged from the existing profile and capabilities: Java 8 /
+  Payara 4.1.2.181 served the scratch-built WAR with HTTP 200. No new
+  characterization, graph regeneration or acceptance was performed.
+capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
+gap_tickets: []
+validation: >-
+  pass: resumed state validation checked 101 files with 0 errors; installed BDF
+  integrity checked 77 entries / 388 files with 0 problems. Independent baseline,
+  exact approved tool identity, five unchanged approved-release tests and actual
+  wrapper resolver checks passed. The original acquisition blocker was resolved
+  by the parent's normal installation, not by a successful worker download.
+handoff: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-GRAPH.md
+report: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-GRAPH.md
+evidence_logs:
+  - .migration/evidence/runs/HARNESS-ADMIN-LIVE-MAP-GRAPH.md
+parent_evidence:
+  report: .migration/evidence/HARNESS-ADMIN-LIVE-MAP-GRAPH/parent-installation.md
+  journal: .migration/evidence/runs/HARNESS-ADMIN-LIVE-MAP-GRAPH-PARENT.md
+  preservation: both files remain byte-for-byte unchanged from parent commit
+baseline:
+  commit: d77b7bec98d26e7ee291488091d009e89f595117
+  initial_worker_head: cc5669aa0fe3a22d6e428933f46f7f613fa78525
+  tracked_paths: 817
+  historical_yaml_returns: 44
+  complete_target_ancestry: true
+  committed_paths_after: 823
+  committed_yaml_returns_after: 45
+  comparison: >-
+    Independently compared all 817 baseline paths: exactly 10 normal generated
+    changes, with the other 807 blobs and modes unchanged; all 44 historical
+    YAML returns unchanged. Seven workflow bodies are identical, capability
+    decisions/providers/statuses unchanged, and manifest changes only
+    release/time/approved tool hash. All four original worker outputs were
+    unchanged by the parent at 04bff46; only this worker's own return,
+    append-only handoff/journal and normal hook-owned session record are
+    finalized here. Six additions over baseline are the four worker outputs
+    and two separately attributed parent files.
+release:
+  repository: martins-vds/ai-factory-swarm
+  approved_commit: bdf1f43b613f5ed6c7719380cede7c02bca1c778
+  approved_tree: 3dab8a5346ae5ca95dfb68225a353ed91597df98
+  commit_metadata_verified_via: github-mcp-server-get_commit
+  tree_verification: >-
+    Parent independently verified exact approved tree
+    3dab8a5346ae5ca95dfb68225a353ed91597df98 in its complete clean checkout;
+    this worker relies on that committed provenance for source tree identity
+    and the parent's 64 direct source-file comparisons, not its own full
+    source checkout. Worker independently matched installed enrich_graph.py
+    byte-for-byte to MCP content at the exact approved commit.
+  complete_checkout_obtained: false
+  complete_checkout_obtained_by_parent: true
+  verified_tool_blob: 44b8ff9f2eb88abefdfe4fd01573000275f7bc28
+  verified_tool_sha256: 5e21be85bc498905712b98bcb34546c6de2e2e8ad86f67bcf42a16baa5c14198
+installation:
+  installed_commit_before: e51998d716c229930e1e072cdcb05be0a872b4ef
+  installed_commit_after: bdf1f43b613f5ed6c7719380cede7c02bca1c778
+  bootstrap_executed: true
+  bootstrap_executed_by_worker: false
+  installer_actor: parent coordinator
+  installer_commit: 04bff46c768d601a9cbcb3ed00b4722138bb1b81
+  installer_target_tree: e8ceb8a08d1e67e2684e8e50807754a11642ff0f
+  installer_finished_at: '2026-11-06T14:58:12Z'
+  installer_exit: 0
+  installer_seconds: 56.63
+  installed_agents: 10
+  installed_skills: 61
+  verifier_actor: this same original Copilot afs-bootstrapper worker for issue 208 / proposal 209
+  verifier_session: 2ca3da76-76ec-45d5-81d9-9cddd10ed608
+  verification_scope: >-
+    Fresh configured-runtime/service setup, installed BDF integrity, every
+    baseline blob/mode, approved tool byte identity, five fixtureless approved
+    tests, actual read-only contextPath wrapper resolution, five positive URL,
+    19 negative URL and five inactive-markup controls. These resolver checks
+    are not the four fixture-backed iframe regression tests or all 46 source
+    enrichment tests; those earlier runs remain separately attributed.
+  parent_installed_result_verified: true
+  required_followup: >-
+    Parent independently reviews finished exact HEAD and current CI before
+    merge. Pilot main is not updated by this verification. Graph regeneration,
+    Analyst 204 integration/quirk rulings and Characterizer/Planner remain
+    separate; no graph coverage or slice acceptance is claimed here.
+history:
+  original_finished_commit: 2a59436856ef5004a9de32bdf51c3cf408314904
+  original_finished_at: '2026-11-06T14:53:00Z'
+  original_archive_attempt: HTTP 403, curl exit 22; remains a failed worker acquisition
+  original_cli_attempt: missing GH_TOKEN, gh exit 4; no credentials copied
+  original_baseline_diagnostic: erroneous 15-met assertion failed; corrected to actual 14 met
+  resolved_installation_blocker: parent normal bootstrap succeeded; no worker reacquisition or bootstrap retry
