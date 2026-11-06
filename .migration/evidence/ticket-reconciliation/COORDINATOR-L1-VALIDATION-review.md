@@ -1,17 +1,17 @@
 # Coordinator review — handling-registration reconciliation (#113)
 
 Ticket: `COORDINATOR-L1-VALIDATION` · issue [#194](https://github.com/martins-vds/ai-factory-pilot-target/issues/194)  
-Role: `afs-slice-coordinator` · base `origin/main` / baseline `a284b840e97e06452ca5370b941d22c4c6ae4f2d`  
-Installed harness pin: `ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1`
+Role: `afs-slice-coordinator` · original baseline `a284b840e97e06452ca5370b941d22c4c6ae4f2d`; current main integrated at `93aaa937873ad948699ae9525bb57e03416d9339`
+Installed harness pin: `e51998d716c229930e1e072cdcb05be0a872b4ef`
 Review basis: complete local Git ancestry plus live GitHub issue, PR, Actions and comment state queried through GitHub MCP.
 
 ## Reconciliation result and boundary
 
-The recursive scope is **21 descendants**: the nine direct children of #113 and 12 nested descendants under #129, #130 and #131. Those 21 issues have no deeper children. None has a `wayfinder:*` research/map label, so none is excluded by the installed `ticket_guard.descendants` filter. Research #173 is not among the descendants and is excluded. Live issue state shows 20 closed as completed and #160 closed as not planned; there are no open descendants.
+The recursive scope is **21 descendants**: the nine direct children of #113 and 12 nested descendants under #129, #130 and #131. Those 21 issues have no deeper children. None has a `wayfinder:*` research/map label, so none is excluded by the installed `ticket_guard.descendants` filter. Research #173 is not among the descendants and is excluded. Live issue state shows 20 closed as completed and #160 closed as not planned; there are no open descendants. All 20 completed rows have a verified current landing witness. The superseded #160 failure PR is intentionally unmerged; its replacement #164 is completed and landed.
 
 The actual ADR-0030 candidate is `.migration/evidence/ticket-reconciliation/113.yaml`. `git show origin/main:.migration/evidence/ticket-reconciliation/113.yaml` returned “path does not exist”: this is new branch evidence, not an artifact already landed on main. The role report intentionally records all descendants, their current dispositions, linked landing PRs and relevant existing returns. It does not rewrite issue states or returns.
 
-The installed guard and return checker are **not verified as passing**. The first setup block was resolved by full-history fetch and correcting only this role's quoted scalar; see the continuation correction in `COORDINATOR-L1-VALIDATION.md`. Both required installed commands were run once through this ticket's journal, without `--reopen`; each exited 1 at its first `gh api repos/martins-vds/ai-factory-pilot-target/issues/113` call because the environment lacks `GH_TOKEN`. `gh --version` is `2.103.2`; `gh auth status` confirms no logged-in host. See the run journal and handoff for exact log paths. Do not treat GitHub MCP observations or this candidate report as execution of a passing installed check.
+The installed guard and return checker are **not verified as passing**. The earlier attempts in this ticket journal were against the pre-rollout harness and exited before reading the report because `gh api` had no authentication. The current worker still has no authenticated GitHub host (`gh --version` 2.103.2; `gh auth status` confirms this), so no current-pin checker retry was made. Do not treat GitHub MCP observations or this candidate report as execution of a passing installed check.
 
 ## Recursive issue and outcome review
 
@@ -27,19 +27,19 @@ The installed guard and return checker are **not verified as passing**. The firs
 | #131 | #113 | Current HR-04E verifier return is issue #176/PR #177 and passes. The same-path predecessor at `1c8716c7afe972c60b750b36aca91ffa80597a79` names #131/PR #169 and preserves its earlier `changes-required` verdict. PRs #167, #169 and #175 are in the landed work chain |
 | #132 | #113 | HR-04F Auditor return is `complete`, PR #184; this records the historic acceptance and is not new acceptance work here |
 | #143 | #129 | Current HR-04C verifier return #158/PR #159 passes; history preserves the initial #143 review and its zero-padded-year finding |
-| #147 | #129 | Child-work PR #148 is closed unmerged. The actual landed correction is in current owning PR #154; its HR-04C migrator return names parent #129. No same-path return names #147 |
-| #149 | #130 | Child-work PR #150 is carried into current owning PR #163. The current HR-04D specialist return at #163 names parent #130, not child #149 |
-| #155 | #129 | Child-work PR #156 is carried into current owning PR #154. The current HR-04C migrator return at #154 names parent #129, not child #155 |
+| #147 | #129 | Child-work PR #148 is closed-unmerged, but its exact head `5356b3e386ad16bf1bc577ec1c1b4228b15dbea2` is an ancestor of main and changes the HR-04C migrator return path. Current passing parent return #129 is in owning PR #154; both PRs are cited |
+| #149 | #130 | Child-work PR #150 changes the HR-04D specialist return path and closes #149. Current passing parent return #130 is in owning PR #163; both PRs are cited |
+| #155 | #129 | Child-work PR #156 changes the HR-04C migrator return path and closes #155. Current passing parent return #129 is in owning PR #154; both PRs are cited |
 | #158 | #129 | Current HR-04C verifier return names #158/PR #159 and passes |
 | #160 | #130 | Closed `not_planned`; failed verifier PR #161 is closed unmerged (head `813a215ac3f0fccf1d12916978ef176b6023f365`) and its exact verifier snapshot says `changes-required` but names parent #130, not child #160. Replacement #164 is re-verified in PR #165, whose passing parent-work return also names #130 |
-| #162 | #130 | Child fix PR #163 addresses the verifier findings and is the current owning correction PR; the HR-04D specialist return in it names #130, not child #162 |
-| #164 | #130 | Child re-verification PR #165 passes the revised work; the HR-04D verifier return in it names #130, not child #164 |
-| #168 | #131 | Child-work PR #169 corrects parent HR-04E/#131 verification. Current fix PR #175 and verifier PR #177 carry the final result. Same-path history preserves #131 at `1c8716c7afe972c60b750b36aca91ffa80597a79` then current #176; no return names child #168 |
+| #162 | #130 | PR #163 closes #162, changes the HR-04D specialist return path and owns the current passing parent #130 return; it provides both child-work and current-owner evidence |
+| #164 | #130 | PR #165 closes #164, changes the HR-04D verifier return path and owns the current passing parent #130 verifier return |
+| #168 | #131 | Child-work PR #169 closes #168 and changes the HR-04E verifier return path; correction PR #175 and current passing verifier PR #177 complete the lineage. The same-path predecessor #131 at `1c8716c7afe972c60b750b36aca91ffa80597a79` and current issue #176 remain distinct |
 | #174 | #131 | HR-04E-FIX specialist return names #174/PR #175 |
 | #176 | #131 | Current HR-04E verifier return names #176/PR #177 and passes |
 | #178 | #131 | HR-04E-HARNESS bootstrapper return names #178/PR #179; normal rollout #188/#193 subsequently landed on main |
 
-PR states and issue-to-PR relationships were cross-checked against live GitHub records. Complete target history is available after `git fetch --unshallow origin`; current `origin/main` is baseline `a284b840e97e06452ca5370b941d22c4c6ae4f2d`. PR #161 is deliberately not merged. For #147/#149/#155/#162/#164/#168, the current report now cites the exact child-work PR plus its owning/correction PR and the actual same-path parent ticket/role return identity. Those parent returns are not passed off as child returns: candidate `returns` is empty for these six child rows because the installed checker requires exact child attribution and no such return exists. #160's exact failed PR-head snapshot likewise names #130 rather than #160; its replacement is accurately identified, but no child-attributed failure return is invented.
+PR states and issue-to-PR relationships were cross-checked against live GitHub records; full target ancestry is available. Current `origin/main` is `93aaa937873ad948699ae9525bb57e03416d9339`, tree `cd4d20aab1ec49808d5c2d5ca75c2e6078c1354c`. PR #161 remains deliberately unmerged. For #147/#149/#155/#162/#164/#168, the candidate now cites the exact child-work PR and current owning/correction PR, and lists the actual same-path parent return. I verified the relevant issue-parent relationships, child closure references, return-path changes in child PRs, current return snapshots/outcomes, and owner PR landings. The installed parent-continuation rule now supports these qualified parent returns; these are not represented as child-owned return files. PR #148 is specifically closed-unmerged, but its exact head is present in main ancestry, so it is not misclassified as unlanded. #160's failed #161 snapshot is retained with its true #130 attribution and replacement #164; #161 itself is not represented as landed.
 
 The installed guard's current validation also requires a passing role outcome for every returned role listed on a completed disposition. Accordingly, the candidate no longer lists #127/#128 verifier returns as successful witnesses; their exact failed results remain under `observed_nonpassing_reviews`. The successful owning-role returns for those parent work tickets remain cited. The slice Auditor later records no established capability gap, but that historical acceptance does not erase verifier findings or prove the recursive guard will accept the candidate report.
 
@@ -52,23 +52,23 @@ These are immutable prior acceptance evidence, not newly executed gates in this 
 - PR #184's final Auditor return/report records 19 capabilities and no established capability gaps or graph inconsistencies. The preserved graph review says source/target freshness and flow checks passed; the target graph had 374 nodes, 929 edges, five owned and zero unowned entry points. This review reads those historical artifacts only; it does not rebuild graphs or re-audit the ledger.
 - Human sign-off is comment [6645381666](https://github.com/martins-vds/ai-factory-pilot-target/pull/184#issuecomment-6645381666), created `2026-11-04T23:45:44Z`. The operator explicitly attested “I completed the human flow check and sign off” for reviewed revision `7e3d6d5427064c67b951a29ac9f8cfabfa77e3db`. The timestamp is the attestation record time, not an invented test execution time; no screenshots or step-by-step manual record were supplied.
 
-The installed setup validator was newly observed passing after the history and return correction: 94 files, zero errors, in `.migration/evidence/runs/COORDINATOR-L1-VALIDATION.md`. Candidate YAML parses with 21 unique issue numbers and passed migration-state validation. The separately journaled afs-run setup probe also passed. Those checks do not substitute for the historical acceptance or the failed live reconciliation CLI result.
+After the normal merge of current main, installed integrity passed: harness `e51998d716c229930e1e072cdcb05be0a872b4ef`, 77 entries, 388 files, zero problems. Migration-state validation passed with 98 files and zero errors; the setup probe passed through this ticket's afs-run journal. Python 3.13.17, db service health, input checks, and source pin/read-only checks passed. The post-merge AFS workflow #42158375241 on exact main `93aaa937873ad948699ae9525bb57e03416d9339` completed successfully; its gate job reported 323 tests, CRAP max 19.0, and no mutable code changed for mutation. This is rollout/main CI evidence, not a coordinator checker result or a substitute for historical accepted epic evidence.
 
 ## Parent-run checker findings and blockers
 
-The parent ran the unchanged installed commands against this exact candidate with its already-authorized CLI. This is **parent execution**, not a coordinator-role run, and has not been added to this role's afs-run journal:
+The parent's unchanged installed commands were run on an earlier candidate head `543a9b0d9378571216f609da8deccab7aa7d4438` with the prior harness pin `ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1`. This is **parent execution**, not a coordinator-role run, and has not been added to this role's afs-run journal:
 
-- `ticket_guard.py --reconcile-epic 113`: 21 tickets, 16 reconciliation failures.
-- `check_slice_returns.py --epic 113`: 21 tickets, 6 return failures.
+- `ticket_guard.py --reconcile-epic 113`: 21 tickets, 16 reconciliation failures on that earlier candidate and installation.
+- `check_slice_returns.py --epic 113`: 21 tickets, 6 return failures on that earlier candidate and installation.
 - Parent attribution/review: https://github.com/martins-vds/ai-factory-pilot-target/pull/195#issuecomment-6671481341.
 
-The local role did not repeat these commands: its prior unauthenticated attempts remain separately recorded in the existing journal. The candidate corrects known witness/provenance misstatements but intentionally does not claim that these parent-run failures are resolved.
+These counts are preserved solely as historical parent results; they do not establish outcomes for the current candidate or installed source repair.
 
 ## Blockers and frontier
 
-1. The local GitHub CLI is not authenticated (`gh auth status` reports no logged-in host). Prior local checker attempts exited before report validation. No auth retry is performed in this bounded provenance session.
-2. The source-side inconsistencies isolated by the parent remain real: `handoff: none` is interpreted as both a blocker for successful Migrators and an explicit failed outcome; valid reasoned mutation `n/a` is rejected; and the recursive checkers do not reconcile parent-owned continuation returns to child issues. Harness source work is tracked in ai-factory-swarm#79/#80; setup/example corrections in #78 are unmerged and not installed. Do not copy source proposals or relax this target report to simulate success.
-3. Six child continuation rows and the #160 failure record lack exact child-attributed role-return snapshots. The candidate names genuine work/correction PRs and actual parent return identity but leaves child returns absent; parent checker outcomes remain 16 reconciliation and 6 return failures. Independent review and the approved normal pinned rollout are still required.
-4. #127 and #128's `changes-required` verifier outcomes remain intact as failed-review context, not passing witnesses. Their actual owning specialist returns and landings remain cited; no new application work is dispatched.
+1. The local GitHub CLI remains unauthenticated. The current installed checker needs `gh api`, and no current-pin checker was run in this session. Parent-owned authorized execution of both read-only commands is needed against the final committed head; those parent results must remain outside this role's journal.
+2. The six qualified continuation returns are now represented using the installed parent-ticket rule and genuine current snapshots. The candidate is not yet validated by the installed checker because of the CLI access block; do not infer a pass from local/MCP provenance review alone.
+3. #127 and #128's `changes-required` verifier outcomes remain preserved under `observed_nonpassing_reviews`, not passing witnesses. Their successful owning specialist returns and landings remain cited. This is historical review context, not a current checker blocker by itself.
+4. The post-merge AFS run and installed integrity/setup checks do not constitute L1 role validation. The actual historical acceptance and human sign-off remain unchanged; no new acceptance work or application dispatch occurred.
 
-Do not rerun full acceptance or mutation, change issue state, dispatch implementation, rebuild graphs, edit pinned tools/schemas, act on research #173, or merge. Any source-side reusable reconciliation/setup defects should be handled in harness source, not hotpatched into this pilot.
+Do not rerun full acceptance or mutation, change issue state, dispatch implementation, rebuild graphs, edit pinned tools/schemas, act on research #173, or merge. Do not copy parent guard executions into this role journal. On the exact final commit, an authorized parent should run only the installed read-only reconciliation and slice-return commands without `--reopen`; this role remains blocked until it independently interprets those exact-head results.

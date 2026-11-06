@@ -70,3 +70,25 @@ Provide this same role with the permitted authenticated GitHub CLI runtime (do n
 - Initial validation in this fresh session occurred before detecting shallow history and failed on inherited null-PR attribution. After `git fetch --unshallow origin`, the own journaled validation passed with 94 files / 0 errors.
 ### Next step for the next session
 Continue only after a separately reviewed/approved normal rollout resolves the source-side semantics. Verify setup with full target history first, then use an authorized runtime for read-only checker execution; preserve exact actual outcomes and stop if any child attribution remains unsupported. No acceptance/mutation rerun, issue mutation, dispatch, or merge.
+
+## Handoff — afs-slice-coordinator · 2026-11-06T03:57:25Z
+**State:** blocked · **Branch / PR:** `copilot/validate-slice-coordinator-role` / PR #195 · **Last commit:** `83e599b`
+### Done
+- Fetched complete history and merged current main `93aaa937873ad948699ae9525bb57e03416d9339` into this original branch; source pin and read-only state match `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`.
+- Setup passed after the merge: harness `e51998d716c229930e1e072cdcb05be0a872b4ef` integrity 77 entries/388 files/0 problems; migration validation 98 files/0 errors; Python 3.13.17, db, RTK 1.1.0, inputs, and own afs-run setup probe all passed.
+- Independently verified live parents and child-closing PRs for #147/#149/#155/#162/#164/#168, exact child PR return-path edits, current passing parent return snapshots/owning PRs, and default-branch ancestry. Updated the ADR-0030 candidate with those genuine parent-return witnesses.
+- Verified #148 is closed-unmerged but its exact head `5356b3e386ad16bf1bc577ec1c1b4228b15dbea2` is an ancestor of current main. It is not described as an unlanded change.
+- Inspected actual post-merge AFS run #42158375241 on main `93aaa937873ad948699ae9525bb57e03416d9339`; workflow and all applicable jobs succeeded. Historical acceptance/sign-off remain prior evidence, not rerun.
+### Remaining
+- [ ] An authorized parent must execute both current installed read-only guards against the exact PR #195 head after this handoff commit; no `--reopen`.
+- [ ] The same original coordinator must independently interpret/attribute those exact-head results and update the return/review. Until then this role remains blocked, not validated.
+### Decisions made
+- No checker retry was attempted after `gh auth status` confirmed this worker has no authenticated host. No credentials were transferred. Prior parent checker results (21/16 and 21/6) are historical, from head `543a9b0d9378571216f609da8deccab7aa7d4438` and old harness pin `ee54dfdda8d86b324fa2818aa82c6b5b6456dbd1`; they are not current results and were not copied into this role's afs-run journal.
+- `#127`/`#128` changes-required Verifier records remain `observed_nonpassing_reviews`, not passing witnesses. Qualified parent-ticket returns are now included for the six child continuations under the installed rule. No application work, issue mutation, acceptance/mutation rerun, graph rebuild, merge, or L0 dispatch occurred.
+### Blockers / questions
+- Current installed guards require `gh api`; this role's CLI is not authenticated. Parent owns only the two read-only executions, not a coordinator verdict. Provide the exact final commit and raw command outcomes to the same coordinator for interpretation.
+- Candidate `.migration/evidence/ticket-reconciliation/113.yaml` remains branch evidence, not main evidence, and has not been validated by the current installed reconciliation checker.
+### Failing commands
+- No current-pin reconciliation command was run in this continuation because authentication is unavailable. The older attempts and parent-attributed findings are preserved in earlier handoff sections and journal; they are not results against this candidate.
+### Next step for the next session
+On the current PR #195 head, use an already-authorized parent runtime to run `python .migration/harness/tools/ticket_guard.py --repo martins-vds/ai-factory-pilot-target --reconcile-epic 113` and `python .migration/harness/tools/check_slice_returns.py --repo martins-vds/ai-factory-pilot-target --epic 113`, both read-only and without `--reopen`. Keep parent outputs outside this role's journal. Return the exact head, command, exit, and output to this same coordinator; do not merge or dispatch L0.

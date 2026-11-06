@@ -64,35 +64,51 @@ issues:
       - .migration/returns/HR-04C.afs-verifier.yaml
   - number: 147
     disposition: completed
-    pull_requests: [154]
-    returns: []
+    pull_requests: [148, 154]
+    returns:
+      - .migration/returns/HR-04C.afs-migrator.yaml
     continuation:
       child_work_pr: 148
       child_work_pr_state: closed-unmerged
+      child_work_pr_head: 5356b3e386ad16bf1bc577ec1c1b4228b15dbea2
+      child_work_head_in_main: true
+      current_owner_landing_commit: 785b23b39e5ff5fc5104c59d95e59672ca5d98f0
       current_owning_pr: 154
       parent_return: .migration/returns/HR-04C.afs-migrator.yaml
       parent_return_issue: martins-vds/ai-factory-pilot-target#129
-      attribution: "No committed same-path return names child #147; PR #148 is unmerged. PR #154 carries the correction, but its HR-04C return is attributed to parent #129."
+      current_return_issue: martins-vds/ai-factory-pilot-target#129
+      current_return_pr: 154
+      attribution: "The closed-unmerged PR #148 head is in default-branch ancestry and changed this exact return path; current passing parent return #129 is in owning PR #154, which is cited with #148."
   - number: 149
     disposition: completed
     pull_requests: [150, 163]
-    returns: []
+    returns:
+      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
     continuation:
       child_work_pr: 150
+      child_work_pr_landing_commit: 86af21202a483f38cc41d0ea4388d4b0e75a84f5
       current_owning_pr: 163
+      current_owner_landing_commit: 0d1f54042e2d178ca4389931313ec1dba2f171f2
       parent_return: .migration/returns/HR-04D.afs-specialist-migrator.yaml
       parent_return_issue: martins-vds/ai-factory-pilot-target#130
-      attribution: "The current HR-04D specialist return owns PR #163 and names parent #130; no same-path return names child #149."
+      current_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_pr: 163
+      attribution: "Child PR #150 changed this exact role-return path and closes #149; current passing parent return #130 is in owning PR #163, which is cited with #150."
   - number: 155
     disposition: completed
     pull_requests: [156, 154]
-    returns: []
+    returns:
+      - .migration/returns/HR-04C.afs-migrator.yaml
     continuation:
       child_work_pr: 156
+      child_work_pr_landing_commit: 408d7d11b1f58fc9ca8077579f1b66182ba4fbec
       current_owning_pr: 154
+      current_owner_landing_commit: 785b23b39e5ff5fc5104c59d95e59672ca5d98f0
       parent_return: .migration/returns/HR-04C.afs-migrator.yaml
       parent_return_issue: martins-vds/ai-factory-pilot-target#129
-      attribution: "PR #156 contains the child mutation remediation; the current HR-04C return is carried by PR #154 and names parent #129, not child #155."
+      current_return_issue: martins-vds/ai-factory-pilot-target#129
+      current_return_pr: 154
+      attribution: "Child PR #156 changed this exact role-return path and closes #155; current passing parent return #129 is in owning PR #154, which is cited with #156."
   - number: 158
     disposition: completed
     pull_requests: [159]
@@ -115,36 +131,51 @@ issues:
   - number: 162
     disposition: completed
     pull_requests: [163]
-    returns: []
+    returns:
+      - .migration/returns/HR-04D.afs-specialist-migrator.yaml
     continuation:
       child_work_pr: 163
+      child_work_pr_landing_commit: 0d1f54042e2d178ca4389931313ec1dba2f171f2
       current_owning_pr: 163
+      current_owner_landing_commit: 0d1f54042e2d178ca4389931313ec1dba2f171f2
       parent_return: .migration/returns/HR-04D.afs-specialist-migrator.yaml
       parent_return_issue: martins-vds/ai-factory-pilot-target#130
-      attribution: "PR #163 addresses child #162, but the committed HR-04D specialist return is for parent #130; no child-#162 return exists."
+      current_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_pr: 163
+      attribution: "PR #163 closes #162, changes the exact return path and owns the current passing parent #130 return; the same PR supplies both child-work and current-owner evidence."
   - number: 164
     disposition: completed
     pull_requests: [165]
-    returns: []
+    returns:
+      - .migration/returns/HR-04D.afs-verifier.yaml
     continuation:
       child_work_pr: 165
+      child_work_pr_landing_commit: 598bec3865aad1d91c042be662e66354ef9c93f4
       current_owning_pr: 165
+      current_owner_landing_commit: 598bec3865aad1d91c042be662e66354ef9c93f4
       parent_return: .migration/returns/HR-04D.afs-verifier.yaml
       parent_return_issue: martins-vds/ai-factory-pilot-target#130
-      attribution: "PR #165 re-verifies parent work #130 after child #162; its verifier return names #130, not child #164."
+      current_return_issue: martins-vds/ai-factory-pilot-target#130
+      current_return_pr: 165
+      attribution: "PR #165 closes #164, changes the exact return path and owns the current passing parent #130 verifier return."
   - number: 168
     disposition: completed
     pull_requests: [169, 175, 177]
-    returns: []
+    returns:
+      - .migration/returns/HR-04E.afs-verifier.yaml
     continuation:
       child_work_pr: 169
+      child_work_pr_landing_commit: 135665c067722a4c52001f8880ec17753a96df63
       correction_pr: 175
+      correction_pr_landing_commit: e25ccc8ecb4c0fe979e85116940fe2b6e9ce36ed
       current_verifier_pr: 177
+      current_owner_landing_commit: b04e4a60b994aecd6ac5597ecc0f9abd6a139a1c
       historical_parent_issue: martins-vds/ai-factory-pilot-target#131
       historical_parent_return_commit: 1c8716c7afe972c60b750b36aca91ffa80597a79
       current_return: .migration/returns/HR-04E.afs-verifier.yaml
       current_return_issue: martins-vds/ai-factory-pilot-target#176
-      attribution: "PR #169 corrects parent HR-04E/#131 evidence for child #168; PR #175 implements the approved fixes and PR #177 verifies them. Same-path history preserves #131 then supersedes it with #176; no return names child #168."
+      current_return_pr: 177
+      attribution: "Child PR #169 closes #168 and changes the exact verifier return path; PR #175 carries the corrections and current passing PR #177 owns the same-path return for sibling #176. Preserve predecessor #131 at the cited commit and current issue #176 as distinct lineage."
   - number: 174
     disposition: completed
     pull_requests: [175]

@@ -4,12 +4,10 @@ issue: martins-vds/ai-factory-pilot-target#194
 slice: handling-registration #113 post-landing reconciliation; historical acceptance is not a new acceptance run
 tickets:
   total: 21
-  merged: null
+  merged: 20
   open: 0
   blocked:
-    - "The installed ticket_guard requires gh api, but this environment's gh CLI has no authenticated GitHub host."
-    - "Nested continuation/fix returns commonly identify their parent work issue, not the child issue required by recursive reconciliation."
-    - "The committed HR-04A and HR-04B verifier returns still record changes-required; no later passing return supersedes them."
+    - "The current installed read-only reconciliation and slice-return checks remain unexecuted by this role because gh auth status reports no authenticated GitHub host; parent-owned authorized runs are required against the final committed head."
 acceptance:
   report: .migration/evidence/handling-registration/acceptance.md
   gates: .migration/evidence/runs/HR-04F.md
