@@ -3,7 +3,7 @@ ticket: HARNESS-ADMIN-LIVE-MAP-DOMAIN
 issue: martins-vds/ai-factory-pilot-target#210
 pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/211
 status: blocked
-setup_pr: null
+setup_pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/211
 characterization_tier: A
 tier_evidence: >-
   Inherited from the existing profile: Java 8 / Payara 4.1.2.181 served the
@@ -11,9 +11,9 @@ tier_evidence: >-
 capabilities: {met: 14, gap: 0, waived: 0, not_applicable: 1}
 gap_tickets: []
 validation: >-
-  pass: afs-run migration-state validation checked 103 files with 0 errors.
-  Bootstrap remains blocked because the one approved source archive lacked
-  Git commit metadata; the normal installer was not run.
+  blocked: resumed setup migration validation reports 2 unrelated finished
+  returns missing meaningful PR references. Parent reports normal approved-9FC
+  installation, but independent verification did not proceed past failed setup.
 handoff: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-DOMAIN.md
 report: .migration/handoffs/HARNESS-ADMIN-LIVE-MAP-DOMAIN.md
 evidence_logs:
@@ -21,15 +21,21 @@ evidence_logs:
   - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162016063247Z-source-tree-and-current-state.log
   - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162020021601Z-source-head-metadata.log
   - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162053657766Z-migration-state-validation.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T163255596606Z-resume-setup-probe.log
+  - .migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T163436502883Z-final-own-return-schema-validation.log
 release:
   repository: martins-vds/ai-factory-swarm
   approved_commit: 9fcf4deb0565229bc4c3078e9da0c9bfece045c7
   approved_tree: db4d5e74d056c69f401564d31d1fb812d4fd440c
   source_tree_verified: true
   complete_git_checkout_obtained: false
+  complete_git_checkout_obtained_by_parent: true
 installation:
-  bootstrap_executed: false
-  installer_actor: null
-  verifier_actor: null
+  bootstrap_executed: true
+  bootstrap_executed_by_worker: false
+  installer_actor: parent coordinator
+  installer_commit: 9b21510ded472fa77121ca6d8760779ec29ca4c4
+  verifier_actor: this same original afs-bootstrapper worker
+  independent_verification: false
   installed_commit_before: bdf1f43b613f5ed6c7719380cede7c02bca1c778
-  installed_commit_after: null
+  installed_commit_after: 9fcf4deb0565229bc4c3078e9da0c9bfece045c7

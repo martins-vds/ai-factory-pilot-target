@@ -19,3 +19,23 @@
 - `rtk git -C /tmp/afs-admin-map-source/tree rev-parse HEAD` → exit 128, `.migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T162020021601Z-source-head-metadata.log:1-4`; Git reports `fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.`
 ### Next step for the next session
 Parent should run the approved unchanged bootstrap from its complete clean 9FC checkout on this proposal branch, then hand the result back to this same Bootstrapper worker for independent verification.
+
+## Handoff — afs-bootstrapper · 2026-11-06T16:33:42Z
+**State:** blocked · **Branch / PR:** `copilot/harness-admin-live-map-domain-bootstrapper-install` / https://github.com/martins-vds/ai-factory-pilot-target/pull/211 · **Last commit:** `232b8d06e3a12e544f753a82865e8e0312a5fbd9`
+### Done
+- Resumed the same issue-210 Bootstrapper on the original proposal branch. The pinned application source is still F3, read-only and ignored; target ancestry is now complete (`git fetch --unshallow origin`, repository reports `false`); ticket input check passed with 0 missing paths; DB, Python 3.13.17 and RTK 1.1.0 checks passed. Resume probe passed in `.migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T163255596606Z-resume-setup-probe.log`.
+- Confirmed parent installation commit `9b21510ded472fa77121ca6d8760779ec29ca4c4` is on the original branch. Parent reports normal approved-9FC bootstrap exit 0 and installation checks in its committed files `.migration/evidence/HARNESS-ADMIN-LIVE-MAP-DOMAIN/parent-installation.md` and `.migration/evidence/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN-PARENT.md`; those checks are parent-attributed, not this worker's independent verification.
+- The issue-210 return validates against `.migration/harness/schemas/return.schema.json` (exit 0) in `.migration/runs/HARNESS-ADMIN-LIVE-MAP-DOMAIN/20261106T163436502883Z-final-own-return-schema-validation.log`.
+### Remaining
+- [ ] Resolve the setup-state validation errors with the parent/coordinator without changing unrelated returns; rerun setup from the beginning once the blocker is resolved.
+- [ ] Same original worker: independently verify the parent installation, preservation, manifest/tool identity, and checker/runner/tracing/workflow controls; then update this ticket’s return and journal with only personally executed evidence.
+### Decisions made
+- Stopped before inspecting installed artifacts or claiming verification because the required migration state check failed. The parent-provided installation evidence is recorded only as parent provenance.
+- The archive acquisition result remains unchanged: this worker verified the exact content tree but did not obtain a Git checkout or perform installation. The parent is the installer at `9b21510ded472fa77121ca6d8760779ec29ca4c4`; this worker has not yet independently verified the installed result.
+### Blockers / questions
+- Setup rule stop: `python .migration/harness/tools/validate.py .migration` reports two errors in unrelated finished returns, `HR-04A.afs-specialist-migrator.yaml` and `HR-04C.afs-verifier.yaml`, each missing a meaningful `pr:` reference. Do not edit these unrelated returns as part of issue 210.
+- The initial resume also found shallow target history; the required `git fetch --unshallow origin` succeeded, and history is complete now.
+### Failing commands
+- `rtk python .migration/harness/tools/validate.py .migration` → exit 1; output: `103 file(s) checked, 2 error(s)`; both errors say a finished return requires a meaningful PR reference. This setup check was direct and has no afs-run raw-log path.
+### Next step for the next session
+Ask the parent/coordinator to resolve the two pre-existing return-reference validation failures without widening this ticket’s changes; then rerun the full setup check and continue independent verification only if it passes.
