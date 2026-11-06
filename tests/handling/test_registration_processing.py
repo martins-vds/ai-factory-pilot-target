@@ -339,10 +339,21 @@ def test_equal_completion_time_uses_registration_order_for_delivered_outcome(cap
 
 
 @pytest.mark.django_db
-def test_equal_completion_and_registration_times_use_event_id_for_delivery(caplog):
+@pytest.mark.parametrize(
+    'fixed_now',
+    [
+        pytest.param(datetime(2026, 11, 5, 12, tzinfo=UTC), id='before-date-boundary'),
+        pytest.param(datetime(2026, 11, 6, 12, tzinfo=UTC), id='date-boundary'),
+        pytest.param(datetime(2027, 1, 15, 12, tzinfo=UTC), id='later-date'),
+    ],
+)
+def test_equal_completion_and_registration_times_use_event_id_for_delivery(
+    caplog, monkeypatch, fixed_now
+):
+    monkeypatch.setattr(seed_sample_data.timezone, 'now', lambda: fixed_now)
     call_command('seed_sample_data')
-    completion_time = datetime(2026, 11, 4, 12, tzinfo=UTC)
-    registration_time = datetime(2026, 11, 3, 12, tzinfo=UTC)
+    completion_time = fixed_now - timedelta(days=1)
+    registration_time = fixed_now - timedelta(days=2)
     attempts = DjangoAttemptSubmissionRepository()
     accept_registration(
         _attempt(
