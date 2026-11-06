@@ -70,7 +70,7 @@ Parent independently reviews exact head `cacfb625` and decides how to handle the
 - The original worker's access/verification history in the handoff and return and the parent installation evidence remain preserved; the report is updated for this continuation. The run journal is append-only. Current checks are recorded in `.migration/evidence/runs/HARNESS-COORDINATOR-FIXES.md`.
 
 ### Remaining
-- [ ] Verify the actual AFS harness check on the final pushed PR #198 head. Main's green run is not a substitute for this check.
+- [x] Verified exact integrated PR head `7535e01ea472d7ceb66406e552634e374c5b9243`: AFS run `42157358781` passed all four jobs, including the return-contract job.
 - [ ] Parent independently reviews the exact integrated PR head and current CI; only then may the standing authorized merge proceed.
 
 ### Decisions made
@@ -84,6 +84,7 @@ Parent independently reviews exact head `cacfb625` and decides how to handle the
 ### Failing commands
 - Initial current-main parity invocation: `python -c ...` exited 1 because `/tmp/afs-source-e51998d716c229930e1e072cdcb05be0a872b4ef/skills.lock.json` was absent in this fresh session. The source was reacquired at the exact commit/tree; subsequent `current-main-parity` passed 64/64 with 0 mismatches.
 - Previous-head failures `42152379401` and `42153195105` are historical; their unchanged test was repaired by PR #200 and main's post-merge run `42156736164` passed.
+- Intermediate integrated-head run `42157072248` passed its base, migration and gates jobs but failed the return-contract job because the event's base SHA was stale (`a284b840…`) against `origin/main` at `bce0c54…`. Exact integrated head `7535e01` passed the return-contract check and all other jobs in run `42157358781`.
 
 ### Next step for the next session
 Read the live AFS check on the final PR #198 head after these updates are pushed. If it passes, leave exact-head review and the standing merge authority to the parent; do not self-merge.

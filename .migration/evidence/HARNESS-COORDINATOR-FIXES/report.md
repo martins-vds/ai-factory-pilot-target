@@ -4,7 +4,7 @@
 
 The pinned harness upgrade is installed on PR #198, not pilot `main`. The parent coordinator performed the normal bootstrap after the original Bootstrapper's access handoff; the same original Bootstrapper independently verified the installation and now integrated current `main`. The integration merge has parents `2e48049e66a8ee2ba9a2a4305122b82b5bc9c8c1` and `bce0c54cfa9b9c424e911b08f17c8f6bee75139f`, whose tree is `a470025b3ba7823c7fda80dfef06608310d4f5f4`. The installed release remains `martins-vds/ai-factory-swarm@e51998d716c229930e1e072cdcb05be0a872b4ef`, tree `728ee39572de27bd9ab01999a93d6bec28f0a555`.
 
-All local installation, exact-source parity, migration-state and preservation checks passed against the new main baseline. Main's post-merge AFS harness run [42156736164](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42156736164) passed all four jobs, including 323 tests. The earlier red PR check has been resolved by the separately authorized test-only repair merged in PR #200; this rollout did not implement or repeat that fix. The AFS harness check for the final integrated PR head must be read from its live Actions status before landing. No L1/L0 role coverage is claimed.
+All local installation, exact-source parity, migration-state and preservation checks passed against the new main baseline. Main's post-merge AFS harness run [42156736164](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42156736164) passed all four jobs, including 323 tests. Exact integrated PR head `7535e01ea472d7ceb66406e552634e374c5b9243` passed AFS run [42157358781](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42157358781), all four jobs. The earlier red test check was resolved by the separately authorized test-only repair merged in PR #200; this rollout did not implement or repeat that fix. No L1/L0 role coverage is claimed.
 
 ## Installer evidence
 
@@ -26,6 +26,8 @@ The unchanged parent installer record is `.migration/evidence/HARNESS-COORDINATO
 The original Bootstrapper's one normal install attempt stopped fetching pinned dependency `martins-vds/code-migration-hackathon@4de661a9a830aaef70ff55e879c0cc540599cad8` with Git exit 128. That failure and its original access handoff remain historical. The parent subsequently completed normal bootstrap using existing authorized access.
 
 Before PR #200 landed, PR #198 AFS runs `42152379401` and `42153195105` failed the same unchanged ordering test (320 passed, 1 failed). The baseline AFS run `42152788853` independently reproduced the failure on old main. The user-authorized test-only repair in PR #200 addressed that failure; this rollout did not change production behavior or test bytes itself. After that repair merged, main at `bce0c54` passed AFS run `42156736164` (all four jobs, 323 tests). This success is main evidence, not a substitute for the live AFS result on the final integrated PR head.
+
+Intermediate integrated-head AFS run `42157072248` passed its base, migration and gate jobs, but its return-contract job failed because the workflow event still carried old base SHA `a284b840e97e06452ca5370b941d22c4c6ae4f2d` while `origin/main` was already `bce0c54cfa9b9c424e911b08f17c8f6bee75139f`. On final integrated head `7535e01`, the return-contract job passed in run `42157358781`; that run passed all four jobs.
 
 ## Next action
 
