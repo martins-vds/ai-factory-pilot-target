@@ -1,6 +1,6 @@
 # Capability checklist (ADR-0012), written by bootstrap. A gap blocks Phase 2 until its ticket is resolved.
 harness_version: 0.2.0
-checked_at: '2026-11-06T23:02:41Z'
+checked_at: '2026-11-06T23:36:05Z'
 characterization:
   legacy_environment: available
   source_builds: partial
@@ -117,12 +117,19 @@ capabilities:
     name: agent-browser
 - id: data-migration
   applies_to: both
-  status: gap
+  status: met
+  provided_by:
+  - kind: skill
+    name: afs-data-pipeline
+  - kind: tool
+    name: data_reconcile.py
+  - kind: operator
+    name: martins-vds
   ticket: martins-vds/ai-factory-pilot-target#1
-  notes: 'Reopened by the operator (martins-vds, 2026-11-06, #1): a snapshot of the running legacy app''s Derby
-    database counts as production data, so the data-migration workstream (ADR-0010, #223) applies. No pinned skill
-    or tool covers Derby -> PostgreSQL (the stack pack''s data skills are Oracle -> PostgreSQL). Previously
-    not-applicable (2026-11-01): TC-06''s regenerated fixtures stay as test seed data.'
+  notes: 'Gap reopened 2026-11-06 (#1) and resolved the same day by the operator''s choice: "write a harness skill
+    for moving relational data from a snapshot" (ai-factory-swarm#91, ADR-0032). Engine-agnostic: the operator (snapshot
+    owner) exports the legacy Derby database in the snapshot format; the Data Specialist builds the mapping, loader
+    and export; data_reconcile.py proves the move. TC-06 fixtures stay as test seed data.'
 - id: output-filtering
   applies_to: both
   status: met
