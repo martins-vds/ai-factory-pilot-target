@@ -39,3 +39,26 @@ Ask the operator to authorize the one-line expectation update in `tests/test_pro
 - `python .migration/harness/tools/afs-mutation --changed-since origin/main` → exit 1, see `.migration/runs/DM-05C/20261107T055417218254Z-mutation-changed.log:3`.
 ### Next step for the next session
 Resume DM-05C from issue #324: rerun changed-code mutation against the current tests, address the loader CRAP threshold, rerun the per-PR gates through `afs-run`, and update the return.
+
+## Handoff — afs-specialist-migrator · 2026-11-07T13:05:12Z
+**State:** blocked  ·  **Branch / PR:** https://github.com/martins-vds/ai-factory-pilot-target/pull/334  ·  **Last commit:** 71577865470b037437c269dacbcafde73d2fa991
+### Done
+- Split `load_snapshot` into mapping-driven clear, mapped insertion, deferred-reference restoration and sequence-realignment phases; preserved the transaction and two-phase reference cycle.
+- Added public-command tests for carrier-movement field preservation (#254), imported IDs/sequence allocation and event-cycle restoration (#255/#258), source boolean/timestamp formats, unmapped enums with rollback, invalid mapping references and unknown transforms.
+- Build and idiom gates passed; full behavior suite passed (366 tests), `.migration/runs/DM-05C/20261107T130055368414Z-behavior-final.log`.
+- CRAP passed at max 29.8 / threshold 30, no methods over threshold; `.migration/runs/DM-05C/20261107T130223869398Z-crap-score-final.log`.
+- CodeQL found no alerts.
+### Remaining
+- [ ] Review the 96 current survivors in `.migration/evidence/mutants/DM-05C.md`; add only source/mapping-justified public-command tests or simplify code proven equivalent.
+- [ ] Reach the unchanged mutation threshold of 0.8, then rerun the full profile gates and validate `.migration/`.
+- [ ] Update the return to `handoff: none` only after all gates pass.
+### Decisions made
+- Kept tests at the public `load_data_snapshot` management-command seam; left the mutation threshold unchanged.
+- Replaced the parameterized mapping-error cases with one loop-based test because the mutation runner could not resolve parameterized test node IDs.
+### Blockers / questions
+- Changed-code mutation remains below threshold (0.682); the stop-and-handoff condition in issue #332 applies.
+- The remaining survivors are concentrated in `_transform` (19), `_read_source_rows` (15) and `_prepare_tables` (12), with others listed in the committed survivor file.
+### Failing commands
+- `python .migration/harness/tools/afs-mutation --changed-since origin/main` → exit 1, score 0.682 vs 0.8; see `.migration/runs/DM-05C/20261107T125848264638Z-mutation-changed-rerun.log:2`.
+### Next step for the next session
+Resume DM-05C on PR #334 from this section. Analyze the current survivor list against mapping-defined behavior, add only justified tests or simplify demonstrably equivalent code, then rerun changed-code mutation and the profile gates; stop and hand off again if mutation remains below 0.8.
