@@ -51,4 +51,6 @@ def _cargo_map_data(
 def _location_data(location: Location | None) -> dict[str, str] | None:
     if location is None:
         return None
-    return {'code': location.unlocode.value, 'name': location.name}
+    code = location.unlocode.value
+    name = 'Unknown' if code == UNKNOWN_LOCATION['code'] else location.name
+    return {'code': code, 'name': name}
