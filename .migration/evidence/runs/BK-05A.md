@@ -70,3 +70,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:38:46+00:00 | regression-final | 0 | 41.43 | `pytest -q` | `a8703e3a6ed4fc20` |  |  |
 | 2026-11-07T04:39:32+00:00 | build-compile-rerun | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T04:39:33+00:00 | build-check-rerun | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T05:06:16+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
