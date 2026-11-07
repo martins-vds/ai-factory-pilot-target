@@ -42,3 +42,9 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T06:00:43+00:00 | crap-score-rerun | 1 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `f2855acf53916c15` |  | gate=crap max=38.7 threshold=30 over=2 methods=151 |
 | 2026-11-07T06:01:54+00:00 | regression | 0 | 28.26 | `pytest -q` | `06bcc17a3b5b930b` |  |  |
 | 2026-11-07T12:46:07+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:48:04+00:00 | lizard-baseline | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:48:50+00:00 | snapshot-preflight | 0 | 0.05 | `python .migration/harness/tools/data_reconcile.py snapshot .migration/data/snapshot` | `bee2f0acd5234102` |  | gate=data-snapshot tables=7 problems=0 |
+| 2026-11-07T12:51:43+00:00 | loader-contract-tests | 1 | 2.03 | `pytest -q tests/data_migration/test_load.py` | `6cca45e03831a965` | E           ValueError: invalid literal for int() with base 10: '2026-11-07 00:40:40.322' |  |
+| 2026-11-07T12:51:53+00:00 | mutation-baseline | 1 | 228.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `5dd8e6d641b379dc` | afs-mutation: FAILED score=0.620 threshold=0.8 killed=183 survived=112 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.620 threshold=0.8 killed=183 survived=112 files=3 base=origin/main |
+| 2026-11-07T12:52:03+00:00 | loader-contract-tests-rerun | 0 | 1.58 | `pytest -q tests/data_migration/test_load.py` | `9e1f2780037dd611` |  |  |
+| 2026-11-07T12:52:26+00:00 | loader-refactor-tests | 0 | 1.57 | `pytest -q tests/data_migration/test_load.py` | `ff8b70c9209cc2a9` |  |  |

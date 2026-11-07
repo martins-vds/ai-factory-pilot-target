@@ -252,8 +252,14 @@ def test_load_snapshot_is_idempotent_restores_cycle_and_realigns_sequences(tmp_p
 
     imported_cargo = CargoRecord.objects.get(pk=15)
     imported_event = HandlingEventRecord.objects.get(pk=35)
+    imported_movement = CarrierMovementRecord.objects.get(pk=55)
     assert imported_cargo.last_event_id == imported_event.pk
     assert imported_event.cargo_id == imported_cargo.pk
+    assert imported_movement.arrival_time == datetime(2026, 11, 8, 10, tzinfo=UTC)
+    assert imported_movement.departure_time == datetime(2026, 11, 7, 10, tzinfo=UTC)
+    assert imported_movement.arrival_location_id == 4
+    assert imported_movement.departure_location_id == 4
+    assert imported_movement.voyage_id == 9
     assert imported_cargo.spec_arrival_deadline == date(2026, 11, 15)
     assert imported_cargo.calculated_at == datetime(2026, 11, 7, 4, 5, 6, tzinfo=UTC)
     assert imported_cargo.transport_status == 'NOT_RECEIVED'
@@ -327,8 +333,10 @@ def test_load_snapshot_applies_mapping_transforms(tmp_path):
     table_rows['LOCATION'][1][0][1:3] = [' USNYC ', ' New York ']
     table_rows['CARGO'][1][0][1] = '17.25'
     table_rows['CARGO'][1][0][6] = '0'
-    table_rows['CARGO'][1][0][9] = 'yes'
+    table_rows['CARGO'][1][0][9] = '1'
     table_rows['CARGO'][1][0][10] = ''
+    table_rows['CARGO'][1][0][16] = '2026-11-07 00:40:40.322'
+    table_rows['CARGO'][1][0][14] = '0'
     _snapshot(snapshot, table_rows)
 
     mapping = copy.deepcopy(MAPPING)
@@ -354,7 +362,9 @@ def test_load_snapshot_applies_mapping_transforms(tmp_path):
     assert cargo.tracking_id == '17.25'
     assert cargo.transport_status == 'NOT_RECEIVED'
     assert cargo.misdirected
+    assert not cargo.unloaded_at_dest
     assert cargo.eta is None
+    assert cargo.calculated_at == datetime(2026, 11, 7, 0, 40, 40, 322000, tzinfo=UTC)
 
 
 @pytest.mark.django_db(transaction=True)
@@ -371,3 +381,21 @@ def test_load_snapshot_rejects_invalid_boolean_transform(tmp_path):
 
     with pytest.raises(CommandError, match='not a boolean'):
         call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_rejects_unmapped_enum_value_and_rolls_back(tmp_path):
+    snapshot = tmp_path / 'snapshot'
+    table_rows = {
+        table: (header.copy(), [row.copy() for row in rows])
+        for table, (header, rows) in TABLE_ROWS.items()
+    }
+    table_rows['CARGO'][1][0][6] = '1'
+    _snapshot(snapshot, table_rows)
+    mapping = tmp_path / 'mapping.yaml'
+    mapping.write_text(yaml.safe_dump(MAPPING), encoding='utf-8')
+
+    with pytest.raises(CommandError, match='no mapping for value'):
+        call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
+
+    assert not LocationRecord.objects.exists()

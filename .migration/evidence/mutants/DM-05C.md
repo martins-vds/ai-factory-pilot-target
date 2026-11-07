@@ -1,11 +1,10 @@
 # Surviving mutants: DM-05C
 
-Written by `afs-mutation` on its last run (base `origin/main`): score 0.590, threshold 0.8, killed 174, survived 121. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent.
+Written by `afs-mutation` on its last run (base `origin/main`): score 0.620, threshold 0.8, killed 183, survived 112. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent.
 
 - `src/cargotracker/data_migration/loader.py:14 Mutant #1`
 - `src/cargotracker/data_migration/loader.py:14 Mutant #2`
 - `src/cargotracker/data_migration/loader.py:14 Mutant #3`
-- `src/cargotracker/data_migration/loader.py:14 Mutant #4`
 - `src/cargotracker/data_migration/loader.py:14 Mutant #5`
 - `src/cargotracker/data_migration/loader.py:15 Mutant #7`
 - `src/cargotracker/data_migration/loader.py:15 Mutant #9`
@@ -16,14 +15,6 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.590, thr
 - `src/cargotracker/data_migration/loader.py:31 Mutant #21`
 - `src/cargotracker/data_migration/loader.py:32 Mutant #22`
 - `src/cargotracker/data_migration/loader.py:34 Mutant #23`
-- `src/cargotracker/data_migration/loader.py:38 Mutant #28`
-- `src/cargotracker/data_migration/loader.py:40 Mutant #30`
-- `src/cargotracker/data_migration/loader.py:41 Mutant #31`
-- `src/cargotracker/data_migration/loader.py:41 Mutant #32`
-- `src/cargotracker/data_migration/loader.py:42 Mutant #34`
-- `src/cargotracker/data_migration/loader.py:44 Mutant #36`
-- `src/cargotracker/data_migration/loader.py:48 Mutant #40`
-- `src/cargotracker/data_migration/loader.py:49 Mutant #41`
 - `src/cargotracker/data_migration/loader.py:51 Mutant #43`
 - `src/cargotracker/data_migration/loader.py:52 Mutant #44`
 - `src/cargotracker/data_migration/loader.py:54 Mutant #48`
