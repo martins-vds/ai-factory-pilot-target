@@ -1,12 +1,12 @@
 role: afs-analyst
 ticket: AM-02
-issue: martins-vds/ai-factory-pilot-target#203
+issue: martins-vds/ai-factory-pilot-target#228
 graphs:
   knowledge: .migration/graphs/source/full/knowledge-graph.json
   domain: .migration/graphs/source/full/domain-graph.json
-  nodes: 1080
-  edges: 2137
-  flows: 9
+  nodes: 1009
+  edges: 2093
+  flows: 1
 ledger:
   entries: 11
   by_kind: {structural: 1, behavioral: 3, ui: 4, integration: 2, data: 1}
@@ -23,11 +23,9 @@ quirk_tickets:
   - martins-vds/ai-factory-pilot-target#206
   - martins-vds/ai-factory-pilot-target#207
 graph_discrepancies:
-  - "No domain flow represents admin-live-map page/frame, marker, status, tooltip, or navigation behavior; request normal graph workflow augmentation."
-  - "Graph-check lists admin/tracking/map.xhtml as having no data path although source page embeds mapFrame, whose graph route reaches GET /cargo and the Cargo query chain; the iframe edge is missing."
   - "Knowledge-graph summary says mapFrame renders voyage paths; pinned source renders cargo markers only."
 handoff: .migration/handoffs/AM-02.md
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/204
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/229
 evidence_logs:
   - .migration/evidence/runs/AM-02.md
   - .migration/evidence/admin-live-map/report.md

@@ -3,6 +3,7 @@ kind: behavioral
 title: Render the map for empty and failed cargo responses
 source:
   graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  flow: Admin Live Cargo Map
   location: "src/main/webapp/admin/tracking/mapFrame.xhtml:164-234"
   risk: {crap: 110, complexity: 10, coverage: 0}
 boundary: "An empty array initializes the base map without markers or an empty-state message. Fetch/JSON/promise-chain failures are caught and logged as cannot fetch cargos; response.ok and partial fields are not explicitly checked."
@@ -12,4 +13,4 @@ status: pending
 verification: pending
 evidence: [".migration/evidence/admin-live-map/report.md"]
 quirks: ["martins-vds/ai-factory-pilot-target#206"]
-notes: "Unknown-location presentation remains unresolved under #206; related coordinate and tooltip behavior is tracked in those capabilities. The live browser outcome was not run."
+notes: "Ruling #206 approves listing unknown or unmapped cargo separately as Unknown with its tracking link, without inventing a point. The source lookup's exact browser consequence was not run and remains a characterization question."

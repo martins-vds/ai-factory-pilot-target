@@ -3,6 +3,7 @@ kind: behavioral
 title: Apply status precedence and marker color
 source:
   graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  flow: Admin Live Cargo Map
   location: "src/main/webapp/admin/tracking/mapFrame.xhtml:130-140,172-184"
   risk: {crap: 110, complexity: 10, coverage: 0}
 boundary: "Status precedence is NOT_ROUTED/MISROUTED, then MISDIRECTED, then AT_DESTINATION, then transport status (default NOT_RECEIVED); the chosen status selects the grey, red, gold, green, or black Leaflet icon."

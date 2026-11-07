@@ -3,6 +3,7 @@ kind: integration
 title: Render markers with Leaflet and OpenStreetMap
 source:
   graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  flow: Admin Live Cargo Map
   location: "src/main/webapp/admin/tracking/mapFrame.xhtml:8-17,84-128,198-208"
 boundary: "The frame loads Leaflet 1.7.1, remote colored marker/shadow assets, Bootstrap CSS, and OpenStreetMap tiles; it creates a zoom-2 map and scale control."
 slice: admin-live-map

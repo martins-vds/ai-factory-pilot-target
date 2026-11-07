@@ -1,19 +1,18 @@
 # Admin live map — source inventory (AM-02)
 
 - Source: `eclipse-ee4j/cargotracker@f3beacf78de4f6d34edc4971ac87e38a5c6fe59d` (read-only).
-- Ticket: `martins-vds/ai-factory-pilot-target#203` · Slice: `admin-live-map` · Owning proposal: [#204](https://github.com/martins-vds/ai-factory-pilot-target/pull/204).
-- Graphs: `.migration/graphs/source/full/knowledge-graph.json` and `domain-graph.json`, merged from source SHA above; no graph was rebuilt.
-- Target decision citations: [#90](https://github.com/martins-vds/ai-factory-pilot-target/issues/90) and ADR-0005 ([#100](https://github.com/martins-vds/ai-factory-pilot-target/issues/100)); exact-coordinate ruling [#14](https://github.com/martins-vds/ai-factory-pilot-target/issues/14) remains scoped to Track Cargo unless a human extends it. Published unresolved quirk issues: [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205), [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206), and [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207).
+- Ticket: `martins-vds/ai-factory-pilot-target#203`, continued under [#228](https://github.com/martins-vds/ai-factory-pilot-target/issues/228) · Slice: `admin-live-map` · Initial proposal: [#204](https://github.com/martins-vds/ai-factory-pilot-target/pull/204) · Continuation PR: [#229](https://github.com/martins-vds/ai-factory-pilot-target/pull/229).
+- Graphs: `.migration/graphs/source/full/knowledge-graph.json` and `domain-graph.json`, merged from source SHA above; the normal graph update is recorded in [#212](https://github.com/martins-vds/ai-factory-pilot-target/issues/212). No graph was rebuilt in this session.
+- Target decisions: [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205) approves exact configured city coordinates with no random offsets; [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206) approves a separate Unknown/unmapped list with each cargo's tracking link; [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207) approves the normalized `In port` label. These are explicit admin-map decisions; #205 is not inferred from Track Cargo ruling [#14](https://github.com/martins-vds/ai-factory-pilot-target/issues/14).
+- Harness `1f9aade`: ADR-0031 counts human sign-off only when a configured approver submits an approving review on the current PR head. Failure-drill definitions are installed; this inventory did not dispatch drills and does not claim human sign-off.
 
 ## Graph findings and gaps
 
-The full source knowledge graph reports 1,080 nodes and 2,137 edges; the domain graph has 9 flows. It identifies the two admin map pages, the REST `GET /cargo` and WebSocket `/tracking` endpoints, `CargoMonitoringService`, `JpaCargoRepository.findAll`, and the `Cargo` table. The domain graph includes `inspect-handled-cargo`, but no `admin-live-map` flow.
+The source knowledge graph has 1,003 nodes and 2,088 edges; the domain graph has 6 nodes and 5 edges, including one `Admin Live Cargo Map` flow with four steps. Combined, the graphs have 1,009 nodes and 2,093 edges. The new flow anchors the page/frame, cargo-list fetch, marker rendering, and tracking-event reload.
 
-Graph discrepancies and uncovered scope:
+The directed source path is `admin/tracking/map.xhtml` →contains `mapFrame.xhtml` →routes `GET /cargo` →routes `CargoMonitoringService.getAllCargo` →calls `CargoRepository.findAll` →implemented by `JpaCargoRepository.findAll` →reads `Cargo`.
 
-1. `graph-check.md` says `src/main/webapp/admin/tracking/map.xhtml` has no path to data. The graph links `mapFrame.xhtml` to `GET /cargo`, then `getAllCargo` to `CargoRepository.findAll` and `JpaCargoRepository.findAll` to `Cargo`; the parent page's iframe edge is missing from the page graph. The pinned XHTML confirms the iframe at `map.xhtml:3-9`.
-2. The knowledge-graph summary for `mapFrame.xhtml` says it renders cargo locations and voyage paths. The pinned page renders cargo markers and OSM tiles; it has no voyage-path rendering.
-3. There is no domain-graph flow for the admin map's page/frame, all-cargo marker rendering, status/color precedence, tooltip, or click-through. The source settles these behaviors, so inventory continued. The normal graph workflow should add the missing flow; this session did not rebuild the graph.
+The graph update resolves the former missing page-to-frame/data edge and missing admin-map flow. One graph discrepancy remains: the knowledge-graph summary says `mapFrame.xhtml` renders voyage paths, but the pinned source renders cargo markers and OpenStreetMap tiles only; it has no voyage-path rendering.
 
 The admin page embeds the frame at `src/main/webapp/admin/tracking/map.xhtml:3-9`. The frame calls `/cargo-tracker/rest/cargo` from `mapFrame.xhtml:164-169`. The source data chain is:
 
@@ -21,7 +20,7 @@ The admin page embeds the frame at `src/main/webapp/admin/tracking/map.xhtml:3-9
 
 `CargoMonitoringService.cargoToJson()` emits `trackingId`, `routingStatus`, `misdirected`, `transportStatus`, `atDestination`, `origin`, and `lastKnownLocation`. `Cargo` embeds `Delivery`; its origin and `Delivery.lastKnownLocation` reference `Location` entities. Delivery status derivation and handling-registration processing are shared dependencies, not new admin-map work: see existing accepted ledger entries `track-cargo.data-cargo`, `track-cargo.data-location`, `track-cargo.domain-route-state`, and `handling.registration-flow`. None of those entries was changed or duplicated.
 
-The update chain is separately represented by the domain flow `inspect-handled-cargo`: handling registration emits the cargo-handled message; its consumer invokes inspection; inspection fires `CargoInspected`; `RealtimeCargoTrackingService` broadcasts to open `/tracking` sessions. The map client ignores the JSON fields and reloads the full frame on a message. The accepted handling-registration slice #113 supplies this dependency; its processing behavior is not inventoried again here.
+The map flow's reload step reflects the source WebSocket behavior: handling registration emits the cargo-handled message; its consumer invokes inspection; inspection fires `CargoInspected`; `RealtimeCargoTrackingService` broadcasts to open `/tracking` sessions. The map client ignores the JSON fields and reloads the full frame on a message. The accepted handling-registration slice #113 supplies this dependency; its processing behavior is not inventoried again here. The current domain graph represents this page/frame flow rather than a separate inspection flow.
 
 ## Observable source behavior
 
@@ -33,7 +32,7 @@ The update chain is separately represented by the domain flow `inspect-handled-c
 
 ### Marker locations and coordinate behavior
 
-For `NOT_RECEIVED`, the marker uses cargo origin; otherwise it uses last-known location. The frame defines these LOCODE-to-(latitude, longitude) values:
+For `NOT_RECEIVED`, the source marker uses cargo origin; otherwise it uses last-known location. The frame defines these LOCODE-to-(latitude, longitude) values:
 
 | LOCODE | Name | Latitude | Longitude |
 |---|---|---:|---:|
@@ -51,9 +50,9 @@ For `NOT_RECEIVED`, the marker uses cargo origin; otherwise it uses last-known l
 | USNYC | New York | 41 | -74 |
 | USDAL | Dallas | 33 | -97 |
 
-Each axis adds an independent `Math.floor((Math.random() * 3) - 3)`, which yields only -3, -2, or -1 degrees. It is not centered around zero and changes on each load. The source has a `TODO` to find a latitude/longitude service. This is the source behavior; whether Track Cargo ruling #14 applies to this separate map remains unresolved under #99 and published issue [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205). Issue publication is not a ruling.
+The source adds an independent `Math.floor((Math.random() * 3) - 3)` offset to each axis, yielding only -3, -2, or -1 degrees and changing on each load; it is not centered around zero. The source has a `TODO` to find a latitude/longitude service. The approved target divergence in [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205) is to use the exact configured city coordinates with no offsets. This admin-map ruling is explicit and is not inferred from Track Cargo ruling #14.
 
-The REST endpoint maps the `XXXXX` location sentinel to the string `Unknown`, but the frame's names and coordinate dictionaries have no `Unknown` entry. The lookup is therefore undefined before the offset is added; no live browser result was produced here. The target behavior remains unresolved under published issue [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206).
+The REST endpoint maps the `XXXXX` location sentinel to the string `Unknown`, but the frame's names and coordinate dictionaries have no `Unknown` entry. The lookup is therefore undefined before the offset is added; no live browser result was produced here. The approved target behavior in [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206) is to keep valid markers visible and list unknown or unmapped cargo separately as Unknown with its real tracking link, without inventing a point.
 
 ### Status precedence and marker colors
 
@@ -77,13 +76,13 @@ The frame chooses a status code in this order:
 | `CLAIMED` | black |
 | `UNKNOWN` | red |
 
-Routing labels are `Not routed`, `Routed`, and `Misrouted`. Transport labels are `Not received`, ` In port` (including a leading space), `Onboard carrier`, `Claimed`, and `Unknown`. Delivery's routing, misdirection, arrival, and transport values are derived in the shared model and carried by the all-cargo response.
+Routing labels are `Not routed`, `Routed`, and `Misrouted`. Source transport labels are `Not received`, ` In port` (including a leading space), `Onboard carrier`, `Claimed`, and `Unknown`. The approved target divergence in [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207) normalizes the label to `In port`. Delivery's routing, misdirection, arrival, and transport values are derived in the shared model and carried by the all-cargo response.
 
 ### Tooltips and navigation
 
 Each marker binds a tooltip with tracking ID, routing status, misdirected Yes/No, transport status, at-destination Yes/No, origin name, and last-known-location name. The REST JSON contains seven fields and does not include destination. City names are resolved through the fixed location-name dictionary; an absent key renders as an undefined lookup.
 
-The composed tooltip HTML contains two literal spaces after `Transport Status:` for `IN_PORT`: the label is `" In port"` and the prefix already ends with a space. This is source-string behavior only; HTML/browser whitespace may collapse, and no live-browser observation established a visibly doubled gap. The target tooltip-spacing question is unresolved in published issue [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207).
+The composed source tooltip HTML contains two literal spaces after `Transport Status:` for `IN_PORT`: the label is `" In port"` and the prefix already ends with a space. This is source-string behavior only; HTML/browser whitespace may collapse, and no live-browser observation established a visibly doubled gap. Ruling [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207) approves the normalized target label `In port`; source characterization still records the literal source string.
 
 Clicking a marker opens `/admin/show.xhtml?trackingId=<id>` in a new window named `winMap`, with the current frame dimensions. The URL is assembled with `http://`, the current host, and the first path segment as the application path.
 
@@ -124,7 +123,7 @@ Best-effort source risk artifacts are under `.migration/risk-map/admin-live-map/
 ## Durable outputs
 
 - New pending ledger entries: `.migration/ledger/admin-live-map.*.yaml` (11 entries).
-- Published, unresolved human decisions: [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205) (marker offset), [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206) (unknown location), and [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207) (IN_PORT literal spacing). Parent publication did not decide any option.
+- Closed human rulings linked from affected ledger entries: [#205](https://github.com/martins-vds/ai-factory-pilot-target/issues/205) (exact coordinates), [#206](https://github.com/martins-vds/ai-factory-pilot-target/issues/206) (separate Unknown/unmapped list with tracking links), and [#207](https://github.com/martins-vds/ai-factory-pilot-target/issues/207) (normalize to `In port`).
 - Return and graph-gap handoff: `.migration/returns/AM-02.afs-analyst.yaml` and `.migration/handoffs/AM-02.md`.
 - Risk reports and raw tool CSVs: `.migration/risk-map/admin-live-map/`.
 - No source, target application code, existing ledger, accepted return, graph, or historical evidence was modified.
