@@ -96,3 +96,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T05:07:58+00:00 | regression | 0 | 41.93 | `pytest -q` | `7d85ba376bc98757` |  |  |
 | 2026-11-07T12:45:10+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T12:46:33+00:00 | test-port-pool-red | 1 | 2.76 | `pytest -q tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool` | `e3da711b72da50e1` | >       assert all( |  |
+| 2026-11-07T12:47:29+00:00 | pathfinder-targeted | 1 | 1.37 | `pytest -q tests/pathfinder/test_routing.py tests/pathfinder/test_api.py` | `3bb30a251bf73e8a` | assert 3 <= len(paths) <= 5 |  |
+| 2026-11-07T12:47:58+00:00 | pathfinder-targeted-green | 0 | 1.31 | `pytest -q tests/pathfinder/test_routing.py tests/pathfinder/test_api.py` | `788043ddf474f825` |  |  |

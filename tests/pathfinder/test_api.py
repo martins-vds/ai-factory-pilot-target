@@ -5,14 +5,15 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from django.test import override_settings
 
-from cargotracker.pathfinder import api
-from cargotracker.pathfinder.routing import RoutingService
+from cargotracker.pathfinder.application.routing import RoutingService
+from cargotracker.pathfinder.interfaces import api
 
 NOW = datetime(2026, 11, 7, 12, 0, tzinfo=UTC)
 ENDPOINT = '/rest/graph-traversal/shortest-path'
+URLCONF = 'cargotracker.pathfinder.interfaces.urls'
 
 
-@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+@override_settings(ROOT_URLCONF=URLCONF)
 def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeypatch):
     monkeypatch.setattr(
         api,
@@ -60,7 +61,7 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeyp
     assert second_response.json() == first_result
 
 
-@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+@override_settings(ROOT_URLCONF=URLCONF)
 def test_shortest_path_uses_the_default_in_process_service(client):
     response = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
 
@@ -68,7 +69,7 @@ def test_shortest_path_uses_the_default_in_process_service(client):
     assert 3 <= len(response.json()) <= 5
 
 
-@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+@override_settings(ROOT_URLCONF=URLCONF)
 def test_shortest_path_accepts_get_only(client):
     response = client.post(ENDPOINT)
 
@@ -96,7 +97,7 @@ def test_shortest_path_accepts_get_only(client):
         ),
     ],
 )
-@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+@override_settings(ROOT_URLCONF=URLCONF)
 def test_shortest_path_validation_matches_characterized_goldens(client, query, expected_body):
     response = client.get(ENDPOINT, query)
 
@@ -116,7 +117,7 @@ def test_shortest_path_validation_matches_characterized_goldens(client, query, e
         ({'origin': 'CNHKG', 'destination': 'USNYC '}, 'arg1', 'USNYC '),
     ],
 )
-@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+@override_settings(ROOT_URLCONF=URLCONF)
 def test_shortest_path_rejects_non_five_character_ports(client, query, parameter, value):
     response = client.get(ENDPOINT, query)
     expected_body = (
