@@ -1,0 +1,16 @@
+role: afs-specialist-migrator
+ticket: AM-04D
+issue: martins-vds/ai-factory-pilot-target#283
+specialty: ui
+pr: null
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+specialty_evidence: []
+ledger_updated: []
+quirk_tickets: []
+handoff: .migration/handoffs/AM-04D.md
