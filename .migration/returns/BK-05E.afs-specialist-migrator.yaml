@@ -16,7 +16,7 @@ specialty_evidence:
   - tests/booking/interfaces/test_dashboard.py::test_cargo_moves_from_not_routed_to_routed_after_assignment
   - tests/booking/interfaces/test_cargo_details.py::test_cargo_details_render_route_fields_and_itinerary
   - tests/booking/interfaces/test_cargo_details.py::test_unknown_and_stale_cargo_details_return_http_404
-  - .migration/evidence/runs/BK-05E.md (current-session build, idiom, and test gate runs; PR #358)
+  - .migration/evidence/runs/BK-05E.md
   - .migration/evidence/mutants/BK-05E.md
 ledger_updated:
   - booking.dashboard-chain
