@@ -116,3 +116,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T12:54:54+00:00 | behavior-final | 0 | 39.9 | `pytest -q` | `bd9ab2be0ca54cfa` |  |  |
 | 2026-11-07T12:55:38+00:00 | mutation-changed-final | 0 | 39.72 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `49279b3106b73a63` |  | gate=mutation score=0.930 threshold=0.8 killed=93 survived=7 files=5 base=origin/main |
 | 2026-11-07T12:56:20+00:00 | regression-final | 0 | 38.13 | `pytest -q` | `b97d89d3dc92bb05` |  |  |
+| 2026-11-07T13:28:39+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:30:14+00:00 | verify-build-compileall | 0 | 0.1 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:30:18+00:00 | verify-build-django-check | 0 | 1.23 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T13:31:07+00:00 | verify-behavior | 0 | 46.3 | `pytest -q` | `3142694eb797b787` |  |  |
+| 2026-11-07T13:31:10+00:00 | verify-idiom-ruff-format | 0 | 0.03 | `ruff format --check` | `b419319d53a87522` |  |  |
+| 2026-11-07T13:31:10+00:00 | verify-idiom-ruff-check | 0 | 0.03 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T13:31:58+00:00 | verify-crap-coverage | 0 | 43.83 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `070a49b48f2f769a` |  |  |
+| 2026-11-07T13:32:00+00:00 | verify-crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:32:04+00:00 | verify-crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `9b154802edd85c61` |  | gate=crap max=19.0 threshold=30 over=0 methods=148 |
+| 2026-11-07T13:32:51+00:00 | verify-mutation-changed | 0 | 44.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `49279b3106b73a63` |  | gate=mutation score=0.930 threshold=0.8 killed=93 survived=7 files=5 base=origin/main |
+| 2026-11-07T13:33:40+00:00 | verify-regression | 0 | 43.23 | `pytest -q` | `d37271164c6ec88e` |  |  |
