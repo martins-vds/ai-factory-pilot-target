@@ -1,0 +1,20 @@
+role: afs-planner
+ticket: DM-04
+issue: martins-vds/ai-factory-pilot-target#258
+plan: .migration/plan/data-migration.md
+slices:
+  - name: data-migration
+    anchor: command=load_data_snapshot reaches each mapped target table
+    tickets: 5
+    blocked_by: []
+design_tickets: []
+data_slices:
+  - data-migration
+unmapped_capabilities: []
+open_questions:
+  - Resolve human rulings #254 and #255 before finalizing mapping dispositions for CARRIER_MOVEMENT and SEQUENCE.
+  - Approve the mapping/loader strategy for the nullable CARGO.last_event_id ↔ HANDLINGEVENT.cargo_id cycle.
+  - Approve the proposed profile.data.load and profile.data.export commands.
+awaiting_human:
+  - profile.data.load: "python manage.py load_data_snapshot --snapshot {snapshot} --mapping .migration/data/mapping.yaml"
+  - profile.data.export: "python manage.py export_data_snapshot --mapping .migration/data/mapping.yaml --out {out}"
