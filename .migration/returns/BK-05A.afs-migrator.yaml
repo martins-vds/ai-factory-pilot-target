@@ -1,7 +1,7 @@
 role: afs-migrator
 ticket: BK-05A
 issue: martins-vds/ai-factory-pilot-target#310
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/305
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/311
 gates:
   build: 0
   behavior: 0
