@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "fcadccdd938a83c1d99037c22a2fd64dff760552",
-  "installed_at": "2026-11-07T15:06:40Z",
+  "harness_commit": "875f3edbf618236279cf3922a9da683128e8f17a",
+  "installed_at": "2026-11-07T16:37:56Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -79,7 +79,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-migration-contract/SKILL.md": "c765aaf236068a6bddca859e9a080238e13e1597760974ca5b2a91e29a8895ba",
+        ".github/skills/afs-migration-contract/SKILL.md": "1afe1c7afefda178243fb6259077777138296a1b78286d16a87cf969371d92eb",
         ".github/skills/afs-migration-contract/references/capability-coverage.md": "a0b43baddc3a0e2be7396e68361704d9db49761698c10c3753545038c8782ffd",
         ".github/skills/afs-migration-contract/references/characterization.md": "59bedbcabd36825d268b1362596e8215e5363c0fec308fc2cd58981bebbe3d07",
         ".github/skills/afs-migration-contract/references/final-verification.md": "847e361034d3f5a7f0ddcf26a0602183588b752cb91206c298c55c4c3cfcb12b",
@@ -1093,7 +1093,7 @@
         ".migration/harness/tools/afs-cost-hook": "20af3da92b540af8115d501999a2277dad489cfeb80f5f976b126ffaf800c1f0",
         ".migration/harness/tools/afs-costs": "f3cc1d4b9de512fd18c8e35f6f9690070ba5060ca0284271e842257df786a9ab",
         ".migration/harness/tools/afs-drill": "d5f53165349540f576485a1b48c2d72f7475ecd4816fa00e961feb689e549808",
-        ".migration/harness/tools/afs-mutation": "0acbf4a0d1383d2c91d81615e1837ff58da641581fabaab706818126759c15fb",
+        ".migration/harness/tools/afs-mutation": "404b509ece4fa9e947a83000563e6953aed4423555f1b7ab2ad962f589a818d0",
         ".migration/harness/tools/afs-run": "71b8fa2e46cbff8098becb7567577dcbf41983e0c408de59e69c9f10b039179a",
         ".migration/harness/tools/afs-services": "9ba61468eef1d55329963d02ae05bee14d8ad3ed2afcb620208ca3e9c16f2669",
         ".migration/harness/tools/afs_trace.py": "68e27fa4ffc01cd1f423f0120935c342d91479db3ccfd7b6f0cc4da4276110bf",
