@@ -7,9 +7,13 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Origin is removed from destination choices; the bean rejects equal origin/destination with an ERROR FacesMessage; deadline duration adds a four-hour grace period, and booking is enabled only at one standard day or more."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
-verification: legacy-test
+tickets: [martins-vds/ai-factory-pilot-target#291]
+target:
+  components:
+    - cargotracker.booking.interfaces.wizard.views.create_booking_wizard_view
+    - templates/booking/wizard/
+status: migrated
+verification: characterized
 characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByWrongOrigin"
@@ -18,4 +22,8 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/interfaces/test_wizard.py::test_invalid_origin_does_not_silently_select_the_default"
+  - "tests/booking/interfaces/test_wizard.py::test_same_origin_and_destination_cannot_be_submitted"
+  - "tests/booking/interfaces/test_wizard.py::test_same_day_booking_is_rejected_even_when_submitted_directly"
+  - ".migration/evidence/runs/BK-05D.md"
 notes: "The cited tests cover domain route-specification filtering, not the bean's same-origin message, four-hour duration arithmetic or button state. Risk is from RouteSpecification.isSatisfiedBy; lizard emitted no methods for Booking.java."
