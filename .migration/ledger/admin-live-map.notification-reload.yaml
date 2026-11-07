@@ -7,8 +7,12 @@ source:
   location: "src/main/java/org/eclipse/cargotracker/interfaces/booking/socket/RealtimeCargoTrackingService.java:27-67"
 boundary: "CargoInspected is serialized and broadcast to open /tracking sessions; the map ignores the message fields and reloads the full frame on receipt. Per-session IOException is logged."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#90", "martins-vds/ai-factory-pilot-target#100", "martins-vds/ai-factory-pilot-target#245"]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#90", "martins-vds/ai-factory-pilot-target#100", "martins-vds/ai-factory-pilot-target#245", "martins-vds/ai-factory-pilot-target#282", "martins-vds/ai-factory-pilot-target#325"]
+target:
+  components:
+    - templates/admin/live_map.html
+    - cargotracker.cargo.interfaces.admin_map.live_map
+status: in-progress
 verification: characterized
 characterization_tier: A
 evidence:
@@ -16,4 +20,6 @@ evidence:
   - ".migration/characterization/admin-live-map/report.md"
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_handling_notification_reloads_map_frame"
   - ".migration/evidence/runs/AM-03.md"
+  - tests/cargo/interfaces/test_admin_live_map_templates.py::test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling
+  - .migration/evidence/runs/AM-04C.md
 notes: "Source updates are inspection-notification-triggered; the Inspect handled cargo flow in the domain graph supplies the broadcast dependency. Approved target replacement (#90 / ADR-0005 #100): poll a server-rendered markers partial via htmx every CARGO_MAP_POLL_SECONDS (default 10), showing every cargo-state change on the next poll; no full-page reload. Source notification/reload is recorded here, not silently treated as target behavior."

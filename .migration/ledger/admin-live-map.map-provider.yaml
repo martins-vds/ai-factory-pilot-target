@@ -7,8 +7,11 @@ source:
   location: "src/main/webapp/admin/tracking/mapFrame.xhtml:8-17,84-128,198-208"
 boundary: "The frame loads Leaflet 1.7.1, remote colored marker/shadow assets, Bootstrap CSS, and OpenStreetMap tiles; it creates a zoom-2 map and scale control."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245", "martins-vds/ai-factory-pilot-target#282", "martins-vds/ai-factory-pilot-target#325"]
+target:
+  components:
+    - templates/admin/live_map.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -16,3 +19,5 @@ evidence:
   - ".migration/characterization/admin-live-map/report.md"
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_page_frame_provider_and_connection_status"
   - ".migration/evidence/runs/AM-03.md"
+  - tests/cargo/interfaces/test_admin_live_map_templates.py::test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling
+  - .migration/evidence/runs/AM-04C.md
