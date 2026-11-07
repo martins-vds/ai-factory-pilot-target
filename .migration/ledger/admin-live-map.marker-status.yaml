@@ -8,11 +8,15 @@ source:
   risk: {crap: 110, complexity: 10, coverage: 0}
 boundary: "Status precedence is NOT_ROUTED/MISROUTED, then MISDIRECTED, then AT_DESTINATION, then transport status (default NOT_RECEIVED); the chosen status selects the grey, red, gold, green, or black Leaflet icon."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203"]
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
 evidence:
   - ".migration/evidence/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_marker_status_precedence_and_colors"
+  - ".migration/evidence/runs/AM-03.md"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsUnloadedAtFinalDestination"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"

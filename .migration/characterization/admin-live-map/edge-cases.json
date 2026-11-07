@@ -1,0 +1,113 @@
+{
+  "status_precedence_and_colors": [
+    {
+      "routingStatus": "NOT_ROUTED",
+      "misdirected": true,
+      "atDestination": true,
+      "transportStatus": "IN_PORT",
+      "color": "grey"
+    },
+    {
+      "routingStatus": "MISROUTED",
+      "misdirected": true,
+      "atDestination": true,
+      "transportStatus": "CLAIMED",
+      "color": "red"
+    },
+    {
+      "routingStatus": "ROUTED",
+      "misdirected": true,
+      "atDestination": true,
+      "transportStatus": "IN_PORT",
+      "color": "red"
+    },
+    {
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "atDestination": true,
+      "transportStatus": "IN_PORT",
+      "color": "black"
+    },
+    {
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "atDestination": false,
+      "transportStatus": "IN_PORT",
+      "color": "green"
+    },
+    {
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "atDestination": false,
+      "transportStatus": "ONBOARD_CARRIER",
+      "color": "green"
+    },
+    {
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "atDestination": false,
+      "transportStatus": "CLAIMED",
+      "color": "black"
+    },
+    {
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "atDestination": false,
+      "transportStatus": "UNKNOWN",
+      "color": "red"
+    }
+  ],
+  "empty_response": {
+    "input": [],
+    "markers": 0,
+    "scale_control": true,
+    "errors": [],
+    "user_message": null
+  },
+  "http_500_with_json_array": {
+    "input_status": 500,
+    "input_json": [],
+    "markers": 0,
+    "scale_control": true,
+    "errors": [],
+    "user_message": null
+  },
+  "network_failure": {
+    "input": "fetch rejected",
+    "markers": 0,
+    "scale_control": false,
+    "console": "cannot fetch cargos",
+    "user_message": null
+  },
+  "unknown_sentinel_not_received": {
+    "input": {
+      "trackingId": "DEF789",
+      "routingStatus": "NOT_ROUTED",
+      "misdirected": false,
+      "transportStatus": "NOT_RECEIVED",
+      "atDestination": false,
+      "origin": "CNHKG",
+      "lastKnownLocation": "Unknown"
+    },
+    "marker_count": 1,
+    "selected_marker_location": "CNHKG",
+    "marker_color": "grey",
+    "tooltip_html": "Tracking ID: DEF789<br>Routing Status: Not routed<br>Misdirected: No<br>Transport Status: Not received<br>At Destination: No<br>Origin: Hong Kong<br>Last known location: undefined",
+    "errors": []
+  },
+  "unknown_sentinel_on_in_port_controlled_input": {
+    "input": {
+      "trackingId": "SENTINEL",
+      "routingStatus": "ROUTED",
+      "misdirected": false,
+      "transportStatus": "IN_PORT",
+      "atDestination": false,
+      "origin": "CNHKG",
+      "lastKnownLocation": "Unknown"
+    },
+    "marker_count": 0,
+    "scale_control": true,
+    "console": "cannot fetch cargos",
+    "error": "Invalid LatLng object: (NaN, NaN)"
+  }
+}

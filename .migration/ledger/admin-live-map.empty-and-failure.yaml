@@ -8,9 +8,15 @@ source:
   risk: {crap: 110, complexity: 10, coverage: 0}
 boundary: "An empty array initializes the base map without markers or an empty-state message. Fetch/JSON/promise-chain failures are caught and logged as cannot fetch cargos; response.ok and partial fields are not explicitly checked."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203"]
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
 status: pending
-verification: pending
-evidence: [".migration/evidence/admin-live-map/report.md"]
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/evidence/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_empty_and_http_error_responses"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_network_failure_is_only_logged"
+  - ".migration/evidence/runs/AM-03.md"
 quirks: ["martins-vds/ai-factory-pilot-target#206"]
-notes: "Ruling #206 approves listing unknown or unmapped cargo separately as Unknown with its tracking link, without inventing a point. The source lookup's exact browser consequence was not run and remains a characterization question."
+notes: "The real NOT_RECEIVED sentinel response renders at the origin and its tooltip says undefined; see the AM-03 browser characterization and quirk draft. Controlled responses cover empty, HTTP-500-with-JSON, and rejected-fetch behavior. Ruling #206 approves listing unknown or unmapped cargo separately as Unknown with its tracking link."

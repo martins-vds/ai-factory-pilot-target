@@ -1,0 +1,38 @@
+[
+  {
+    "trackingId": "ABC123",
+    "routingStatus": "ROUTED",
+    "misdirected": false,
+    "transportStatus": "IN_PORT",
+    "atDestination": false,
+    "origin": "CNHKG",
+    "lastKnownLocation": "USNYC"
+  },
+  {
+    "trackingId": "JKL567",
+    "routingStatus": "ROUTED",
+    "misdirected": true,
+    "transportStatus": "ONBOARD_CARRIER",
+    "atDestination": false,
+    "origin": "CNHGH",
+    "lastKnownLocation": "USNYC"
+  },
+  {
+    "trackingId": "DEF789",
+    "routingStatus": "MISROUTED",
+    "misdirected": false,
+    "transportStatus": "IN_PORT",
+    "atDestination": false,
+    "origin": "CNHKG",
+    "lastKnownLocation": "CNHKG"
+  },
+  {
+    "trackingId": "MNO456",
+    "routingStatus": "ROUTED",
+    "misdirected": false,
+    "transportStatus": "CLAIMED",
+    "atDestination": false,
+    "origin": "USNYC",
+    "lastKnownLocation": "USDAL"
+  }
+]
