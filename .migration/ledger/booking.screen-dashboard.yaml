@@ -1,0 +1,13 @@
+id: booking.screen-dashboard
+kind: ui
+title: Compose the cargo administration dashboard
+source:
+  graph_node: page:src/main/webapp/admin/dashboard.xhtml:src/main/webapp/admin/dashboard.xhtml
+  location: src/main/webapp/admin/dashboard.xhtml:9-24
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "The admin dashboard renders routed, not-routed and claimed cargo tables in that order inside the common admin template."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "The common admin shell provides a Live Map navigation link; the dashboard page itself includes only the three tables. No admin-live-map.* ledger files were present in this checkout, so no duplicate entry was created."

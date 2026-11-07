@@ -1,0 +1,18 @@
+id: booking.routing-assign
+kind: behavioral
+title: Assign the selected itinerary to cargo
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:ItinerarySelection
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:59-69
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "The selected candidate is indexed from routeCandidates, converted back to domain locations/voyage, assigned and stored; cargo delivery routing status is recalculated, and the bean redirects to the cargo detail outcome."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testAssignRoute"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java::testCargoFromHongkongToStockholm"
+notes: "The redirect outcome uses show.html although the page and Faces mapping are show.xhtml; see .migration/quirks/booking-route-selection-redirect.md."
+quirks: [martins-vds/ai-factory-pilot-target#236]

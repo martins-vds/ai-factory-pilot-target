@@ -1,0 +1,14 @@
+id: booking.cargo-not-found
+kind: behavioral
+title: Characterize unknown cargo lookups
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:JpaCargoRepository
+  location: src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:32-44
+  risk: {crap: 6, complexity: 2, coverage: 0.0}
+boundary: "A missing tracking ID is converted to null by JpaCargoRepository; the booking facade passes that null to CargoRouteDtoAssembler, which dereferences it, and the detail pages have no explicit not-found state."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "No named JUnit class covers this invalid-ID branch. Quirk draft: .migration/quirks/booking-cargo-not-found-unhandled.md."
+quirks: [martins-vds/ai-factory-pilot-target#232]

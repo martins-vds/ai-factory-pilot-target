@@ -1,0 +1,17 @@
+id: booking.wizard-input-rules
+kind: behavioral
+title: Enforce booking location and duration rules
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:Booking
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:52-72,129-155
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "Origin is removed from destination choices; the bean rejects equal origin/destination with an ERROR FacesMessage; deadline duration adds a four-hour grace period, and booking is enabled only at one standard day or more."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByWrongOrigin"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByWrongDestination"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByMissedDeadline"
+notes: "The cited tests cover domain route-specification filtering, not the bean's same-origin message, four-hour duration arithmetic or button state. Risk is from RouteSpecification.isSatisfiedBy; lizard emitted no methods for Booking.java."

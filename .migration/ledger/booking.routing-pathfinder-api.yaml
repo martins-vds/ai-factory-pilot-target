@@ -1,0 +1,15 @@
+id: booking.routing-pathfinder-api
+kind: integration
+title: Obtain transit candidates from graph traversal
+source:
+  graph_node: class:src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:GraphTraversalService
+  location: src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:20-93
+  risk: {crap: 30, complexity: 5, coverage: 0.0}
+boundary: "ExternalRoutingService calls the configured graph-traversal REST URL with origin/destination; GraphTraversalService returns three to five randomized paths over sample locations, voyage numbers and dates, then the adapter filters them against RouteSpecification."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRouteCandidates"
+notes: "Decision #89 requires in-process target routing and preservation of random routes. CRAP risk is from the measured GraphDao methods; lizard emitted no method row for GraphTraversalService.java. Source deadline omission is tracked in .migration/quirks/booking-routing-ignores-deadline.md."

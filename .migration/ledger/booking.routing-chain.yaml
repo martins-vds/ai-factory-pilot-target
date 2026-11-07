@@ -1,0 +1,16 @@
+id: booking.routing-chain
+kind: structural
+title: Resolve route selection through the booking facade
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:DefaultBookingServiceFacade
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/DefaultBookingServiceFacade.java:66-79,134-144
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "CargoDetails and ItinerarySelection call BookingServiceFacade, DefaultBookingService, RoutingService and the configured graph-traversal endpoint; assignment maps route DTOs to JPA Voyage/Location entities and stores Cargo."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRouteCandidates"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testAssignRoute"
+notes: "Decision #89 selects in-process routing in the target while preserving random routes; this source entry records the current REST client and graph traversal behavior as the equivalence boundary."
