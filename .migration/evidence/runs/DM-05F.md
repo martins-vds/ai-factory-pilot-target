@@ -25,3 +25,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T18:31:10+00:00 | mutation-changed | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-07T18:31:59+00:00 | regression | 0 | 49.15 | `pytest -q` | `aa1a98242ef7e30f` |  |  |
 | 2026-11-07T19:49:30+00:00 | setup-probe | 0 | 0.01 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T19:55:29+00:00 | verifier-broken-itinerary | 1 | 3.67 | `pytest -q tests/data_migration/test_invariants.py::test_loaded_itinerary_legs_connect` | `4c4d0cc9b92dabee` | assert len(routed_cargo.itinerary.legs) == 2 |  |
+| 2026-11-07T19:56:02+00:00 | verifier-build-compile | 0 | 0.07 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T19:56:02+00:00 | verifier-build-check | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T19:56:57+00:00 | verifier-behavior | 0 | 54.84 | `pytest -q` | `ffa2ca58a74c3ea0` |  |  |
+| 2026-11-07T19:56:57+00:00 | verifier-idiom-ruff | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T19:56:58+00:00 | verifier-idiom-format | 0 | 0.02 | `ruff format --check` | `c7a0bcb17dd5241a` |  |  |
+| 2026-11-07T19:57:50+00:00 | verifier-crap-coverage | 0 | 51.9 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `16ad14bec4ac3b32` |  |  |
+| 2026-11-07T19:57:50+00:00 | verifier-crap-lizard | 0 | 0.14 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T19:57:50+00:00 | verifier-crap-score | 0 | 0.05 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `ed5d26056bad953b` |  | gate=crap max=26.0 threshold=30 over=0 methods=185 |
+| 2026-11-07T19:57:50+00:00 | verifier-mutation-changed | 0 | 0.09 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
+| 2026-11-07T19:58:55+00:00 | verifier-regression | 0 | 65.2 | `pytest -q` | `0c4be1ada1a73181` |  |  |

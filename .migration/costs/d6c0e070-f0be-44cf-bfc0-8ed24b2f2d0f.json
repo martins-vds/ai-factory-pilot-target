@@ -72,6 +72,15 @@
         "source",
         "trigger"
       ],
+      "subagent.completed": [
+        "agentDisplayName",
+        "agentName",
+        "durationMs",
+        "model",
+        "toolCallId",
+        "totalTokens",
+        "totalToolCalls"
+      ],
       "subagent.selected": [
         "agentDisplayName",
         "agentName",
@@ -125,26 +134,27 @@
       ]
     },
     "event_types": {
-      "assistant.message": 87,
+      "assistant.message": 94,
       "assistant.turn_end": 12,
       "assistant.turn_start": 13,
-      "hook.end": 183,
-      "hook.start": 184,
-      "permission.completed": 91,
-      "permission.requested": 91,
+      "hook.end": 197,
+      "hook.start": 198,
+      "permission.completed": 97,
+      "permission.requested": 97,
       "session.start": 1,
       "skill.invoked": 10,
+      "subagent.completed": 1,
       "subagent.selected": 1,
       "subagent.started": 2,
       "system.message": 5,
-      "tool.execution_complete": 103,
-      "tool.execution_start": 105,
+      "tool.execution_complete": 109,
+      "tool.execution_start": 111,
       "user.message": 7
     },
-    "events": 895,
+    "events": 955,
     "usage_fields": []
   },
-  "ended_at": "2026-11-07T19:53:39.342Z",
+  "ended_at": "2026-11-07T19:54:13.011Z",
   "event": "agentStop",
   "harness_tools": [
     {
@@ -168,7 +178,7 @@
       "tool": "check_runtime.py"
     },
     {
-      "count": 8,
+      "count": 10,
       "exit": 0,
       "tool": "validate.py"
     },
@@ -181,17 +191,17 @@
   "log": "/home/runner/.copilot/session-state/d6c0e070-f0be-44cf-bfc0-8ed24b2f2d0f/events.jsonl",
   "models": {
     "gpt-6-luna": {
-      "output": 33962,
-      "requests": 87
+      "output": 36111,
+      "requests": 94
     }
   },
   "prompt_head": null,
-  "recorded_at": "2026-11-07T19:53:41+00:00",
+  "recorded_at": "2026-11-07T19:54:14+00:00",
   "schema": "afs-cost/1",
   "session_id": "d6c0e070-f0be-44cf-bfc0-8ed24b2f2d0f",
   "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
   "started_at": "2026-11-07T19:48:47.898Z",
   "surface": "coding-agent",
-  "trigger_id": "call_pI69KAJ1iSJTnnAsZGAUZ4jU",
+  "trigger_id": "call_MmJVP4vQyYd1bJIwOjgBtXba",
   "usage_source": "assistant.message (output only, partial)"
 }
