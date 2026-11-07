@@ -38,3 +38,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:18:02+00:00 | mutation-changed | 0 | 12.91 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bbaa364119793b1e` |  | gate=mutation score=0.944 threshold=0.8 killed=17 survived=1 files=2 base=origin/main |
 | 2026-11-07T04:18:41+00:00 | regression | 0 | 39.16 | `pytest -q` | `417c6a0ab9eb99f0` |  |  |
 | 2026-11-07T04:22:55+00:00 | verifier-legacy-fields | 0 | 1.72 | `pytest -q tests/booking/application/test_registration.py tests/booking/application/test_specification.py` | `ff8b70c9209cc2a9` |  |  |
+| 2026-11-07T04:23:28+00:00 | build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:23:28+00:00 | build-check | 0 | 0.39 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:24:09+00:00 | behavior | 0 | 40.97 | `pytest -q` | `66684f42dc0c354c` |  |  |
+| 2026-11-07T04:24:09+00:00 | idiom-lint | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:24:09+00:00 | idiom-format | 0 | 0.01 | `ruff format --check` | `8f54ec861a76fc44` |  |  |
+| 2026-11-07T04:24:48+00:00 | crap-coverage | 0 | 38.35 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `807b7a7083b1bcd2` |  |  |
+| 2026-11-07T04:24:48+00:00 | crap-lizard | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:24:48+00:00 | crap-threshold | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `df94388d8dc116c8` |  | gate=crap max=19.0 threshold=30 over=0 methods=139 |
+| 2026-11-07T04:25:01+00:00 | mutation-changed | 0 | 13.06 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bbaa364119793b1e` |  | gate=mutation score=0.944 threshold=0.8 killed=17 survived=1 files=2 base=origin/main |
+| 2026-11-07T04:25:49+00:00 | regression | 0 | 47.63 | `pytest -q` | `6481f0c0ddb30735` |  |  |
