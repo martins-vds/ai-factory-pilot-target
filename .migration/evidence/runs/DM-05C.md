@@ -72,3 +72,7 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T13:02:45+00:00 | build-check-final | 0 | 0.32 | `python manage.py check` | `1e3e63f221bde888` |  |  |
 | 2026-11-07T13:03:02+00:00 | mutation-changed-rerun | 1 | 254.17 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `97de1a65a8a41610` | afs-mutation: FAILED score=0.682 threshold=0.8 killed=206 survived=96 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.682 threshold=0.8 killed=206 survived=96 files=3 base=origin/main |
 | 2026-11-07T15:07:11+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:11:18+00:00 | fixture-tests-red | 1 | 4.33 | `pytest -q tests/data_migration/test_load.py` | `f32e6a773551c5b5` | options = {'verbosity': 1, 'settings': None, 'pythonpath': None, 'traceback': False, ...} |  |
+| 2026-11-07T15:11:43+00:00 | fixture-tests-green | 0 | 1.66 | `pytest -q tests/data_migration/test_load.py` | `6789680c21af067c` |  |  |
+| 2026-11-07T15:12:02+00:00 | fixture-tests-final | 0 | 1.67 | `pytest -q tests/data_migration/test_load.py` | `2b485f61c9190426` |  |  |
+| 2026-11-07T15:12:02+00:00 | fixture-snapshot-check | 0 | 0.04 | `python .migration/harness/tools/data_reconcile.py snapshot tests/data_migration/fixtures/DM-05C` | `525bd2128fe2515f` |  | gate=data-snapshot tables=6 problems=0 |

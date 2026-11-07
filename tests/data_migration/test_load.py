@@ -3,6 +3,7 @@ import csv
 import hashlib
 import json
 from datetime import UTC, date, datetime
+from pathlib import Path
 
 import pytest
 import yaml
@@ -10,9 +11,12 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
+from cargotracker.data_migration import loader
 from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.location.infrastructure.models import LocationRecord
 from cargotracker.voyage.infrastructure.models import CarrierMovementRecord, VoyageRecord
+
+FIXTURE_SNAPSHOT = Path(__file__).parent / 'fixtures' / 'DM-05C'
 
 MAPPING = {
     'defaults': {'timestamp_tz': 'UTC'},
@@ -42,17 +46,45 @@ MAPPING = {
                 'spec_arrival_deadline': {'from': 'SPEC_ARRIVAL_DEADLINE', 'as': 'date'},
                 'transport_status': {
                     'from': 'TRANSPORT_STATUS',
-                    'as': {'map': {'0': 'NOT_RECEIVED'}},
+                    'as': {
+                        'map': {
+                            'NOT_RECEIVED': 'NOT_RECEIVED',
+                            'IN_PORT': 'IN_PORT',
+                            'ONBOARD_CARRIER': 'ONBOARD_CARRIER',
+                            'CLAIMED': 'CLAIMED',
+                            'UNKNOWN': 'UNKNOWN',
+                        }
+                    },
                 },
                 'last_known_location_id': 'LAST_KNOWN_LOCATION_ID',
                 'current_voyage_id': 'CURRENT_VOYAGE_ID',
                 'misdirected': {'from': 'MISDIRECTED', 'as': 'bool'},
                 'eta': {'from': 'ETA', 'as': 'date'},
-                'next_expected_handling_event_type': 'NEXT_EXPECTED_HANDLING_EVENT_TYPE',
+                'next_expected_handling_event_type': {
+                    'from': 'NEXT_EXPECTED_HANDLING_EVENT_TYPE',
+                    'as': {
+                        'map': {
+                            'LOAD': 'LOAD',
+                            'UNLOAD': 'UNLOAD',
+                            'RECEIVE': 'RECEIVE',
+                            'CLAIM': 'CLAIM',
+                            'CUSTOMS': 'CUSTOMS',
+                        }
+                    },
+                },
                 'next_expected_location_id': 'NEXT_EXPECTED_LOCATION_ID',
                 'next_expected_voyage_id': 'NEXT_EXPECTED_VOYAGE_ID',
                 'unloaded_at_dest': {'from': 'UNLOADED_AT_DEST', 'as': 'bool'},
-                'routing_status': 'ROUTING_STATUS',
+                'routing_status': {
+                    'from': 'ROUTING_STATUS',
+                    'as': {
+                        'map': {
+                            'NOT_ROUTED': 'NOT_ROUTED',
+                            'ROUTED': 'ROUTED',
+                            'MISROUTED': 'MISROUTED',
+                        }
+                    },
+                },
                 'calculated_at': {'from': 'CALCULATED_AT', 'as': 'timestamp'},
                 'last_event_id': 'LAST_EVENT_ID',
             },
@@ -73,11 +105,22 @@ MAPPING = {
             'key': ['id'],
             'columns': {
                 'id': 'ID',
-                'type': 'TYPE',
+                'type': {
+                    'from': 'TYPE',
+                    'as': {
+                        'map': {
+                            'LOAD': 'LOAD',
+                            'UNLOAD': 'UNLOAD',
+                            'RECEIVE': 'RECEIVE',
+                            'CLAIM': 'CLAIM',
+                            'CUSTOMS': 'CUSTOMS',
+                        }
+                    },
+                },
                 'voyage_id': 'VOYAGE_ID',
                 'location_id': 'LOCATION_ID',
-                'completionTime': 'COMPLETIONTIME',
-                'registration': 'REGISTRATION',
+                'completionTime': {'from': 'COMPLETIONTIME', 'as': 'timestamp'},
+                'registration': {'from': 'REGISTRATION', 'as': 'timestamp'},
                 'cargo_id': 'CARGO_ID',
             },
             'refs': {
@@ -92,8 +135,8 @@ MAPPING = {
             'key': ['id'],
             'columns': {
                 'id': 'ID',
-                'load_time': 'LOAD_TIME',
-                'unload_time': 'UNLOAD_TIME',
+                'load_time': {'from': 'LOAD_TIME', 'as': 'timestamp'},
+                'unload_time': {'from': 'UNLOAD_TIME', 'as': 'timestamp'},
                 'load_location_id': 'LOAD_LOCATION_ID',
                 'unload_location_id': 'UNLOAD_LOCATION_ID',
                 'voyage_id': 'VOYAGE_ID',
@@ -112,8 +155,8 @@ MAPPING = {
             'key': ['id'],
             'columns': {
                 'id': 'ID',
-                'arrival_time': 'ARRIVAL_TIME',
-                'departure_time': 'DEPARTURE_TIME',
+                'arrival_time': {'from': 'ARRIVAL_TIME', 'as': 'timestamp'},
+                'departure_time': {'from': 'DEPARTURE_TIME', 'as': 'timestamp'},
                 'arrival_location_id': 'ARRIVAL_LOCATION_ID',
                 'departure_location_id': 'DEPARTURE_LOCATION_ID',
                 'voyage_id': 'VOYAGE_ID',
@@ -165,7 +208,7 @@ TABLE_ROWS = {
                 '4',
                 '4',
                 '2026-11-15',
-                '0',
+                'NOT_RECEIVED',
                 '4',
                 '9',
                 'false',
@@ -241,86 +284,176 @@ def _rows(model):
     return list(model.objects.order_by('pk').values())
 
 
-@pytest.mark.django_db(transaction=True)
-def test_load_snapshot_is_idempotent_restores_cycle_and_realigns_sequences(tmp_path):
-    snapshot = tmp_path / 'snapshot'
-    _snapshot(snapshot)
+def _load_fixture(tmp_path):
     mapping = tmp_path / 'mapping.yaml'
     mapping.write_text(yaml.safe_dump(MAPPING), encoding='utf-8')
+    call_command(
+        'load_data_snapshot',
+        snapshot=str(FIXTURE_SNAPSHOT),
+        mapping=str(mapping),
+    )
 
-    call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
 
-    imported_cargo = CargoRecord.objects.get(pk=15)
-    imported_event = HandlingEventRecord.objects.get(pk=35)
-    imported_movement = CarrierMovementRecord.objects.get(pk=55)
-    assert imported_cargo.last_event_id == imported_event.pk
-    assert imported_event.cargo_id == imported_cargo.pk
-    assert imported_movement.arrival_time == datetime(2026, 11, 8, 10, tzinfo=UTC)
-    assert imported_movement.departure_time == datetime(2026, 11, 7, 10, tzinfo=UTC)
-    assert imported_movement.arrival_location_id == 4
-    assert imported_movement.departure_location_id == 4
-    assert imported_movement.voyage_id == 9
-    assert imported_cargo.spec_arrival_deadline == date(2026, 11, 15)
-    assert imported_cargo.calculated_at == datetime(2026, 11, 7, 4, 5, 6, tzinfo=UTC)
-    assert imported_cargo.transport_status == 'NOT_RECEIVED'
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_persists_every_mapped_value(tmp_path):
+    _load_fixture(tmp_path)
 
-    before = {
-        model: _rows(model)
-        for model in (
-            LocationRecord,
-            VoyageRecord,
-            CargoRecord,
-            HandlingEventRecord,
-            LegRecord,
-            CarrierMovementRecord,
-        )
-    }
-    call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
-    assert {model: _rows(model) for model in before} == before
+    assert _rows(LocationRecord) == [
+        {'id': 101, 'unlocode': 'USNYC', 'name': 'New York'},
+        {'id': 102, 'unlocode': 'NLRTM', 'name': 'Rotterdam'},
+    ]
+    assert _rows(VoyageRecord) == [{'id': 900, 'voyage_number': ''}]
+    assert _rows(CargoRecord) == [
+        {
+            'id': 13,
+            'tracking_id': 'FIDELITY-0001',
+            'origin_id': 101,
+            'spec_origin_id': 101,
+            'spec_destination_id': 102,
+            'spec_arrival_deadline': date(2026, 12, 30),
+            'transport_status': 'NOT_RECEIVED',
+            'last_known_location_id': None,
+            'current_voyage_id': 900,
+            'misdirected': True,
+            'eta': None,
+            'next_expected_handling_event_type': 'LOAD',
+            'next_expected_location_id': None,
+            'next_expected_voyage_id': None,
+            'unloaded_at_dest': False,
+            'routing_status': 'ROUTED',
+            'calculated_at': datetime(2026, 11, 7, 10, 11, 12, tzinfo=UTC),
+            'last_event_id': 71,
+        }
+    ]
+    assert _rows(HandlingEventRecord) == [
+        {
+            'id': 71,
+            'event_type': 'RECEIVE',
+            'voyage_id': 900,
+            'location_id': 102,
+            'completion_time': datetime(2026, 11, 7, 8, 12, 13, tzinfo=UTC),
+            'registration_time': datetime(2026, 11, 7, 10, 13, 14, tzinfo=UTC),
+            'cargo_id': 13,
+        }
+    ]
+    assert _rows(LegRecord) == [
+        {
+            'id': 81,
+            'load_time': datetime(2026, 11, 8, 8, tzinfo=UTC),
+            'unload_time': datetime(2026, 11, 9, 11, tzinfo=UTC),
+            'load_location_id': 101,
+            'unload_location_id': 102,
+            'voyage_id': 900,
+            'cargo_id': 13,
+        }
+    ]
+    assert _rows(CarrierMovementRecord) == [
+        {
+            'id': 91,
+            'arrival_time': datetime(2026, 11, 9, 10, tzinfo=UTC),
+            'departure_time': datetime(2026, 11, 8, 12, tzinfo=UTC),
+            'arrival_location_id': 102,
+            'departure_location_id': 101,
+            'voyage_id': 900,
+        }
+    ]
 
-    new_location = LocationRecord.objects.create(unlocode='TST01', name='Test location')
-    new_voyage = VoyageRecord.objects.create(voyage_number='V002')
-    new_cargo = CargoRecord.objects.create(
-        tracking_id='XYZ789',
-        origin=new_location,
-        spec_origin=new_location,
-        spec_destination=new_location,
-        spec_arrival_deadline=date(2026, 11, 15),
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_clears_and_reloads_identical_rows(tmp_path):
+    _load_fixture(tmp_path)
+    models = (
+        LocationRecord,
+        VoyageRecord,
+        CargoRecord,
+        HandlingEventRecord,
+        LegRecord,
+        CarrierMovementRecord,
+    )
+    before = {model: _rows(model) for model in models}
+
+    _load_fixture(tmp_path)
+
+    assert {model: _rows(model) for model in models} == before
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_defers_and_restores_cargo_event_cycle(tmp_path, monkeypatch):
+    restore_references = loader._set_deferred_references
+
+    def observe_two_phase_cycle(pending):
+        assert CargoRecord.objects.get(pk=13).last_event_id is None
+        assert HandlingEventRecord.objects.get(pk=71).cargo_id == 13
+        restore_references(pending)
+        assert CargoRecord.objects.get(pk=13).last_event_id == 71
+
+    monkeypatch.setattr(loader, '_set_deferred_references', observe_two_phase_cycle)
+    _load_fixture(tmp_path)
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_realigns_each_sequence_to_max_plus_one(tmp_path):
+    _load_fixture(tmp_path)
+
+    location = LocationRecord.objects.create(unlocode='TST01', name='Test location')
+    voyage = VoyageRecord.objects.create(voyage_number='V-901')
+    cargo = CargoRecord.objects.create(
+        tracking_id='FIDELITY-0002',
+        origin=location,
+        spec_origin=location,
+        spec_destination=location,
+        spec_arrival_deadline=date(2026, 12, 31),
         transport_status='NOT_RECEIVED',
         misdirected=False,
         unloaded_at_dest=False,
         routing_status='NOT_ROUTED',
         calculated_at=datetime(2026, 11, 7, tzinfo=UTC),
     )
-    new_event = HandlingEventRecord.objects.create(
+    event = HandlingEventRecord.objects.create(
         event_type='RECEIVE',
-        location=new_location,
-        completion_time=datetime(2026, 11, 6, 10, tzinfo=UTC),
-        registration_time=datetime(2026, 11, 6, 10, 1, tzinfo=UTC),
-        cargo=new_cargo,
+        location=location,
+        completion_time=datetime(2026, 11, 7, 10, tzinfo=UTC),
+        registration_time=datetime(2026, 11, 7, 11, tzinfo=UTC),
+        cargo=cargo,
     )
-    new_leg = LegRecord.objects.create(
-        cargo=new_cargo,
-        voyage=new_voyage,
-        load_location=new_location,
-        unload_location=new_location,
-        load_time=datetime(2026, 11, 7, 10, tzinfo=UTC),
-        unload_time=datetime(2026, 11, 8, 10, tzinfo=UTC),
+    leg = LegRecord.objects.create(
+        cargo=cargo,
+        voyage=voyage,
+        load_location=location,
+        unload_location=location,
+        load_time=datetime(2026, 11, 8, 10, tzinfo=UTC),
+        unload_time=datetime(2026, 11, 9, 10, tzinfo=UTC),
     )
-    new_movement = CarrierMovementRecord.objects.create(
-        arrival_time=datetime(2026, 11, 8, 10, tzinfo=UTC),
-        departure_time=datetime(2026, 11, 7, 10, tzinfo=UTC),
-        arrival_location=new_location,
-        departure_location=new_location,
-        voyage=new_voyage,
+    movement = CarrierMovementRecord.objects.create(
+        arrival_time=datetime(2026, 11, 9, 10, tzinfo=UTC),
+        departure_time=datetime(2026, 11, 8, 10, tzinfo=UTC),
+        arrival_location=location,
+        departure_location=location,
+        voyage=voyage,
     )
 
-    assert new_location.pk > 4
-    assert new_voyage.pk > 9
-    assert new_cargo.pk > 15
-    assert new_event.pk > 35
-    assert new_leg.pk > 50
-    assert new_movement.pk > 55
+    assert location.pk == 103
+    assert voyage.pk == 901
+    assert cargo.pk == 14
+    assert event.pk == 72
+    assert leg.pk == 82
+    assert movement.pk == 92
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_includes_carrier_movement_row(tmp_path):
+    _load_fixture(tmp_path)
+
+    assert _rows(CarrierMovementRecord) == [
+        {
+            'id': 91,
+            'arrival_time': datetime(2026, 11, 9, 10, tzinfo=UTC),
+            'departure_time': datetime(2026, 11, 8, 12, tzinfo=UTC),
+            'arrival_location_id': 102,
+            'departure_location_id': 101,
+            'voyage_id': 900,
+        }
+    ]
 
 
 @pytest.mark.django_db(transaction=True)
