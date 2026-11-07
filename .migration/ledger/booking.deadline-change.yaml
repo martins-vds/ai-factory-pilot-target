@@ -9,8 +9,12 @@ boundary: "Changing deadline preserves origin, destination and itinerary, create
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDeadline"
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "The dialog parses its current deadline with MM/dd/yyyy; ParseException is printed and swallowed, leaving the date unset (.migration/quirks/booking-deadline-dialog-parse-error.md). BookingServiceTest checks the changed date and MISROUTED state."
 quirks: [martins-vds/ai-factory-pilot-target#234]

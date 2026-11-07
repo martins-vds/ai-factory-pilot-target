@@ -9,5 +9,9 @@ boundary: "The dashboard filters the facade's full cargo list into routed-unclai
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "The additional getRoutedCargos() getter returns all routed cargo but is not bound by the scoped dashboard pages. No named JUnit class directly tests these view-level partitions."

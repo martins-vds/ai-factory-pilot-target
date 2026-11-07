@@ -9,10 +9,13 @@ boundary: "The selected candidate is indexed from routeCandidates, converted bac
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testAssignRoute"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
-  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java::testCargoFromHongkongToStockholm"
-notes: "The redirect outcome uses show.html although the page and Faces mapping are show.xhtml; see .migration/quirks/booking-route-selection-redirect.md."
-quirks: [martins-vds/ai-factory-pilot-target#236]
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+notes: "The bean returns a show.html outcome, while the running UI resolved the selected route to show.xhtml; preserve this observed result for quirk #236 review. CargoLifecycleScenarioTest.testCargoFromHongkongToStockholm has no @Test and is not executed."
+quirks: [martins-vds/ai-factory-pilot-target#236, martins-vds/ai-factory-pilot-target#250]

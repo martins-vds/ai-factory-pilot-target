@@ -9,8 +9,12 @@ boundary: "Deadline dialog receives trackingId, displays origin/destination, off
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDeadline"
-notes: "The named test covers service state, not modal interaction, parsing errors, cancellation or refresh behavior. Parse failures only print a stack trace (.migration/quirks/booking-deadline-dialog-parse-error.md)."
-quirks: [martins-vds/ai-factory-pilot-target#234]
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+notes: "The named test covers service state, not modal interaction, parsing errors, cancellation or refresh behavior. Parse failures only print a stack trace (quirk #234); successful updates also emit .migration/quirks/booking-dialog-widget-console-warning.md."
+quirks: [martins-vds/ai-factory-pilot-target#234, martins-vds/ai-factory-pilot-target#251]

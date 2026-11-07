@@ -9,6 +9,10 @@ boundary: "Claimed Cargo table shows tracking ID/detail link, origin, destinatio
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "No named JUnit class directly tests this table or its history link. The tooltip-to-routing-details mismatch is in .migration/quirks/booking-claimed-history-link.md."
 quirks: [martins-vds/ai-factory-pilot-target#233]

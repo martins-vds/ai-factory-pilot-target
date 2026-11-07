@@ -9,5 +9,9 @@ boundary: "The admin dashboard renders routed, not-routed and claimed cargo tabl
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "The common admin shell provides a Live Map navigation link; the dashboard page itself includes only the three tables. No admin-live-map.* ledger files were present in this checkout, so no duplicate entry was created."

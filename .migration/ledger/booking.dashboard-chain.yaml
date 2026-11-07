@@ -9,5 +9,9 @@ boundary: "admin/dashboard.xhtml includes the three cargo table pages; request-s
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "Cargo, Leg, Location and Voyage persistence overlaps accepted track-cargo and handling ledger entries; this entry does not duplicate those data capabilities. The shared admin template links to the live map; dashboard content is the three tables."

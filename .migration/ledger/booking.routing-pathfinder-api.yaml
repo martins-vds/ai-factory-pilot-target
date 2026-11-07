@@ -9,7 +9,11 @@ boundary: "ExternalRoutingService calls the configured graph-traversal REST URL 
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRouteCandidates"
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "Decision #89 requires in-process target routing and preservation of random routes. CRAP risk is from the measured GraphDao methods; lizard emitted no method row for GraphTraversalService.java. Source deadline omission is tracked in .migration/quirks/booking-routing-ignores-deadline.md."

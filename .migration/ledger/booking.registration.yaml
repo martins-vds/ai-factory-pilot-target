@@ -9,8 +9,12 @@ boundary: "Booking generates a tracking ID, resolves origin/destination, creates
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRegisterNew"
-  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java::testCargoFromHongkongToStockholm"
-notes: "JpaCargoRepository creates an uppercase UUID prefix; a new cargo begins NOT_ROUTED with an empty itinerary and default delivery state. The Cargo table and embedded route/delivery fields are already covered by track-cargo.data-cargo."
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+notes: "JpaCargoRepository creates an uppercase UUID prefix; a new cargo begins NOT_ROUTED with an empty itinerary and default delivery state. The Cargo table and embedded route/delivery fields are already covered by track-cargo.data-cargo. CargoLifecycleScenarioTest.testCargoFromHongkongToStockholm has no @Test and is not executed (.migration/quirks/booking-cargo-lifecycle-scenario-not-discovered.md)."
+quirks: [martins-vds/ai-factory-pilot-target#250]

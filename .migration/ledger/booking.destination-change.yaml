@@ -9,8 +9,12 @@ boundary: "Changing destination preserves the cargo's original origin, current d
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDestination"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "The dialog's option getter excludes origin and current destination by display name and mutates its backing list (.migration/quirks/booking-destination-options-mutate-state.md). The service test checks that the old itinerary remains and the cargo becomes MISROUTED."

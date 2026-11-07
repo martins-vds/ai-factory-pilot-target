@@ -9,9 +9,13 @@ boundary: "Cargo details show origin, destination and deadline; routed cargo sho
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testAssignRoute"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "Tests cover domain/service route state, not the JSF presentation; unknown tracking IDs have no explicit not-found branch (.migration/quirks/booking-cargo-not-found-unhandled.md). Claimed-cargo links also promise history while this page shows routing details (.migration/quirks/booking-claimed-history-link.md)."
 quirks: [martins-vds/ai-factory-pilot-target#233]

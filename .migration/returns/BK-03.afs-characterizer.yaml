@@ -1,0 +1,54 @@
+role: afs-characterizer
+ticket: BK-03
+issue: martins-vds/ai-factory-pilot-target#242
+tier_used:
+  A: 25
+  B: 0
+  C: 0
+suite:
+  path: tests/characterization/test_booking.py
+  cases: 31
+  passing: 31
+  run_log: .migration/evidence/runs/BK-03.md
+predicted_vs_observed:
+  match: 24
+  differs: 1
+ledger_updated:
+  - booking.cargo-not-found
+  - booking.dashboard-chain
+  - booking.dashboard-filters
+  - booking.deadline-change
+  - booking.destination-change
+  - booking.dialog-chain
+  - booking.dialog-deadline
+  - booking.dialog-destination
+  - booking.registration
+  - booking.routing-assign
+  - booking.routing-candidates
+  - booking.routing-chain
+  - booking.routing-pathfinder-api
+  - booking.screen-cargo-details
+  - booking.screen-claimed-table
+  - booking.screen-dashboard
+  - booking.screen-deadline
+  - booking.screen-destination
+  - booking.screen-not-routed-table
+  - booking.screen-origin
+  - booking.screen-route
+  - booking.screen-routed-table
+  - booking.screen-select-itinerary
+  - booking.wizard-chain
+  - booking.wizard-input-rules
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#232
+  - martins-vds/ai-factory-pilot-target#233
+  - martins-vds/ai-factory-pilot-target#234
+  - martins-vds/ai-factory-pilot-target#235
+  - martins-vds/ai-factory-pilot-target#236
+  - martins-vds/ai-factory-pilot-target#237
+  - martins-vds/ai-factory-pilot-target#238
+  - martins-vds/ai-factory-pilot-target#239
+  - .migration/quirks/booking-cargo-lifecycle-scenario-not-discovered.md
+  - .migration/quirks/booking-dialog-widget-console-warning.md
+  - .migration/quirks/booking-select-itinerary-blank-with-candidates.md
+review_only_requests: []
