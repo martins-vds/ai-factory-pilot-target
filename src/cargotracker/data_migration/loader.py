@@ -28,8 +28,6 @@ def _transform(value, transform, timezone):
         mapping = transform['map']
         if value in mapping:
             result = mapping[value]
-        elif str(value) in mapping:
-            result = mapping[str(value)]
         else:
             raise DataLoadError(f'no mapping for value {value!r}')
         return None if result is None else str(result)
@@ -224,7 +222,6 @@ def _prepare_tables(mapping, models):
             entry['refs'][column] = {
                 'target_index': target_indexes[table],
                 'field': field,
-                'target_model': referenced_entry['model'],
             }
     return prepared
 

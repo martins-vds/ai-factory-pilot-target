@@ -71,3 +71,52 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T13:02:45+00:00 | idiom-format-final | 0 | 0.02 | `ruff format --check` | `c98b86154f37b741` |  |  |
 | 2026-11-07T13:02:45+00:00 | build-check-final | 0 | 0.32 | `python manage.py check` | `1e3e63f221bde888` |  |  |
 | 2026-11-07T13:03:02+00:00 | mutation-changed-rerun | 1 | 254.17 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `97de1a65a8a41610` | afs-mutation: FAILED score=0.682 threshold=0.8 killed=206 survived=96 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.682 threshold=0.8 killed=206 survived=96 files=3 base=origin/main |
+| 2026-11-07T15:07:11+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:11:18+00:00 | fixture-tests-red | 1 | 4.33 | `pytest -q tests/data_migration/test_load.py` | `f32e6a773551c5b5` | options = {'verbosity': 1, 'settings': None, 'pythonpath': None, 'traceback': False, ...} |  |
+| 2026-11-07T15:11:43+00:00 | fixture-tests-green | 0 | 1.66 | `pytest -q tests/data_migration/test_load.py` | `6789680c21af067c` |  |  |
+| 2026-11-07T15:12:02+00:00 | fixture-tests-final | 0 | 1.67 | `pytest -q tests/data_migration/test_load.py` | `2b485f61c9190426` |  |  |
+| 2026-11-07T15:12:02+00:00 | fixture-snapshot-check | 0 | 0.04 | `python .migration/harness/tools/data_reconcile.py snapshot tests/data_migration/fixtures/DM-05C` | `525bd2128fe2515f` |  | gate=data-snapshot tables=6 problems=0 |
+| 2026-11-07T15:12:26+00:00 | build-compile-fixture | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:12:27+00:00 | build-check-fixture | 0 | 0.27 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T15:12:27+00:00 | idiom-ruff-fixture | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T15:12:27+00:00 | idiom-format-fixture | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T15:12:58+00:00 | behavior-fixture | 0 | 31.54 | `pytest -q` | `79266cbb1f4c0a83` |  |  |
+| 2026-11-07T15:13:27+00:00 | crap-coverage-fixture | 0 | 28.51 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `fd7f78a890141da6` |  |  |
+| 2026-11-07T15:13:27+00:00 | crap-lizard-fixture | 0 | 0.09 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:13:27+00:00 | crap-score-fixture | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `40067e260b62dacd` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
+| 2026-11-07T15:17:39+00:00 | mutation-changed-fixture | 1 | 247.28 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `56bc2d213a40121c` | afs-mutation: FAILED score=0.695 threshold=0.8 killed=210 survived=92 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.695 threshold=0.8 killed=210 survived=92 files=3 base=origin/main |
+| 2026-11-07T15:20:46+00:00 | survivor-tests | 1 | 2.27 | `pytest -q tests/data_migration/test_load.py` | `f8c38f4e16b0c5a5` | E           AssertionError: Regex pattern did not match. |  |
+| 2026-11-07T15:20:56+00:00 | survivor-tests-final | 1 | 2.31 | `pytest -q tests/data_migration/test_load.py` | `89bf4fcf039b210b` | E           AssertionError: Regex pattern did not match. |  |
+| 2026-11-07T15:21:07+00:00 | survivor-tests-verified | 0 | 2.39 | `pytest -q tests/data_migration/test_load.py` | `e2f3094058850728` |  |  |
+| 2026-11-07T15:21:10+00:00 | fixture-snapshot-final | 0 | 0.04 | `python .migration/harness/tools/data_reconcile.py snapshot tests/data_migration/fixtures/DM-05C` | `525bd2128fe2515f` |  | gate=data-snapshot tables=6 problems=0 |
+| 2026-11-07T15:21:10+00:00 | idiom-ruff-survivors | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T15:21:10+00:00 | idiom-format-survivors | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T15:21:19+00:00 | build-compile-survivors | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:21:19+00:00 | build-check-survivors | 0 | 0.25 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T15:21:45+00:00 | behavior-survivors | 0 | 26.08 | `pytest -q` | `f098e7852bfabc00` |  |  |
+| 2026-11-07T15:22:13+00:00 | crap-coverage-survivors | 0 | 27.25 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `ce3a07b68ddd0f87` |  |  |
+| 2026-11-07T15:22:13+00:00 | crap-lizard-survivors | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:22:13+00:00 | crap-score-survivors | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `0ee29d308b3e0f2c` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
+| 2026-11-07T15:26:39+00:00 | mutation-changed-final | 1 | 262.47 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `c2bf76a9c8992d0d` | afs-mutation: FAILED score=0.752 threshold=0.8 killed=227 survived=75 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.752 threshold=0.8 killed=227 survived=75 files=3 base=origin/main |
+| 2026-11-07T17:27:38+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:33:19+00:00 | mutation-changed | 1 | 329.27 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `c2bf76a9c8992d0d` | afs-mutation: FAILED score=0.752 threshold=0.8 killed=227 survived=75 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.752 threshold=0.8 killed=227 survived=75 files=3 base=origin/main |
+| 2026-11-07T17:37:25+00:00 | loader-mutant-tests | 1 | 3.57 | `pytest -q tests/data_migration/test_load.py` | `8743d56608027081` | with pytest.raises(CommandError) as error: |  |
+| 2026-11-07T17:37:42+00:00 | loader-mutant-tests-rerun | 0 | 3.56 | `pytest -q tests/data_migration/test_load.py` | `e38475f21a06abc9` |  |  |
+| 2026-11-07T17:43:41+00:00 | mutation-changed-rerun | 0 | 339.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `18cf8a1e09caf122` |  | gate=mutation score=0.874 threshold=0.8 killed=264 survived=38 files=3 base=origin/main |
+| 2026-11-07T17:48:08+00:00 | loader-survivor-tests | 1 | 4.16 | `pytest -q tests/data_migration/test_load.py` | `11c2542ea6d10774` | with pytest.raises(CommandError) as error: |  |
+| 2026-11-07T17:48:34+00:00 | loader-survivor-tests-rerun | 1 | 3.97 | `pytest -q tests/data_migration/test_load.py` | `8f9840452850d0da` | assert help_exit.value.code == 0 |  |
+| 2026-11-07T17:48:57+00:00 | loader-survivor-tests-final | 0 | 4.0 | `pytest -q tests/data_migration/test_load.py` | `556013110770a390` |  |  |
+| 2026-11-07T17:49:26+00:00 | loader-simplifications | 0 | 4.02 | `pytest -q tests/data_migration/test_load.py` | `195537f2ba3b9a70` |  |  |
+| 2026-11-07T17:55:03+00:00 | mutation-changed-final | 0 | 331.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `b4895cd72bffda51` |  | gate=mutation score=0.960 threshold=0.8 killed=286 survived=12 files=3 base=origin/main |
+| 2026-11-07T17:55:50+00:00 | loader-final-cases | 0 | 4.31 | `pytest -q tests/data_migration/test_load.py` | `76804d66527a1af3` |  |  |
+| 2026-11-07T18:01:39+00:00 | mutation-changed-closure | 0 | 330.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `69b0a8b9a48b9070` |  | gate=mutation score=0.966 threshold=0.8 killed=288 survived=10 files=3 base=origin/main |
+| 2026-11-07T18:02:30+00:00 | build-compile-final | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T18:02:30+00:00 | build-check-final | 0 | 0.28 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T18:02:31+00:00 | idiom-ruff-final | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T18:02:31+00:00 | idiom-format-final | 1 | 0.02 | `ruff format --check` | `caa6fbf6fa3a03ba` |  |  |
+| 2026-11-07T18:02:44+00:00 | idiom-format-final-rerun | 0 | 0.01 | `ruff format --check` | `4e91bbf655ac088f` |  |  |
+| 2026-11-07T18:03:26+00:00 | behavior-final | 0 | 41.82 | `pytest -q` | `546eced93fc282ea` |  |  |
+| 2026-11-07T18:04:00+00:00 | crap-coverage-final | 0 | 34.33 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `c5f176e513939e21` |  |  |
+| 2026-11-07T18:04:01+00:00 | crap-lizard-final | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T18:04:01+00:00 | crap-score-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `5ed94c4cbc3849ab` |  | gate=crap max=26.0 threshold=30 over=0 methods=172 |
+| 2026-11-07T18:04:42+00:00 | regression-final | 0 | 40.84 | `pytest -q` | `3374608d4568979a` |  |  |

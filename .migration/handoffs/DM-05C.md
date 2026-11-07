@@ -62,3 +62,23 @@ Resume DM-05C from issue #324: rerun changed-code mutation against the current t
 - `python .migration/harness/tools/afs-mutation --changed-since origin/main` → exit 1, score 0.682 vs 0.8; see `.migration/runs/DM-05C/20261107T125848264638Z-mutation-changed-rerun.log:2`.
 ### Next step for the next session
 Resume DM-05C on PR #334 from this section. Analyze the current survivor list against mapping-defined behavior, add only justified tests or simplify demonstrably equivalent code, then rerun changed-code mutation and the profile gates; stop and hand off again if mutation remains below 0.8.
+
+## Handoff — afs-specialist-migrator · 2026-11-07T15:28:27Z
+**State:** blocked  ·  **Branch / PR:** https://github.com/martins-vds/ai-factory-pilot-target/pull/334  ·  **Last commit:** d619b1c
+### Done
+- Added a committed six-table snapshot fixture with complete mapped rows, all mapped columns/transforms, NULL versus empty text, and naive/offset timestamps; snapshot check passed with 6 tables and 0 problems (`.migration/runs/DM-05C/20261107T152110601465Z-fixture-snapshot-final.log`).
+- Added tests for persisted values, idempotent clearing, deferred cycle phases, exact sequence max+1, and carrier movement; focused tests passed (14), `.migration/runs/DM-05C/20261107T152104661901Z-survivor-tests-verified.log`.
+- Added survivor-directed validation, timezone and boolean-alias tests; full behavior passed (374 tests), `.migration/runs/DM-05C/20261107T152119868718Z-behavior-survivors.log`.
+- Build and idiom gates passed; CRAP passed at max 29.8 / threshold 30, `.migration/runs/DM-05C/20261107T152213474607Z-crap-score-survivors.log`.
+- Annotated all 75 current survivor IDs by source location and test status in `.migration/evidence/mutants/DM-05C.md`; only the string-key fallback at loader.py:32 is classified as equivalent at the CSV boundary because `csv.reader` yields strings.
+### Remaining
+- [ ] Operator review of the 75 annotated survivors and decision on whether another focused session is warranted.
+- [ ] Reach the unchanged mutation threshold of 0.8 before removing this handoff pointer or reporting completion.
+### Decisions made
+- Stopped after the requested sharper test session remained below threshold (0.752); did not weaken the threshold, change loader production code, or claim unverified mutants equivalent.
+### Blockers / questions
+- The final changed-code mutation score is 0.752 (227 killed, 75 survived) against 0.8. The `afs-mutation` report gives only file/line and mutant number, not each mutant's expression, so the notes identify source behavior/test status and avoid unsupported equivalence claims.
+### Failing commands
+- `python .migration/harness/tools/afs-mutation --changed-since origin/main` → exit 1, score 0.752 vs 0.8; see `.migration/runs/DM-05C/20261107T152216746441Z-mutation-changed-final.log:2`.
+### Next step for the next session
+Ask the operator to review the 75 annotated survivors and decide whether to authorize further targeted tests or an additional mutation-analysis capability; preserve the 0.8 threshold.
