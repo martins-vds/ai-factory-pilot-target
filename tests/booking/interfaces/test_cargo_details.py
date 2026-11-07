@@ -1,13 +1,17 @@
 from dataclasses import replace
+from datetime import UTC, datetime
 
 import pytest
 from django.core.management import call_command
-from django.test import override_settings
+from django.http import Http404
+from django.test import RequestFactory, override_settings
 from django.urls import path
 
+from cargotracker.booking.application.dashboard import CargoDashboard
 from cargotracker.booking.interfaces.dashboard.views import create_booking_views
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
+from cargotracker.cargo.management.commands import seed_sample_data
 
 
 class CargoRepository:
@@ -27,7 +31,7 @@ class CargoRepository:
 
 
 repository = CargoRepository()
-_, cargo_details_view = create_booking_views(repository)
+_, cargo_details_view = create_booking_views(CargoDashboard(repository))
 urlpatterns = [path('admin/cargo/<str:tracking_id>/', cargo_details_view)]
 
 
@@ -39,7 +43,12 @@ def reset_repository():
 
 @pytest.mark.django_db
 @override_settings(ROOT_URLCONF=__name__)
-def test_cargo_details_render_route_fields_and_itinerary(client):
+def test_cargo_details_render_route_fields_and_itinerary(client, monkeypatch):
+    monkeypatch.setattr(
+        seed_sample_data.timezone,
+        'now',
+        lambda: datetime(2026, 11, 7, tzinfo=UTC),
+    )
     call_command('seed_sample_data')
 
     response = client.get('/admin/cargo/MNO456/')
@@ -54,8 +63,11 @@ def test_cargo_details_render_route_fields_and_itinerary(client):
     assert 'Dallas' in content
     assert 'USDAL' in content
     assert 'Arrival deadline:' in content
+    assert '10/14/2026' in content
     assert 'Itinerary' in content
     assert '0200T' in content
+    assert '10/04/2026' in content
+    assert '10/10/2026' in content
 
 
 @pytest.mark.django_db
@@ -103,3 +115,13 @@ def test_unknown_and_stale_cargo_details_return_http_404(client):
 
     assert unknown_response.status_code == 404
     assert stale_response.status_code == 404
+
+
+def test_unknown_cargo_details_raise_the_existing_not_found_error():
+    repository.missing_tracking_ids.add('UNKNOWN')
+
+    with pytest.raises(Http404, match=r'^Cargo with tracking ID UNKNOWN not found\.$'):
+        cargo_details_view(
+            RequestFactory().get('/admin/cargo/UNKNOWN/'),
+            'UNKNOWN',
+        )
