@@ -10,6 +10,7 @@ slice: booking
 tickets: ["martins-vds/ai-factory-pilot-target#292"]
 target:
   components:
+    - cargotracker.booking.application.dashboard.CargoDashboard.get_cargo_details
     - cargotracker.booking.interfaces.dashboard.views.create_booking_views
     - templates/booking/cargo_details.html
 status: migrated
@@ -22,6 +23,7 @@ evidence:
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/interfaces/test_cargo_details.py::test_cargo_details_render_route_fields_and_itinerary"
+  - "tests/booking/application/test_dashboard.py::test_cargo_details_returns_the_requested_cargo"
   - ".migration/evidence/runs/BK-05E.md"
 notes: "Cargo details show origin, destination, arrival deadline and itinerary; unrouted cargo has a route link and misrouted cargo has a reroute action. Unknown IDs return HTTP 404 per ruling #232."
 quirks: [martins-vds/ai-factory-pilot-target#233]

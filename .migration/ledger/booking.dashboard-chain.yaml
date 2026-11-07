@@ -10,6 +10,7 @@ slice: booking
 tickets: ["martins-vds/ai-factory-pilot-target#292"]
 target:
   components:
+    - cargotracker.booking.application.dashboard.CargoDashboard
     - cargotracker.booking.interfaces.dashboard.views.create_booking_views
     - templates/booking/dashboard/dashboard.html
 status: migrated

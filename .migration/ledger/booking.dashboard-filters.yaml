@@ -10,6 +10,7 @@ slice: booking
 tickets: ["martins-vds/ai-factory-pilot-target#292"]
 target:
   components:
+    - cargotracker.booking.application.dashboard.CargoDashboard.get_dashboard
     - cargotracker.booking.interfaces.dashboard.views.create_booking_views
 status: migrated
 verification: characterized
@@ -19,5 +20,6 @@ evidence:
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
   - "tests/booking/interfaces/test_dashboard.py::test_dashboard_renders_empty_tables_without_custom_empty_state"
+  - "tests/booking/application/test_dashboard.py::test_dashboard_partitions_cargos_in_source_order"
   - ".migration/evidence/runs/BK-05E.md"
 notes: "The additional getRoutedCargos() getter returns all routed cargo but is not bound by the scoped dashboard pages. No named JUnit class directly tests these view-level partitions."
