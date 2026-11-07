@@ -38,6 +38,7 @@ def test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary()
     assert record.last_known_location is None
     assert record.current_voyage is None
     assert not record.misdirected
+    assert not record.unloaded_at_dest
     assert record.eta is None
     assert record.next_expected_handling_event_type is None
     assert record.next_expected_location is None
