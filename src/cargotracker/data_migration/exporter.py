@@ -87,7 +87,7 @@ def _format_value(value, timezone):
 def _write_table(output, table, timezone):
     path = output / f'{table["target"]}.csv'
     model = table['model']
-    ordering = [field.name for field in table['key_fields']]
+    ordering = [model._meta.pk.name]
     try:
         with path.open('w', newline='', encoding='utf-8') as stream:
             writer = csv.writer(stream)
@@ -107,9 +107,11 @@ def _write_table(output, table, timezone):
 def export_snapshot(mapping_path, output_path):
     mapping_file = Path(mapping_path)
     try:
-        mapping = yaml.safe_load(mapping_file.read_text(encoding='utf-8')) or {}
+        mapping = yaml.safe_load(mapping_file.read_text(encoding='utf-8'))
     except (OSError, yaml.YAMLError) as error:
         raise DataExportError(f'{mapping_file}: unable to read mapping: {error}') from error
+    if mapping is None:
+        mapping = {}
     if not isinstance(mapping, dict):
         raise DataExportError(f'{mapping_file}: mapping must be an object')
 
