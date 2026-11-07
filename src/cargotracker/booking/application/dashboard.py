@@ -6,7 +6,7 @@ from cargotracker.cargo.domain.repository import CargoRepository
 from cargotracker.cargo.domain.tracking_id import TrackingId
 
 
-@dataclass(frozen=True)
+@dataclass
 class DashboardCargos:
     routed_cargos: list[Cargo]
     not_routed_cargos: list[Cargo]
