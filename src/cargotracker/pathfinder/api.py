@@ -1,45 +1,53 @@
 from datetime import UTC, datetime
 
-from django import forms
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET
 
 from cargotracker.pathfinder.routing import RoutingService, TransitPath
-
-
-class _ShortestPathForm(forms.Form):
-    origin = forms.CharField(min_length=5, max_length=5, strip=False)
-    destination = forms.CharField(min_length=5, max_length=5, strip=False)
-
 
 routing_service = RoutingService()
 
 
 @require_GET
 def shortest_path(request: HttpRequest) -> HttpResponse:
-    form = _ShortestPathForm(request.GET)
-    if not form.is_valid():
-        errors = {
-            field: [error['message'] for error in field_errors]
-            for field, field_errors in form.errors.get_json_data().items()
-        }
-        return JsonResponse({'errors': errors}, status=400)
+    origin = request.GET.get('origin')
+    if origin is None or len(origin) != 5:
+        return _bad_request(0, origin)
+    destination = request.GET.get('destination')
+    if destination is None or len(destination) != 5:
+        return _bad_request(1, destination)
 
-    paths = routing_service.find_shortest_paths(
-        form.cleaned_data['origin'], form.cleaned_data['destination']
-    )
+    paths = routing_service.find_shortest_paths(origin, destination)
     return JsonResponse([_path_payload(path) for path in paths], safe=False)
+
+
+def _bad_request(parameter_index: int, value: str | None) -> HttpResponse:
+    if value is None:
+        message = 'may not be null'
+        invalid_value = 'null'
+    else:
+        message = 'size must be between 5 and 5'
+        invalid_value = value
+    path = (
+        '__EJB31_Generated__GraphTraversalService__Intf____Bean__.'
+        f'findShortestPath.arg{parameter_index}'
+    )
+    return HttpResponse(
+        f'{message} (path = {path}, invalidValue = {invalid_value})\n',
+        status=400,
+        content_type='text/plain',
+    )
 
 
 def _path_payload(path: TransitPath) -> dict:
     return {
         'transitEdges': [
             {
-                'voyageNumber': edge.voyage_number,
-                'fromUnLocode': edge.from_port,
-                'toUnLocode': edge.to_port,
                 'fromDate': _format_route_date(edge.from_date),
+                'fromUnLocode': edge.from_port,
                 'toDate': _format_route_date(edge.to_date),
+                'toUnLocode': edge.to_port,
+                'voyageNumber': edge.voyage_number,
             }
             for edge in path.transit_edges
         ]

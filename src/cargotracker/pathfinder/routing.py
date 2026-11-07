@@ -59,14 +59,10 @@ class RoutingService:
                 destination,
             )
             edges = []
-            departure = _as_utc(self._clock())
-            previous_arrival = None
+            previous_date = _as_utc(self._clock())
             for from_port, to_port in pairwise(route):
-                if previous_arrival is not None:
-                    departure = previous_arrival + timedelta(
-                        days=1, hours=self._random_source.randint(-8, 8)
-                    )
-                arrival = departure + timedelta(hours=12)
+                departure = self._next_date(previous_date)
+                arrival = self._next_date(departure)
                 edges.append(
                     TransitEdge(
                         voyage_number=self._random_source.choice(SAMPLE_VOYAGE_NUMBERS),
@@ -76,9 +72,12 @@ class RoutingService:
                         to_date=arrival,
                     )
                 )
-                previous_arrival = arrival
+                previous_date = arrival
             paths.append(TransitPath(tuple(edges)))
         return tuple(paths)
+
+    def _next_date(self, value: datetime) -> datetime:
+        return value + timedelta(days=1, hours=self._random_source.randint(-8, 8))
 
 
 def _as_utc(value: datetime) -> datetime:

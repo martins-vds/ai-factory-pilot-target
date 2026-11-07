@@ -35,3 +35,28 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:26:03+00:00 | full-tests | 0 | 23.33 | `pytest -q` | `ca2271d987fab7f6` |  |  |
 | 2026-11-07T04:26:31+00:00 | crap-coverage | 0 | 24.33 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `e3b17e986be8d49b` |  |  |
 | 2026-11-07T04:26:36+00:00 | crap-check | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `f911be73e221b3f7` |  | gate=crap max=19.0 threshold=30 over=0 methods=138 |
+| 2026-11-07T04:30:47+00:00 | red-bk03b-goldens | 1 | 0.97 | `pytest -q tests/pathfinder` | `a74b6e60dad192ad` | assert response.status_code == 200 |  |
+| 2026-11-07T04:31:10+00:00 | pathfinder-golden-tests | 1 | 0.86 | `pytest -q tests/pathfinder` | `3bdf9b8ab9ee5643` | assert response.status_code == int((GOLDEN_DIR / f'{golden}.status').read_text()) |  |
+| 2026-11-07T04:31:25+00:00 | pathfinder-golden-tests | 0 | 0.85 | `pytest -q tests/pathfinder` | `c1b54b33b73ba0dd` |  |  |
+| 2026-11-07T04:31:47+00:00 | idiom-ruff-check | 1 | 0.01 | `ruff check` | `94af9632434b3284` |  |  |
+| 2026-11-07T04:32:02+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:32:08+00:00 | idiom-format-check | 1 | 0.01 | `ruff format --check` | `971a17d6e2a40a6c` | 87 \|     assert response.status_code == int((GOLDEN_DIR / f'{golden}.status').read_text()) |  |
+| 2026-11-07T04:32:18+00:00 | pathfinder-golden-tests | 0 | 0.92 | `pytest -q tests/pathfinder` | `6ea14800cb2dfa02` |  |  |
+| 2026-11-07T04:32:25+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:32:41+00:00 | pathfinder-golden-tests | 0 | 0.88 | `pytest -q tests/pathfinder` | `80cc85f98716f41a` |  |  |
+| 2026-11-07T04:33:07+00:00 | build-compileall | 0 | 0.02 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:33:12+00:00 | build-django-check | 0 | 0.24 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:33:44+00:00 | full-tests | 0 | 27.78 | `pytest -q` | `7ce393ae9cd21f95` |  |  |
+| 2026-11-07T04:34:15+00:00 | crap-coverage | 0 | 24.16 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `0293b891fcf085ac` |  |  |
+| 2026-11-07T04:34:20+00:00 | crap-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:34:24+00:00 | crap-check | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:34:55+00:00 | mutation-changed | 2 | 24.19 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `24b5555d82bb4747` | afs-mutation: mutmut failed on src/cargotracker/pathfinder/api.py; its mutants were not tested: | gate=mutation score=n/a error=mutmut-failed failed_files=1 files=3 base=origin/main |
+| 2026-11-07T04:35:27+00:00 | pathfinder-golden-tests | 0 | 0.85 | `pytest -q tests/pathfinder` | `80cc85f98716f41a` |  |  |
+| 2026-11-07T04:35:33+00:00 | idiom-ruff-check | 1 | 0.01 | `ruff check` | `82f1688aff908d7d` |  |  |
+| 2026-11-07T04:35:52+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:35:56+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:36:28+00:00 | mutation-changed | 0 | 25.55 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
+| 2026-11-07T04:37:10+00:00 | full-tests | 0 | 24.53 | `pytest -q` | `58d40059ff02f982` |  |  |
+| 2026-11-07T04:37:37+00:00 | crap-coverage | 0 | 22.58 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `11f750059d0d3e70` |  |  |
+| 2026-11-07T04:37:45+00:00 | crap-lizard | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:37:51+00:00 | crap-check | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |

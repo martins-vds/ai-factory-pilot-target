@@ -93,9 +93,21 @@ def test_service_normalizes_clock_and_keeps_leg_dates_in_order():
 
     for path in paths:
         edges = path.transit_edges
-        assert edges[0].from_date == local_now.astimezone(UTC)
+        assert (
+            timedelta(hours=16)
+            <= edges[0].from_date - local_now.astimezone(UTC)
+            <= timedelta(hours=32)
+        )
         assert all(edge.from_date.utcoffset() == timedelta(0) for edge in edges)
-        assert all(edge.to_date - edge.from_date == timedelta(hours=12) for edge in edges)
+        assert all(
+            timedelta(hours=16) <= edge.to_date - edge.from_date <= timedelta(hours=32)
+            for edge in edges
+        )
+        assert (
+            timedelta(hours=16)
+            <= edges[0].from_date - local_now.astimezone(UTC)
+            <= timedelta(hours=32)
+        )
         assert all(
             timedelta(hours=16) <= current.from_date - previous.to_date <= timedelta(hours=32)
             for previous, current in pairwise(edges)
@@ -108,7 +120,9 @@ def test_service_assumes_naive_clock_values_are_utc():
         'CNHKG', 'USNYC'
     )
 
-    assert paths[0].transit_edges[0].from_date == NOW
+    first_departure = paths[0].transit_edges[0].from_date
+    assert first_departure.utcoffset() == timedelta(0)
+    assert timedelta(hours=16) <= first_departure - NOW <= timedelta(hours=32)
 
 
 def test_transit_path_and_edges_are_immutable():

@@ -12,7 +12,8 @@ target:
   components:
     - cargotracker.pathfinder.routing.RoutingService
     - cargotracker.pathfinder.api.shortest_path
-status: in-progress
+    - cargotracker.pathfinder.urls
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -22,8 +23,11 @@ evidence:
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/pathfinder/test_routing.py::test_seeded_paths_have_random_candidates_and_connected_increasing_legs"
   - "tests/pathfinder/test_routing.py::test_seeded_random_source_is_repeatable_and_changes_candidate_paths"
+  - "tests/pathfinder/test_routing.py::test_seeded_routes_cover_sample_ports_voyages_and_all_random_bounds"
+  - "tests/pathfinder/test_routing.py::test_service_normalizes_clock_and_keeps_leg_dates_in_order"
   - "tests/pathfinder/test_api.py::test_shortest_path_returns_transit_json_and_ignores_deadline"
-  - "tests/pathfinder/test_api.py::test_shortest_path_rejects_missing_or_non_five_character_ports"
+  - "tests/pathfinder/test_api.py::test_shortest_path_validation_matches_characterized_goldens"
+  - "tests/pathfinder/test_api.py::test_shortest_path_rejects_non_five_character_ports"
   - ".migration/evidence/runs/BK-05B.md"
   - ".migration/characterization/booking/pathfinder/README.md"
   - ".migration/evidence/runs/BK-03B.md"
