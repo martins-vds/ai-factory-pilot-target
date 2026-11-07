@@ -1,0 +1,32 @@
+[
+  {
+    "at": "2026-11-07T20:01:34Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 46958,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-05F",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/d6c0e070-f0be-44cf-bfc0-8ed24b2f2d0f.json",
+      ".migration/evidence/runs/DM-05F.md",
+      ".migration/returns/DM-05F.afs-specialist-migrator.yaml",
+      ".migration/returns/DM-05F.afs-verifier.yaml"
+    ],
+    "findings": [
+      "[scope] These files are outside ticket DM-05F's planned files: `.migration/returns/DM-05F.afs-verifier.yaml`. Don't widen your own scope: revert them, or, if the work truly needs them, write a handoff (afs-handoff) that names each file and why, set `handoff:` in your return, and stop. The operator decides."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  }
+]
