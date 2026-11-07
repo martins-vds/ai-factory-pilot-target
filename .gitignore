@@ -8,3 +8,5 @@ htmlcov/
 .mutmut-cache
 /assets/css/tailwind.css
 /staticfiles/
+.migration/data/snapshot/
+.migration/data/target-export/

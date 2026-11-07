@@ -1,0 +1,12 @@
+role: afs-program-orchestrator
+ticket: BK-00
+issue: martins-vds/ai-factory-pilot-target#221
+phase: 2
+decisions:
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/1: reopened (operator, 2026-11-06); a snapshot of the running legacy app's Derby database counts as production data; data-migration is a capability gap again"
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/222: cargo booking and routing is the next slice, in parallel with the admin live map (#202); at least one ticket runs on a local worker"
+dispatched:
+  - {agent: afs-analyst, ticket: "https://github.com/martins-vds/ai-factory-pilot-target/issues/225", status: running}
+awaiting_human:
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/1: choose how to resolve the data-migration gap (pin a tool, write a skill, or waive); it blocks the data workstream #223"
+next_step: "When BK-02 returns: review it, dispatch afs-characterizer for booking; resume the admin live map's Analyst (AM-02, #204) on the new graph in parallel."
