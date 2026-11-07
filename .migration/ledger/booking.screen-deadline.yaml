@@ -9,5 +9,9 @@ boundary: "Step 3 uses an inline yyyy-MM-dd calendar with today as minimum, repo
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "Date selection triggers an AJAX listener that updates the duration panel and button; no named JUnit class directly exercises the JSF calendar. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

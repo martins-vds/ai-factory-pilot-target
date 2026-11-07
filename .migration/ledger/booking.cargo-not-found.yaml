@@ -9,6 +9,10 @@ boundary: "A missing tracking ID is converted to null by JpaCargoRepository; the
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "No named JUnit class covers this invalid-ID branch. Quirk draft: .migration/quirks/booking-cargo-not-found-unhandled.md."
 quirks: [martins-vds/ai-factory-pilot-target#232]

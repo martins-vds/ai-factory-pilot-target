@@ -1,0 +1,133 @@
+{
+  "source_sha": "f3beacf78de4f6d34edc4971ac87e38a5c6fe59d",
+  "executed_source_tests": {
+    "CargoTest": {
+      "count": 9,
+      "result": "passed",
+      "methods": [
+        "testConstruction",
+        "testRoutingStatus",
+        "testLastKnownLocationUnknownWhenNoEvents",
+        "testLastKnownLocationReceived",
+        "testLastKnownLocationClaimed",
+        "testLastKnownLocationUnloaded",
+        "testLastKnownLocationloaded",
+        "testIsUnloadedAtFinalDestination",
+        "testIsMisdirected"
+      ]
+    },
+    "ItineraryTest": {
+      "count": 3,
+      "result": "passed",
+      "methods": [
+        "testCargoOnTrack",
+        "testNextExpectedEvent",
+        "testCreateItinerary"
+      ],
+      "note": "testNextExpectedEvent is an empty TODO and asserts no behavior."
+    },
+    "RouteSpecificationTest": {
+      "count": 4,
+      "result": "passed",
+      "methods": [
+        "testIsSatisfiedBySuccess",
+        "testIsNotSatisfiedByWrongOrigin",
+        "testIsNotSatisfiedByWrongDestination",
+        "testIsNotSatisfiedByMissedDeadline"
+      ]
+    },
+    "BookingServiceTest": {
+      "result": "not_run",
+      "note": "Arquillian integration tests were not part of the source unit-test command; the running legacy UI was used for booking, routing, assignment and dialog observation.",
+      "methods": [
+        "testRegisterNew",
+        "testRouteCandidates",
+        "testAssignRoute",
+        "testChangeDestination",
+        "testChangeDeadline"
+      ]
+    }
+  },
+  "domain_test_contracts": {
+    "CargoTest": {
+      "testConstruction": [
+        "Initial routing status is NOT_ROUTED.",
+        "Initial transport status is NOT_RECEIVED.",
+        "Last-known location is UNKNOWN and current voyage is NONE."
+      ],
+      "testRoutingStatus": [
+        "A new cargo is NOT_ROUTED.",
+        "Assigning an itinerary that fails the specification is MISROUTED.",
+        "Assigning an itinerary that satisfies the specification is ROUTED."
+      ]
+    },
+    "ItineraryTest": {
+      "testCargoOnTrack": [
+        "Expected RECEIVE, LOAD, UNLOAD and CLAIM events are accepted.",
+        "CUSTOMS does not affect expected-event matching.",
+        "Wrong location or voyage events are rejected."
+      ],
+      "testCreateItinerary": [
+        "An empty leg list throws IllegalArgumentException.",
+        "A null leg list throws NullPointerException."
+      ],
+      "testNextExpectedEvent": "Empty TODO; it asserts no behavior."
+    },
+    "RouteSpecificationTest": {
+      "testIsSatisfiedBySuccess": "Matching origin/destination and an arrival before the deadline are accepted.",
+      "testIsNotSatisfiedByWrongOrigin": "An itinerary with the wrong first load location is rejected.",
+      "testIsNotSatisfiedByWrongDestination": "An itinerary with the wrong final unload location is rejected.",
+      "testIsNotSatisfiedByMissedDeadline": "Arrival after the deadline is rejected."
+    }
+  },
+  "unexecuted_test_methods": [
+    {
+      "source": ".source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java",
+      "method": "testCargoFromHongkongToStockholm",
+      "junit_test_annotation": false,
+      "executed": false,
+      "would_assert": [
+        "New Hong Kong → Stockholm cargo is NOT_RECEIVED and NOT_ROUTED with no ETA/activity.",
+        "Assigning an itinerary changes routing status to ROUTED and sets ETA and next RECEIVE activity at Hong Kong.",
+        "The later handling lifecycle completes the cargo."
+      ],
+      "note": "The method has no @Test annotation and the class does not extend TestCase or declare a JUnit runner."
+    },
+    {
+      "source": ".source/src/test/java/org/eclipse/cargotracker/infrastructure/routing/ExternalRoutingServiceTest.java",
+      "method": "testCalculatePossibleRoutes",
+      "junit_test_annotation": false,
+      "executed": false,
+      "characterized_case": "route-candidates",
+      "would_assert": [
+        "The candidate list is non-null.",
+        "Each candidate has a non-null, non-empty leg list.",
+        "The first leg starts at the route origin and the final leg ends at the route destination.",
+        "Adjacent legs are connected."
+      ],
+      "note": "The source method has no @Test annotation; these assertions are transcribed as a contract, not counted as executed source evidence."
+    }
+  ],
+  "booking_service_contracts": {
+    "testRegisterNew": [
+      "Persists cargo with selected origin, destination and deadline.",
+      "Initial state is NOT_RECEIVED and NOT_ROUTED, with unknown location, no current voyage, no ETA/activity, no misdirection, and empty itinerary."
+    ],
+    "testRouteCandidates": [
+      "Requests candidates for the registered tracking ID.",
+      "Asserts the candidate list is non-empty."
+    ],
+    "testAssignRoute": [
+      "Persists the selected itinerary.",
+      "Cargo remains NOT_RECEIVED, is ROUTED, has ETA before deadline, and next activity is RECEIVE at origin."
+    ],
+    "testChangeDestination": [
+      "Changes destination while preserving origin, deadline and assigned itinerary.",
+      "The old itinerary becomes MISROUTED and delivery ETA/activity reset."
+    ],
+    "testChangeDeadline": [
+      "Changes deadline while preserving origin, destination and assigned itinerary.",
+      "The old itinerary becomes MISROUTED and delivery ETA/activity reset."
+    ]
+  }
+}

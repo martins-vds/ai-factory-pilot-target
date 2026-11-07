@@ -9,5 +9,9 @@ boundary: "The select-itinerary page reads trackingId and loads ItinerarySelecti
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
-notes: "This page contains only an empty-route state; the populated candidate table is in route.xhtml. No named JUnit class exercises the page."
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+notes: "This page contains only an empty-route state; the populated candidate table is in route.xhtml. With candidates present, its body is blank (.migration/quirks/booking-select-itinerary-blank-with-candidates.md). No named JUnit class exercises the page."

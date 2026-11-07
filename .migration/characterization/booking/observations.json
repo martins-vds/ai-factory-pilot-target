@@ -1,0 +1,276 @@
+{
+  "ticket": "BK-03",
+  "source_sha": "f3beacf78de4f6d34edc4971ac87e38a5c6fe59d",
+  "tier": "A",
+  "observed_at": "2026-11-07",
+  "runtime": {
+    "java": "1.8.0_504",
+    "payara": "4.1.2.181",
+    "application": "GET /cargo-tracker/ returned HTTP 200"
+  },
+  "predicted_vs_observed": {
+    "match": 24,
+    "differs": 1
+  },
+  "cases": {
+    "wizard-origin": {
+      "input": "Open Book from admin/dashboard.xhtml.",
+      "observed": "Cargo Registration, step 1; Chicago (USCHI) selected by default; 13 locations offered by name and UN/LOCODE; Cancel and Next are present.",
+      "predicted": "Booking.init selects today's state and lists shipping locations; the first flow page offers origin selection.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:46-50; .source/src/main/webapp/booking/booking.xhtml:12-24",
+      "match": true
+    },
+    "wizard-destination": {
+      "input": "Press Next on step 1 with Chicago selected.",
+      "observed": "Step 2 names Chicago as origin, defaults destination to Dallas (USDAL), and offers 12 locations excluding Chicago; Back, Cancel and Next are present. Back preserves Chicago.",
+      "predicted": "The destination page removes the selected origin from choices and supports backward/cancel/forward navigation.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:52-72; .source/src/main/webapp/booking/booking-destination.xhtml:12-30",
+      "match": true
+    },
+    "wizard-deadline": {
+      "input": "Press Next with Chicago → Dallas, then select November 7 and November 8, 2026.",
+      "observed": "The calendar displays November 2026; dates before the current date have no links. Selecting November 7 displays “A journey can't start and end the same day!” and disables Book Cargo. November 8 displays “Journey duration is one day.” and enables Book Cargo.",
+      "predicted": "Duration includes a four-hour grace period, is truncated to standard days, and booking requires at least one day.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:28-29,129-142; .source/src/main/webapp/booking/booking-date.xhtml",
+      "match": true
+    },
+    "registration": {
+      "input": "Complete Chicago → Dallas booking with arrival deadline November 8, 2026.",
+      "observed": "Book Cargo returns to the dashboard and adds a NOT_ROUTED cargo with empty itinerary. The observed tracking ID was D613CF52; another booking produced B147E0B7. Both are eight-character uppercase UUID prefixes. Deadline is shown as 11/08/2026.",
+      "predicted": "BookingService creates and stores cargo with generated tracking ID and the selected RouteSpecification; its initial delivery is NOT_RECEIVED / NOT_ROUTED with no itinerary.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:36-49; .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java:140-169",
+      "match": true
+    },
+    "dashboard": {
+      "input": "Open admin/dashboard.xhtml after application startup and after registering cargo.",
+      "observed": "Three tables render in order: Routed Cargo, Not Routed Cargo, Claimed Cargo. No custom empty-table text or pager appears. The post-registration view showed seeded routed rows ABC123/JKL567/DEF789, newly booked unrouted rows, and claimed row MNO456.",
+      "predicted": "The dashboard includes the three table fragments inside the shared admin template.",
+      "source": ".source/src/main/webapp/admin/dashboard.xhtml:10-28; .source/src/main/webapp/admin/tables/listRouted.xhtml; .source/src/main/webapp/admin/tables/listNotRouted.xhtml; .source/src/main/webapp/admin/tables/listClaimed.xhtml",
+      "match": true
+    },
+    "route-candidates": {
+      "input": "Open admin/route.xhtml?trackingId=DEF789, then open a newly registered Chicago → Dallas cargo with a next-day deadline.",
+      "observed": "DEF789 produced four candidate itineraries on each observed request, with randomized legs, voyages and dates. The short-deadline Chicago → Dallas cargo showed Potential routes: 0 and “No routes found that satisfy the route specification. Try setting an arrival deadline further into the future.”",
+      "example_candidate": {
+        "origin": "CNHKG",
+        "destination": "AUMEL",
+        "legs": [
+          {"voyage": "0300A", "load": "CNHKG", "unload": "JNTKO"},
+          {"voyage": "0400S", "load": "JNTKO", "unload": "SESTO"},
+          {"voyage": "0200T", "load": "SESTO", "unload": "AUMEL"}
+        ]
+      },
+      "predicted": "The pathfinder generates 3–5 random candidates without using the deadline; the adapter then rejects candidates not satisfying the strict route specification.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/infrastructure/routing/ExternalRoutingService.java:60-83; .source/src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:34-77,84-93",
+      "match": true
+    },
+    "route-assignment": {
+      "input": "Select the first displayed candidate for DEF789.",
+      "observed": "The route is assigned and persisted; the browser reaches /admin/show.xhtml?trackingId=DEF789 and renders the itinerary legs. The selected candidate's final destination is Melbourne.",
+      "predicted": "ItinerarySelection.assignItinerary returns a show.html outcome, while the running Faces UI resolves the navigation to show.xhtml and renders cargo details.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:64-69; .source/src/main/webapp/admin/show.xhtml",
+      "match": false
+    },
+    "destination-dialog": {
+      "input": "Open the not-routed cargo destination editor for D613CF52, select New York (USNYC), and Update.",
+      "observed": "The modal shows origin Chicago and current destination Dallas. Options exclude Chicago and Dallas; the initial option was Gothenburg. After Update the dialog closes and the table shows New York, preserving origin and deadline; the cargo remains in Not Routed Cargo. Browser console reports “Widget for var 'mainDash_tableNotRouted_0_toUpdate_dlgwidget' not available!” while the update succeeds.",
+      "predicted": "The edit bean loads cargo and shipping locations, filters origin/current destination, changes the specification, closes with DONE, and the table refreshes.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestination.java:58-88; .source/src/main/webapp/admin/tables/listNotRouted.xhtml:30-44",
+      "match": true
+    },
+    "deadline-dialog": {
+      "input": "Open the deadline editor for D613CF52, enter 1/15/27, dismiss the date picker, and Update.",
+      "observed": "The modal shows Chicago → New York and current value 11/8/26. After Update the table displays 01/15/2027; the dialog closes and cargo remains not routed. Browser console reports “Widget for var 'mainDash_tableNotRouted_0_arrivalDeadlineToUpdate_dlgwidget' not available!” while the update succeeds.",
+      "predicted": "The deadline edit bean parses the displayed date, calls changeDeadline, closes the dynamic dialog, and refreshes the table.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeArrivalDeadlineDate.java:62-75; .source/src/main/webapp/admin/tables/listNotRouted.xhtml:47-58",
+      "match": true
+    },
+    "cargo-details": {
+      "input": "Open the claimed cargo MNO456 from the dashboard.",
+      "observed": "The link opens Cargo Details with origin, destination, arrival deadline and an itinerary table. It does not show handling-event history.",
+      "predicted": "show.xhtml renders cargo routing details and itinerary; the claimed-table link's tooltip promises history.",
+      "source": ".source/src/main/webapp/admin/tables/listClaimed.xhtml:11-19; .source/src/main/webapp/admin/show.xhtml:20-112",
+      "match": true
+    },
+    "unknown-cargo-error": {
+      "input": "Open admin/route.xhtml?trackingId=UNKNOWN.",
+      "observed": "HTTP 500; Mojarra error page title is “Error - java.lang.NullPointerException” and displays the exception.",
+      "predicted": "The repository returns null for an unknown tracking ID; the facade/assembler path dereferences it without a not-found branch.",
+      "source": ".source/src/main/java/org/eclipse/cargotracker/infrastructure/persistence/jpa/JpaCargoRepository.java:32-44; .source/src/main/java/org/eclipse/cargotracker/interfaces/booking/facade/internal/assembler/CargoRouteDtoAssembler.java:12-22",
+      "match": true
+    },
+    "select-itinerary-with-candidates": {
+      "input": "Open admin/selectItinerary.xhtml?trackingId=DEF789 after confirming it has four candidates.",
+      "observed": "HTTP 200 page contains only the admin navigation; no route options or body message is rendered.",
+      "predicted": "The page renders only the empty-candidate message, so a non-empty candidate list leaves the page content blank.",
+      "source": ".source/src/main/webapp/admin/selectItinerary.xhtml:15-23; .source/src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ItinerarySelection.java:59-62",
+      "match": true
+    },
+    "select-itinerary-without-candidates": {
+      "input": "Open admin/selectItinerary.xhtml?trackingId=B147E0B7 for the next-day Chicago → Dallas cargo.",
+      "observed": "The page displays “No routes found that satisfy the route specification. Try setting an arrival deadline further into the future (a few weeks at least).”",
+      "predicted": "When routeCandidates is empty, the page renders its no-routes guidance.",
+      "source": ".source/src/main/webapp/admin/selectItinerary.xhtml:17-21",
+      "match": true
+    },
+    "source-tests": {
+      "input": "Run the source CargoTest, ItineraryTest and RouteSpecificationTest in a writable scratch copy using Java 8.",
+      "observed": "16 unique tests passed: CargoTest 9, ItineraryTest 3, RouteSpecificationTest 4. A separate ItineraryTest run also passed all 3 tests. BookingServiceTest was not run; its tests are Arquillian integration tests.",
+      "predicted": "These source unit tests assert cargo initial/routing states, itinerary event matching/construction and route-specification endpoint/deadline checks.",
+      "source": ".source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java; .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/ItineraryTest.java; .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java",
+      "match": true
+    }
+  },
+  "capabilities": {
+    "booking.cargo-not-found": {
+      "cases": ["unknown-cargo-error"],
+      "observed": "Unknown route lookup returns HTTP 500 with a NullPointerException page.",
+      "predicted": "Null cargo is dereferenced; there is no explicit not-found branch.",
+      "match": true
+    },
+    "booking.dashboard-chain": {
+      "cases": ["dashboard"],
+      "observed": "Dashboard renders the three cargo tables through the admin shell.",
+      "predicted": "The page composes routed, not-routed and claimed table fragments.",
+      "match": true
+    },
+    "booking.dashboard-filters": {
+      "cases": ["dashboard"],
+      "observed": "Seeded routed and claimed cargos and newly registered NOT_ROUTED cargos appear in their corresponding tables.",
+      "predicted": "ListCargo partitions the fetched CargoRoute DTOs by routing and claimed state.",
+      "match": true
+    },
+    "booking.deadline-change": {
+      "cases": ["deadline-dialog"],
+      "observed": "Updating the deadline to 1/15/27 changes the table display to 01/15/2027 without routing the cargo.",
+      "predicted": "The updated deadline replaces the route specification and recalculates cargo routing state.",
+      "match": true
+    },
+    "booking.destination-change": {
+      "cases": ["destination-dialog"],
+      "observed": "Updating destination to New York preserves Chicago origin and the existing deadline; cargo remains not routed.",
+      "predicted": "The service replaces the route specification without requesting or assigning a route.",
+      "match": true
+    },
+    "booking.dialog-chain": {
+      "cases": ["destination-dialog", "deadline-dialog"],
+      "observed": "Both not-routed table actions open PrimeFaces dynamic dialogs and successful updates close and refresh the table.",
+      "predicted": "Dialog beans receive trackingId, call the facade, close with DONE, and dialogReturn refreshes the table.",
+      "match": true
+    },
+    "booking.dialog-deadline": {
+      "cases": ["deadline-dialog"],
+      "observed": "The deadline dialog loads 11/8/26 and updates to 01/15/2027.",
+      "predicted": "The bean parses with MM/dd/yyyy, invokes the service, and closes with DONE.",
+      "match": true
+    },
+    "booking.dialog-destination": {
+      "cases": ["destination-dialog"],
+      "observed": "The dialog displays origin/current destination and filters both from choices; update persists.",
+      "predicted": "Potential destinations exclude origin/current destination; the backing list is mutated by the getter.",
+      "match": true
+    },
+    "booking.registration": {
+      "cases": ["registration", "wizard-origin", "wizard-destination", "wizard-deadline"],
+      "observed": "A valid three-step booking returns to the dashboard with a new NOT_ROUTED cargo and generated tracking ID.",
+      "predicted": "The service creates cargo with an empty itinerary and default delivery state.",
+      "match": true
+    },
+    "booking.routing-assign": {
+      "cases": ["route-assignment"],
+      "observed": "Selected itinerary persists and UI opens the .xhtml cargo details page.",
+      "predicted": "The bean returns a show.html outcome; the running UI resolves it to show.xhtml.",
+      "match": false
+    },
+    "booking.routing-candidates": {
+      "cases": ["route-candidates", "unknown-cargo-error"],
+      "observed": "Known cargo returns four observed candidates or zero after deadline filtering; unknown cargo fails with HTTP 500.",
+      "predicted": "Candidates are generated and filtered by route specification; missing cargo returns an empty list in the service path.",
+      "match": true
+    },
+    "booking.routing-chain": {
+      "cases": ["route-candidates", "route-assignment"],
+      "observed": "Route page displays candidates and assignment opens details with the chosen itinerary.",
+      "predicted": "The facade calls routing, maps candidates, assigns selected itinerary, and updates cargo.",
+      "match": true
+    },
+    "booking.routing-pathfinder-api": {
+      "cases": ["route-candidates"],
+      "observed": "The page received four randomized candidate routes for DEF789; short deadline produced none.",
+      "predicted": "The external API receives origin/destination, omits deadline, and returns random paths that are post-filtered.",
+      "match": true
+    },
+    "booking.screen-cargo-details": {
+      "cases": ["cargo-details", "route-assignment"],
+      "observed": "Details display origin, destination, deadline and itinerary; claimed-cargo link does not show history.",
+      "predicted": "show.xhtml renders cargo route details and itinerary legs.",
+      "match": true
+    },
+    "booking.screen-claimed-table": {
+      "cases": ["dashboard", "cargo-details"],
+      "observed": "MNO456 appears in Claimed Cargo and opens the routing-details page.",
+      "predicted": "The claimed table link points to show.xhtml although its tooltip promises history.",
+      "match": true
+    },
+    "booking.screen-dashboard": {
+      "cases": ["dashboard"],
+      "observed": "Dashboard shows Routed Cargo, Not Routed Cargo and Claimed Cargo sections.",
+      "predicted": "Those three table includes are the dashboard content.",
+      "match": true
+    },
+    "booking.screen-deadline": {
+      "cases": ["wizard-deadline"],
+      "observed": "Same-day deadline displays an error and disables booking; next-day deadline displays one-day duration and enables booking.",
+      "predicted": "Bookable is true only when the grace-adjusted duration is at least one standard day.",
+      "match": true
+    },
+    "booking.screen-destination": {
+      "cases": ["wizard-destination"],
+      "observed": "Destination menu excludes the selected Chicago origin and defaults to Dallas.",
+      "predicted": "Booking.locations filters the selected origin while on the destination page.",
+      "match": true
+    },
+    "booking.screen-not-routed-table": {
+      "cases": ["dashboard", "destination-dialog", "deadline-dialog"],
+      "observed": "New cargos are listed with route link, origin, destination and editable deadline; dialogReturn refreshes their row.",
+      "predicted": "The not-routed fragment binds ListCargo.notRoutedCargos and exposes destination/deadline dialogs.",
+      "match": true
+    },
+    "booking.screen-origin": {
+      "cases": ["wizard-origin"],
+      "observed": "Origin page defaults to Chicago and offers 13 locations.",
+      "predicted": "The first wizard page binds Booking.locations with Cancel and Next actions.",
+      "match": true
+    },
+    "booking.screen-route": {
+      "cases": ["route-candidates"],
+      "observed": "Route page shows cargo endpoints, deadline, candidate count and numbered candidate leg tables, or the no-routes message.",
+      "predicted": "The page renders the populated candidate table or no-route branch.",
+      "match": true
+    },
+    "booking.screen-routed-table": {
+      "cases": ["dashboard"],
+      "observed": "Routed cargos display tracking ID, origin, destination, last-known location, transport status and deadline; a newly assigned route moves into this table.",
+      "predicted": "The table binds routed-unclaimed cargos and renders those fields.",
+      "match": true
+    },
+    "booking.screen-select-itinerary": {
+      "cases": ["select-itinerary-with-candidates", "select-itinerary-without-candidates"],
+      "observed": "With four candidates the page body is blank; with none it displays no-routes guidance.",
+      "predicted": "The page only renders an empty-candidate message; populated route tables are rendered in route.xhtml.",
+      "match": true
+    },
+    "booking.wizard-chain": {
+      "cases": ["wizard-origin", "wizard-destination", "wizard-deadline", "registration"],
+      "observed": "Book → origin → destination → deadline → Book Cargo returns to dashboard with a new cargo; Back returns to origin and Cancel returns to dashboard.",
+      "predicted": "The flow-scoped Booking bean carries selections through three pages and calls the booking facade on submit.",
+      "match": true
+    },
+    "booking.wizard-input-rules": {
+      "cases": ["wizard-destination", "wizard-deadline"],
+      "observed": "The UI excludes the selected origin from destinations; same-day deadline shows an error and disables Book Cargo.",
+      "predicted": "Equal locations produce a FacesMessage; duration is computed with a four-hour grace period and booking is disabled below one day.",
+      "match": true
+    }
+  }
+}

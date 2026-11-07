@@ -9,5 +9,9 @@ boundary: "Step 2 displays the chosen origin, offers a destination location menu
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/characterization/booking/observations.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "The backing bean filters the selected origin from the destination choices; no named JUnit class directly exercises this JSF screen. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

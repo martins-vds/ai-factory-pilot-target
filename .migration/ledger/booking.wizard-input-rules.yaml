@@ -9,9 +9,13 @@ boundary: "Origin is removed from destination choices; the bean rejects equal or
 slice: booking
 tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
-verification: pending
+verification: legacy-test
+characterization_tier: A
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByWrongOrigin"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByWrongDestination"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsNotSatisfiedByMissedDeadline"
+  - ".migration/characterization/booking/observations.json"
+  - ".migration/characterization/booking/source-tests.json"
+  - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
 notes: "The cited tests cover domain route-specification filtering, not the bean's same-origin message, four-hour duration arithmetic or button state. Risk is from RouteSpecification.isSatisfiedBy; lizard emitted no methods for Booking.java."
