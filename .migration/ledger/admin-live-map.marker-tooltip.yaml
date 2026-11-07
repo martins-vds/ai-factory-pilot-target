@@ -18,6 +18,4 @@ evidence:
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_tooltip_fields_and_unknown_sentinel_label"
   - ".migration/evidence/runs/AM-03.md"
 quirks: [martins-vds/ai-factory-pilot-target#206, martins-vds/ai-factory-pilot-target#207, martins-vds/ai-factory-pilot-target#253]
-  - martins-vds/ai-factory-pilot-target#206
-  - martins-vds/ai-factory-pilot-target#207
 notes: "Ruling #207 approves the normalized target label `In port`; source tooltip HTML contains two literal spaces after `Transport Status:`. The real Unknown sentinel tooltip shows `undefined`; see `.migration/quirks/admin-live-map-unknown-sentinel.md`. Ruling #206 approves listing unknown or unmapped cargo separately with its tracking link."
