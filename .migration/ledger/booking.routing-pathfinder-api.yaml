@@ -5,10 +5,17 @@ source:
   graph_node: class:src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:GraphTraversalService
   location: src/main/java/org/eclipse/pathfinder/api/GraphTraversalService.java:20-93
   risk: {crap: 30, complexity: 5, coverage: 0.0}
-boundary: "ExternalRoutingService calls the configured graph-traversal REST URL with origin/destination; GraphTraversalService returns three to five randomized paths over sample locations, voyage numbers and dates, then the adapter filters them against RouteSpecification."
+boundary: "GET /rest/graph-traversal/shortest-path validates five-character origin/destination values and returns three to five randomized transit paths; the in-process RoutingService uses sample locations and voyages and ignores deadline."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#225, martins-vds/ai-factory-pilot-target#289]
+target:
+  components:
+    - cargotracker.pathfinder.domain.transit_edge.TransitEdge
+    - cargotracker.pathfinder.domain.transit_path.TransitPath
+    - cargotracker.pathfinder.application.routing.RoutingService
+    - cargotracker.pathfinder.interfaces.api.shortest_path
+    - cargotracker.pathfinder.interfaces.urls
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
@@ -16,8 +23,17 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/pathfinder/test_routing.py::test_seeded_paths_have_random_candidates_and_connected_increasing_legs"
+  - "tests/pathfinder/test_routing.py::test_seeded_random_source_is_repeatable_and_changes_candidate_paths"
+  - "tests/pathfinder/test_routing.py::test_seeded_routes_cover_sample_ports_voyages_and_all_random_bounds"
+  - "tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool"
+  - "tests/pathfinder/test_routing.py::test_service_normalizes_clock_and_keeps_leg_dates_in_order"
+  - "tests/pathfinder/test_api.py::test_shortest_path_returns_transit_json_and_ignores_deadline"
+  - "tests/pathfinder/test_api.py::test_shortest_path_validation_matches_characterized_goldens"
+  - "tests/pathfinder/test_api.py::test_shortest_path_rejects_non_five_character_ports"
+  - ".migration/evidence/runs/BK-05B.md"
   - ".migration/characterization/booking/pathfinder/README.md"
   - ".migration/evidence/runs/BK-03B.md"
 quirks:
   - martins-vds/ai-factory-pilot-target#238
-notes: "Decision #89 requires in-process target routing and preservation of random routes. The endpoint accepts but ignores deadline, as ruled in #238. CRAP risk is from the measured GraphDao methods; lizard emitted no method row for GraphTraversalService.java."
+notes: "Decision #89 requires in-process target routing and preservation of random routes. The operator ruling on #89 (2026-11-07) confirms that each candidate's shuffled port chunk becomes the next candidate's pool. The endpoint accepts but ignores deadline, as ruled in #238. The BK-03B goldens specify response field order, exact date format and validation response content. CRAP risk is from the measured GraphDao methods; lizard emitted no method row for GraphTraversalService.java."

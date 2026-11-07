@@ -1,0 +1,22 @@
+role: afs-specialist-migrator
+ticket: AM-04C
+issue: martins-vds/ai-factory-pilot-target#338
+specialty: ui
+pr: martins-vds/ai-factory-pilot-target#340
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 1.0
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/AM-04C.md
+  - .migration/evidence/mutants/AM-04C.md
+  - tests/cargo/interfaces/test_admin_live_map_templates.py::test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling
+  - tests/cargo/interfaces/test_admin_live_map_templates.py::test_admin_live_map_marker_poll_returns_an_empty_marker_set
+ledger_updated:
+  - admin-live-map.notification-reload
+quirk_tickets: []
+handoff: none
+notes: "Leaflet setup sharing was not applied: templates/admin/live_map.html is the only target template using Leaflet, so there is no duplicate target setup to share."
