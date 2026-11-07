@@ -144,30 +144,30 @@
       ]
     },
     "event_types": {
-      "assistant.message": 116,
-      "assistant.turn_end": 75,
-      "assistant.turn_start": 76,
+      "assistant.message": 129,
+      "assistant.turn_end": 81,
+      "assistant.turn_start": 81,
       "external_tool.completed": 1,
       "external_tool.requested": 1,
-      "hook.end": 241,
-      "hook.start": 241,
-      "permission.completed": 125,
-      "permission.requested": 125,
+      "hook.end": 258,
+      "hook.start": 259,
+      "permission.completed": 132,
+      "permission.requested": 132,
       "session.start": 1,
       "skill.invoked": 10,
-      "subagent.completed": 1,
+      "subagent.completed": 2,
       "subagent.selected": 1,
       "subagent.started": 2,
       "system.message": 3,
-      "tool.execution_complete": 125,
-      "tool.execution_start": 127,
+      "tool.execution_complete": 134,
+      "tool.execution_start": 134,
       "user.message": 10
     },
-    "events": 1281,
+    "events": 1371,
     "usage_fields": []
   },
-  "ended_at": "2026-11-07T12:59:41.699Z",
-  "event": "agentStop",
+  "ended_at": "2026-11-07T13:01:05.573Z",
+  "event": "sessionEnd",
   "harness_tools": [
     {
       "count": 4,
@@ -200,7 +200,7 @@
       "tool": "check_runtime.py"
     },
     {
-      "count": 8,
+      "count": 12,
       "exit": 0,
       "tool": "validate.py"
     },
@@ -213,17 +213,16 @@
   "log": "/home/runner/.copilot/session-state/80c0d4a8-31ad-402f-9e25-2f54c943ebec/events.jsonl",
   "models": {
     "gpt-6-luna": {
-      "output": 38485,
-      "requests": 116
+      "output": 43983,
+      "requests": 129
     }
   },
   "prompt_head": null,
-  "recorded_at": "2026-11-07T12:59:45+00:00",
+  "recorded_at": "2026-11-07T13:01:06+00:00",
   "schema": "afs-cost/1",
   "session_id": "80c0d4a8-31ad-402f-9e25-2f54c943ebec",
   "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
   "started_at": "2026-11-07T12:44:54.237Z",
   "surface": "coding-agent",
-  "trigger_id": "call_2dY2QgIZKYYw1RnX6la06KbW",
   "usage_source": "assistant.message (output only, partial)"
 }
