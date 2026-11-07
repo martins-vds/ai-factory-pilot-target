@@ -59,3 +59,8 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T17:32:20+00:00 | verifier-build-check | 0 | 1.81 | `python manage.py check` | `1e3e63f221bde888` |  |  |
 | 2026-11-07T17:32:20+00:00 | verifier-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
 | 2026-11-07T17:32:20+00:00 | verifier-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `7a340da38ae65b1f` |  |  |
+| 2026-11-07T17:33:16+00:00 | verifier-behavior-tests | 0 | 56.32 | `pytest -q` | `dfc1906e2e528bf4` |  |  |
+| 2026-11-07T17:34:07+00:00 | verifier-crap-coverage | 0 | 51.08 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `9c812e2c6ec50271` |  |  |
+| 2026-11-07T17:34:07+00:00 | verifier-crap-lizard | 0 | 0.14 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:34:07+00:00 | verifier-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b3f3e0c03758c33c` |  | gate=crap max=19.0 threshold=30 over=0 methods=163 |
+| 2026-11-07T17:34:59+00:00 | verifier-regression-tests | 0 | 51.88 | `pytest -q` | `a870191b2b696887` |  |  |
