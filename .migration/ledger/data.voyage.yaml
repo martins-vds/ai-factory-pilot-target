@@ -11,8 +11,9 @@ tickets: [martins-vds/ai-factory-pilot-target#248]
 target:
   components:
     - cargotracker.voyage.infrastructure.models.VoyageRecord
-status: pending
-verification: pending
+status: migrated
+verification: differential
 evidence:
   - .migration/evidence/data-migration/inventory.md
+  - .migration/evidence/data-migration/reconciliation.md
 notes: "Schedule is an embedded value whose CarrierMovement children are stored separately in CARRIER_MOVEMENT."

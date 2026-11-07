@@ -11,10 +11,11 @@ tickets: [martins-vds/ai-factory-pilot-target#248, martins-vds/ai-factory-pilot-
 target:
   components:
     - cargotracker.voyage.infrastructure.models.CarrierMovementRecord
-status: in-progress
-verification: pending
+status: migrated
+verification: differential
 evidence:
   - .migration/evidence/data-migration/inventory.md
   - tests/voyage/test_repository.py::test_carrier_movement_schema_preserves_source_columns_and_references
-notes: "Storage model and migration implement ruling #254; loading and reconciliation of the snapshot rows remain pending."
+  - .migration/evidence/data-migration/reconciliation.md
+notes: "Storage model and migration implement ruling #254; snapshot loading and reconciliation are complete."
 quirks: [martins-vds/ai-factory-pilot-target#254]
