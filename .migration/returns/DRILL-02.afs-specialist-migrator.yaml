@@ -1,0 +1,17 @@
+role: afs-specialist-migrator
+ticket: DRILL-02
+issue: martins-vds/ai-factory-pilot-target#360
+specialty: null
+pr: null
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+specialty_evidence:
+  - .migration/evidence/runs/DRILL-02.md
+ledger_updated: []
+quirk_tickets: []
+handoff: .migration/handoffs/DRILL-02.md
