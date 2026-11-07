@@ -1,0 +1,28 @@
+role: afs-specialist-migrator
+ticket: BK-05F
+issue: martins-vds/ai-factory-pilot-target#293
+specialty: ui
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/394
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 26.0
+  mutation_changed: 0.803
+  regression: 0
+specialty_evidence:
+  - tests/booking/interfaces/test_route_selection.py::test_route_selection_renders_populated_candidates_and_numbered_legs
+  - tests/booking/interfaces/test_route_selection.py::test_route_screens_explain_when_no_candidates_satisfy_the_deadline
+  - tests/booking/interfaces/test_route_selection.py::test_select_itinerary_renders_candidate_routes_when_available
+  - tests/booking/interfaces/test_route_selection.py::test_assigning_candidate_redirects_to_details_with_the_selected_itinerary
+  - tests/booking/interfaces/test_route_selection.py::test_route_assignment_rejects_a_modified_candidate
+  - tests/booking/interfaces/test_route_selection.py::test_route_screens_reject_unsupported_http_methods
+  - .migration/evidence/runs/BK-05F.md
+  - .migration/evidence/mutants/BK-05F.md
+ledger_updated:
+  - booking.routing-chain
+  - booking.screen-route
+  - booking.screen-select-itinerary
+  - booking.routing-assign
+quirk_tickets: []
+handoff: none
