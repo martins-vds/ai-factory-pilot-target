@@ -76,3 +76,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T15:11:43+00:00 | fixture-tests-green | 0 | 1.66 | `pytest -q tests/data_migration/test_load.py` | `6789680c21af067c` |  |  |
 | 2026-11-07T15:12:02+00:00 | fixture-tests-final | 0 | 1.67 | `pytest -q tests/data_migration/test_load.py` | `2b485f61c9190426` |  |  |
 | 2026-11-07T15:12:02+00:00 | fixture-snapshot-check | 0 | 0.04 | `python .migration/harness/tools/data_reconcile.py snapshot tests/data_migration/fixtures/DM-05C` | `525bd2128fe2515f` |  | gate=data-snapshot tables=6 problems=0 |
+| 2026-11-07T15:12:26+00:00 | build-compile-fixture | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:12:27+00:00 | build-check-fixture | 0 | 0.27 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T15:12:27+00:00 | idiom-ruff-fixture | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T15:12:27+00:00 | idiom-format-fixture | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T15:12:58+00:00 | behavior-fixture | 0 | 31.54 | `pytest -q` | `79266cbb1f4c0a83` |  |  |
+| 2026-11-07T15:13:27+00:00 | crap-coverage-fixture | 0 | 28.51 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `fd7f78a890141da6` |  |  |
+| 2026-11-07T15:13:27+00:00 | crap-lizard-fixture | 0 | 0.09 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:13:27+00:00 | crap-score-fixture | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `40067e260b62dacd` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
+| 2026-11-07T15:17:39+00:00 | mutation-changed-fixture | 1 | 247.28 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `56bc2d213a40121c` | afs-mutation: FAILED score=0.695 threshold=0.8 killed=210 survived=92 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.695 threshold=0.8 killed=210 survived=92 files=3 base=origin/main |
