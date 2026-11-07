@@ -14,4 +14,3 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.929, thr
            return render(request, 'booking/cargo_details.html', {'cargo': cargo})
        return dashboard, cargo_details
   ```
-
