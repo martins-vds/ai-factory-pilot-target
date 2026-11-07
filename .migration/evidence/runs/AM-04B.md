@@ -43,3 +43,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:41:03+00:00 | composition-regression-suite | 0 | 27.58 | `pytest -q` | `ab5476780a33672b` |  |  |
 | 2026-11-07T04:42:33+00:00 | composition-mutation-changed | 0 | 85.34 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `97bf2b3b5204b790` |  | gate=mutation score=0.870 threshold=0.8 killed=47 survived=7 files=4 base=origin/main |
 | 2026-11-07T04:53:00+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:56:02+00:00 | verify-build-compileall | 0 | 0.08 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:56:03+00:00 | verify-build-django-check | 0 | 1.2 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:56:59+00:00 | verify-behavior-suite | 0 | 51.06 | `pytest -q` | `5078dcf9ca1b6872` |  |  |
+| 2026-11-07T04:57:02+00:00 | verify-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:57:02+00:00 | verify-idiom-format | 0 | 0.02 | `ruff format --check` | `8f54ec861a76fc44` |  |  |
+| 2026-11-07T04:57:48+00:00 | verify-crap-coverage | 0 | 40.99 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `1f9d9a0f574e686f` |  |  |
+| 2026-11-07T04:57:48+00:00 | verify-crap-lizard | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:57:48+00:00 | verify-crap-threshold | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `6c5a7b5a5f079222` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:59:03+00:00 | verify-mutation-changed | 0 | 71.14 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `032259ced624b933` |  | gate=mutation score=0.907 threshold=0.8 killed=49 survived=5 files=5 base=origin/main |
+| 2026-11-07T04:59:47+00:00 | verify-regression-suite | 0 | 40.62 | `pytest -q` | `afdfa6a8e5fac55e` |  |  |
