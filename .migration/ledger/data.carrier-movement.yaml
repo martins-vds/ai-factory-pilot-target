@@ -1,0 +1,16 @@
+id: data.carrier-movement
+kind: data
+title: Inventory legacy CARRIER_MOVEMENT table
+source:
+  graph_node: table:src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:carrier_movement
+  location: src/main/java/org/eclipse/cargotracker/domain/model/voyage/CarrierMovement.java:25-57
+  risk: {crap: 20, complexity: 4, coverage: 0}
+boundary: "A carrier movement persists one voyage schedule segment between two locations and its departure and arrival timestamps."
+slice: data-migration
+tickets: [martins-vds/ai-factory-pilot-target#248]
+status: pending
+verification: pending
+evidence:
+  - .migration/evidence/data-migration/inventory.md
+notes: "No target persistence model or migration mirrors this table; see .migration/quirks/data-carrier-movement-home.md."
+quirks: [martins-vds/ai-factory-pilot-target#254]

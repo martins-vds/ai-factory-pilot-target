@@ -1,0 +1,30 @@
+role: afs-analyst
+ticket: DM-02
+issue: martins-vds/ai-factory-pilot-target#248
+graphs:
+  knowledge: .migration/graphs/source/full/knowledge-graph.json
+  domain: .migration/graphs/source/full/domain-graph.json
+  nodes: 1009
+  edges: 2093
+  flows: 1
+ledger:
+  entries: 7
+  by_kind: {structural: 0, behavioral: 0, ui: 0, integration: 0, data: 7}
+risk_map:
+  path: .migration/risk-map/data-migration/
+  methods: 411
+  above_threshold: 8
+  hot_spots:
+    - "Itinerary::isExpected (CRAP 182, CCN 13)"
+    - "Delivery::calculateNextExpectedActivity (CRAP 156, CCN 12)"
+    - "Delivery::calculateTransportStatus (CRAP 56, CCN 7)"
+    - "CargoStatusDtoAssembler::getCargoStatusText (CRAP 42, CCN 6)"
+    - "TrackingEventsDtoAssembler::descriptionFrom (CRAP 42, CCN 6)"
+quirk_tickets:
+  - .migration/quirks/data-carrier-movement-home.md
+  - .migration/quirks/data-sequence-state.md
+graph_discrepancies:
+  - "The full source graph counts seven table nodes as six JPA entities plus a test CSV fixture, but has no SEQUENCE node despite SEQUENCE.csv and its one-row manifest entry."
+evidence_logs:
+  - .migration/evidence/runs/DM-02.md
+  - .migration/evidence/data-migration/inventory.md
