@@ -7,8 +7,11 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Missing cargo returns an empty list; otherwise RoutingService candidates are converted from transit paths to Itineraries and retained only when origin, destination and strict arrival-deadline checks pass."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#290]
+target:
+  components:
+    - cargotracker.booking.application.routing.CargoRouting.route_candidates
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -18,5 +21,7 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/application/test_routing.py::test_route_candidates_convert_paths_and_filter_by_route_specification"
+  - ".migration/evidence/runs/BK-05C.md"
 notes: "Deadline is omitted from the source HTTP request and the graph service ignores its deadline parameter; post-filtering may yield no candidates (.migration/quirks/booking-routing-ignores-deadline.md). ExternalRoutingServiceTest.testCalculatePossibleRoutes lacks @Test and is not executable JUnit evidence (.migration/quirks/booking-routing-test-not-discovered.md). Unknown cargo lookup also fails without a not-found response (.migration/quirks/booking-cargo-not-found-unhandled.md)."
 quirks: [martins-vds/ai-factory-pilot-target#232, martins-vds/ai-factory-pilot-target#238, martins-vds/ai-factory-pilot-target#239]
