@@ -64,6 +64,11 @@ def test_carrier_movement_schema_preserves_source_columns_and_references():
         'voyage_id',
     }
     assert {
+        tuple(constraint['columns'])
+        for constraint in constraints.values()
+        if constraint.get('primary_key')
+    } == {('id',)}
+    assert {
         tuple(constraint['columns']): constraint['foreign_key']
         for constraint in constraints.values()
         if constraint.get('foreign_key')

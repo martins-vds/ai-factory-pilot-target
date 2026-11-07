@@ -28,3 +28,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T02:29:41+00:00 | idiom-ruff-format-final | 0 | 0.01 | `ruff format --check` | `184b6bfbf75ff0af` |  |  |
 | 2026-11-07T02:29:41+00:00 | migration-state-final | 0 | 0.27 | `python manage.py makemigrations --check --dry-run` | `a2bfa7b376c38062` |  |  |
 | 2026-11-07T03:00:49+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T03:04:02+00:00 | verifier-primary-key | 0 | 2.71 | `pytest -q tests/voyage/test_repository.py::test_carrier_movement_schema_preserves_source_columns_and_references` | `59d6ca1c24a014d7` |  |  |
+| 2026-11-07T03:04:11+00:00 | build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T03:04:12+00:00 | build-check | 0 | 0.25 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T03:04:37+00:00 | behavior | 0 | 25.13 | `pytest -q` | `64d76b90abe7970e` |  |  |
+| 2026-11-07T03:04:37+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T03:04:37+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `184b6bfbf75ff0af` |  |  |
+| 2026-11-07T03:05:03+00:00 | crap-pytest | 0 | 25.65 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `7445984ab7c5b30b` |  |  |
+| 2026-11-07T03:05:03+00:00 | crap-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T03:05:03+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `34d1ce024bdfe792` |  | gate=crap max=19.0 threshold=30 over=0 methods=132 |
+| 2026-11-07T03:05:19+00:00 | mutation-changed | 0 | 16.52 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `936ef0be3bf9d31e` |  | gate=mutation score=0.870 threshold=0.8 killed=20 survived=3 files=2 base=origin/main |
+| 2026-11-07T03:05:45+00:00 | regression | 0 | 25.9 | `pytest -q` | `926cfd27434bd125` |  |  |
