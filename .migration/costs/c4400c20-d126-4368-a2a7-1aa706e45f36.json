@@ -144,30 +144,30 @@
       ]
     },
     "event_types": {
-      "assistant.message": 290,
-      "assistant.turn_end": 150,
-      "assistant.turn_start": 151,
+      "assistant.message": 319,
+      "assistant.turn_end": 165,
+      "assistant.turn_start": 165,
       "external_tool.completed": 1,
       "external_tool.requested": 1,
-      "hook.end": 437,
-      "hook.start": 437,
-      "permission.completed": 233,
-      "permission.requested": 233,
+      "hook.end": 479,
+      "hook.start": 480,
+      "permission.completed": 252,
+      "permission.requested": 252,
       "session.start": 1,
       "skill.invoked": 13,
-      "subagent.completed": 1,
+      "subagent.completed": 2,
       "subagent.selected": 1,
       "subagent.started": 2,
       "system.message": 3,
-      "tool.execution_complete": 241,
-      "tool.execution_start": 243,
+      "tool.execution_complete": 263,
+      "tool.execution_start": 263,
       "user.message": 12
     },
-    "events": 2450,
+    "events": 2674,
     "usage_fields": []
   },
-  "ended_at": "2026-11-07T04:41:19.270Z",
-  "event": "agentStop",
+  "ended_at": "2026-11-07T04:44:25.494Z",
+  "event": "sessionEnd",
   "harness_tools": [
     {
       "count": 6,
@@ -180,7 +180,7 @@
       "tool": "afs-mutation"
     },
     {
-      "count": 88,
+      "count": 90,
       "exit": 0,
       "tool": "afs-run"
     },
@@ -210,7 +210,7 @@
       "tool": "check_runtime.py"
     },
     {
-      "count": 6,
+      "count": 10,
       "exit": 0,
       "tool": "validate.py"
     },
@@ -223,17 +223,16 @@
   "log": "/home/runner/.copilot/session-state/c4400c20-d126-4368-a2a7-1aa706e45f36/events.jsonl",
   "models": {
     "gpt-6-luna": {
-      "output": 107301,
-      "requests": 290
+      "output": 117325,
+      "requests": 319
     }
   },
   "prompt_head": null,
-  "recorded_at": "2026-11-07T04:41:27+00:00",
+  "recorded_at": "2026-11-07T04:44:26+00:00",
   "schema": "afs-cost/1",
   "session_id": "c4400c20-d126-4368-a2a7-1aa706e45f36",
   "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
   "started_at": "2026-11-07T04:08:58.469Z",
   "surface": "coding-agent",
-  "trigger_id": "call_QkMb05DTQ2cWa9THIDtwLC3K",
   "usage_source": "assistant.message (output only, partial)"
 }
