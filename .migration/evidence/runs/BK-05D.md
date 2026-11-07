@@ -7,3 +7,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T15:31:33+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T15:35:17+00:00 | origin-test-red | 2 | 1.32 | `pytest -q tests/booking/interfaces/test_wizard.py` | `d71e403d5ad97e03` | ___________ ERROR collecting tests/booking/interfaces/test_wizard.py ___________ |  |
 | 2026-11-07T15:35:34+00:00 | origin-test-green | 0 | 2.09 | `pytest -q tests/booking/interfaces/test_wizard.py` | `7eb11104642b7dc0` |  |  |
+| 2026-11-07T15:36:04+00:00 | destination-test-red | 1 | 2.55 | `pytest -q tests/booking/interfaces/test_wizard.py` | `86721a16fb9bf6eb` | assert response.status_code == 200 |  |
+| 2026-11-07T15:36:23+00:00 | destination-test-green | 0 | 2.53 | `pytest -q tests/booking/interfaces/test_wizard.py` | `79c4f9b3e3191fc9` |  |  |

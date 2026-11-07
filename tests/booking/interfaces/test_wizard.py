@@ -27,3 +27,33 @@ def test_origin_step_is_open_and_defaults_to_chicago():
     assert content.count('<option') == 13
     assert 'Cancel' in content
     assert 'Next' in content
+
+
+@pytest.mark.django_db
+def test_origin_next_opens_destination_with_dallas_and_excludes_origin():
+    call_command('seed_sample_data')
+    wizard = create_booking_wizard_view(
+        CargoRegistration(DjangoCargoRepository()),
+        DjangoLocationRepository(),
+    )
+
+    response = wizard(
+        RequestFactory().post(
+            '/booking/',
+            {'step': 'origin', 'action': 'next', 'origin': 'USCHI'},
+        )
+    )
+    content = response.content.decode()
+    destination_options = re.search(
+        r'<select\b[^>]*name="destination"[^>]*>(.*?)</select>', content, re.DOTALL
+    )
+
+    assert response.status_code == 200
+    assert 'Set the destination for this new cargo coming from Chicago' in content
+    assert destination_options is not None
+    assert 'value="USDAL" selected' in destination_options.group(1)
+    assert 'value="USCHI"' not in destination_options.group(1)
+    assert destination_options.group(1).count('<option') == 12
+    assert 'Back' in content
+    assert 'Cancel' in content
+    assert 'Next' in content
