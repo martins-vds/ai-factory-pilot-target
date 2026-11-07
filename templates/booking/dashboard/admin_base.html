@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <header class="border-b border-gray-200">
+    <nav class="mx-auto flex max-w-screen-2xl gap-6 px-4 py-3 sm:px-6" aria-label="Administration">
+      <a class="font-medium text-blue-700" href="/admin/dashboard/">Cargo Dashboard</a>
+      <a class="text-gray-700 hover:text-blue-700" href="/admin/live-map/">Live Map</a>
+    </nav>
+  </header>
+  <main class="mx-auto max-w-screen-2xl space-y-8 p-4 sm:p-6">
+    {% block admin_content %}{% endblock %}
+  </main>
+{% endblock %}

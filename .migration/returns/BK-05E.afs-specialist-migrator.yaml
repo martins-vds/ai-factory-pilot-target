@@ -1,0 +1,34 @@
+role: afs-specialist-migrator
+ticket: BK-05E
+issue: martins-vds/ai-factory-pilot-target#292
+specialty: ui
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/385
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 26.0
+  mutation_changed: 1.0
+  regression: 0
+specialty_evidence:
+  - tests/booking/application/test_dashboard.py::test_dashboard_partitions_cargos_in_source_order
+  - tests/booking/application/test_dashboard.py::test_cargo_details_returns_the_requested_cargo
+  - tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link
+  - tests/booking/interfaces/test_dashboard.py::test_dashboard_renders_empty_tables_without_custom_empty_state
+  - tests/booking/interfaces/test_dashboard.py::test_cargo_moves_from_not_routed_to_routed_after_assignment
+  - tests/booking/interfaces/test_cargo_details.py::test_cargo_details_render_route_fields_and_itinerary
+  - tests/booking/interfaces/test_cargo_details.py::test_unknown_and_stale_cargo_details_return_http_404
+  - tests/booking/interfaces/test_cargo_details.py::test_unknown_cargo_details_raise_the_existing_not_found_error
+  - .migration/evidence/runs/BK-05E.md
+  - .migration/evidence/mutants/BK-05E.md
+ledger_updated:
+  - booking.dashboard-chain
+  - booking.dashboard-filters
+  - booking.screen-dashboard
+  - booking.screen-routed-table
+  - booking.screen-not-routed-table
+  - booking.screen-claimed-table
+  - booking.screen-cargo-details
+  - booking.cargo-not-found
+quirk_tickets: []
+handoff: none

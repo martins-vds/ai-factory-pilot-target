@@ -7,8 +7,11 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Not Routed Cargo table shows tracking ID/route link, origin, destination and deadline; destination and deadline links open their respective modal editors and refresh this table on dialogReturn."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#292"]
+target:
+  components:
+    - templates/booking/dashboard/not_routed_table.html
+status: in-progress
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -17,4 +20,6 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "The referenced tests cover service updates, not table rendering or dialogReturn refresh."
+  - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
+  - ".migration/evidence/runs/BK-05E.md"
+notes: "BK-05E renders the not-routed rows and route links; destination/deadline dialog actions and refresh remain with BK-05G."

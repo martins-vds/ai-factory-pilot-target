@@ -1,0 +1,38 @@
+<section id="not-routed-cargo" aria-labelledby="not-routed-cargo-heading">
+  <h2 id="not-routed-cargo-heading" class="mb-3 text-xl font-semibold text-gray-900">Not Routed Cargo</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-left">
+      <thead>
+        <tr class="border-b border-gray-300">
+          <th scope="col" class="p-3">Tracking ID</th>
+          <th scope="col" class="p-3">Origin</th>
+          <th scope="col" class="p-3">Destination</th>
+          <th scope="col" class="p-3">Deadline</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cargo in not_routed_cargos %}
+          <tr class="border-b border-gray-200" data-tracking-id="{{ cargo.tracking_id.value }}">
+            <td class="p-3">
+              <a
+                href="/admin/cargo/{{ cargo.tracking_id.value }}/route/"
+                title="This cargo is not routed. Click on its tracking ID to route it!"
+              >
+                {{ cargo.tracking_id.value }}
+              </a>
+            </td>
+            <td class="p-3">
+              {{ cargo.route_specification.origin.name }}<br>
+              <span class="text-sm text-gray-600">{{ cargo.route_specification.origin.unlocode.value }}</span>
+            </td>
+            <td class="p-3">
+              {{ cargo.route_specification.destination.name }}<br>
+              <span class="text-sm text-gray-600">{{ cargo.route_specification.destination.unlocode.value }}</span>
+            </td>
+            <td class="p-3">{{ cargo.route_specification.arrival_deadline|date:"m/d/Y" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>

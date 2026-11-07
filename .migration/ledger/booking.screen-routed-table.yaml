@@ -7,12 +7,18 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Routed Cargo table shows tracking ID/detail link, origin, destination, last-known location, transport status and deadline; an unknown last-location code containing XXXX is hidden."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#292"]
+target:
+  components:
+    - templates/booking/dashboard/routed_table.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "The list binds routedUnclaimedCargos, not all routed cargo. No named JUnit class directly tests this table or its hidden-code condition. The orphan test dialog is in .migration/quirks/booking-routed-table-test-dialog.md."
+  - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
+  - "tests/booking/interfaces/test_dashboard.py::test_cargo_moves_from_not_routed_to_routed_after_assignment"
+  - ".migration/evidence/runs/BK-05E.md"
+notes: "The list binds routed-unclaimed cargo and hides last-location codes containing XXXX. The unreachable debug dialog is absent per ruling #237."
 quirks: [martins-vds/ai-factory-pilot-target#237]

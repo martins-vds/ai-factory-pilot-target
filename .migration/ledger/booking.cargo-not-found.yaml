@@ -7,10 +7,11 @@ source:
   risk: {crap: 6, complexity: 2, coverage: 0.0}
 boundary: "A missing tracking ID is converted to null by JpaCargoRepository; the booking facade passes that null to CargoRouteDtoAssembler, which dereferences it, and the detail pages have no explicit not-found state."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#290]
+tickets: ["martins-vds/ai-factory-pilot-target#290", "martins-vds/ai-factory-pilot-target#292"]
 target:
   components:
     - cargotracker.booking.application.routing.CargoRouting._find_cargo
+    - cargotracker.booking.interfaces.dashboard.views.create_booking_views
 status: migrated
 verification: characterized
 characterization_tier: A
@@ -18,6 +19,8 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/application/test_routing.py::test_unknown_or_stale_routing_updates_raise_cargo_not_found"
+  - "tests/booking/interfaces/test_cargo_details.py::test_unknown_and_stale_cargo_details_return_http_404"
   - ".migration/evidence/runs/BK-05C.md"
-notes: "No named JUnit class covers this invalid-ID branch. Quirk draft: .migration/quirks/booking-cargo-not-found-unhandled.md."
+  - ".migration/evidence/runs/BK-05E.md"
+notes: "Routing updates and the cargo-details page return HTTP 404 for unknown or stale tracking IDs per ruling #232. No named JUnit class covers the original invalid-ID branch."
 quirks: [martins-vds/ai-factory-pilot-target#232]

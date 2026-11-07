@@ -7,8 +7,13 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Cargo details show origin, destination and deadline; routed cargo shows itinerary legs and a reroute action only when misrouted; unrouted cargo shows a route link."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#292"]
+target:
+  components:
+    - cargotracker.booking.application.dashboard.CargoDashboard.get_cargo_details
+    - cargotracker.booking.interfaces.dashboard.views.create_booking_views
+    - templates/booking/cargo_details.html
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -17,5 +22,8 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "Tests cover domain/service route state, not the JSF presentation; unknown tracking IDs have no explicit not-found branch (.migration/quirks/booking-cargo-not-found-unhandled.md). Claimed-cargo links also promise history while this page shows routing details (.migration/quirks/booking-claimed-history-link.md)."
+  - "tests/booking/interfaces/test_cargo_details.py::test_cargo_details_render_route_fields_and_itinerary"
+  - "tests/booking/application/test_dashboard.py::test_cargo_details_returns_the_requested_cargo"
+  - ".migration/evidence/runs/BK-05E.md"
+notes: "Cargo details show origin, destination, arrival deadline and itinerary; unrouted cargo has a route link and misrouted cargo has a reroute action. Unknown IDs return HTTP 404 per ruling #232."
 quirks: [martins-vds/ai-factory-pilot-target#233]
