@@ -1,6 +1,6 @@
 # Admin live-map marker behavior
 
-**Ticket:** AM-04A · **Slice:** `martins-vds/ai-factory-pilot-target#202`  
+**Ticket:** AM-04A · **Slice:** `martins-vds/ai-factory-pilot-target#202`
 **Plan:** `.migration/plan/admin-live-map.md` (approved in [#260](https://github.com/martins-vds/ai-factory-pilot-target/pull/260), revised in [#266](https://github.com/martins-vds/ai-factory-pilot-target/pull/266))
 
 This design turns the characterized admin map into a test-first checklist for AM-04B–E. Source observations are in `.migration/characterization/admin-live-map/`; target status behavior currently lives in `src/cargotracker/cargo/application/map_status.py` and `src/cargotracker/cargo/interfaces/tracking/map/views.py`.

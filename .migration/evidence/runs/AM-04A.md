@@ -6,3 +6,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 |---|---|---|---|---|---|---|---|
 | 2026-11-07T03:36:16+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T03:39:52+00:00 | validate-design | 0 | 0.92 | `python .migration/harness/tools/validate.py .migration` | `ca2aae055e8f267d` |  |  |
+| 2026-11-07T03:40:36+00:00 | validate-design-final | 0 | 0.91 | `python .migration/harness/tools/validate.py .migration` | `ca2aae055e8f267d` |  |  |
