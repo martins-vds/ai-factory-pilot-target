@@ -28,8 +28,6 @@ def _transform(value, transform, timezone):
         mapping = transform['map']
         if value in mapping:
             result = mapping[value]
-        elif str(value) in mapping:
-            result = mapping[str(value)]
         else:
             raise DataLoadError(f'no mapping for value {value!r}')
         return None if result is None else str(result)
@@ -224,9 +222,82 @@ def _prepare_tables(mapping, models):
             entry['refs'][column] = {
                 'target_index': target_indexes[table],
                 'field': field,
-                'target_model': referenced_entry['model'],
             }
     return prepared
+
+
+def _clear_mapped_tables(prepared):
+    for index, entry in enumerate(prepared):
+        model = entry['model']
+        for column, reference in entry['refs'].items():
+            if reference['target_index'] > index:
+                if not reference['field'].null:
+                    raise DataLoadError(
+                        f'{entry["spec"]["target"]}.{column}: a forward reference must be nullable'
+                    )
+                model._base_manager.all().update(**{reference['field'].attname: None})
+    for entry in reversed(prepared):
+        entry['model']._base_manager.all().delete()
+
+
+def _mapped_source_rows(entry, snapshot, manifest):
+    spec = entry['spec']
+    source_rows = _read_source_rows(snapshot, spec['source'], manifest)
+    required_sources = {source for _, source, _ in entry['columns']}
+    missing = required_sources.difference(source_rows[0].keys()) if source_rows else set()
+    if missing:
+        raise DataLoadError(
+            f'{spec["source"]}: no column(s) {", ".join(sorted(missing))} in its CSV header'
+        )
+    return source_rows
+
+
+def _insert_mapped_table(index, entry, snapshot, manifest, timezone, pending):
+    spec = entry['spec']
+    model = entry['model']
+    source_rows = _mapped_source_rows(entry, snapshot, manifest)
+    objects = []
+    for row in source_rows:
+        values = {}
+        for target_column, source_column, transform in entry['columns']:
+            field = entry['fields'][target_column]
+            value = _transform(row[source_column], transform, timezone)
+            reference = entry['refs'].get(target_column)
+            if reference and reference['target_index'] > index and value is not None:
+                pending.append((model, values, field, value))
+                value = None
+            values[field.attname] = value
+        if values[model._meta.pk.attname] is None:
+            raise DataLoadError(f'{spec["source"]}: primary key cannot be NULL')
+        objects.append(model(**values))
+    model._base_manager.bulk_create(objects, batch_size=1000)
+    return spec['target'], len(source_rows)
+
+
+def _insert_mapped_tables(prepared, snapshot, manifest, timezone):
+    pending = []
+    row_counts = [
+        _insert_mapped_table(index, entry, snapshot, manifest, timezone, pending)
+        for index, entry in enumerate(prepared)
+    ]
+    return pending, row_counts
+
+
+def _set_deferred_references(pending):
+    for model, values, field, value in pending:
+        model._base_manager.filter(pk=values[model._meta.pk.attname]).update(
+            **{field.attname: value}
+        )
+
+
+def _realign_sequences(prepared):
+    reset_sql = connection.ops.sequence_reset_sql(
+        no_style(),
+        [entry['model'] for entry in prepared],
+    )
+    with connection.cursor() as cursor:
+        for statement in reset_sql:
+            cursor.execute(statement)
 
 
 @transaction.atomic
@@ -245,59 +316,8 @@ def load_snapshot(snapshot_path, mapping_path):
     manifest = _read_manifest(snapshot)
     timezone = _mapping_timezone(mapping)
     prepared = _prepare_tables(mapping, _model_index())
-    pending = []
-    row_counts = []
-
-    for index, entry in enumerate(prepared):
-        model = entry['model']
-        for column, reference in entry['refs'].items():
-            if reference['target_index'] > index:
-                if not reference['field'].null:
-                    raise DataLoadError(
-                        f'{entry["spec"]["target"]}.{column}: a forward reference must be nullable'
-                    )
-                model._base_manager.all().update(**{reference['field'].attname: None})
-    for entry in reversed(prepared):
-        entry['model']._base_manager.all().delete()
-
-    for index, entry in enumerate(prepared):
-        spec = entry['spec']
-        model = entry['model']
-        source_rows = _read_source_rows(snapshot, spec['source'], manifest)
-        required_sources = {source for _, source, _ in entry['columns']}
-        missing = required_sources.difference(source_rows[0].keys()) if source_rows else set()
-        if missing:
-            raise DataLoadError(
-                f'{spec["source"]}: no column(s) {", ".join(sorted(missing))} in its CSV header'
-            )
-        objects = []
-        for row in source_rows:
-            values = {}
-            for target_column, source_column, transform in entry['columns']:
-                field = entry['fields'][target_column]
-                value = _transform(row[source_column], transform, timezone)
-                reference = entry['refs'].get(target_column)
-                if reference and reference['target_index'] > index and value is not None:
-                    pending.append((model, values, field, value))
-                    value = None
-                values[field.attname] = value
-            if values[model._meta.pk.attname] is None:
-                raise DataLoadError(f'{spec["source"]}: primary key cannot be NULL')
-            objects.append(model(**values))
-        model._base_manager.bulk_create(objects, batch_size=1000)
-        row_counts.append((spec['target'], len(source_rows)))
-
-    for model, values, field, value in pending:
-        model._base_manager.filter(pk=values[model._meta.pk.attname]).update(
-            **{field.attname: value}
-        )
-
-    reset_sql = connection.ops.sequence_reset_sql(
-        no_style(),
-        [entry['model'] for entry in prepared],
-    )
-    with connection.cursor() as cursor:
-        for statement in reset_sql:
-            cursor.execute(statement)
-
+    _clear_mapped_tables(prepared)
+    pending, row_counts = _insert_mapped_tables(prepared, snapshot, manifest, timezone)
+    _set_deferred_references(pending)
+    _realign_sequences(prepared)
     return row_counts
