@@ -71,3 +71,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T13:02:45+00:00 | idiom-format-final | 0 | 0.02 | `ruff format --check` | `c98b86154f37b741` |  |  |
 | 2026-11-07T13:02:45+00:00 | build-check-final | 0 | 0.32 | `python manage.py check` | `1e3e63f221bde888` |  |  |
 | 2026-11-07T13:03:02+00:00 | mutation-changed-rerun | 1 | 254.17 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `97de1a65a8a41610` | afs-mutation: FAILED score=0.682 threshold=0.8 killed=206 survived=96 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.682 threshold=0.8 killed=206 survived=96 files=3 base=origin/main |
+| 2026-11-07T15:07:11+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
