@@ -44,3 +44,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T15:55:06+00:00 | safe-mutation-test-ids | 0 | 7.88 | `pytest -q tests/booking/interfaces/test_wizard.py` | `f7d468a6d23ccb9a` |  |  |
 | 2026-11-07T16:03:45+00:00 | mutation-changed-retry | 1 | 494.0 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `6f38cc10ba79337b` | afs-mutation: FAILED score=0.745 threshold=0.8 killed=114 survived=39 skipped=0 files=1 jobs=1 base=origin/main | gate=mutation score=0.745 threshold=0.8 killed=114 survived=39 files=1 base=origin/main |
 | 2026-11-07T16:07:05+00:00 | mutation-survivor-tests | 0 | 11.2 | `pytest -q tests/booking/interfaces/test_wizard.py` | `6d97a8b6add3ee71` |  |  |
+| 2026-11-07T16:16:45+00:00 | mutation-changed-final | 0 | 538.18 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `7fa2ecf347cc328f` |  | gate=mutation score=0.863 threshold=0.8 killed=132 survived=21 files=1 base=origin/main |
+| 2026-11-07T16:17:09+00:00 | build-compile-final | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T16:17:15+00:00 | build-check-final | 0 | 0.38 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T16:17:21+00:00 | idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T16:17:26+00:00 | idiom-ruff-format-final | 0 | 0.01 | `ruff format --check` | `3e363a951eafb2bc` |  |  |
+| 2026-11-07T16:18:25+00:00 | behavior-tests-final | 0 | 52.34 | `pytest -q` | `d2f45c3da4e7c824` |  |  |
+| 2026-11-07T16:19:22+00:00 | crap-coverage-final | 0 | 50.41 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `dbbd8ab69f0215b3` |  |  |
+| 2026-11-07T16:19:28+00:00 | crap-lizard-final | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T16:19:33+00:00 | crap-score-final | 0 | 0.05 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `87418f6761fb4abf` |  | gate=crap max=19.0 threshold=30 over=0 methods=155 |
+| 2026-11-07T16:20:38+00:00 | regression-tests-final | 0 | 50.82 | `pytest -q` | `be18aafc83fc484f` |  |  |
