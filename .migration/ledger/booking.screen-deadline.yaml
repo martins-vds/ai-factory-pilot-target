@@ -7,11 +7,18 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Step 3 uses an inline yyyy-MM-dd calendar with today as minimum, reports zero/one/multiple-day duration states, and disables Book Cargo unless bookable."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#291]
+target:
+  components:
+    - templates/booking/wizard/deadline.html
+    - templates/booking/wizard/_deadline_form.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/interfaces/test_wizard.py::test_destination_next_opens_deadline_with_today_as_calendar_minimum"
+  - "tests/booking/interfaces/test_wizard.py::test_deadline_change_updates_duration_and_booking_state"
+  - ".migration/evidence/runs/BK-05D.md"
 notes: "Date selection triggers an AJAX listener that updates the duration panel and button; no named JUnit class directly exercises the JSF calendar. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

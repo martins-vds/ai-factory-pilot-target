@@ -28,6 +28,8 @@ def test_origin_step_is_open_and_defaults_to_chicago():
     assert 'Choose the origin of the new cargo' in content
     assert re.search(r'<option value="USCHI" selected', content)
     assert content.count('<option') == 13
+    assert 'origin-error' not in content
+    assert 'name="deadline"' not in content
     assert 'Cancel' in content
     assert 'Next' in content
 
@@ -57,6 +59,8 @@ def test_origin_next_opens_destination_with_dallas_and_excludes_origin():
     assert 'value="USDAL" selected' in destination_options.group(1)
     assert 'value="USCHI"' not in destination_options.group(1)
     assert destination_options.group(1).count('<option') == 12
+    assert 'destination-error' not in content
+    assert 'name="deadline"' not in content
     assert 'Back' in content
     assert 'Cancel' in content
     assert 'Next' in content
@@ -109,6 +113,31 @@ def test_invalid_destination_is_reported_on_destination_step():
 
 
 @pytest.mark.django_db
+def test_nondefault_origin_gets_an_available_nonmatching_destination():
+    call_command('seed_sample_data')
+    wizard = create_booking_wizard_view(
+        CargoRegistration(DjangoCargoRepository()),
+        DjangoLocationRepository().find_all,
+    )
+
+    response = wizard(
+        RequestFactory().post(
+            '/booking/',
+            {'step': 'origin', 'action': 'next', 'origin': 'USDAL'},
+        )
+    )
+    content = response.content.decode()
+    destination_options = re.search(
+        r'<select\b[^>]*name="destination"[^>]*>(.*?)</select>', content, re.DOTALL
+    )
+    assert destination_options is not None
+    selected_options = re.findall(r'<option\b[^>]*selected', destination_options.group(1))
+
+    assert 'value="USDAL"' not in destination_options.group(1)
+    assert len(selected_options) == 1
+
+
+@pytest.mark.django_db
 def test_destination_next_opens_deadline_with_today_as_calendar_minimum(monkeypatch):
     call_command('seed_sample_data')
     today = date(2026, 11, 7)
@@ -138,6 +167,8 @@ def test_destination_next_opens_deadline_with_today_as_calendar_minimum(monkeypa
     assert 'Set the arrival deadline for this new Chicago-Dallas cargo' in content
     assert 'type="date"' in content
     assert 'min="2026-11-07"' in content
+    assert 'value=""' in content
+    assert 'deadline-error' not in content
     assert 'Back' in content
     assert 'Cancel' in content
     assert re.search(r'<button\b[^>]*id="book-cargo"[^>]*disabled', content)
@@ -181,6 +212,7 @@ def test_deadline_change_updates_duration_and_booking_state(
 
     assert response.status_code == 200
     assert message in content
+    assert '<main' not in content
     assert book_button is not None
     has_disabled_attribute = re.search(r'\sdisabled(?:\s|>)', book_button.group(0))
     assert (has_disabled_attribute is None) is bookable
@@ -269,7 +301,7 @@ def test_back_and_next_preserve_destination_and_deadline(monkeypatch):
                 'step': 'deadline',
                 'action': 'back',
                 'origin': 'USCHI',
-                'destination': 'USDAL',
+                'destination': 'USNYC',
                 'deadline': '2026-11-09',
             },
         )
@@ -281,7 +313,7 @@ def test_back_and_next_preserve_destination_and_deadline(monkeypatch):
                 'step': 'destination',
                 'action': 'back',
                 'origin': 'USCHI',
-                'destination': 'USDAL',
+                'destination': 'USNYC',
                 'deadline': '2026-11-09',
             },
         )
@@ -293,8 +325,8 @@ def test_back_and_next_preserve_destination_and_deadline(monkeypatch):
         r'<select\b[^>]*name="origin"[^>]*>(.*?)</select>', origin_content, re.DOTALL
     )
     assert origin_options is not None
-    assert 'value="USDAL"' not in origin_options.group(1)
-    assert 'name="destination" value="USDAL"' in origin_content
+    assert 'value="USNYC"' not in origin_options.group(1)
+    assert 'name="destination" value="USNYC"' in origin_content
     assert 'name="deadline" value="2026-11-09"' in origin_content
 
     destination_next = wizard(
@@ -304,7 +336,7 @@ def test_back_and_next_preserve_destination_and_deadline(monkeypatch):
                 'step': 'origin',
                 'action': 'next',
                 'origin': 'USCHI',
-                'destination': 'USDAL',
+                'destination': 'USNYC',
                 'deadline': '2026-11-09',
             },
         )
@@ -316,13 +348,13 @@ def test_back_and_next_preserve_destination_and_deadline(monkeypatch):
                 'step': 'destination',
                 'action': 'next',
                 'origin': 'USCHI',
-                'destination': 'USDAL',
+                'destination': 'USNYC',
                 'deadline': '2026-11-09',
             },
         )
     )
 
-    assert 'value="USDAL" selected' in destination_next.content.decode()
+    assert 'value="USNYC" selected' in destination_next.content.decode()
     assert 'value="2026-11-09"' in deadline_next.content.decode()
     assert 'Journey duration is 2 days.' in deadline_next.content.decode()
 
@@ -355,6 +387,99 @@ def test_same_day_booking_is_rejected_even_when_submitted_directly(monkeypatch):
     assert response.status_code == 200
     assert "A journey can't start and end the same day!" in content
     assert re.search(r'<button\b[^>]*id="book-cargo"[^>]*disabled', content)
+    assert not CargoRecord.objects.exclude(tracking_id__in=existing_tracking_ids).exists()
+
+
+@pytest.mark.parametrize(
+    ('origin', 'destination'),
+    [('USCHI', None), (None, 'USDAL')],
+    ids=('missing-destination', 'missing-origin'),
+)
+@pytest.mark.django_db
+def test_booking_requires_both_locations(monkeypatch, origin, destination):
+    call_command('seed_sample_data')
+    today = date(2026, 11, 7)
+    monkeypatch.setattr('django.utils.timezone.localdate', lambda: today)
+    existing_tracking_ids = set(CargoRecord.objects.values_list('tracking_id', flat=True))
+    wizard = create_booking_wizard_view(
+        CargoRegistration(DjangoCargoRepository()),
+        DjangoLocationRepository().find_all,
+    )
+    form_data = {'step': 'deadline', 'action': 'book', 'deadline': '2026-11-08'}
+    if origin is not None:
+        form_data['origin'] = origin
+    if destination is not None:
+        form_data['destination'] = destination
+
+    response = wizard(RequestFactory().post('/booking/', form_data))
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert 'Choose an origin and destination.' in content
+    assert not CargoRecord.objects.exclude(tracking_id__in=existing_tracking_ids).exists()
+
+
+@pytest.mark.django_db
+def test_booking_without_a_deadline_shows_a_field_error(monkeypatch):
+    call_command('seed_sample_data')
+    today = date(2026, 11, 7)
+    monkeypatch.setattr('django.utils.timezone.localdate', lambda: today)
+    existing_tracking_ids = set(CargoRecord.objects.values_list('tracking_id', flat=True))
+    wizard = create_booking_wizard_view(
+        CargoRegistration(DjangoCargoRepository()),
+        DjangoLocationRepository().find_all,
+    )
+
+    response = wizard(
+        RequestFactory().post(
+            '/booking/',
+            {'step': 'deadline', 'action': 'book', 'origin': 'USCHI', 'destination': 'USDAL'},
+        )
+    )
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert 'Choose an arrival deadline.' in content
+    assert 'deadline-error' not in content
+    assert not CargoRecord.objects.exclude(tracking_id__in=existing_tracking_ids).exists()
+
+
+@pytest.mark.parametrize(
+    ('deadline', 'message'),
+    [
+        ('not-a-date', 'Enter a valid arrival deadline.'),
+        ('2026-11-06', 'Arrival deadline cannot be before today.'),
+    ],
+    ids=('malformed', 'before-today'),
+)
+@pytest.mark.django_db
+def test_invalid_deadline_is_reported_without_registering_cargo(monkeypatch, deadline, message):
+    call_command('seed_sample_data')
+    today = date(2026, 11, 7)
+    monkeypatch.setattr('django.utils.timezone.localdate', lambda: today)
+    existing_tracking_ids = set(CargoRecord.objects.values_list('tracking_id', flat=True))
+    wizard = create_booking_wizard_view(
+        CargoRegistration(DjangoCargoRepository()),
+        DjangoLocationRepository().find_all,
+    )
+
+    response = wizard(
+        RequestFactory().post(
+            '/booking/',
+            {
+                'step': 'deadline',
+                'action': 'book',
+                'origin': 'USCHI',
+                'destination': 'USDAL',
+                'deadline': deadline,
+            },
+        )
+    )
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert message in content
+    assert 'aria-invalid="true"' in content
     assert not CargoRecord.objects.exclude(tracking_id__in=existing_tracking_ids).exists()
 
 
