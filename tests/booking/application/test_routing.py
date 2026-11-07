@@ -59,9 +59,7 @@ def _routing_service(candidates):
         VoyageRecord.objects.create(voyage_number=voyage_number)
 
     cargo_repository = DjangoCargoRepository()
-    tracking_id = CargoRegistration(cargo_repository).register(
-        ORIGIN, DESTINATION, DEADLINE
-    )
+    tracking_id = CargoRegistration(cargo_repository).register(ORIGIN, DESTINATION, DEADLINE)
     service = CandidateRoutingService(candidates)
     return (
         CargoRouting(
