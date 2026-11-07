@@ -1,3 +1,5 @@
+import re
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 import pytest
@@ -12,6 +14,8 @@ from cargotracker.cargo.domain.leg import Leg
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
 from cargotracker.handling.infrastructure.repository import DjangoHandlingEventRepository
+from cargotracker.location.domain.location import Location
+from cargotracker.location.domain.un_locode import UnLocode
 from cargotracker.location.infrastructure.repository import DjangoLocationRepository
 from cargotracker.voyage.domain.voyage_number import VoyageNumber
 from cargotracker.voyage.infrastructure.repository import DjangoVoyageRepository
@@ -50,10 +54,20 @@ def reset_repository():
 @override_settings(ROOT_URLCONF=__name__)
 def test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link(client):
     call_command('seed_sample_data')
+    routed_cargo = repository.find(TrackingId('ABC123'))
+    assert routed_cargo is not None
+    cargo_with_unknown_last_location = replace(
+        routed_cargo,
+        delivery=replace(
+            routed_cargo.delivery,
+            last_known_location=Location(UnLocode('XXXXX'), 'Unknown'),
+        ),
+    )
     repository.ordered_cargos = [
         repository.find(TrackingId(tracking_id))
-        for tracking_id in ('JKL567', 'DEF789', 'ABC123', 'MNO456')
+        for tracking_id in ('JKL567', 'DEF789')
     ]
+    repository.ordered_cargos.extend((cargo_with_unknown_last_location, repository.find(TrackingId('MNO456'))))
 
     response = client.get('/admin/dashboard/')
     content = response.content.decode()
@@ -65,9 +79,19 @@ def test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_
     assert content.index('Routed Cargo') < content.index('Not Routed Cargo') < content.index(
         'Claimed Cargo'
     )
+    assert re.findall(r'data-tracking-id="([^"]+)"', routed_table) == ['JKL567', 'ABC123']
+    assert re.findall(r'data-tracking-id="([^"]+)"', not_routed_table) == ['DEF789']
+    assert re.findall(r'data-tracking-id="([^"]+)"', claimed_table) == ['MNO456']
     assert routed_table.index('JKL567') < routed_table.index('ABC123')
-    assert 'DEF789' in not_routed_table
-    assert 'MNO456' in claimed_table
+    assert 'Origin' in routed_table and 'CNHKG' in routed_table
+    assert 'Destination' in routed_table and 'FIHEL' in routed_table
+    assert 'Last Known Location' in routed_table and 'Unknown' in routed_table
+    assert 'XXXXX' not in routed_table
+    assert 'Status' in routed_table and 'IN_PORT' in routed_table
+    assert 'Deadline' in routed_table and re.search(r'\d{2}/\d{2}/\d{4}', routed_table)
+    assert 'Hong Kong' in not_routed_table and 'Melbourne' in not_routed_table
+    assert 'AUMEL' in not_routed_table and 'Deadline' in not_routed_table
+    assert 'New York' in claimed_table and 'Dallas' in claimed_table
     assert 'href="/admin/cargo/DEF789/route/"' in not_routed_table
     assert 'href="/admin/cargo/MNO456/"' in claimed_table
     assert 'title="Click to see details"' in claimed_table
