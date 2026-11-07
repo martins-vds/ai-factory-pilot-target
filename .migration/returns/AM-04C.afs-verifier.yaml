@@ -2,7 +2,7 @@ role: afs-verifier
 ticket: AM-04C
 issue: martins-vds/ai-factory-pilot-target#282
 pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/335
-verdict: pass
+verdict: changes-required
 gates:
   build: 0
   behavior: 0
@@ -13,6 +13,9 @@ gates:
 evidence_logs:
   - .migration/evidence/runs/AM-04C.md
 findings:
+  - severity: major
+    where: src/cargotracker/cargo/interfaces/admin_map/views.py:21
+    what: Browser polling gets HTTP 500 because admin/_live_map_markers.html is absent, so no successful marker partial is swapped; AM-04D owns that partial.
   - severity: minor
     where: templates/admin/live_map.html:41-47
     what: Possible duplicated Leaflet map/tile initialization also appears in the tracking map template; judgment-call maintainability note only.
