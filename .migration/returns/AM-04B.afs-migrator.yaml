@@ -1,0 +1,19 @@
+role: afs-migrator
+ticket: AM-04B
+issue: martins-vds/ai-factory-pilot-target#281
+pr: martins-vds/ai-factory-pilot-target#309
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.870
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/AM-04B.md
+ledger_updated:
+  - admin-live-map.cargo-source
+  - admin-live-map.rest-resource-config
+quirk_tickets: []
+new_tickets: []
+handoff: none
