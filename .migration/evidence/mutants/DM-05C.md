@@ -1,6 +1,6 @@
 # Surviving mutants: DM-05C
 
-Written by `afs-mutation` on its last run (base `origin/main`): score 0.960, threshold 0.8, killed 286, survived 12. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent. The diff under each line is the change mutmut made.
+Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, threshold 0.8, killed 288, survived 10. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent. The diff under each line is the change mutmut made.
 
 - `src/cargotracker/data_migration/loader.py:52 Mutant #49`
 
@@ -109,31 +109,6 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.960, thr
   -    model._base_manager.bulk_create(objects, batch_size=1000)
   +    model._base_manager.bulk_create(objects, batch_size=1001)
        return spec['target'], len(source_rows)
-  ```
-
-- `src/cargotracker/data_migration/loader.py:306 Mutant #268`
-
-  ```diff
-  @@ -303,7 +303,7 @@
-   @transaction.atomic
-   def load_snapshot(snapshot_path, mapping_path):
-       if connection.vendor != 'postgresql':
-  -        raise DataLoadError('load_data_snapshot requires PostgreSQL')
-  +        raise DataLoadError('XXload_data_snapshot requires PostgreSQLXX')
-       snapshot = Path(snapshot_path)
-       mapping_file = Path(mapping_path)
-       try:
-  ```
-
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:7 Mutant #1`
-
-  ```diff
-  @@ -4,7 +4,7 @@
-   class Command(BaseCommand):
-  -    help = 'Load a validated relational snapshot using its mapping.'
-  +    help = 'XXLoad a validated relational snapshot using its mapping.XX'
-       def add_arguments(self, parser):
-           parser.add_argument('--snapshot', required=True)
   ```
 
 - `src/cargotracker/data_migration/apps.py:5 Mutant #1`

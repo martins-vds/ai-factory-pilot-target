@@ -109,3 +109,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T17:49:26+00:00 | loader-simplifications | 0 | 4.02 | `pytest -q tests/data_migration/test_load.py` | `195537f2ba3b9a70` |  |  |
 | 2026-11-07T17:55:03+00:00 | mutation-changed-final | 0 | 331.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `b4895cd72bffda51` |  | gate=mutation score=0.960 threshold=0.8 killed=286 survived=12 files=3 base=origin/main |
 | 2026-11-07T17:55:50+00:00 | loader-final-cases | 0 | 4.31 | `pytest -q tests/data_migration/test_load.py` | `76804d66527a1af3` |  |  |
+| 2026-11-07T18:01:39+00:00 | mutation-changed-closure | 0 | 330.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `69b0a8b9a48b9070` |  | gate=mutation score=0.966 threshold=0.8 killed=288 survived=10 files=3 base=origin/main |
