@@ -76,3 +76,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T21:46:38+00:00 | final-crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
 | 2026-11-07T21:47:09+00:00 | final-mutation-changed | 0 | 30.91 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |
 | 2026-11-07T22:18:51+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T22:21:42+00:00 | verifier-characterization-dashboard | 0 | 5.01 | `pytest -q tests/characterization/test_booking.py tests/booking/interfaces/test_dashboard.py tests/booking/interfaces/test_cargo_details.py` | `974031136f6ce25c` |  |  |
+| 2026-11-07T22:21:46+00:00 | verifier-build-compileall | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T22:21:49+00:00 | verifier-build-django-check | 0 | 0.38 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T22:21:53+00:00 | verifier-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T22:21:56+00:00 | verifier-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `dd6674ff09df8dc3` |  |  |
+| 2026-11-07T22:22:59+00:00 | verifier-behavior-tests | 0 | 58.87 | `pytest -q` | `e47ca725c3a37ee2` |  |  |
+| 2026-11-07T22:24:00+00:00 | verifier-crap-coverage | 0 | 56.56 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `df89e59f45ba5fd6` |  |  |
+| 2026-11-07T22:24:03+00:00 | verifier-crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T22:24:08+00:00 | verifier-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
+| 2026-11-07T22:24:56+00:00 | verifier-mutation-changed | 0 | 42.03 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |
