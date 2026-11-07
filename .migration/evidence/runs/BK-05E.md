@@ -86,3 +86,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T22:24:03+00:00 | verifier-crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T22:24:08+00:00 | verifier-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
 | 2026-11-07T22:24:56+00:00 | verifier-mutation-changed | 0 | 42.03 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |
+| 2026-11-07T22:27:56+00:00 | verifier-details-enhanced | 0 | 2.08 | `pytest -q tests/booking/interfaces/test_cargo_details.py::test_cargo_details_render_route_fields_and_itinerary` | `4584379751fa8190` |  |  |
+| 2026-11-07T22:28:02+00:00 | verifier-final-compileall | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T22:28:07+00:00 | verifier-final-django-check | 0 | 0.35 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T22:28:10+00:00 | verifier-final-ruff-check | 1 | 0.01 | `ruff check` | `f6ee7cff6d9e45aa` | Found 1 error. |  |
+| 2026-11-07T22:28:22+00:00 | verifier-final-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T22:28:25+00:00 | verifier-final-ruff-format | 0 | 0.01 | `ruff format --check` | `dd6674ff09df8dc3` |  |  |
+| 2026-11-07T22:29:20+00:00 | verifier-final-tests | 0 | 50.99 | `pytest -q` | `fee723410dc1366b` |  |  |
+| 2026-11-07T22:30:14+00:00 | verifier-final-crap-coverage | 0 | 51.02 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `b44057555254a4eb` |  |  |
+| 2026-11-07T22:30:17+00:00 | verifier-final-crap-lizard | 0 | 0.14 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T22:30:21+00:00 | verifier-final-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
+| 2026-11-07T22:31:03+00:00 | verifier-final-mutation-changed | 0 | 38.89 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |

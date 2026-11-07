@@ -2,7 +2,7 @@ role: afs-specialist-migrator
 ticket: BK-05E
 issue: martins-vds/ai-factory-pilot-target#292
 specialty: ui
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/390
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/385
 gates:
   build: 0
   behavior: 0
