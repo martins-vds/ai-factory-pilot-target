@@ -20,3 +20,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T18:31:15+00:00 | mutation-changed | 0 | 25.98 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `4e8520baafe17cc5` |  | gate=mutation score=0.929 threshold=0.8 killed=13 survived=1 files=1 base=origin/main |
 | 2026-11-07T20:44:35+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T20:47:54+00:00 | verifier-detail-tests | 0 | 5.11 | `pytest -q tests/booking/interfaces/test_cargo_details.py` | `0a1e2d419eae0218` |  |  |
+| 2026-11-07T20:48:20+00:00 | verifier-build-compileall | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T20:48:20+00:00 | verifier-build-django-check | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T20:48:21+00:00 | verifier-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T20:48:21+00:00 | verifier-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `df313bb2dd82ede5` |  |  |
+| 2026-11-07T20:49:18+00:00 | verifier-behavior-tests | 0 | 53.4 | `pytest -q` | `d4ed7b94c4c2b1e2` |  |  |
+| 2026-11-07T20:50:08+00:00 | verifier-crap-coverage | 0 | 50.38 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `25723541bf65ac80` |  |  |
+| 2026-11-07T20:50:13+00:00 | verifier-crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T20:50:13+00:00 | verifier-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `d7e339dad131f4ec` |  | gate=crap max=26.0 threshold=30 over=0 methods=197 |
+| 2026-11-07T20:51:05+00:00 | verifier-mutation-changed | 0 | 44.25 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `a4fbfa3725b2cc52` |  | gate=mutation score=0.929 threshold=0.8 killed=13 survived=1 files=1 base=origin/main |

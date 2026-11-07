@@ -76,7 +76,7 @@ def test_unrouted_cargo_details_link_to_route_selection(client):
 @override_settings(ROOT_URLCONF=__name__)
 def test_misrouted_cargo_details_offer_reroute_action(client):
     call_command('seed_sample_data')
-    cargo = repository._repository.find(TrackingId('MNO456'))
+    cargo = DjangoCargoRepository().find(TrackingId('MNO456'))
     assert cargo is not None
     repository.cargo_overrides['MNO456'] = replace(
         cargo,
