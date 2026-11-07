@@ -2,7 +2,7 @@ role: afs-specialist-migrator
 ticket: DM-05F
 issue: martins-vds/ai-factory-pilot-target#273
 specialty: data
-pr: martins-vds/ai-factory-pilot-target#357
+pr: martins-vds/ai-factory-pilot-target#374
 gates:
   build: 0
   behavior: 0
