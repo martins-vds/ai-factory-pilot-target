@@ -7,11 +7,12 @@ data_paths:
     - src/main/webapp/admin/selectItinerary.xhtml
     - src/main/webapp/admin/tables/listNotRouted.xhtml
   target:
-    - endpoint=/booking/booking.xhtml
-    - endpoint=/admin/dashboard.xhtml
-    - endpoint=/admin/route.xhtml
-    - endpoint=/admin/selectItinerary.xhtml
-    - endpoint=/admin/tables/listNotRouted.xhtml
-    - endpoint=/rest/graph-traversal/shortest-path
+    - endpoint=/booking/
+    - endpoint=/admin/dashboard/
+    - endpoint=/admin/cargo/<tracking_id>/
+    - endpoint=/admin/cargo/<tracking_id>/route/
+    - endpoint=/admin/cargo/<tracking_id>/itineraries/
+    - endpoint=/admin/dashboard/not-routed/
 entry_points:
-  target: []
+  target:
+    - endpoint=GET /rest/graph-traversal/shortest-path
