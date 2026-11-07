@@ -13,3 +13,4 @@ verification: pending
 evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDeadline"
 notes: "The named test covers service state, not modal interaction, parsing errors, cancellation or refresh behavior. Parse failures only print a stack trace (.migration/quirks/booking-deadline-dialog-parse-error.md)."
+quirks: [martins-vds/ai-factory-pilot-target#234]

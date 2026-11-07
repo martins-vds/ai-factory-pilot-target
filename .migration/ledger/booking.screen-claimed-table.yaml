@@ -11,3 +11,4 @@ tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
 verification: pending
 notes: "No named JUnit class directly tests this table or its history link. The tooltip-to-routing-details mismatch is in .migration/quirks/booking-claimed-history-link.md."
+quirks: [martins-vds/ai-factory-pilot-target#233]

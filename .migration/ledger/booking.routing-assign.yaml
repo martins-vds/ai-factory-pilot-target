@@ -15,3 +15,4 @@ evidence:
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
   - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java::testCargoFromHongkongToStockholm"
 notes: "The redirect outcome uses show.html although the page and Faces mapping are show.xhtml; see .migration/quirks/booking-route-selection-redirect.md."
+quirks: [martins-vds/ai-factory-pilot-target#236]

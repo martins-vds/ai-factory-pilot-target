@@ -11,3 +11,4 @@ tickets: [martins-vds/ai-factory-pilot-target#225]
 status: pending
 verification: pending
 notes: "The list binds routedUnclaimedCargos, not all routed cargo. No named JUnit class directly tests this table or its hidden-code condition. The orphan test dialog is in .migration/quirks/booking-routed-table-test-dialog.md."
+quirks: [martins-vds/ai-factory-pilot-target#237]
