@@ -22,4 +22,4 @@ evidence:
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/application/test_specification.py::test_change_destination_preserves_other_specification_fields_and_resets_route_state"
   - ".migration/evidence/runs/BK-05A.md"
-notes: "The dialog's option getter excludes origin and current destination by display name and mutates its backing list (.migration/quirks/booking-destination-options-mutate-state.md). The service test checks that the old itinerary remains and the cargo becomes MISROUTED."
+notes: "The dialog's option getter excludes origin and current destination by display name and mutates its backing list (.migration/quirks/booking-destination-options-mutate-state.md). The service test checks that the old itinerary remains and the cargo becomes MISROUTED. The service emits the source destination-change INFO log after persistence. Raising LookupError for unknown-cargo updates is an approved divergence under martins-vds/ai-factory-pilot-target#232."

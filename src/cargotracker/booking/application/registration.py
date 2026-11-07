@@ -11,7 +11,6 @@ from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.handling.domain.handling_history import HandlingHistory
 from cargotracker.location.domain.location import Location
 
-
 logger = logging.getLogger(__name__)
 
 

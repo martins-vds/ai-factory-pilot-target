@@ -21,5 +21,5 @@ evidence:
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/application/test_specification.py::test_change_deadline_preserves_other_specification_fields_and_resets_route_state"
   - ".migration/evidence/runs/BK-05A.md"
-notes: "The dialog parses its current deadline with MM/dd/yyyy; ParseException is printed and swallowed, leaving the date unset (.migration/quirks/booking-deadline-dialog-parse-error.md). BookingServiceTest checks the changed date and MISROUTED state."
+notes: "The dialog parses its current deadline with MM/dd/yyyy; ParseException is printed and swallowed, leaving the date unset (.migration/quirks/booking-deadline-dialog-parse-error.md). BookingServiceTest checks the changed date and MISROUTED state. The service emits the source deadline-change INFO log after persistence. Raising LookupError for unknown-cargo updates is an approved divergence under martins-vds/ai-factory-pilot-target#232."
 quirks: [martins-vds/ai-factory-pilot-target#234]

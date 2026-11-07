@@ -56,3 +56,17 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:34:28+00:00 | tdd-red-deadline | 1 | 1.69 | `pytest -q tests/booking/application/test_specification.py::test_change_deadline_preserves_other_specification_fields_and_resets_route_state` | `c7f7e53fc0a2032d` | >       assert f'Changed deadline for cargo {original.tracking_id} to {earlier_deadline}' in caplog.messages |  |
 | 2026-11-07T04:34:40+00:00 | tdd-green-deadline | 0 | 1.62 | `pytest -q tests/booking/application/test_specification.py::test_change_deadline_preserves_other_specification_fields_and_resets_route_state` | `b29404b0332b987b` |  |  |
 | 2026-11-07T04:34:41+00:00 | tdd-green-registration-final | 0 | 1.56 | `pytest -q tests/booking/application/test_registration.py::test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary` | `a558b8376cd28466` |  |  |
+| 2026-11-07T04:35:31+00:00 | build-compile-final | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:35:31+00:00 | build-check-final | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:35:31+00:00 | idiom-lint-final | 1 | 0.02 | `ruff check` | `ef035980c42a113c` |  |  |
+| 2026-11-07T04:35:42+00:00 | idiom-lint-final-rerun | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:35:42+00:00 | idiom-format-final | 1 | 0.02 | `ruff format --check` | `2784e02ac8461810` | -     assert f'Changed destination for cargo {original.tracking_id} to {destination}' in caplog.messages |  |
+| 2026-11-07T04:35:46+00:00 | idiom-format-final-rerun | 0 | 0.01 | `ruff format --check` | `8f54ec861a76fc44` |  |  |
+| 2026-11-07T04:36:48+00:00 | behavior-final | 0 | 51.35 | `pytest -q` | `3677a12cb5e4e760` |  |  |
+| 2026-11-07T04:37:30+00:00 | crap-coverage-final | 0 | 42.15 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `c25e047f91cc7a33` |  |  |
+| 2026-11-07T04:37:36+00:00 | crap-lizard-final | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:37:36+00:00 | crap-threshold-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `df94388d8dc116c8` |  | gate=crap max=19.0 threshold=30 over=0 methods=139 |
+| 2026-11-07T04:37:55+00:00 | mutation-changed-final | 0 | 18.53 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `abc43bad9b9c9ce0` |  | gate=mutation score=0.960 threshold=0.8 killed=24 survived=1 files=2 base=origin/main |
+| 2026-11-07T04:38:46+00:00 | regression-final | 0 | 41.43 | `pytest -q` | `a8703e3a6ed4fc20` |  |  |
+| 2026-11-07T04:39:32+00:00 | build-compile-rerun | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:39:33+00:00 | build-check-rerun | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |

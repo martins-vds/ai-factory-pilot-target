@@ -9,7 +9,6 @@ from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.handling.domain.repository import HandlingEventRepository
 from cargotracker.location.domain.location import Location
 
-
 logger = logging.getLogger(__name__)
 
 
