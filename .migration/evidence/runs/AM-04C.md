@@ -20,3 +20,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T05:59:31+00:00 | regression-suite | 0 | 37.85 | `pytest -q` | `83ee0c699e1a3c24` |  |  |
 | 2026-11-07T05:59:55+00:00 | mutation-changed | 0 | 20.43 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `7db208de9871e676` |  | gate=mutation score=1.000 threshold=0.8 killed=6 survived=0 files=1 base=origin/main |
 | 2026-11-07T06:06:40+00:00 | templates-url-assertion | 0 | 1.8 | `pytest -q tests/cargo/interfaces/test_admin_live_map_templates.py` | `f68080226a57b8b1` |  |  |
+| 2026-11-07T06:07:05+00:00 | final-build-compileall | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T06:07:09+00:00 | final-build-django-check | 0 | 0.34 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T06:07:13+00:00 | final-idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T06:07:16+00:00 | final-idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `5b8e82f27798cc2e` |  |  |
+| 2026-11-07T06:07:58+00:00 | final-behavior-suite | 0 | 38.17 | `pytest -q` | `5809bc37ddfb5232` |  |  |
+| 2026-11-07T06:08:39+00:00 | final-crap-coverage | 0 | 36.95 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `f6e597afdb283299` |  |  |
+| 2026-11-07T06:08:43+00:00 | final-crap-lizard | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T06:08:47+00:00 | final-crap-threshold | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `6c5a7b5a5f079222` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T06:09:37+00:00 | final-regression-suite | 0 | 45.46 | `pytest -q` | `ec1cb039abc92d20` |  |  |
+| 2026-11-07T06:10:01+00:00 | final-mutation-changed | 0 | 20.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `7db208de9871e676` |  | gate=mutation score=1.000 threshold=0.8 killed=6 survived=0 files=1 base=origin/main |
