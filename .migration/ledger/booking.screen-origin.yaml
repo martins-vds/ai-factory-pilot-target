@@ -7,11 +7,16 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Step 1 displays shipping locations by name and UN/LOCODE, allows Cancel to dashboard, and advances to destination selection."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#291]
+target:
+  components:
+    - templates/booking/wizard/origin.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/interfaces/test_wizard.py::test_origin_step_is_open_and_defaults_to_chicago"
+  - ".migration/evidence/runs/BK-05D.md"
 notes: "Backed by Booking.locations; no named JUnit class directly exercises this JSF screen. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

@@ -7,11 +7,17 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Step 2 displays the chosen origin, offers a destination location menu, and supports Back, Cancel and Next."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#291]
+target:
+  components:
+    - templates/booking/wizard/destination.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/interfaces/test_wizard.py::test_origin_next_opens_destination_with_dallas_and_excludes_origin"
+  - "tests/booking/interfaces/test_wizard.py::test_back_from_destination_preserves_the_selected_origin"
+  - ".migration/evidence/runs/BK-05D.md"
 notes: "The backing bean filters the selected origin from the destination choices; no named JUnit class directly exercises this JSF screen. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

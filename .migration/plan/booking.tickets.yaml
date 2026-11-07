@@ -1,0 +1,168 @@
+# Backfilled from the plan and its published tickets (harness #98).
+slice: booking
+tickets:
+- id: BK-03B
+  title: Characterize the pathfinder REST response (tier A)
+  role: afs-characterizer
+  files: []
+  blocked_by: []
+- id: BK-05A
+  title: Implement cargo registration and specification updates
+  role: afs-migrator
+  files:
+  - src/cargotracker/booking/application/registration.py
+  - src/cargotracker/booking/application/specification.py
+  - tests/booking/application/test_registration.py
+  - tests/booking/application/test_specification.py
+  capabilities:
+  - booking.registration
+  - booking.destination-change
+  - booking.deadline-change
+  blocked_by: []
+- id: BK-05B
+  title: Add the in-process randomized `RoutingService`
+  role: afs-migrator
+  files:
+  - src/cargotracker/pathfinder/
+  - tests/pathfinder/
+  capabilities:
+  - booking.routing-pathfinder-api
+  blocked_by: []
+- id: BK-05C
+  title: Implement candidate filtering and route assignment
+  role: afs-migrator
+  files:
+  - src/cargotracker/booking/application/routing.py
+  - tests/booking/application/test_routing.py
+  capabilities:
+  - booking.routing-candidates
+  - booking.routing-assign
+  - booking.cargo-not-found
+  blocked_by:
+  - BK-05A
+  - BK-05B
+- id: BK-05D
+  title: Build the cargo-registration wizard
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - src/cargotracker/booking/interfaces/wizard/views.py
+  - templates/booking/wizard/
+  - tests/booking/interfaces/test_wizard.py
+  - .migration/ledger/booking.wizard-chain.yaml
+  - .migration/ledger/booking.wizard-input-rules.yaml
+  - .migration/ledger/booking.screen-origin.yaml
+  - .migration/ledger/booking.screen-destination.yaml
+  - .migration/ledger/booking.screen-deadline.yaml
+  capabilities:
+  - booking.wizard-chain
+  - booking.wizard-input-rules
+  - booking.screen-origin
+  - booking.screen-destination
+  - booking.screen-deadline
+  blocked_by:
+  - BK-05A
+- id: BK-05E
+  title: Build the cargo dashboard, tables, and details
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - src/cargotracker/booking/interfaces/dashboard/views.py
+  - templates/booking/dashboard/
+  - templates/booking/cargo_details.html
+  - tests/booking/interfaces/test_dashboard.py
+  - tests/booking/interfaces/test_cargo_details.py
+  - .migration/ledger/booking.dashboard-chain.yaml
+  - .migration/ledger/booking.dashboard-filters.yaml
+  - .migration/ledger/booking.screen-dashboard.yaml
+  - .migration/ledger/booking.screen-routed-table.yaml
+  - .migration/ledger/booking.screen-not-routed-table.yaml
+  - .migration/ledger/booking.screen-claimed-table.yaml
+  - .migration/ledger/booking.screen-cargo-details.yaml
+  - .migration/ledger/booking.cargo-not-found.yaml
+  capabilities:
+  - booking.dashboard-chain
+  - booking.dashboard-filters
+  - booking.screen-dashboard
+  - booking.screen-routed-table
+  - booking.screen-not-routed-table
+  - booking.screen-claimed-table
+  - booking.screen-cargo-details
+  - booking.cargo-not-found
+  blocked_by:
+  - BK-05A
+  - BK-05C
+- id: BK-05F
+  title: Build route selection and itinerary screens
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - src/cargotracker/booking/interfaces/route_selection/views.py
+  - templates/booking/route_selection/
+  - tests/booking/interfaces/test_route_selection.py
+  - .migration/ledger/booking.routing-chain.yaml
+  - .migration/ledger/booking.screen-route.yaml
+  - .migration/ledger/booking.screen-select-itinerary.yaml
+  - .migration/ledger/booking.routing-assign.yaml
+  capabilities:
+  - booking.routing-chain
+  - booking.screen-route
+  - booking.screen-select-itinerary
+  - booking.routing-assign
+  blocked_by:
+  - BK-05C
+  - BK-05E
+- id: BK-05G
+  title: Build destination and deadline edit dialogs
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - src/cargotracker/booking/interfaces/dialogs/views.py
+  - templates/booking/dialogs/
+  - tests/booking/interfaces/test_dialogs.py
+  - .migration/ledger/booking.dialog-chain.yaml
+  - .migration/ledger/booking.dialog-deadline.yaml
+  - .migration/ledger/booking.dialog-destination.yaml
+  capabilities:
+  - booking.dialog-chain
+  - booking.dialog-deadline
+  - booking.dialog-destination
+  blocked_by:
+  - BK-05A
+  - BK-05E
+- id: BK-05H
+  title: Wire booking and pathfinder URLs
+  role: afs-migrator
+  files:
+  - src/cargotracker/urls.py
+  - src/cargotracker/booking/urls.py
+  - tests/booking/test_urls.py
+  blocked_by:
+  - BK-05B
+  - BK-05D
+  - BK-05E
+  - BK-05F
+  - BK-05G
+- id: BK-05I
+  title: Replay the booking characterization
+  role: afs-verifier
+  files:
+  - tests/characterization/booking/
+  - .migration/evidence/booking/replay.md
+  blocked_by:
+  - BK-05A
+  - BK-05H
+  - BK-05B
+  - BK-05C
+  - BK-05D
+  - BK-05E
+  - BK-05F
+  - BK-05G
+- id: BK-05J
+  title: Accept the cargo booking and routing slice
+  role: afs-auditor
+  files:
+  - .migration/evidence/booking/report.md
+  - .migration/returns/BK-05J.afs-auditor.yaml
+  blocked_by:
+  - BK-05I

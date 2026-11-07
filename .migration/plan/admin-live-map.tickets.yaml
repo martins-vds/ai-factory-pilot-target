@@ -1,0 +1,60 @@
+# Backfilled from the plan and its published tickets (harness #98).
+slice: admin-live-map
+tickets:
+- id: AM-04A
+  title: Design the admin-map marker behavior
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - .migration/design/admin-live-map.md
+  blocked_by: []
+- id: AM-04B
+  title: Server-side all-cargo map query
+  role: afs-migrator
+  files:
+  - src/cargotracker/cargo/application/admin_map.py
+  - src/cargotracker/cargo/interfaces/admin_map/urls.py
+  - src/cargotracker/cargo/interfaces/admin_map/views.py
+  - src/cargotracker/urls.py
+  - src/cargotracker/settings.py
+  - tests/cargo/interfaces/test_admin_live_map_data.py
+  blocked_by:
+  - AM-04A
+- id: AM-04C
+  title: Admin map page
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - templates/admin/live_map.html
+  - tests/cargo/interfaces/test_admin_live_map_templates.py
+  blocked_by:
+  - AM-04A
+  - AM-04B
+- id: AM-04D
+  title: Marker partial and unmapped cargo
+  role: afs-specialist-migrator
+  specialty: ui
+  files:
+  - templates/admin/_live_map_markers.html
+  - tests/cargo/interfaces/test_admin_live_map_markers.py
+  blocked_by:
+  - AM-04A
+  - AM-04B
+  - AM-04C
+  - BK-05E
+- id: AM-04E
+  title: Prove the handling-to-map update
+  role: afs-migrator
+  files:
+  - tests/cargo/interfaces/test_admin_live_map_processing.py
+  blocked_by:
+  - AM-04B
+  - AM-04C
+  - AM-04D
+- id: AM-04F
+  title: Accept the admin live-map slice
+  role: afs-auditor
+  files:
+  - .migration/evidence/admin-live-map/acceptance.md
+  blocked_by:
+  - AM-04E

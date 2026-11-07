@@ -1,0 +1,24 @@
+role: afs-specialist-migrator
+ticket: BK-05D
+issue: martins-vds/ai-factory-pilot-target#291
+specialty: ui
+pr: martins-vds/ai-factory-pilot-target#343
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 19
+  mutation_changed: 0.863
+  regression: 0
+specialty_evidence:
+  - tests/booking/interfaces/test_wizard.py::test_book_cargo_persists_registration_and_redirects_to_dashboard
+  - .migration/evidence/runs/BK-05D.md
+  - .migration/evidence/mutants/BK-05D.md
+ledger_updated:
+  - booking.wizard-chain
+  - booking.wizard-input-rules
+  - booking.screen-origin
+  - booking.screen-destination
+  - booking.screen-deadline
+quirk_tickets: []
+handoff: none
