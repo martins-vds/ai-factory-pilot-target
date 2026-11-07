@@ -1,0 +1,26 @@
+role: afs-auditor
+ticket: DM-AUDIT
+issue: martins-vds/ai-factory-pilot-target#398
+scope: data-migration
+report: .migration/evidence/data-migration/report.md
+capabilities_checked: 7
+gaps:
+  - class: broken-flow
+    ledger_id: data.voyage
+    ticket: null
+  - class: broken-flow
+    ledger_id: data.cargo
+    ticket: null
+  - class: broken-flow
+    ledger_id: data.handling-event
+    ticket: null
+  - class: broken-flow
+    ledger_id: data.leg
+    ticket: null
+  - class: broken-flow
+    ledger_id: data.carrier-movement
+    ticket: null
+graph_inconsistencies:
+  - "The target graph path for load_data_snapshot reaches location only, not the other five mapped tables."
+  - "The source graph has no SEQUENCE table node; this is documented in the plan and the target replacement is approved by #255."
+verdict: gaps-remain
