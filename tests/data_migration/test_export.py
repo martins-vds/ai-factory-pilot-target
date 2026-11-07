@@ -25,7 +25,7 @@ def test_export_round_trips_fixture_rows_in_primary_key_order(tmp_path):
         ]
     }
     mapping_path = tmp_path / 'mapping.yaml'
-    mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
 
     call_command(
         'load_data_snapshot',
@@ -94,7 +94,7 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         ]
     }
     mapping_path = tmp_path / 'mapping.yaml'
-    mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
     output = tmp_path / 'export'
 
     call_command('export_data_snapshot', mapping=str(mapping_path), out=str(output))
