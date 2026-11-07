@@ -12,9 +12,7 @@ def build_admin_map_data(
     cargo_repository: CargoRepository,
     location_coordinates: Mapping[str, tuple[float, float]],
 ) -> list[dict[str, object]]:
-    return [
-        _cargo_map_data(cargo, location_coordinates) for cargo in cargo_repository.find_all()
-    ]
+    return [_cargo_map_data(cargo, location_coordinates) for cargo in cargo_repository.find_all()]
 
 
 def _cargo_map_data(

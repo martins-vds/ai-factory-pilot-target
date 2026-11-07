@@ -3,6 +3,7 @@ from dataclasses import replace
 import pytest
 from django.conf import settings
 from django.core.management import call_command
+from django.test import override_settings
 from django.urls import resolve, reverse
 
 from cargotracker.cargo.application.admin_map import build_admin_map_data
@@ -78,10 +79,47 @@ def test_unknown_and_unmapped_locations_never_receive_coordinates():
 
 
 def test_admin_live_map_routes_are_registered():
+    assert reverse('track') == '/'
+    assert reverse('handling-report') == '/rest/handling/reports'
+    assert reverse('cargo_map_frame') == '/tracking/map/'
     assert reverse('admin_live_map') == '/admin/live-map/'
     assert reverse('admin_live_map_markers') == '/admin/live-map/markers/'
+    assert resolve('/rest/handling/reports').url_name == 'handling-report'
+    assert resolve('/tracking/map/').url_name == 'cargo_map_frame'
     assert resolve('/admin/live-map/').url_name == 'admin_live_map'
     assert resolve('/admin/live-map/markers/').url_name == 'admin_live_map_markers'
+
+
+@pytest.mark.django_db
+@override_settings(
+    TEMPLATES=[
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': False,
+            'OPTIONS': {
+                'loaders': [
+                    (
+                        'django.template.loaders.locmem.Loader',
+                        {
+                            'admin/live_map.html': 'page:{{ map_data|length }}',
+                            'admin/_live_map_markers.html': 'markers:{{ map_data|length }}',
+                        },
+                    )
+                ]
+            },
+        }
+    ]
+)
+def test_admin_live_map_routes_render_current_repository_data(client):
+    call_command('seed_sample_data')
+
+    page_response = client.get(reverse('admin_live_map'))
+    markers_response = client.get(reverse('admin_live_map_markers'))
+
+    assert page_response.status_code == 200
+    assert page_response.content == b'page:4'
+    assert markers_response.status_code == 200
+    assert markers_response.content == b'markers:4'
 
 
 def test_admin_map_polling_interval_defaults_to_ten_seconds():
