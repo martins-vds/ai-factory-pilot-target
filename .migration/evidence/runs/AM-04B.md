@@ -31,3 +31,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:33:00+00:00 | crap-final-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T04:33:04+00:00 | crap-final-threshold | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `2d81ffde79cb771b` |  | gate=crap max=19.0 threshold=30 over=0 methods=138 |
 | 2026-11-07T04:33:33+00:00 | regression-final | 0 | 25.05 | `pytest -q` | `fefc73d2da944e5a` |  |  |
+| 2026-11-07T04:38:51+00:00 | composition-wiring-test | 0 | 2.0 | `pytest -q tests/cargo/interfaces/test_admin_live_map_data.py` | `40b6802d60ce19e0` |  |  |
+| 2026-11-07T04:39:04+00:00 | composition-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:39:07+00:00 | composition-format-check | 0 | 0.01 | `ruff format --check` | `8f54ec861a76fc44` |  |  |
+| 2026-11-07T04:39:11+00:00 | composition-build-compileall | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:39:15+00:00 | composition-build-django-check | 0 | 0.27 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:39:50+00:00 | composition-behavior-suite | 0 | 31.32 | `pytest -q` | `bd5f5041b193e09c` |  |  |
+| 2026-11-07T04:40:22+00:00 | composition-crap-coverage | 0 | 28.02 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `745db2e6be42744b` |  |  |
+| 2026-11-07T04:40:26+00:00 | composition-crap-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:40:31+00:00 | composition-crap-threshold | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `6c5a7b5a5f079222` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:41:03+00:00 | composition-regression-suite | 0 | 27.58 | `pytest -q` | `ab5476780a33672b` |  |  |
+| 2026-11-07T04:42:33+00:00 | composition-mutation-changed | 0 | 85.34 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `97bf2b3b5204b790` |  | gate=mutation score=0.870 threshold=0.8 killed=47 survived=7 files=4 base=origin/main |
