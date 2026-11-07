@@ -8,7 +8,12 @@ source:
   risk: {crap: 110, complexity: 10, coverage: 0}
 boundary: "Clicking a marker opens /admin/show.xhtml?trackingId=<id> in a new winMap window, using http, the current host, and the first URL path segment; its requested dimensions match the frame viewport."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203"]
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
 status: pending
-verification: pending
-evidence: [".migration/evidence/admin-live-map/report.md"]
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/evidence/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_marker_navigation_opens_cargo_admin_page"
+  - ".migration/evidence/runs/AM-03.md"

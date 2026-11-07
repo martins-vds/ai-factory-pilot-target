@@ -7,8 +7,15 @@ source:
   location: "src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:20-52"
 boundary: "GET /cargo returns an array for CargoRepository.findAll(), serializing each cargo's tracking id, routing status, misdirected flag, transport status, at-destination flag, origin code, and last-known-location code; XXXXX becomes Unknown."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203"]
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
 status: pending
-verification: pending
-evidence: [".migration/evidence/admin-live-map/report.md"]
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/evidence/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_cargo_source_shape_and_baseline_sentinel"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_handling_registration_acceptance_golden"
+  - ".migration/evidence/runs/AM-03.md"
+quirks: ["martins-vds/ai-factory-pilot-target#206"]
 notes: "The query chain continues through JpaCargoRepository.findAll and Cargo.findAll to the Cargo entity; Cargo embeds Delivery and references Location for origin/last-known location. Reuse existing track-cargo.data-cargo and track-cargo.data-location entries; do not duplicate or reset them."

@@ -1,0 +1,58 @@
+{
+  "page": {
+    "url": "http://localhost:8080/cargo-tracker/admin/tracking/map.xhtml",
+    "title": "Live Map",
+    "navigation_label": "Live",
+    "frame_path": "/cargo-tracker/admin/tracking/mapFrame.xhtml",
+    "frame_height_px": 960,
+    "map_height_px": 600,
+    "initial_zoom": 2,
+    "connection_status": "online"
+  },
+  "providers": {
+    "leaflet_css": "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
+    "leaflet_js": "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+    "tiles": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "leaflet_assets_and_tiles_loaded": true
+  },
+  "markers_after_receive": [
+    {
+      "trackingId": "ABC123",
+      "location": "USNYC",
+      "position": { "lat": 40, "lon": -77 },
+      "color": "green",
+      "tooltip_html": "Tracking ID: ABC123<br>Routing Status: Routed<br>Misdirected: No<br>Transport Status:  In port<br>At Destination: No<br>Origin: Hong Kong<br>Last known location: New York"
+    },
+    {
+      "trackingId": "JKL567",
+      "location": "USNYC",
+      "position": { "lat": 40, "lon": -75 },
+      "color": "red",
+      "tooltip_html": "Tracking ID: JKL567<br>Routing Status: Routed<br>Misdirected: Yes<br>Transport Status: Onboard carrier<br>At Destination: No<br>Origin: Hangzhou<br>Last known location: New York"
+    },
+    {
+      "trackingId": "DEF789",
+      "location": "CNHKG",
+      "position": { "lat": 20, "lon": 113 },
+      "color": "red",
+      "tooltip_html": "Tracking ID: DEF789<br>Routing Status: Misrouted<br>Misdirected: No<br>Transport Status:  In port<br>At Destination: No<br>Origin: Hong Kong<br>Last known location: Hong Kong"
+    },
+    {
+      "trackingId": "MNO456",
+      "location": "USDAL",
+      "position": { "lat": 31, "lon": -100 },
+      "color": "black",
+      "tooltip_html": "Tracking ID: MNO456<br>Routing Status: Routed<br>Misdirected: No<br>Transport Status: Claimed<br>At Destination: No<br>Origin: New York<br>Last known location: Dallas"
+    }
+  ],
+  "navigation": {
+    "url": "http://localhost:8080/cargo-tracker/admin/show.xhtml?trackingId=DEF789",
+    "target": "winMap",
+    "window_features": "height=960,width=526"
+  },
+  "handling_event_reload": {
+    "post_status": 204,
+    "map_frame_get_count_before_and_after_event": 2,
+    "status_after_reconnect": "online"
+  }
+}

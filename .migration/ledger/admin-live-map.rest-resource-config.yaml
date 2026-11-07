@@ -8,7 +8,12 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0}
 boundary: "JAX-RS is mounted at /rest, registers CargoMonitoringService, and configures MOXy JSON; the resource exposes GET /cargo."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203"]
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
 status: pending
-verification: pending
-evidence: [".migration/evidence/admin-live-map/report.md"]
+verification: characterized
+characterization_tier: A
+evidence:
+  - ".migration/evidence/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/report.md"
+  - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_cargo_source_shape_and_baseline_sentinel"
+  - ".migration/evidence/runs/AM-03.md"

@@ -1,0 +1,30 @@
+role: afs-characterizer
+ticket: AM-03
+issue: martins-vds/ai-factory-pilot-target#245
+tier_used:
+  A: 11
+  B: 0
+  C: 0
+suite:
+  path: .migration/characterization/admin-live-map/test_admin_live_map.py
+  cases: 11
+  passing: 11
+  run_log: .migration/evidence/runs/AM-03.md
+predicted_vs_observed:
+  match: 11
+  differs: 0
+ledger_updated:
+  - admin-live-map.cargo-source
+  - admin-live-map.cargo-navigation
+  - admin-live-map.connection-status
+  - admin-live-map.empty-and-failure
+  - admin-live-map.map-provider
+  - admin-live-map.marker-coordinates
+  - admin-live-map.marker-status
+  - admin-live-map.marker-tooltip
+  - admin-live-map.notification-reload
+  - admin-live-map.page-frame
+  - admin-live-map.rest-resource-config
+quirk_tickets:
+  - .migration/quirks/admin-live-map-unknown-sentinel.md
+review_only_requests: []
