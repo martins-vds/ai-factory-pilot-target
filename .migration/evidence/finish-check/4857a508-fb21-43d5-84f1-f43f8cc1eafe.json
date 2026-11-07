@@ -1,0 +1,28 @@
+[
+  {
+    "at": "2026-11-07T19:31:05Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "enabled": true,
+    "ticket": "DRILL-01",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/evidence/runs/DRILL-01.md",
+      "drill/hello.txt"
+    ],
+    "findings": [
+      "[mechanical] No return file. Write and commit `.migration/returns/DRILL-01.afs-specialist-migrator.yaml` with `role: afs-specialist-migrator`, `ticket: DRILL-01`, `issue:` this ticket's issue, `pr:` this PR, and every gate copied from your `afs-run` journal (`.migration/evidence/runs/DRILL-01.md`). See afs-migration-contract \u2192 Return files."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  }
+]
