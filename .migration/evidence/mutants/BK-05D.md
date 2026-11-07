@@ -1,6 +1,6 @@
 # Surviving mutants: BK-05D
 
-Written by `afs-mutation` on its last run (base `origin/main`): score 0.863, threshold 0.8, killed 132, survived 21. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent. The diff under each line is the change mutmut made.
+Written by `afs-mutation` on its last run (base `origin/main`): score 0.876, threshold 0.8, killed 134, survived 19. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent. The diff under each line is the change mutmut made.
 
 - `src/cargotracker/booking/interfaces/wizard/views.py:31 Mutant #8`
 
@@ -41,18 +41,6 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.863, thr
        return deadline, duration, ''
   ```
 
-- `src/cargotracker/booking/interfaces/wizard/views.py:35 Mutant #14`
-
-  ```diff
-  @@ -32,7 +32,7 @@
-       if deadline < today:
-           return None, None, 'Arrival deadline cannot be before today.'
-       duration = timedelta(days=(deadline - today).days, hours=4).days
-  -    return deadline, duration, ''
-  +    return deadline, duration, 'XXXX'
-   def _origin_step(
-  ```
-
 - `src/cargotracker/booking/interfaces/wizard/views.py:61 Mutant #25`
 
   ```diff
@@ -76,19 +64,6 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.863, thr
        context = _deadline_context(origin, destination, deadline_value, timezone.localdate())
   -    context['validation_error'] = ''
   +    context['XXvalidation_errorXX'] = ''
-       if request.POST.get('action') == 'book':
-           if origin is None or destination is None:
-  ```
-
-- `src/cargotracker/booking/interfaces/wizard/views.py:98 Mutant #54`
-
-  ```diff
-  @@ -95,7 +95,7 @@
-   ) -> HttpResponse:
-       deadline_value = request.POST.get('deadline', '')
-       context = _deadline_context(origin, destination, deadline_value, timezone.localdate())
-  -    context['validation_error'] = ''
-  +    context['validation_error'] = 'XXXX'
        if request.POST.get('action') == 'book':
            if origin is None or destination is None:
   ```
