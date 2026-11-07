@@ -1,0 +1,18 @@
+id: data.leg
+kind: data
+title: Inventory legacy LEG table
+source:
+  graph_node: table:src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:Leg
+  location: src/main/java/org/eclipse/cargotracker/domain/model/cargo/Leg.java:22-48
+  risk: {crap: 20, complexity: 4, coverage: 0}
+boundary: "Each itinerary leg stores its cargo owner, voyage, load and unload locations, and schedule timestamps."
+slice: data-migration
+tickets: [martins-vds/ai-factory-pilot-target#248]
+target:
+  components:
+    - cargotracker.cargo.infrastructure.models.LegRecord
+status: pending
+verification: pending
+evidence:
+  - .migration/evidence/data-migration/inventory.md
+notes: "The cargo_id join column is declared by Cargo.Itinerary's one-to-many mapping; no leg_index column is mapped."

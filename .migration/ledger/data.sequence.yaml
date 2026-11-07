@@ -1,0 +1,13 @@
+id: data.sequence
+kind: data
+title: Inventory legacy SEQUENCE table
+source:
+  location: src/main/resources/META-INF/persistence.xml:6-17
+boundary: "The snapshot contains provider sequence metadata used alongside generated JPA entity identifiers."
+slice: data-migration
+tickets: [martins-vds/ai-factory-pilot-target#248]
+status: pending
+verification: pending
+evidence:
+  - .migration/evidence/data-migration/inventory.md
+notes: "No JPA entity or source graph node defines this provider table. Target uses database-native BigAutoField sequences; see .migration/quirks/data-sequence-state.md."

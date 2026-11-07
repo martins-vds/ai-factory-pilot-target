@@ -1,0 +1,18 @@
+id: data.location
+kind: data
+title: Inventory legacy LOCATION table
+source:
+  graph_node: table:src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:Location
+  location: src/main/java/org/eclipse/cargotracker/domain/model/location/Location.java:21-37
+  risk: {crap: 20, complexity: 4, coverage: 0}
+boundary: "A Location row stores its generated identity, embedded UN/LOCODE, and display name."
+slice: data-migration
+tickets: [martins-vds/ai-factory-pilot-target#248]
+target:
+  components:
+    - cargotracker.location.infrastructure.models.LocationRecord
+status: pending
+verification: pending
+evidence:
+  - .migration/evidence/data-migration/inventory.md
+notes: "UnLocode is an embedded value stored in the unlocode column; the target model mirrors the column name."
