@@ -399,3 +399,64 @@ def test_load_snapshot_rejects_unmapped_enum_value_and_rolls_back(tmp_path):
         call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
 
     assert not LocationRecord.objects.exists()
+
+
+@pytest.mark.parametrize(
+    ('case', 'message'),
+    [
+        ('no_tables', 'mapping has no tables'),
+        ('duplicate_target', 'mapping targets must be unique table names'),
+        ('missing_primary_key', 'mapping must include its primary key'),
+        ('unmapped_reference_column', "reference 'origin_id' is not mapped"),
+        ('invalid_reference', "invalid reference 'location'"),
+        ('unmapped_reference_target', "reference target 'unknown' is not mapped"),
+        ('mismatched_reference', 'reference does not match the model'),
+        ('missing_referenced_column', 'location.missing: no referenced target column'),
+    ],
+)
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_rejects_invalid_mapping_references(tmp_path, case, message):
+    snapshot = tmp_path / 'snapshot'
+    _snapshot(snapshot)
+    mapping = copy.deepcopy(MAPPING)
+    tables = mapping['tables']
+    if case == 'no_tables':
+        mapping['tables'] = []
+    elif case == 'duplicate_target':
+        tables.append(copy.deepcopy(tables[0]))
+    elif case == 'missing_primary_key':
+        tables[0]['columns'].pop('id')
+    elif case == 'unmapped_reference_column':
+        tables[2]['columns'].pop('origin_id')
+    elif case == 'invalid_reference':
+        tables[2]['refs']['origin_id'] = 'location'
+    elif case == 'unmapped_reference_target':
+        tables[2]['refs']['origin_id'] = 'unknown.id'
+    elif case == 'mismatched_reference':
+        tables[2]['refs']['origin_id'] = 'voyage.id'
+    elif case == 'missing_referenced_column':
+        tables[2]['refs']['origin_id'] = 'location.missing'
+
+    mapping_file = tmp_path / 'mapping.yaml'
+    mapping_file.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+    with pytest.raises(CommandError, match=message):
+        call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_file))
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_rejects_unknown_mapping_transform(tmp_path):
+    snapshot = tmp_path / 'snapshot'
+    table_rows = {
+        table: (header.copy(), [row.copy() for row in rows])
+        for table, (header, rows) in TABLE_ROWS.items()
+    }
+    table_rows['CARGO'][1][0][10] = '2026-11-15'
+    _snapshot(snapshot, table_rows)
+    mapping = copy.deepcopy(MAPPING)
+    mapping['tables'][2]['columns']['eta'] = {'from': 'ETA', 'as': 'unknown'}
+    mapping_file = tmp_path / 'mapping.yaml'
+    mapping_file.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+    with pytest.raises(CommandError, match="unknown transform 'unknown'"):
+        call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_file))
