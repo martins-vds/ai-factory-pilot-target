@@ -12,6 +12,12 @@ NOW = datetime(2026, 11, 7, 12, 0, tzinfo=UTC)
 ENDPOINT = '/rest/graph-traversal/shortest-path'
 
 
+def test_shortest_path_is_registered_in_project_urlconf(client):
+    response = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
+
+    assert response.status_code == 200
+
+
 @override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
 def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeypatch):
     monkeypatch.setattr(

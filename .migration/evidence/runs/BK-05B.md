@@ -63,3 +63,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T04:40:29+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T04:42:30+00:00 | final-tests | 0 | 23.62 | `pytest -q` | `43d82a5de88b6729` |  |  |
 | 2026-11-07T04:52:51+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:54:18+00:00 | build-compileall | 0 | 0.08 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:54:20+00:00 | build-django-check | 0 | 1.47 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:55:05+00:00 | behavior | 0 | 45.22 | `pytest -q` | `d48fc41d28e1f6b4` |  |  |
+| 2026-11-07T04:55:05+00:00 | idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:55:06+00:00 | idiom-format-check | 0 | 0.02 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:55:56+00:00 | crap-coverage | 0 | 50.24 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `1d6c5752a04c8690` |  |  |
+| 2026-11-07T04:55:56+00:00 | crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:55:56+00:00 | crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:56:38+00:00 | mutation-changed | 0 | 41.59 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
+| 2026-11-07T04:57:19+00:00 | regression | 0 | 41.31 | `pytest -q` | `23a6968ff832e53c` |  |  |
+| 2026-11-07T04:59:04+00:00 | endpoint-registration | 1 | 1.55 | `pytest -q tests/pathfinder/test_api.py::test_shortest_path_is_registered_in_project_urlconf` | `97946757d0c86ea5` | >       assert response.status_code == 200 |  |
