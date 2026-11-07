@@ -1,0 +1,16 @@
+role: afs-planner
+ticket: BK-04
+issue: martins-vds/ai-factory-pilot-target#256
+plan: .migration/plan/booking.md
+slices:
+  - name: Cargo booking and routing
+    anchor: register cargo → list and route cargo → assign itinerary; change destination or deadline and re-evaluate route state
+    tickets: 9
+    blocked_by: []
+design_tickets: []
+data_slices: []
+unmapped_capabilities: []
+open_questions:
+  - Resolve open quirk rulings #232–#239 and #250–#252 before affected implementation.
+  - Reconcile #238 deadline behavior with #89's decision comment.
+  - Confirm provisional target URL mappings before dispatch.

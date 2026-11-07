@@ -1,0 +1,17 @@
+epic: 224
+data_paths:
+  source:
+    - src/main/webapp/booking/booking.xhtml
+    - src/main/webapp/admin/dashboard.xhtml
+    - src/main/webapp/admin/route.xhtml
+    - src/main/webapp/admin/selectItinerary.xhtml
+    - src/main/webapp/admin/tables/listNotRouted.xhtml
+  target:
+    - endpoint=/booking/booking.xhtml
+    - endpoint=/admin/dashboard.xhtml
+    - endpoint=/admin/route.xhtml
+    - endpoint=/admin/selectItinerary.xhtml
+    - endpoint=/admin/tables/listNotRouted.xhtml
+    - endpoint=/rest/graph-traversal/shortest-path
+entry_points:
+  target: []
