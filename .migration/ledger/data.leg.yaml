@@ -11,8 +11,9 @@ tickets: [martins-vds/ai-factory-pilot-target#248]
 target:
   components:
     - cargotracker.cargo.infrastructure.models.LegRecord
-status: pending
-verification: pending
+status: migrated
+verification: differential
 evidence:
   - .migration/evidence/data-migration/inventory.md
+  - .migration/evidence/data-migration/reconciliation.md
 notes: "The cargo_id join column is declared by Cargo.Itinerary's one-to-many mapping; no leg_index column is mapped."

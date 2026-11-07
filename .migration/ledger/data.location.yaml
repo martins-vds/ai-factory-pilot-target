@@ -11,8 +11,9 @@ tickets: [martins-vds/ai-factory-pilot-target#248]
 target:
   components:
     - cargotracker.location.infrastructure.models.LocationRecord
-status: pending
-verification: pending
+status: migrated
+verification: differential
 evidence:
   - .migration/evidence/data-migration/inventory.md
+  - .migration/evidence/data-migration/reconciliation.md
 notes: "UnLocode is an embedded value stored in the unlocode column; the target model mirrors the column name."
