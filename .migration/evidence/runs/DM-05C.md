@@ -60,3 +60,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T12:56:52+00:00 | crap-coverage-mapping-tests | 0 | 34.36 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `2dcb1fdf03ad43e2` |  |  |
 | 2026-11-07T12:56:56+00:00 | crap-lizard-mapping-tests | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T12:56:59+00:00 | crap-score-mapping-tests | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `40067e260b62dacd` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
+| 2026-11-07T12:57:42+00:00 | mutation-changed | 2 | 7.06 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `fabf0357e6de9435` | afs-mutation: mutmut failed on src/cargotracker/data_migration/loader.py; its mutants were not tested: | gate=mutation score=n/a error=mutmut-failed failed_files=2 files=3 base=origin/main |
+| 2026-11-07T12:58:28+00:00 | unparameterized-mapping-tests | 0 | 1.84 | `pytest -q tests/data_migration/test_load.py` | `38c73c4aa6537238` |  |  |
+| 2026-11-07T13:01:29+00:00 | behavior-final | 0 | 34.18 | `pytest -q` | `9ac7c865f4698fc2` |  |  |
+| 2026-11-07T13:02:10+00:00 | crap-coverage-final | 0 | 35.04 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `f350e371861115c9` |  |  |
+| 2026-11-07T13:02:19+00:00 | crap-lizard-final | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:02:23+00:00 | crap-score-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `40067e260b62dacd` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
+| 2026-11-07T13:02:45+00:00 | build-compile-final | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:02:45+00:00 | idiom-ruff-final | 0 | 0.03 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T13:02:45+00:00 | idiom-format-final | 0 | 0.02 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T13:02:45+00:00 | build-check-final | 0 | 0.32 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T13:03:02+00:00 | mutation-changed-rerun | 1 | 254.17 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `97de1a65a8a41610` | afs-mutation: FAILED score=0.682 threshold=0.8 killed=206 survived=96 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.682 threshold=0.8 killed=206 survived=96 files=3 base=origin/main |
