@@ -27,3 +27,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T02:29:40+00:00 | idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
 | 2026-11-07T02:29:41+00:00 | idiom-ruff-format-final | 0 | 0.01 | `ruff format --check` | `184b6bfbf75ff0af` |  |  |
 | 2026-11-07T02:29:41+00:00 | migration-state-final | 0 | 0.27 | `python manage.py makemigrations --check --dry-run` | `a2bfa7b376c38062` |  |  |
+| 2026-11-07T03:00:49+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
