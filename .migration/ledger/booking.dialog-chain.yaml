@@ -1,0 +1,16 @@
+id: booking.dialog-chain
+kind: structural
+title: Resolve the destination and deadline dialog chains
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestinationDialog.java:ChangeDestinationDialog
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/web/ChangeDestinationDialog.java:15-43
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Not-routed table actions open PrimeFaces dynamic dialogs with trackingId; view-scoped edit beans call BookingServiceFacade and DefaultBookingService, then close with DONE; cancel closes with an empty result."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDestination"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDeadline"
+notes: "These tests cover service state changes, not PrimeFaces dialog presentation or return callbacks; both handleReturn methods are empty."

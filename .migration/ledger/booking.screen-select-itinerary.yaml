@@ -1,0 +1,13 @@
+id: booking.screen-select-itinerary
+kind: ui
+title: Display the no-route state on itinerary selection
+source:
+  graph_node: page:src/main/webapp/admin/selectItinerary.xhtml:src/main/webapp/admin/selectItinerary.xhtml
+  location: src/main/webapp/admin/selectItinerary.xhtml:9-23
+  risk: {crap: 12, complexity: 3, coverage: 0.0}
+boundary: "The select-itinerary page reads trackingId and loads ItinerarySelection; when routeCandidates is empty it advises moving the arrival deadline further into the future."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "This page contains only an empty-route state; the populated candidate table is in route.xhtml. No named JUnit class exercises the page."

@@ -1,0 +1,14 @@
+id: booking.screen-routed-table
+kind: ui
+title: Display routed unclaimed cargo
+source:
+  graph_node: page:src/main/webapp/admin/tables/listRouted.xhtml:src/main/webapp/admin/tables/listRouted.xhtml
+  location: src/main/webapp/admin/tables/listRouted.xhtml:5-59
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "Routed Cargo table shows tracking ID/detail link, origin, destination, last-known location, transport status and deadline; an unknown last-location code containing XXXX is hidden."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "The list binds routedUnclaimedCargos, not all routed cargo. No named JUnit class directly tests this table or its hidden-code condition. The orphan test dialog is in .migration/quirks/booking-routed-table-test-dialog.md."
+quirks: [martins-vds/ai-factory-pilot-target#237]
