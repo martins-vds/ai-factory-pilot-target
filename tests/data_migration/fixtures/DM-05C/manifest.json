@@ -1,0 +1,29 @@
+{
+  "null": "\\N",
+  "tables": {
+    "CARGO": {
+      "rows": 1,
+      "sha256": "d84b943d870ed864c2bad277187c9f71c4b01399adb1540a8c2e48b991643a8d"
+    },
+    "CARRIER_MOVEMENT": {
+      "rows": 1,
+      "sha256": "8c4821285cddd011aa06be310378455e5379afccfa52fdd313de456019fcfd10"
+    },
+    "HANDLINGEVENT": {
+      "rows": 1,
+      "sha256": "57b8f2e19653b4d4f3738b6ba4aff80c13f84df9efddef493eb39067bf17a4e7"
+    },
+    "LEG": {
+      "rows": 1,
+      "sha256": "a9fba0c97a7474a740387809c6f8cd44b79217aa541f61633fba5a6cbcd43c47"
+    },
+    "LOCATION": {
+      "rows": 2,
+      "sha256": "bae1c04367a3566b3502e60765ce58b2da7f516e751625e4097162099d6c2f2a"
+    },
+    "VOYAGE": {
+      "rows": 1,
+      "sha256": "5330b37f5ffc484550a38ed757c7ff16c3b34ae8cf9ab8cdd48da50eb5c8736c"
+    }
+  }
+}
