@@ -29,7 +29,12 @@ def test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling(client
 def test_admin_live_map_marker_poll_returns_an_empty_marker_set(client):
     call_command('seed_sample_data')
 
+    page_response = client.get(reverse('admin_live_map'))
     response = client.get(reverse('admin_live_map_markers'), HTTP_HX_REQUEST='true')
 
+    page_content = page_response.content.decode()
+    assert page_response.status_code == 200
+    assert 'hx-target="#live-map-markers"' in page_content
+    assert 'hx-swap="innerHTML"' in page_content
     assert response.status_code == 200
     assert not response.content.strip()
