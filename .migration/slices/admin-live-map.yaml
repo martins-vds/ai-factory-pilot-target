@@ -1,0 +1,10 @@
+epic: 202
+data_paths:
+  source:
+    - page=src/main/webapp/admin/tracking/map.xhtml
+    - page=src/main/webapp/admin/tracking/mapFrame.xhtml
+  target:
+    - endpoint=/admin/live-map/
+    - endpoint=/admin/live-map/markers/
+entry_points:
+  target: []

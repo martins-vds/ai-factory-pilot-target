@@ -1,0 +1,14 @@
+epic: 247
+data_paths:
+  source:
+    - table=Cargo
+    - table=Leg
+    - table=HandlingEvent
+    - table=Location
+    - table=Voyage
+    - table=carrier_movement
+  target:
+    - command=load_data_snapshot
+entry_points:
+  target:
+    - command=export_data_snapshot
