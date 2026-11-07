@@ -42,6 +42,7 @@ tickets:
   - AM-04B
   - AM-04C
   - BK-05E
+  - BK-05H
 - id: AM-04E
   title: Prove the handling-to-map update
   role: afs-migrator
