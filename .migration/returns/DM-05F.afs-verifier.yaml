@@ -2,7 +2,7 @@ role: afs-verifier
 ticket: DM-05F
 issue: martins-vds/ai-factory-pilot-target#370
 pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/374
-verdict: pass
+verdict: blocked
 gates:
   build: 0
   behavior: 0
@@ -16,3 +16,4 @@ findings: []
 tests_added: []
 ledger_issues: []
 quirk_tickets: []
+handoff: .migration/handoffs/DM-05F.md
