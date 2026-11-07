@@ -150,6 +150,7 @@ def test_destination_next_opens_deadline_with_today_as_calendar_minimum(monkeypa
         ('2026-11-08', 'Journey duration is one day.', True),
         ('2026-11-09', 'Journey duration is 2 days.', True),
     ],
+    ids=('same-day', 'one-day', 'multiple-days'),
 )
 @pytest.mark.django_db
 def test_deadline_change_updates_duration_and_booking_state(

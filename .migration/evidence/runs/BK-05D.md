@@ -40,3 +40,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T15:48:43+00:00 | crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T15:48:48+00:00 | crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `c466f686db79d28f` |  | gate=crap max=19.0 threshold=30 over=0 methods=155 |
 | 2026-11-07T15:53:26+00:00 | injection-targeted-tests | 0 | 7.69 | `pytest -q tests/booking/interfaces/test_wizard.py` | `e965b08e757f9981` |  |  |
+| 2026-11-07T15:54:08+00:00 | mutation-changed | 2 | 9.11 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `5285d1be1b4d16ae` | afs-mutation: mutmut failed on src/cargotracker/booking/interfaces/wizard/views.py; its mutants were not tested: | gate=mutation score=n/a error=mutmut-failed failed_files=1 files=1 base=origin/main |
+| 2026-11-07T15:55:06+00:00 | safe-mutation-test-ids | 0 | 7.88 | `pytest -q tests/booking/interfaces/test_wizard.py` | `f7d468a6d23ccb9a` |  |  |
