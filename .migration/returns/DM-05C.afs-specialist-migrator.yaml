@@ -1,0 +1,48 @@
+role: afs-specialist-migrator
+ticket: DM-05C
+issue: martins-vds/ai-factory-pilot-target#351
+specialty: data
+pr: martins-vds/ai-factory-pilot-target#352
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.966
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/DM-05C.md
+  - tests/data_migration/fixtures/DM-05C/manifest.json
+  - tests/data_migration/test_load.py
+  - .migration/evidence/mutants/DM-05C.md
+ledger_updated: []
+quirk_tickets: []
+handoff: none
+equivalent_mutants:
+  - >-
+    loader.py:52 #49, `<= 10` → `<= 11`: after stripping, supported ISO date forms are at most
+    10 characters; the mutant admits no additional valid date input.
+  - >-
+    loader.py:90 #81, `'identity'` → `None`: `_transform` explicitly handles both as identity.
+  - >-
+    loader.py:101 #86, `and` → `or`: no proxy models are registered and `apps.get_models()` excludes
+    auto-created models by default.
+  - >-
+    loader.py:218 #207, `column == ref or name == ref` → `column == ref and name == ref`: the approved
+    mapping references only `.id`, whose field aliases are identical.
+  - >-
+    loader.py:233 #218, `target_index > index` → `>=`: no approved table references itself.
+  - >-
+    loader.py:266 #251, `target_index > index` → `>=`: no approved table references itself.
+  - >-
+    loader.py:268 #254, `None` → `''`: current deferred references are nullable integer foreign keys;
+    Django/PostgreSQL persists both as NULL before the restore phase.
+  - >-
+    loader.py:273 #259, `batch_size=1000` → `1001`: only internal bulk-insert chunking changes, not
+    loaded rows or transaction results.
+  - >-
+    apps.py:5 #1, `'django.db.models.BigAutoField'` → `'XXdjango.db.models.BigAutoFieldXX'`: this app
+    defines no models, so the setting has no effect on loaded data.
+  - >-
+    apps.py:5 #2, `'django.db.models.BigAutoField'` → `None`: this app defines no models, so the
+    setting has no effect on loaded data.
