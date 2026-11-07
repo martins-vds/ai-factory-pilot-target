@@ -1,0 +1,26 @@
+role: afs-specialist-migrator
+ticket: DM-05E
+issue: martins-vds/ai-factory-pilot-target#272
+specialty: data
+pr: martins-vds/ai-factory-pilot-target#381
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: "n/a: no mutable code changed"
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/data-migration/reconciliation.md
+  - .migration/evidence/runs/DM-05E.md
+  - tests/data_migration/test_load.py::test_load_snapshot_realigns_each_sequence_to_max_plus_one
+ledger_updated:
+  - data.cargo
+  - data.carrier-movement
+  - data.handling-event
+  - data.leg
+  - data.location
+  - data.sequence
+  - data.voyage
+quirk_tickets: []
+handoff: none

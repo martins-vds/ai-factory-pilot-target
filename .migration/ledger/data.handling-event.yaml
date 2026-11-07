@@ -11,8 +11,9 @@ tickets: [martins-vds/ai-factory-pilot-target#248]
 target:
   components:
     - cargotracker.handling.infrastructure.models.HandlingEventRecord
-status: pending
-verification: pending
+status: migrated
+verification: differential
 evidence:
   - .migration/evidence/data-migration/inventory.md
+  - .migration/evidence/data-migration/reconciliation.md
 notes: "The event type is stored by enum name. Source DATE columns are represented as target UTC instants by the existing target migration."

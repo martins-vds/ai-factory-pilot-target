@@ -12,8 +12,9 @@ target:
   components:
     - cargotracker.cargo.infrastructure.models.CargoRecord
     - cargotracker.cargo.infrastructure.models.LegRecord
-status: pending
-verification: pending
+status: migrated
+verification: differential
 evidence:
   - .migration/evidence/data-migration/inventory.md
+  - .migration/evidence/data-migration/reconciliation.md
 notes: "Embedded Delivery and RouteSpecification columns are flattened into cargo; itinerary legs are in LEG. See the data-migration inventory."
