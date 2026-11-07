@@ -28,9 +28,7 @@ def test_dashboard_partitions_cargos_in_source_order():
     not_routed = _cargo(False, TransportStatus.NOT_RECEIVED)
     claimed = _cargo(True, TransportStatus.CLAIMED)
     second_routed = _cargo(True, TransportStatus.ONBOARD_CARRIER)
-    dashboard = CargoDashboard(
-        CargoRepository([first_routed, not_routed, claimed, second_routed])
-    )
+    dashboard = CargoDashboard(CargoRepository([first_routed, not_routed, claimed, second_routed]))
 
     result = dashboard.get_dashboard()
 

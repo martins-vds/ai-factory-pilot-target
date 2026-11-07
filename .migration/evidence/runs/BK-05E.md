@@ -44,3 +44,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T21:34:57+00:00 | details-unit-red | 1 | 1.15 | `pytest -q tests/booking/application/test_dashboard.py::test_cargo_details_returns_the_requested_cargo` | `d6013be83c49e184` | >       assert dashboard.get_cargo_details(tracking_id) is cargo |  |
 | 2026-11-07T21:35:05+00:00 | details-unit-green | 0 | 1.13 | `pytest -q tests/booking/application/test_dashboard.py::test_cargo_details_returns_the_requested_cargo` | `aa4ec373bf9e8ac7` |  |  |
 | 2026-11-07T21:35:47+00:00 | dashboard-focused | 0 | 3.47 | `pytest -q tests/booking/application/test_dashboard.py tests/booking/interfaces/test_dashboard.py tests/booking/interfaces/test_cargo_details.py` | `bf2132de0842b464` |  |  |
+| 2026-11-07T21:36:51+00:00 | build-compileall | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T21:36:52+00:00 | build-django-check | 0 | 0.28 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T21:36:55+00:00 | idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T21:36:55+00:00 | idiom-ruff-format | 1 | 0.02 | `ruff format --check` | `9579d0777594546c` |  |  |
+| 2026-11-07T21:36:59+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `5eb321ace635f2f7` |  |  |
+| 2026-11-07T21:37:45+00:00 | behavior-tests | 0 | 43.54 | `pytest -q` | `d7490892b545f182` |  |  |
+| 2026-11-07T21:38:32+00:00 | crap-coverage | 0 | 42.18 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `ea541836f7c1fa4a` |  |  |
+| 2026-11-07T21:38:33+00:00 | crap-lizard | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T21:38:33+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
