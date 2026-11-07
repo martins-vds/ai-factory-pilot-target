@@ -11,3 +11,4 @@ verification: pending
 evidence:
   - .migration/evidence/data-migration/inventory.md
 notes: "No JPA entity or source graph node defines this provider table. Target uses database-native BigAutoField sequences; see .migration/quirks/data-sequence-state.md."
+quirks: [martins-vds/ai-factory-pilot-target#255]

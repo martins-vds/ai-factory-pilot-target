@@ -13,3 +13,4 @@ verification: pending
 evidence:
   - .migration/evidence/data-migration/inventory.md
 notes: "No target persistence model or migration mirrors this table; see .migration/quirks/data-carrier-movement-home.md."
+quirks: [martins-vds/ai-factory-pilot-target#254]
