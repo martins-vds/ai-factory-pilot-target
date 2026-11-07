@@ -59,3 +59,15 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T15:12:20+00:00 | final-crap-threshold | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `6c5a7b5a5f079222` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
 | 2026-11-07T15:12:48+00:00 | final-regression-suite | 0 | 25.33 | `pytest -q` | `3dd8801bbd4a9b89` |  |  |
 | 2026-11-07T15:13:07+00:00 | final-mutation-changed | 0 | 16.06 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `43cbeda675483b3d` |  | gate=mutation score=1.000 threshold=0.8 killed=6 survived=0 files=1 base=origin/main |
+| 2026-11-07T15:51:01+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:52:27+00:00 | reverify-build-compileall | 0 | 0.08 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:52:29+00:00 | reverify-build-django-check | 0 | 1.57 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T15:52:29+00:00 | reverify-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T15:52:29+00:00 | reverify-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `cf764d22188c7061` |  |  |
+| 2026-11-07T15:53:14+00:00 | reverify-behavior-suite | 0 | 44.54 | `pytest -q` | `28330d2d5a781d37` |  |  |
+| 2026-11-07T15:53:56+00:00 | reverify-crap-coverage | 0 | 42.4 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `1d51516505ed7865` |  |  |
+| 2026-11-07T15:53:56+00:00 | reverify-crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:53:56+00:00 | reverify-crap-threshold | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4025a585d6fd1958` |  | gate=crap max=19.0 threshold=30 over=0 methods=147 |
+| 2026-11-07T15:54:21+00:00 | reverify-mutation-changed | 0 | 24.59 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `43cbeda675483b3d` |  | gate=mutation score=1.000 threshold=0.8 killed=6 survived=0 files=1 base=origin/main |
+| 2026-11-07T15:55:13+00:00 | reverify-regression-suite | 0 | 51.98 | `pytest -q` | `b760313825296c94` |  |  |
+| 2026-11-07T15:55:57+00:00 | reverify-focused-admin-map | 0 | 3.81 | `pytest -q tests/cargo/interfaces/test_admin_live_map_templates.py tests/cargo/interfaces/test_admin_live_map_data.py` | `e172eb16c6a9be74` |  |  |
