@@ -15,7 +15,7 @@
 - Reuse the existing cargo repository, cargo/location mappings, and accepted handling-processing flow. No new persistence schema or production-data migration is planned.
 - The source map-frame `init()` hotspot is CRAP 110 / CCN 10 in the best-effort risk map. A design ticket precedes its re-architected target presentation; target methods remain subject to the profile CRAP limit of 30.
 - Quirk #253 remains open. Ruling #206 covers unknown/unmapped cargo generally, but does not unambiguously decide whether the source `NOT_RECEIVED` + `Unknown` sentinel is shown at its known origin or only in the unmapped list. Do not silently decide that case.
-- Provisional target routes for slice anchors are `/admin/live-map/` and `/admin/live-map/markers/`; confirm them before approval. The existing target has no admin cargo-detail route, so the marker click-through destination also needs an operator decision.
+- Provisional target routes for slice anchors are `/admin/live-map/` and `/admin/live-map/markers/`; confirm them before approval. Marker click-through targets booking's admin cargo-details page (BK-05); its URL remains provisional until the revised booking plan names it.
 
 ## Proposed tickets
 
@@ -55,11 +55,11 @@ The labels below are planning keys, not published tracker IDs. Sizes fit one fre
 
 - **Size:** M
 - **Role:** `afs-specialist-migrator`, `specialty: ui`
-- **Blocked by:** AM-04A, AM-04B, AM-04C, and an answer to quirk #253 for the `NOT_RECEIVED` + `Unknown` sentinel case
+- **Blocked by:** AM-04A, AM-04B, AM-04C, BK-05, and an answer to quirk #253 for the `NOT_RECEIVED` + `Unknown` sentinel case
 - **Files:** `templates/admin/_live_map_markers.html`, `tests/cargo/interfaces/test_admin_live_map_markers.py`
 - **Scope:** Render the current cargo markers and their status/tooltips in the htmx partial. Preserve source status precedence and color rules. Use exact configured coordinates with no random offset (#205); list unknown/unmapped cargo separately with its real tracking link and no invented point (#206). Normalize the `IN_PORT` tooltip label to `In port` (#207). Keep the #253 sentinel-specific presentation blocked until the operator resolves whether #206 covers that exact case. Preserve the characterized empty-map behavior; log data failures without inventing map data.
 - **Tests:** Cover status precedence/colors, exact known-location coordinates, tooltip fields and normalized text, empty data, and mixed known/unmapped cargo with its real tracking link and no marker at a fabricated point. Add the #253 case only after its ruling.
-- **Capabilities:** `admin-live-map.marker-coordinates` → **replaced** (#205, #206); `admin-live-map.marker-status` → **migrated**; `admin-live-map.marker-tooltip` → **replaced** (#206, #207; #253 remains open); `admin-live-map.empty-and-failure` → **migrated**; `admin-live-map.cargo-navigation` → **migrated**, subject to confirming the target detail destination; `admin-live-map.notification-reload` → **replaced** (#90 / ADR-0005: the next htmx poll reflects committed cargo changes).
+- **Capabilities:** `admin-live-map.marker-coordinates` → **replaced** (#205, #206); `admin-live-map.marker-status` → **migrated**; `admin-live-map.marker-tooltip` → **replaced** (#206, #207; #253 remains open); `admin-live-map.empty-and-failure` → **migrated**; `admin-live-map.cargo-navigation` → **migrated** to the booking admin cargo-details page, with its URL pending the revised booking plan; `admin-live-map.notification-reload` → **replaced** (#90 / ADR-0005: the next htmx poll reflects committed cargo changes).
 
 ### AM-04E — Prove the handling-to-map update
 
@@ -89,13 +89,18 @@ The labels below are planning keys, not published tracker IDs. Sizes fit one fre
 
 The existing accepted handling-registration flow (#113) and cargo/location persistence are prerequisites already present in the target baseline, not new blocking slices. There is no separate data-migration slice.
 
+## Cross-slice
+
+- **Shared files:** `src/cargotracker/urls.py` is AM-04B's shared route-registration point; coordinate it with the booking ticket that wires booking routes. The booking draft on PR #259 does not identify that ticket or list target files, so do not run AM-04B in parallel with that URL-wiring work until the revised booking plan names its owner. `src/cargotracker/settings.py` is changed by AM-04B for `CARGO_MAP_POLL_SECONDS`, but the booking draft specifies no settings change. The map templates are feature-specific, and booking reuses the existing cargo model; neither plan identifies shared template or cargo-model edits.
+- **Blocking dependency:** BK-05 builds the booking admin cargo-details page; AM-04D needs it for marker click-through. BK-05 and AM-04D cannot run in parallel. The destination URL stays provisional until the revised booking plan names it. Other admin-map work can proceed independently of BK-05.
+
 ## Capability-to-ticket coverage
 
 These are planned fates, not claims that target implementation is complete. Every deliberate replacement/drop cites its approval.
 
 | Ledger capability | Ticket | Planned fate |
 |---|---|---|
-| `admin-live-map.cargo-navigation` | AM-04D | **migrated** — marker opens the selected cargo destination; confirm the target detail route before approval |
+| `admin-live-map.cargo-navigation` | AM-04D | **migrated** — marker opens the booking admin cargo-details page from BK-05; its target URL remains provisional until the revised booking plan names it |
 | `admin-live-map.cargo-source` | AM-04B | **replaced** — server-side all-cargo query for the htmx partial (#90 / ADR-0005) |
 | `admin-live-map.connection-status` | AM-04C | **dropped** — WebSocket and online/offline label (#90 / ADR-0005) |
 | `admin-live-map.empty-and-failure` | AM-04D | **migrated** — empty map remains empty; failures are logged and do not fabricate markers |
@@ -116,5 +121,5 @@ These are planned fates, not claims that target implementation is complete. Ever
 **Open questions for the Program Orchestrator:**
 
 - Resolve quirk #253: for a `NOT_RECEIVED` cargo whose `lastKnownLocation` is `Unknown` but whose origin is known, does ruling #206 require the unmapped list, or should the origin marker remain?
-- Confirm the target destination and URL contract for marker click-through; the current target has no admin cargo-detail page.
+- Keep the marker click-through URL provisional until the revised booking plan names the BK-05 cargo-details route.
 - Confirm the provisional `/admin/live-map/` and `/admin/live-map/markers/` route names before approving the plan.
