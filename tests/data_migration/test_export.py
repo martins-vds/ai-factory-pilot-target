@@ -102,6 +102,7 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         calculated_at=datetime(2026, 2, 1, 10, tzinfo=UTC),
     )
     mapping = {
+        'defaults': {'timestamp_tz': 'America/New_York'},
         'tables': [
             {
                 'target': 'cargo',
@@ -116,7 +117,7 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
                     'calculated_at': {'from': 'CALCULATED_AT', 'as': 'timestamp'},
                 },
             }
-        ]
+        ],
     }
     mapping_path = tmp_path / 'mapping.yaml'
     mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
@@ -232,6 +233,16 @@ def test_export_rejects_invalid_mappings_at_command_boundary(tmp_path):
             out=str(tmp_path / 'non-object-out'),
         )
     assert str(error.value) == f'{non_object_mapping}: mapping must be an object'
+
+    empty_mapping = tmp_path / 'empty.yaml'
+    empty_mapping.write_text('', encoding='utf-8')
+    with pytest.raises(CommandError) as error:
+        call_command(
+            'export_data_snapshot',
+            mapping=str(empty_mapping),
+            out=str(tmp_path / 'empty-out'),
+        )
+    assert str(error.value) == 'mapping has no tables'
 
     missing_mapping = tmp_path / 'missing.yaml'
     with pytest.raises(CommandError) as error:

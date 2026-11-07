@@ -1,0 +1,19 @@
+role: afs-specialist-migrator
+ticket: DM-05D
+issue: martins-vds/ai-factory-pilot-target#271
+specialty: data
+pr: martins-vds/ai-factory-pilot-target#356
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.932
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/DM-05D.md
+  - .migration/evidence/mutants/DM-05D.md
+  - tests/data_migration/test_export.py
+ledger_updated: []
+quirk_tickets: []
+handoff: none
