@@ -1,0 +1,19 @@
+role: afs-migrator
+ticket: BK-05B
+issue: martins-vds/ai-factory-pilot-target#289
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/331
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.930
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/BK-05B.md
+ledger_updated:
+  - booking.routing-pathfinder-api
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#238
+new_tickets: []
+handoff: null
