@@ -7,8 +7,18 @@ source:
   location: "src/main/java/org/eclipse/cargotracker/interfaces/booking/rest/CargoMonitoringService.java:20-52"
 boundary: "GET /cargo returns an array for CargoRepository.findAll(), serializing each cargo's tracking id, routing status, misdirected flag, transport status, at-destination flag, origin code, and last-known-location code; XXXXX becomes Unknown."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#245"]
-status: pending
+tickets:
+  - martins-vds/ai-factory-pilot-target#203
+  - martins-vds/ai-factory-pilot-target#245
+  - martins-vds/ai-factory-pilot-target#281
+target:
+  components:
+    - cargotracker.cargo.application.admin_map.build_admin_map_data
+status: replaced
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#90
+  reason: "Server-side polling queries the existing Django cargo repository instead of a separate JAX-RS resource."
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,5 +27,7 @@ evidence:
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_cargo_source_shape_and_baseline_sentinel"
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_handling_registration_acceptance_golden"
   - ".migration/evidence/runs/AM-03.md"
+  - tests/cargo/interfaces/test_admin_live_map_data.py::test_admin_map_data_includes_every_cargo_and_maps_status_and_location
+  - .migration/evidence/runs/AM-04B.md
 quirks: [martins-vds/ai-factory-pilot-target#206, martins-vds/ai-factory-pilot-target#253]
 notes: "The query chain continues through JpaCargoRepository.findAll and Cargo.findAll to the Cargo entity; Cargo embeds Delivery and references Location for origin/last-known location. Reuse existing track-cargo.data-cargo and track-cargo.data-location entries; do not duplicate or reset them."
