@@ -11,7 +11,6 @@ from django.apps import apps
 from django.core.management.color import no_style
 from django.db import connection, transaction
 
-
 TRUE = {'1', 'true', 't', 'yes', 'y'}
 FALSE = {'0', 'false', 'f', 'no', 'n'}
 
@@ -56,7 +55,7 @@ def _transform(value, transform, timezone):
             parsed = datetime.date.fromisoformat(value.strip())
             return parsed
         try:
-            parsed = datetime.datetime.fromisoformat(value.strip().replace('Z', '+00:00'))
+            parsed = datetime.datetime.fromisoformat(value.strip())
         except ValueError:
             for pattern in (
                 '%Y-%m-%d %H:%M:%S.%f%z',
@@ -72,7 +71,7 @@ def _transform(value, transform, timezone):
                 raise DataLoadError(f'not a timestamp: {value!r}')
         if parsed.tzinfo is None:
             parsed = parsed.replace(tzinfo=timezone)
-        parsed = parsed.astimezone(datetime.timezone.utc)
+        parsed = parsed.astimezone(datetime.UTC)
         if transform == 'date':
             return parsed.date()
         return parsed
@@ -132,7 +131,10 @@ def _read_source_rows(snapshot, source, manifest):
     path = snapshot / f'{source}.csv'
     if not path.is_file():
         raise DataLoadError(f'{path}: missing')
-    if metadata.get('sha256') and hashlib.sha256(path.read_bytes()).hexdigest() != metadata['sha256']:
+    if (
+        metadata.get('sha256')
+        and hashlib.sha256(path.read_bytes()).hexdigest() != metadata['sha256']
+    ):
         raise DataLoadError(f'{source}: sha256 differs from the snapshot manifest')
 
     marker = manifest.get('null', '\\N')
@@ -150,14 +152,14 @@ def _read_source_rows(snapshot, source, manifest):
                     raise DataLoadError(
                         f'{path}:{line}: {len(row)} fields, header has {len(header)}'
                     )
-                rows.append(dict(zip(header, (None if value == marker else value for value in row))))
+                rows.append(
+                    dict(zip(header, (None if value == marker else value for value in row)))
+                )
     except OSError as error:
         raise DataLoadError(f'{path}: {error}') from error
 
     if 'rows' in metadata and len(rows) != metadata['rows']:
-        raise DataLoadError(
-            f'{source}: {len(rows)} rows, manifest says {metadata["rows"]}'
-        )
+        raise DataLoadError(f'{source}: {len(rows)} rows, manifest says {metadata["rows"]}')
     return rows
 
 
@@ -194,7 +196,9 @@ def _prepare_tables(mapping, models):
         entry['refs'] = {}
         for column, reference in refs.items():
             if column not in entry['fields']:
-                raise DataLoadError(f'{entry["spec"]["target"]}: reference {column!r} is not mapped')
+                raise DataLoadError(
+                    f'{entry["spec"]["target"]}: reference {column!r} is not mapped'
+                )
             try:
                 table, referenced_column = reference.rsplit('.', 1)
             except (AttributeError, ValueError) as error:

@@ -12,7 +12,6 @@ from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.location.infrastructure.models import LocationRecord
 from cargotracker.voyage.infrastructure.models import CarrierMovementRecord, VoyageRecord
 
-
 MAPPING = {
     'defaults': {'timestamp_tz': 'UTC'},
     'tables': [
@@ -269,10 +268,7 @@ def test_load_snapshot_is_idempotent_restores_cycle_and_realigns_sequences(tmp_p
         )
     }
     call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
-    assert {
-        model: _rows(model)
-        for model in before
-    } == before
+    assert {model: _rows(model) for model in before} == before
 
     new_location = LocationRecord.objects.create(unlocode='TST01', name='Test location')
     new_voyage = VoyageRecord.objects.create(voyage_number='V002')
