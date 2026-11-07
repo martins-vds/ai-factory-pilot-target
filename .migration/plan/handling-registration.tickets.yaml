@@ -1,0 +1,90 @@
+# Backfilled from the plan and its published tickets (harness #98).
+slice: handling-registration
+tickets:
+- id: HR-04A
+  title: Design cargo inspection re-derivation
+  role: afs-specialist-migrator
+  specialty: messaging
+  files:
+  - .migration/design/handling-registration-inspection.md
+  capabilities:
+  - handling.cargo-inspection
+  - handling.misdirected-queue
+  - handling.delivered-queue
+  blocked_by: []
+- id: HR-04B
+  title: Add PostgreSQL registration attempts
+  role: afs-specialist-migrator
+  specialty: messaging
+  files:
+  - src/cargotracker/handling/domain/registration_attempt.py
+  - src/cargotracker/handling/domain/repository.py
+  - src/cargotracker/handling/infrastructure/models.py
+  - src/cargotracker/handling/infrastructure/attempt_submission_repository.py
+  - src/cargotracker/handling/application/accept_registration.py
+  - src/cargotracker/handling/models.py
+  - src/cargotracker/handling/migrations/0002_registration_attempt.py
+  - tests/handling/test_registration_attempt_repository.py
+  capabilities:
+  - handling.registration-attempt-queue
+  blocked_by: []
+- id: HR-04C
+  title: Implement the handling-report REST front door
+  role: afs-migrator
+  files:
+  - src/cargotracker/handling/interfaces/rest.py
+  - src/cargotracker/handling/interfaces/urls.py
+  - src/cargotracker/urls.py
+  - tests/handling/interfaces/test_registration_reports.py
+  capabilities:
+  - handling.rest-report-contract
+  blocked_by:
+  - HR-04B
+- id: HR-04D
+  title: Process attempts and inspect cargo
+  role: afs-specialist-migrator
+  specialty: messaging
+  files:
+  - src/cargotracker/handling/application/process_registration_attempt.py
+  - src/cargotracker/handling/infrastructure/attempt_processing_repository.py
+  - src/cargotracker/handling/management/commands/process_handling_attempts.py
+  - compose.yaml
+  - tests/handling/test_registration_processing.py
+  - src/cargotracker/handling/domain/handling_history.py
+  capabilities:
+  - handling.registration-flow
+  - handling.registration-attempt-consumer
+  - handling.cargo-handled-queue
+  - handling.registration-service
+  - handling.registration-factory-rules
+  - handling.event-aggregate
+  - handling.event-table
+  - handling.history-ordering
+  - handling.cargo-table
+  - handling.leg-table
+  - handling.location-table
+  - handling.voyage-table
+  - handling.carrier-movement-table
+  - handling.cargo-inspection
+  - handling.rejected-attempts-queue
+  - handling.misdirected-queue
+  - handling.delivered-queue
+  blocked_by:
+  - HR-04A
+  - HR-04B
+- id: HR-04E
+  title: Differentially replay the handling goldens
+  role: afs-verifier
+  files:
+  - tests/differential/test_handling_registration.py
+  blocked_by:
+  - HR-04C
+  - HR-04D
+- id: HR-04F
+  title: Accept the handling-registration slice
+  role: afs-auditor
+  files:
+  - .migration/evidence/handling-registration/acceptance.md
+  - .migration/returns/HR-04F.afs-auditor.yaml
+  blocked_by:
+  - HR-04E

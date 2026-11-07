@@ -87,3 +87,6 @@ services:
 translation_rules: .migration/translation-rules.md
 signoff:                     # ADR-0031: whose approving review on the coordinator's PR is the human sign-off
   approvers: [martins-vds]
+self_heal:                   # ADR-0034: the stop hook sends an agent back to fix what CI would reject
+  enabled: true              # operator, 2026-11-07: "Enable self healing"
+  max_blocks: 2

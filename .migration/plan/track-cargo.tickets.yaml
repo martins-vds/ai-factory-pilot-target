@@ -1,0 +1,134 @@
+# Backfilled from the plan and its published tickets (harness #98).
+slice: track-cargo
+tickets:
+- id: TC-01
+  role: afs-migrator
+  files: []
+  blocked_by: []
+  done_before_returns: true
+- id: TC-02
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.data-location
+  blocked_by:
+  - TC-01
+- id: TC-03
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.data-voyage
+  blocked_by:
+  - TC-01
+  - TC-02
+- id: TC-04
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.data-cargo
+  - track-cargo.data-leg
+  blocked_by:
+  - TC-01
+  - TC-02
+  - TC-03
+- id: TC-05
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.data-handling-event
+  - track-cargo.domain-history-order
+  blocked_by:
+  - TC-01
+  - TC-02
+  - TC-03
+  - TC-04
+- id: TC-06
+  role: afs-migrator
+  files: []
+  blocked_by:
+  - TC-02
+  - TC-03
+  - TC-04
+  - TC-05
+- id: TC-07
+  role: afs-migrator
+  files: []
+  blocked_by:
+  - TC-04
+  - TC-05
+- id: TC-08
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.domain-event-expectation
+  - track-cargo.domain-route-state
+  - track-cargo.domain-transport-status
+  blocked_by:
+  - TC-07
+- id: TC-09
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.tracking-id-entry
+  - track-cargo.not-found
+  blocked_by:
+  - TC-04
+  - TC-05
+  - TC-06
+- id: TC-10
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.status-text
+  blocked_by:
+  - TC-06
+  - TC-08
+- id: TC-11
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.eta
+  blocked_by:
+  - TC-06
+  - TC-08
+- id: TC-12
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.map-frame
+  - track-cargo.map-integration
+  - track-cargo.map-status-code
+  blocked_by:
+  - TC-02
+  - TC-03
+  - TC-06
+  - TC-08
+- id: TC-13
+  role: afs-migrator
+  files: []
+  capabilities:
+  - track-cargo.handling-history
+  - track-cargo.misdirected-indicator
+  - track-cargo.next-activity
+  blocked_by:
+  - TC-05
+  - TC-06
+  - TC-08
+  - TC-09
+  - TC-10
+  - TC-11
+  - TC-12
+- id: TC-14
+  role: afs-verifier
+  files: []
+  blocked_by:
+  - TC-09
+  - TC-10
+  - TC-11
+  - TC-12
+  - TC-13
+- id: TC-15
+  role: afs-auditor
+  files: []
+  blocked_by:
+  - TC-14
