@@ -1,0 +1,23 @@
+role: afs-specialist-migrator
+ticket: AM-04C
+issue: martins-vds/ai-factory-pilot-target#325
+specialty: ui
+pr: martins-vds/ai-factory-pilot-target#328
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 1.0
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/AM-04C.md
+  - .migration/evidence/mutants/AM-04C.md
+  - tests/cargo/interfaces/test_admin_live_map_templates.py::test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling
+ledger_updated:
+  - admin-live-map.page-frame
+  - admin-live-map.map-provider
+  - admin-live-map.connection-status
+  - admin-live-map.notification-reload
+quirk_tickets: []
+handoff: none
