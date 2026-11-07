@@ -106,3 +106,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T17:48:08+00:00 | loader-survivor-tests | 1 | 4.16 | `pytest -q tests/data_migration/test_load.py` | `11c2542ea6d10774` | with pytest.raises(CommandError) as error: |  |
 | 2026-11-07T17:48:34+00:00 | loader-survivor-tests-rerun | 1 | 3.97 | `pytest -q tests/data_migration/test_load.py` | `8f9840452850d0da` | assert help_exit.value.code == 0 |  |
 | 2026-11-07T17:48:57+00:00 | loader-survivor-tests-final | 0 | 4.0 | `pytest -q tests/data_migration/test_load.py` | `556013110770a390` |  |  |
+| 2026-11-07T17:49:26+00:00 | loader-simplifications | 0 | 4.02 | `pytest -q tests/data_migration/test_load.py` | `195537f2ba3b9a70` |  |  |
+| 2026-11-07T17:55:03+00:00 | mutation-changed-final | 0 | 331.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `b4895cd72bffda51` |  | gate=mutation score=0.960 threshold=0.8 killed=286 survived=12 files=3 base=origin/main |
+| 2026-11-07T17:55:50+00:00 | loader-final-cases | 0 | 4.31 | `pytest -q tests/data_migration/test_load.py` | `76804d66527a1af3` |  |  |

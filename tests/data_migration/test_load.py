@@ -1027,6 +1027,20 @@ def test_load_snapshot_rejects_non_nullable_forward_reference(tmp_path):
 
 
 @pytest.mark.django_db(transaction=True)
+def test_load_snapshot_requires_postgresql(monkeypatch):
+    monkeypatch.setattr(loader.connection, 'vendor', 'sqlite')
+
+    with pytest.raises(CommandError) as error:
+        call_command(
+            'load_data_snapshot',
+            snapshot='unused',
+            mapping='unused',
+        )
+
+    assert str(error.value) == 'load_data_snapshot requires PostgreSQL'
+
+
+@pytest.mark.django_db(transaction=True)
 def test_load_snapshot_rejects_missing_or_non_object_mapping_files(tmp_path):
     cases = (
         (
@@ -1057,7 +1071,9 @@ def test_load_data_snapshot_command_help_arguments_and_success_output(tmp_path, 
     with pytest.raises(SystemExit) as help_exit:
         call_command('load_data_snapshot', '--help', stdout=help_output)
     assert help_exit.value.code == 0
-    assert 'Load a validated relational snapshot using its mapping.' in capsys.readouterr().out
+    help_text = capsys.readouterr().out
+    description = next(line for line in help_text.splitlines() if 'mapping.' in line)
+    assert description == 'Load a validated relational snapshot using its mapping.'
 
     for options, missing in (
         ({'mapping': str(FIXTURE_SNAPSHOT)}, '--snapshot'),
