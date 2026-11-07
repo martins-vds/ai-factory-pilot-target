@@ -1,0 +1,10 @@
+HTTP/1.1 400 Bad Request
+Server: Payara Server  4.1.2.181 #badassfish
+X-Powered-By: Servlet/3.1 JSP/2.3 (Payara Server  4.1.2.181 #badassfish Java/Temurin/1.8)
+Vary: Accept
+Content-Type: text/plain
+Date: Sat, 07 Nov 2026 03:52:13 GMT
+Connection: close
+Content-Length: 125
+X-Frame-Options: SAMEORIGIN
+
