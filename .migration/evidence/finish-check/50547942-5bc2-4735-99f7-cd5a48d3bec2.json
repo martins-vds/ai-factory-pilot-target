@@ -1,0 +1,32 @@
+[
+  {
+    "at": "2026-11-07T19:38:15Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 29317,
+    "prompt_from": "transcript",
+    "scope_lines": [
+      "drill/b.txt"
+    ],
+    "enabled": true,
+    "ticket": "DRILL-02",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/evidence/runs/DRILL-02.md",
+      ".migration/returns/DRILL-02.afs-specialist-migrator.yaml",
+      "drill/a.txt",
+      "drill/b.txt"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
