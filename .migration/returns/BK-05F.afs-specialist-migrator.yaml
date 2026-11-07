@@ -8,7 +8,7 @@ gates:
   behavior: 0
   idiom: 0
   crap: 26.0
-  mutation_changed: 0.803
+  mutation_changed: 0.790
   regression: 0
 specialty_evidence:
   - tests/booking/interfaces/test_route_selection.py::test_route_selection_renders_populated_candidates_and_numbered_legs
@@ -17,6 +17,7 @@ specialty_evidence:
   - tests/booking/interfaces/test_route_selection.py::test_assigning_candidate_redirects_to_details_with_the_selected_itinerary
   - tests/booking/interfaces/test_route_selection.py::test_route_assignment_rejects_a_modified_candidate
   - tests/booking/interfaces/test_route_selection.py::test_route_screens_reject_unsupported_http_methods
+  - tests/booking/interfaces/test_route_selection.py::test_route_selection_raises_not_found_for_unknown_cargo
   - .migration/evidence/runs/BK-05F.md
   - .migration/evidence/mutants/BK-05F.md
 ledger_updated:
@@ -25,4 +26,4 @@ ledger_updated:
   - booking.screen-select-itinerary
   - booking.routing-assign
 quirk_tickets: []
-handoff: none
+handoff: .migration/handoffs/BK-05F.md

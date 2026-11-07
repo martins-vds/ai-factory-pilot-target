@@ -2,7 +2,8 @@ import re
 from datetime import UTC, datetime
 
 import pytest
-from django.test import override_settings
+from django.http import Http404
+from django.test import RequestFactory, override_settings
 from django.urls import path
 
 from cargotracker.booking.application.dashboard import CargoDashboard
@@ -202,3 +203,11 @@ def test_route_screens_reject_unsupported_http_methods(client):
 
     assert route_response.status_code == 405
     assert itinerary_response.status_code == 405
+
+
+@pytest.mark.django_db
+def test_route_selection_raises_not_found_for_unknown_cargo():
+    request = RequestFactory().get('/admin/cargo/MISSING1/route/')
+
+    with pytest.raises(Http404, match='Cargo with tracking ID MISSING1 not found\\.'):
+        route_view(request, 'MISSING1')

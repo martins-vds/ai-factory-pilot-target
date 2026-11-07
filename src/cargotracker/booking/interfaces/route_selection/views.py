@@ -1,5 +1,6 @@
 from collections.abc import Callable
 from datetime import datetime
+from urllib.parse import quote
 
 from django.core import signing
 from django.core.signing import BadSignature
@@ -35,7 +36,7 @@ def create_route_selection_views(
             if not cargo.route_specification.is_satisfied_by(itinerary):
                 raise Http404('The selected route no longer satisfies the route specification.')
             cargo_routing.assign_route(TrackingId(tracking_id), itinerary)
-            return redirect(f'/admin/cargo/{tracking_id}/')
+            return redirect(f'/admin/cargo/{quote(tracking_id, safe="")}/')
         context = _selection_context(
             cargo_routing,
             cargo_dashboard,

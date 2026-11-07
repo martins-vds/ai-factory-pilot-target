@@ -45,3 +45,15 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T23:29:04+00:00 | crap-coverage-final-467 | 0 | 46.55 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `aeae45f0cde2980f` |  |  |
 | 2026-11-07T23:29:08+00:00 | crap-lizard-final-467 | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T23:29:08+00:00 | crap-score-final-467 | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `c1f7b4ca904f936a` |  | gate=crap max=26.0 threshold=30 over=0 methods=208 |
+| 2026-11-07T23:30:38+00:00 | route-redirect-sanitization-test | 0 | 1.56 | `pytest -q tests/booking/interfaces/test_route_selection.py::test_assigning_candidate_redirects_to_details_with_the_selected_itinerary` | `7cfbd4174b4e5fac` |  |  |
+| 2026-11-07T23:30:44+00:00 | build-compile-security-fix | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T23:30:49+00:00 | django-check-security-fix | 0 | 0.32 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T23:30:53+00:00 | idiom-security-fix-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T23:30:58+00:00 | idiom-security-fix-format | 0 | 0.01 | `ruff format --check` | `c3ac60a207092b7f` |  |  |
+| 2026-11-07T23:31:47+00:00 | behavior-security-fix | 0 | 44.76 | `pytest -q` | `72ce2532210dcc23` |  |  |
+| 2026-11-07T23:32:37+00:00 | crap-coverage-security-fix | 0 | 42.91 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `3ccac7a1bf25cd16` |  |  |
+| 2026-11-07T23:32:41+00:00 | crap-lizard-security-fix | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T23:32:41+00:00 | crap-score-security-fix | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `c1f7b4ca904f936a` |  | gate=crap max=26.0 threshold=30 over=0 methods=208 |
+| 2026-11-07T23:33:57+00:00 | mutation-changed-security-fix | 1 | 61.57 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `6587d75718117f99` | afs-mutation: FAILED score=0.790 threshold=0.8 killed=49 survived=13 skipped=0 files=1 jobs=1 base=origin/main | gate=mutation score=0.790 threshold=0.8 killed=49 survived=13 files=1 base=origin/main |
+| 2026-11-07T23:35:56+00:00 | unknown-route-404-test | 0 | 1.41 | `pytest -q tests/booking/interfaces/test_route_selection.py::test_route_selection_raises_not_found_for_unknown_cargo` | `a558b8376cd28466` |  |  |
+| 2026-11-07T23:37:02+00:00 | mutation-changed-after-404-test | 1 | 61.99 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `6587d75718117f99` | afs-mutation: FAILED score=0.790 threshold=0.8 killed=49 survived=13 skipped=0 files=1 jobs=1 base=origin/main | gate=mutation score=0.790 threshold=0.8 killed=49 survived=13 files=1 base=origin/main |
