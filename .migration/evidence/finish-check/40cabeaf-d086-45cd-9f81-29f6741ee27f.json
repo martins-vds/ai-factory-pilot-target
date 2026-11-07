@@ -1,0 +1,29 @@
+[
+  {
+    "at": "2026-11-07T23:25:23Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 38237,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-AUDIT",
+    "role": "afs-auditor",
+    "changed": [
+      ".migration/evidence/data-migration/report.md",
+      ".migration/evidence/runs/DM-AUDIT.md",
+      ".migration/returns/DM-AUDIT.afs-auditor.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
