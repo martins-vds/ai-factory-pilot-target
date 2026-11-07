@@ -85,3 +85,16 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T15:13:27+00:00 | crap-lizard-fixture | 0 | 0.09 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T15:13:27+00:00 | crap-score-fixture | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `40067e260b62dacd` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
 | 2026-11-07T15:17:39+00:00 | mutation-changed-fixture | 1 | 247.28 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `56bc2d213a40121c` | afs-mutation: FAILED score=0.695 threshold=0.8 killed=210 survived=92 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.695 threshold=0.8 killed=210 survived=92 files=3 base=origin/main |
+| 2026-11-07T15:20:46+00:00 | survivor-tests | 1 | 2.27 | `pytest -q tests/data_migration/test_load.py` | `f8c38f4e16b0c5a5` | E           AssertionError: Regex pattern did not match. |  |
+| 2026-11-07T15:20:56+00:00 | survivor-tests-final | 1 | 2.31 | `pytest -q tests/data_migration/test_load.py` | `89bf4fcf039b210b` | E           AssertionError: Regex pattern did not match. |  |
+| 2026-11-07T15:21:07+00:00 | survivor-tests-verified | 0 | 2.39 | `pytest -q tests/data_migration/test_load.py` | `e2f3094058850728` |  |  |
+| 2026-11-07T15:21:10+00:00 | fixture-snapshot-final | 0 | 0.04 | `python .migration/harness/tools/data_reconcile.py snapshot tests/data_migration/fixtures/DM-05C` | `525bd2128fe2515f` |  | gate=data-snapshot tables=6 problems=0 |
+| 2026-11-07T15:21:10+00:00 | idiom-ruff-survivors | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T15:21:10+00:00 | idiom-format-survivors | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T15:21:19+00:00 | build-compile-survivors | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:21:19+00:00 | build-check-survivors | 0 | 0.25 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T15:21:45+00:00 | behavior-survivors | 0 | 26.08 | `pytest -q` | `f098e7852bfabc00` |  |  |
+| 2026-11-07T15:22:13+00:00 | crap-coverage-survivors | 0 | 27.25 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `ce3a07b68ddd0f87` |  |  |
+| 2026-11-07T15:22:13+00:00 | crap-lizard-survivors | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:22:13+00:00 | crap-score-survivors | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `0ee29d308b3e0f2c` |  | gate=crap max=29.8 threshold=30 over=0 methods=157 |
+| 2026-11-07T15:26:39+00:00 | mutation-changed-final | 1 | 262.47 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `c2bf76a9c8992d0d` | afs-mutation: FAILED score=0.752 threshold=0.8 killed=227 survived=75 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.752 threshold=0.8 killed=227 survived=75 files=3 base=origin/main |

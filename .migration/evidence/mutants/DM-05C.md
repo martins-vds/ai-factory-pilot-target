@@ -1,96 +1,81 @@
 # Surviving mutants: DM-05C
 
-Written by `afs-mutation` on its last run (base `origin/main`): score 0.695, threshold 0.8, killed 210, survived 92. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent.
+Written by `afs-mutation` on its last run (base `origin/main`): score 0.752, threshold 0.8, killed 227, survived 75. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent.
 
-- `src/cargotracker/data_migration/loader.py:14 Mutant #3`
-- `src/cargotracker/data_migration/loader.py:14 Mutant #4`
-- `src/cargotracker/data_migration/loader.py:14 Mutant #5`
-- `src/cargotracker/data_migration/loader.py:15 Mutant #9`
-- `src/cargotracker/data_migration/loader.py:15 Mutant #10`
-- `src/cargotracker/data_migration/loader.py:15 Mutant #11`
-- `src/cargotracker/data_migration/loader.py:27 Mutant #16`
-- `src/cargotracker/data_migration/loader.py:32 Mutant #22`
-- `src/cargotracker/data_migration/loader.py:34 Mutant #23`
-- `src/cargotracker/data_migration/loader.py:52 Mutant #44`
-- `src/cargotracker/data_migration/loader.py:54 Mutant #48`
-- `src/cargotracker/data_migration/loader.py:54 Mutant #49`
-- `src/cargotracker/data_migration/loader.py:54 Mutant #50`
-- `src/cargotracker/data_migration/loader.py:54 Mutant #51`
-- `src/cargotracker/data_migration/loader.py:54 Mutant #52`
-- `src/cargotracker/data_migration/loader.py:61 Mutant #55`
-- `src/cargotracker/data_migration/loader.py:62 Mutant #56`
-- `src/cargotracker/data_migration/loader.py:63 Mutant #57`
-- `src/cargotracker/data_migration/loader.py:66 Mutant #58`
-- `src/cargotracker/data_migration/loader.py:67 Mutant #59`
-- `src/cargotracker/data_migration/loader.py:69 Mutant #60`
-- `src/cargotracker/data_migration/loader.py:71 Mutant #61`
-- `src/cargotracker/data_migration/loader.py:75 Mutant #66`
-- `src/cargotracker/data_migration/loader.py:78 Mutant #67`
-- `src/cargotracker/data_migration/loader.py:83 Mutant #72`
-- `src/cargotracker/data_migration/loader.py:84 Mutant #73`
-- `src/cargotracker/data_migration/loader.py:84 Mutant #74`
-- `src/cargotracker/data_migration/loader.py:89 Mutant #79`
-- `src/cargotracker/data_migration/loader.py:92 Mutant #83`
-- `src/cargotracker/data_migration/loader.py:94 Mutant #85`
-- `src/cargotracker/data_migration/loader.py:103 Mutant #88`
-- `src/cargotracker/data_migration/loader.py:111 Mutant #90`
-- `src/cargotracker/data_migration/loader.py:117 Mutant #95`
-- `src/cargotracker/data_migration/loader.py:121 Mutant #98`
-- `src/cargotracker/data_migration/loader.py:123 Mutant #101`
-- `src/cargotracker/data_migration/loader.py:130 Mutant #105`
-- `src/cargotracker/data_migration/loader.py:133 Mutant #110`
-- `src/cargotracker/data_migration/loader.py:135 Mutant #111`
-- `src/cargotracker/data_migration/loader.py:138 Mutant #115`
-- `src/cargotracker/data_migration/loader.py:140 Mutant #116`
-- `src/cargotracker/data_migration/loader.py:140 Mutant #117`
-- `src/cargotracker/data_migration/loader.py:146 Mutant #124`
-- `src/cargotracker/data_migration/loader.py:148 Mutant #126`
-- `src/cargotracker/data_migration/loader.py:150 Mutant #128`
-- `src/cargotracker/data_migration/loader.py:153 Mutant #130`
-- `src/cargotracker/data_migration/loader.py:159 Mutant #132`
-- `src/cargotracker/data_migration/loader.py:161 Mutant #133`
-- `src/cargotracker/data_migration/loader.py:161 Mutant #134`
-- `src/cargotracker/data_migration/loader.py:162 Mutant #138`
-- `src/cargotracker/data_migration/loader.py:162 Mutant #139`
-- `src/cargotracker/data_migration/loader.py:167 Mutant #140`
-- `src/cargotracker/data_migration/loader.py:167 Mutant #141`
-- `src/cargotracker/data_migration/loader.py:167 Mutant #142`
-- `src/cargotracker/data_migration/loader.py:167 Mutant #143`
-- `src/cargotracker/data_migration/loader.py:171 Mutant #145`
-- `src/cargotracker/data_migration/loader.py:177 Mutant #151`
-- `src/cargotracker/data_migration/loader.py:180 Mutant #157`
-- `src/cargotracker/data_migration/loader.py:186 Mutant #163`
-- `src/cargotracker/data_migration/loader.py:190 Mutant #167`
-- `src/cargotracker/data_migration/loader.py:200 Mutant #185`
-- `src/cargotracker/data_migration/loader.py:203 Mutant #187`
-- `src/cargotracker/data_migration/loader.py:205 Mutant #189`
-- `src/cargotracker/data_migration/loader.py:211 Mutant #195`
-- `src/cargotracker/data_migration/loader.py:215 Mutant #204`
-- `src/cargotracker/data_migration/loader.py:220 Mutant #209`
-- `src/cargotracker/data_migration/loader.py:223 Mutant #211`
-- `src/cargotracker/data_migration/loader.py:227 Mutant #215`
-- `src/cargotracker/data_migration/loader.py:236 Mutant #222`
-- `src/cargotracker/data_migration/loader.py:239 Mutant #225`
-- `src/cargotracker/data_migration/loader.py:239 Mutant #226`
-- `src/cargotracker/data_migration/loader.py:239 Mutant #227`
-- `src/cargotracker/data_migration/loader.py:250 Mutant #237`
-- `src/cargotracker/data_migration/loader.py:253 Mutant #238`
-- `src/cargotracker/data_migration/loader.py:253 Mutant #239`
-- `src/cargotracker/data_migration/loader.py:253 Mutant #240`
-- `src/cargotracker/data_migration/loader.py:269 Mutant #255`
-- `src/cargotracker/data_migration/loader.py:271 Mutant #258`
-- `src/cargotracker/data_migration/loader.py:274 Mutant #261`
-- `src/cargotracker/data_migration/loader.py:274 Mutant #262`
-- `src/cargotracker/data_migration/loader.py:276 Mutant #263`
-- `src/cargotracker/data_migration/loader.py:309 Mutant #272`
-- `src/cargotracker/data_migration/loader.py:315 Mutant #278`
-- `src/cargotracker/data_migration/loader.py:317 Mutant #280`
-- `src/cargotracker/data_migration/loader.py:320 Mutant #282`
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:7 Mutant #1`
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:7 Mutant #2`
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:10 Mutant #4`
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:11 Mutant #6`
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:18 Mutant #10`
-- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:20 Mutant #11`
-- `src/cargotracker/data_migration/apps.py:5 Mutant #1`
-- `src/cargotracker/data_migration/apps.py:5 Mutant #2`
+The mutation report exposes only source location and mutant number, not the mutated expression. The notes below record the observable behavior at each location and its test status; no survivor is called equivalent unless that conclusion is supported.
+
+- `src/cargotracker/data_migration/loader.py:27 Mutant #16` — Missing-`map` transform configuration error; no test covers this malformed mapping shape.
+- `src/cargotracker/data_migration/loader.py:32 Mutant #22` — String-key fallback; CSV rows are strings, so this fallback is equivalent at the snapshot-loader boundary.
+- `src/cargotracker/data_migration/loader.py:34 Mutant #23` — Unmapped enum error; a public-command test covers rejection but does not assert the complete rendered diagnostic.
+- `src/cargotracker/data_migration/loader.py:52 Mutant #44` — Invalid-boolean error; covered by a public-command test, with only the diagnostic prefix asserted.
+- `src/cargotracker/data_migration/loader.py:54 Mutant #48` — Date-vs-datetime length boundary; fixture covers day-only dates, not every boundary value.
+- `src/cargotracker/data_migration/loader.py:54 Mutant #49` — Date-vs-datetime length boundary; fixture covers day-only dates, not every boundary value.
+- `src/cargotracker/data_migration/loader.py:54 Mutant #50` — Date-vs-datetime length boundary; fixture covers day-only dates, not every boundary value.
+- `src/cargotracker/data_migration/loader.py:54 Mutant #51` — Date-vs-datetime length boundary; fixture covers day-only dates, not every boundary value.
+- `src/cargotracker/data_migration/loader.py:54 Mutant #52` — Date-vs-datetime length boundary; fixture covers day-only dates, not every boundary value.
+- `src/cargotracker/data_migration/loader.py:61 Mutant #55` — First legacy timestamp fallback format; the fixture uses ISO timestamps, so this fallback is not exercised.
+- `src/cargotracker/data_migration/loader.py:62 Mutant #56` — Second legacy timestamp fallback format; the fixture uses ISO timestamps, so this fallback is not exercised.
+- `src/cargotracker/data_migration/loader.py:63 Mutant #57` — Third legacy timestamp fallback format; the fixture uses ISO timestamps, so this fallback is not exercised.
+- `src/cargotracker/data_migration/loader.py:66 Mutant #58` — Fallback parser input format; the fixture uses ISO timestamps, so this parser is not exercised.
+- `src/cargotracker/data_migration/loader.py:67 Mutant #59` — Fallback parser loop exit; the fixture uses ISO timestamps, so the loop is not exercised.
+- `src/cargotracker/data_migration/loader.py:69 Mutant #60` — Fallback parser retry; the fixture uses ISO timestamps, so the retry is not exercised.
+- `src/cargotracker/data_migration/loader.py:71 Mutant #61` — Invalid timestamp error; no public-command test supplies an unparseable non-NULL timestamp.
+- `src/cargotracker/data_migration/loader.py:75 Mutant #66` — Date extraction from a timestamp; mapped fixture dates are day-only values.
+- `src/cargotracker/data_migration/loader.py:78 Mutant #67` — Unknown transform error; covered by a public-command test, without asserting the complete diagnostic.
+- `src/cargotracker/data_migration/loader.py:83 Mutant #72` — Missing/invalid columns collection; no test covers a malformed `columns` value.
+- `src/cargotracker/data_migration/loader.py:84 Mutant #73` — Empty columns mapping error; no test covers this branch.
+- `src/cargotracker/data_migration/loader.py:84 Mutant #74` — Empty columns mapping diagnostic; no test asserts this branch.
+- `src/cargotracker/data_migration/loader.py:89 Mutant #79` — Default transform lookup for a column definition; identity columns are loaded, but no test isolates omitted `as`.
+- `src/cargotracker/data_migration/loader.py:92 Mutant #83` — Identity transform for scalar column definitions; exercised by the fixture, but exact mutant effect is unavailable.
+- `src/cargotracker/data_migration/loader.py:94 Mutant #85` — Non-string source-column mapping error; no test covers this malformed definition.
+- `src/cargotracker/data_migration/loader.py:103 Mutant #88` — Exclusion of auto-created/proxy models from the app index; no test creates either model type for this loader.
+- `src/cargotracker/data_migration/loader.py:111 Mutant #90` — Missing target-field error; no test maps a target column that does not exist.
+- `src/cargotracker/data_migration/loader.py:117 Mutant #95` — Missing manifest error; covered by the malformed-snapshot test, without asserting the full path diagnostic.
+- `src/cargotracker/data_migration/loader.py:121 Mutant #98` — Invalid JSON manifest error; covered by the malformed-snapshot test, without asserting the full diagnostic.
+- `src/cargotracker/data_migration/loader.py:123 Mutant #101` — Non-object manifest tables error; covered by the malformed-snapshot test.
+- `src/cargotracker/data_migration/loader.py:130 Mutant #105` — Missing table metadata error; covered by the malformed-snapshot test.
+- `src/cargotracker/data_migration/loader.py:133 Mutant #110` — Missing CSV error; covered by the malformed-snapshot test.
+- `src/cargotracker/data_migration/loader.py:138 Mutant #115` — SHA-256 mismatch error; covered by the malformed-snapshot test.
+- `src/cargotracker/data_migration/loader.py:140 Mutant #116` — Default NULL marker; all fixture manifests explicitly declare `\N`, so the default is untested.
+- `src/cargotracker/data_migration/loader.py:140 Mutant #117` — Configured NULL marker; fixture loading distinguishes `\N` from empty text, but exact mutant effect is unavailable.
+- `src/cargotracker/data_migration/loader.py:146 Mutant #124` — Empty/headerless CSV error; covered by the malformed-snapshot test.
+- `src/cargotracker/data_migration/loader.py:148 Mutant #126` — Duplicate CSV header error; covered by the malformed-snapshot test.
+- `src/cargotracker/data_migration/loader.py:150 Mutant #128` — CSV row iteration/line numbering; row width errors are covered, but the exact line number is not asserted.
+- `src/cargotracker/data_migration/loader.py:153 Mutant #130` — CSV field-count diagnostic; covered by the malformed-snapshot test with a partial message assertion.
+- `src/cargotracker/data_migration/loader.py:159 Mutant #132` — Filesystem read-error wrapping; no test induces an OS read failure.
+- `src/cargotracker/data_migration/loader.py:162 Mutant #139` — Manifest row-count mismatch; covered by the malformed-snapshot test with a partial diagnostic assertion.
+- `src/cargotracker/data_migration/loader.py:171 Mutant #145` — Invalid timezone error; covered by a public-command test, without asserting all possible invalid zone inputs.
+- `src/cargotracker/data_migration/loader.py:177 Mutant #151` — Empty mapping table-list error; covered by the invalid-mapping test.
+- `src/cargotracker/data_migration/loader.py:180 Mutant #157` — Duplicate target names error; covered by the invalid-mapping test.
+- `src/cargotracker/data_migration/loader.py:186 Mutant #163` — Unregistered target model error; no test maps a non-existent target model.
+- `src/cargotracker/data_migration/loader.py:190 Mutant #167` — Required primary-key mapping error; covered by the invalid-mapping test.
+- `src/cargotracker/data_migration/loader.py:200 Mutant #185` — Reference to an unmapped source target column; covered by the invalid-reference test.
+- `src/cargotracker/data_migration/loader.py:203 Mutant #187` — Reference syntax parsing; covered by the invalid-reference test.
+- `src/cargotracker/data_migration/loader.py:205 Mutant #189` — Invalid reference syntax diagnostic; covered by the invalid-reference test.
+- `src/cargotracker/data_migration/loader.py:211 Mutant #195` — Reference to an unmapped target table; covered by the invalid-reference test.
+- `src/cargotracker/data_migration/loader.py:215 Mutant #204` — Reference/model mismatch; covered by the invalid-reference test.
+- `src/cargotracker/data_migration/loader.py:220 Mutant #209` — Referenced-column matching by field name/column/attname; the fixture uses `id`, not each alias form.
+- `src/cargotracker/data_migration/loader.py:223 Mutant #211` — Unknown referenced target column; covered by the invalid-reference test.
+- `src/cargotracker/data_migration/loader.py:227 Mutant #215` — Prepared reference metadata used by successful loading; all fixture references load, but exact mutant effect is unavailable.
+- `src/cargotracker/data_migration/loader.py:236 Mutant #222` — Forward-reference detection; the cargo/event cycle exercises deferred loading.
+- `src/cargotracker/data_migration/loader.py:239 Mutant #225` — Nullable requirement for forward references; no test supplies a non-nullable forward reference.
+- `src/cargotracker/data_migration/loader.py:239 Mutant #226` — Nullable requirement for forward references; no test supplies a non-nullable forward reference.
+- `src/cargotracker/data_migration/loader.py:239 Mutant #227` — Forward-reference error diagnostic; no test supplies a non-nullable forward reference.
+- `src/cargotracker/data_migration/loader.py:253 Mutant #239` — Missing mapped source header; covered by the malformed-snapshot test with a partial diagnostic assertion.
+- `src/cargotracker/data_migration/loader.py:253 Mutant #240` — Missing mapped source header diagnostic; covered by the malformed-snapshot test with a partial diagnostic assertion.
+- `src/cargotracker/data_migration/loader.py:269 Mutant #255` — Deferral of non-NULL forward references; the cargo/event cycle exercises this path.
+- `src/cargotracker/data_migration/loader.py:271 Mutant #258` — Temporary NULL assignment for deferred references; the cycle test verifies NULL before and the restored key after this phase.
+- `src/cargotracker/data_migration/loader.py:274 Mutant #261` — NULL imported primary-key rejection; no test supplies a row with a NULL source key.
+- `src/cargotracker/data_migration/loader.py:274 Mutant #262` — NULL primary-key diagnostic; no test supplies a row with a NULL source key.
+- `src/cargotracker/data_migration/loader.py:276 Mutant #263` — Bulk insertion; complete persisted-value assertions exercise this operation.
+- `src/cargotracker/data_migration/loader.py:309 Mutant #272` — PostgreSQL-only guard; tests run against PostgreSQL and do not simulate another vendor.
+- `src/cargotracker/data_migration/loader.py:315 Mutant #278` — Mapping-file read/parse wrapping; no test supplies a missing or invalid mapping file.
+- `src/cargotracker/data_migration/loader.py:317 Mutant #280` — Non-object YAML mapping rejection; no test supplies a valid YAML scalar/list.
+- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:7 Mutant #1` — Management-command help text; no test asserts `--help` output.
+- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:7 Mutant #2` — Management-command help text; no test asserts `--help` output.
+- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:10 Mutant #4` — Required `--snapshot` CLI argument; tests call the command with arguments and do not assert parser failure.
+- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:11 Mutant #6` — Required `--mapping` CLI argument; tests call the command with arguments and do not assert parser failure.
+- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:18 Mutant #10` — Loaded-row total calculation; no test asserts the command's success output.
+- `src/cargotracker/data_migration/management/commands/load_data_snapshot.py:20 Mutant #11` — Command success message; no test asserts its exact contents.
+- `src/cargotracker/data_migration/apps.py:5 Mutant #1` — App configuration name; app registration is exercised indirectly, not asserted at this boundary.
+- `src/cargotracker/data_migration/apps.py:5 Mutant #2` — App configuration label/name; app registration is exercised indirectly, not asserted at this boundary.

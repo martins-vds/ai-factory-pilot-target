@@ -3,7 +3,7 @@
   "tables": {
     "CARGO": {
       "rows": 1,
-      "sha256": "e7aeda603064f83be2b80fb909eddce1976c7141acdda878535ddc76f162d691"
+      "sha256": "d84b943d870ed864c2bad277187c9f71c4b01399adb1540a8c2e48b991643a8d"
     },
     "CARRIER_MOVEMENT": {
       "rows": 1,
