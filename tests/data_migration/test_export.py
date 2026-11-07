@@ -1,4 +1,5 @@
 import csv
+import json
 from datetime import UTC, date, datetime, timedelta, timezone
 from io import StringIO
 from pathlib import Path
@@ -64,6 +65,41 @@ def test_export_round_trips_fixture_rows_in_primary_key_order(tmp_path):
         assert list(reader) == [{'id': '900', 'voyage_number': ''}]
 
     call_command('export_data_snapshot', mapping=str(mapping_path), out=str(output))
+
+
+@pytest.mark.django_db(transaction=True)
+def test_export_round_trips_fixture_with_the_loader_mapping(tmp_path):
+    mapping_path = Path(__file__).parents[2] / '.migration' / 'data' / 'mapping.yaml'
+    if not mapping_path.is_file():
+        pytest.skip('the mutation test copy excludes the migration mapping')
+    mapping = yaml.safe_load(mapping_path.read_text(encoding='utf-8'))
+    manifest = json.loads((FIXTURE_SNAPSHOT / 'manifest.json').read_text(encoding='utf-8'))
+
+    call_command(
+        'load_data_snapshot',
+        snapshot=str(FIXTURE_SNAPSHOT),
+        mapping=str(mapping_path),
+    )
+    output = tmp_path / 'export'
+    call_command(
+        'export_data_snapshot',
+        mapping=str(mapping_path),
+        out=str(output),
+    )
+
+    tables = mapping['tables']
+    assert {path.stem for path in output.glob('*.csv')} == {
+        table['target'] for table in tables
+    }
+    saw_null = False
+    for table in tables:
+        with (output / f"{table['target']}.csv").open(newline='', encoding='utf-8') as stream:
+            reader = csv.reader(stream)
+            assert next(reader) == list(table['columns'])
+            rows = list(reader)
+        assert len(rows) == manifest['tables'][table['source']]['rows']
+        saw_null |= any(r'\N' in row for row in rows)
+    assert saw_null
 
 
 @pytest.mark.django_db(transaction=True)
@@ -155,18 +191,29 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         ]
 
 
-def test_export_command_help_and_required_arguments(capsys):
+def test_export_command_help_and_required_arguments(capsys, tmp_path):
     with pytest.raises(SystemExit) as exit:
         call_command('export_data_snapshot', '--help')
     assert exit.value.code == 0
     help_output = capsys.readouterr().out
-    assert 'Export mapped target tables as a relational snapshot.' in help_output
+    assert 'Export mapped target tables as a relational snapshot.' in help_output.splitlines()
     assert '--mapping MAPPING' in help_output
     assert '--out OUT' in help_output
 
-    for options in ({'out': 'out'}, {'mapping': 'mapping.yaml'}):
-        with pytest.raises(CommandError):
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(
+        yaml.safe_dump(
+            {'tables': [{'target': 'location', 'key': ['id'], 'columns': {'id': 'ID'}}]}
+        ),
+        encoding='utf-8',
+    )
+    for options, missing_argument in (
+        ({'out': 'out'}, '--mapping'),
+        ({'mapping': str(mapping_path)}, '--out'),
+    ):
+        with pytest.raises(CommandError) as error:
             call_command('export_data_snapshot', **options)
+        assert missing_argument in str(error.value)
 
 
 @pytest.mark.django_db(transaction=True)
