@@ -31,3 +31,15 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T06:09:37+00:00 | final-regression-suite | 0 | 45.46 | `pytest -q` | `ec1cb039abc92d20` |  |  |
 | 2026-11-07T06:10:01+00:00 | final-mutation-changed | 0 | 20.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `7db208de9871e676` |  | gate=mutation score=1.000 threshold=0.8 killed=6 survived=0 files=1 base=origin/main |
 | 2026-11-07T12:45:39+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:49:12+00:00 | verify-build-compileall | 0 | 0.09 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:49:12+00:00 | verify-build-django-check | 0 | 0.55 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T12:50:00+00:00 | verify-behavior-suite | 0 | 47.47 | `pytest -q` | `28d4fc2ca55ceeab` |  |  |
+| 2026-11-07T12:50:00+00:00 | verify-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:50:00+00:00 | verify-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `5b8e82f27798cc2e` |  |  |
+| 2026-11-07T12:50:45+00:00 | verify-crap-coverage | 0 | 45.04 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `131d061136c9569d` |  |  |
+| 2026-11-07T12:50:46+00:00 | verify-crap-lizard | 0 | 0.14 | `lizard --csv src` | `87bd818446e3fd70` |  |  |
+| 2026-11-07T12:50:46+00:00 | verify-crap-threshold | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b34a7b0c580f07b5` |  | gate=crap max=14.0 threshold=30 over=0 methods=5 |
+| 2026-11-07T12:51:10+00:00 | verify-mutation-changed | 0 | 23.85 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `7db208de9871e676` |  | gate=mutation score=1.000 threshold=0.8 killed=6 survived=0 files=1 base=origin/main |
+| 2026-11-07T12:51:56+00:00 | verify-regression-suite | 0 | 46.36 | `pytest -q` | `60ee151dcc53f2db` |  |  |
+| 2026-11-07T12:52:01+00:00 | verify-crap-lizard-corrected | 0 | 0.14 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:52:01+00:00 | verify-crap-threshold-corrected | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `6c5a7b5a5f079222` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
