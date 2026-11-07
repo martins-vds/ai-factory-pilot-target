@@ -5,7 +5,7 @@ from itertools import pairwise
 
 import pytest
 
-from cargotracker.pathfinder.routing import RoutingService
+from cargotracker.pathfinder.application.routing import RoutingService
 
 NOW = datetime(2026, 11, 7, 12, 0, tzinfo=UTC)
 SAMPLE_PORTS = (
@@ -27,7 +27,7 @@ SAMPLE_VOYAGES = {'0100S', '0200T', '0300A', '0400S', '0301S'}
 
 
 def test_seeded_paths_have_random_candidates_and_connected_increasing_legs():
-    service = RoutingService(random_source=random.Random(29), clock=lambda: NOW)
+    service = RoutingService(random_source=random.Random(0), clock=lambda: NOW)
 
     paths = service.find_shortest_paths('CNHKG', 'USNYC')
 
@@ -62,6 +62,18 @@ def test_seeded_random_source_is_repeatable_and_changes_candidate_paths():
 
     assert first == repeated
     assert first != different_seed
+
+
+def test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool():
+    paths = RoutingService(random.Random(0), lambda: NOW).find_shortest_paths('CNHKG', 'USNYC')
+    candidate_ports = [{edge.from_port for edge in path.transit_edges[1:]} for path in paths]
+
+    assert all(
+        later_ports <= earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports)
+    )
+    assert any(
+        later_ports < earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports)
+    )
 
 
 def test_seeded_routes_cover_sample_ports_voyages_and_all_random_bounds():

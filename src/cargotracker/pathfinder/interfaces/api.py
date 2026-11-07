@@ -3,7 +3,8 @@ from datetime import UTC, datetime
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET
 
-from cargotracker.pathfinder.routing import RoutingService, TransitPath
+from cargotracker.pathfinder.application.routing import RoutingService
+from cargotracker.pathfinder.domain.transit_path import TransitPath
 
 routing_service = RoutingService()
 

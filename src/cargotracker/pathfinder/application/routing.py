@@ -1,8 +1,10 @@
 import random
 from collections.abc import Callable
-from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from itertools import pairwise
+
+from cargotracker.pathfinder.domain.transit_edge import TransitEdge
+from cargotracker.pathfinder.domain.transit_path import TransitPath
 
 SAMPLE_PORT_CODES = (
     'CNHKG',
@@ -22,20 +24,6 @@ SAMPLE_PORT_CODES = (
 SAMPLE_VOYAGE_NUMBERS = ('0100S', '0200T', '0300A', '0400S', '0301S')
 
 
-@dataclass(frozen=True)
-class TransitEdge:
-    voyage_number: str
-    from_port: str
-    to_port: str
-    from_date: datetime
-    to_date: datetime
-
-
-@dataclass(frozen=True)
-class TransitPath:
-    transit_edges: tuple[TransitEdge, ...]
-
-
 class RoutingService:
     def __init__(
         self,
@@ -47,15 +35,19 @@ class RoutingService:
 
     def find_shortest_paths(self, origin: str, destination: str) -> tuple[TransitPath, ...]:
         candidates = self._random_source.randint(3, 5)
-        available_ports = tuple(
-            port for port in SAMPLE_PORT_CODES if port not in {origin, destination}
-        )
+        available_ports = [port for port in SAMPLE_PORT_CODES if port not in {origin, destination}]
         paths = []
         for _ in range(candidates):
-            intermediate_count = self._random_source.randint(1, 5)
+            self._random_source.shuffle(available_ports)
+            intermediate_count = (
+                self._random_source.randint(1, 5)
+                if len(available_ports) > 4
+                else len(available_ports)
+            )
+            available_ports = available_ports[:intermediate_count]
             route = (
                 origin,
-                *self._random_source.sample(available_ports, intermediate_count),
+                *available_ports,
                 destination,
             )
             edges = []
