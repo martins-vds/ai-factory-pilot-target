@@ -7,10 +7,14 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0}
 boundary: "A carrier movement persists one voyage schedule segment between two locations and its departure and arrival timestamps."
 slice: data-migration
-tickets: [martins-vds/ai-factory-pilot-target#248]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#248, martins-vds/ai-factory-pilot-target#268]
+target:
+  components:
+    - cargotracker.voyage.infrastructure.models.CarrierMovementRecord
+status: in-progress
 verification: pending
 evidence:
   - .migration/evidence/data-migration/inventory.md
-notes: "No target persistence model or migration mirrors this table; see .migration/quirks/data-carrier-movement-home.md."
+  - tests/voyage/test_repository.py::test_carrier_movement_schema_preserves_source_columns_and_references
+notes: "Storage model and migration are implemented; loading and reconciliation of the snapshot rows remain pending."
 quirks: [martins-vds/ai-factory-pilot-target#254]
