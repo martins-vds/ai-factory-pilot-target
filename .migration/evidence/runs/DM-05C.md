@@ -22,3 +22,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T05:20:54+00:00 | loader-regression | 0 | 1.57 | `pytest -q tests/data_migration/test_load.py` | `b29404b0332b987b` |  |  |
 | 2026-11-07T05:21:39+00:00 | behavior | 1 | 41.18 | `pytest -q` | `5c979d86dc6e3f05` | assert settings.BASE_DIR == Path(__file__).resolve().parents[1] |  |
 | 2026-11-07T05:51:33+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T05:53:04+00:00 | behavior | 0 | 26.57 | `pytest -q` | `dca0ba4d21778cac` |  |  |
