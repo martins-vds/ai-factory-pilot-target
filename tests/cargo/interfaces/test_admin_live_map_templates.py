@@ -23,3 +23,13 @@ def test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling(client
     assert 'WebSocket' not in content
     assert 'Online' not in content
     assert 'Offline' not in content
+
+
+@pytest.mark.django_db
+def test_admin_live_map_marker_poll_returns_an_empty_marker_set(client):
+    call_command('seed_sample_data')
+
+    response = client.get(reverse('admin_live_map_markers'), HTTP_HX_REQUEST='true')
+
+    assert response.status_code == 200
+    assert response.content == b''

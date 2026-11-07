@@ -45,3 +45,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T12:52:01+00:00 | verify-crap-threshold-corrected | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `6c5a7b5a5f079222` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
 | 2026-11-07T12:55:06+00:00 | final-verification-suite | 0 | 47.28 | `pytest -q` | `4b50492ad0ad82c6` |  |  |
 | 2026-11-07T15:06:53+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T15:08:57+00:00 | templates-red | 1 | 3.53 | `pytest -q tests/cargo/interfaces/test_admin_live_map_templates.py` | `db9fe5e270672cdf` | /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/django/core/handlers/exception.py:55: in inner |  |
