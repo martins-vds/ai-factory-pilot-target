@@ -7,7 +7,6 @@ from django.utils import timezone
 
 from cargotracker.booking.application.registration import CargoRegistration
 from cargotracker.location.domain.location import Location
-from cargotracker.location.domain.repository import LocationRepository
 
 
 def _preferred_location(
@@ -123,10 +122,10 @@ def _deadline_step(
 
 def create_booking_wizard_view(
     registration: CargoRegistration,
-    locations: LocationRepository,
+    list_shipping_locations: Callable[[], list[Location]],
 ) -> Callable[[HttpRequest], HttpResponse]:
     def wizard(request: HttpRequest) -> HttpResponse:
-        available_locations = locations.find_all()
+        available_locations = list_shipping_locations()
         location_by_code = {location.unlocode.value: location for location in available_locations}
         data = request.POST
         origin = location_by_code.get(data.get('origin', ''))
@@ -147,31 +146,26 @@ def create_booking_wizard_view(
             return _destination_step(
                 request, available_locations, origin, destination, deadline_value
             )
+        if (
+            data.get('step') in {'origin', 'destination'}
+            and data.get('action') == 'next'
+            and origin is None
+        ):
+            return _origin_step(
+                request,
+                available_locations,
+                None,
+                destination,
+                deadline_value,
+                'Select a valid origin.',
+            )
         if data.get('step') == 'origin' and data.get('action') == 'next':
-            if origin is None:
-                return _origin_step(
-                    request,
-                    available_locations,
-                    None,
-                    destination,
-                    deadline_value,
-                    'Select a valid origin.',
-                )
             if destination is None or destination == origin:
                 destination = _preferred_location(available_locations, 'USDAL', origin)
             return _destination_step(
                 request, available_locations, origin, destination, deadline_value
             )
         if data.get('step') == 'destination' and data.get('action') == 'next':
-            if origin is None:
-                return _origin_step(
-                    request,
-                    available_locations,
-                    None,
-                    destination,
-                    deadline_value,
-                    'Select a valid origin.',
-                )
             if destination is None:
                 return _destination_step(
                     request,

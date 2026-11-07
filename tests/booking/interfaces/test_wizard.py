@@ -18,7 +18,7 @@ def test_origin_step_is_open_and_defaults_to_chicago():
     call_command('seed_sample_data')
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(RequestFactory().get('/booking/'))
@@ -37,7 +37,7 @@ def test_origin_next_opens_destination_with_dallas_and_excludes_origin():
     call_command('seed_sample_data')
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -67,7 +67,7 @@ def test_invalid_origin_does_not_silently_select_the_default():
     call_command('seed_sample_data')
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -88,7 +88,7 @@ def test_invalid_destination_is_reported_on_destination_step():
     call_command('seed_sample_data')
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -118,7 +118,7 @@ def test_destination_next_opens_deadline_with_today_as_calendar_minimum(monkeypa
     )
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -160,7 +160,7 @@ def test_deadline_change_updates_duration_and_booking_state(
     monkeypatch.setattr('django.utils.timezone.localdate', lambda: today)
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -190,7 +190,7 @@ def test_back_returns_to_destination_and_cancel_returns_to_dashboard():
     call_command('seed_sample_data')
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     back_response = wizard(
@@ -230,7 +230,7 @@ def test_back_from_destination_preserves_the_selected_origin():
     call_command('seed_sample_data')
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -257,7 +257,7 @@ def test_back_and_next_preserve_destination_and_deadline(monkeypatch):
     monkeypatch.setattr('django.utils.timezone.localdate', lambda: today)
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
     factory = RequestFactory()
 
@@ -334,7 +334,7 @@ def test_same_day_booking_is_rejected_even_when_submitted_directly(monkeypatch):
     existing_tracking_ids = set(CargoRecord.objects.values_list('tracking_id', flat=True))
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -365,7 +365,7 @@ def test_book_cargo_persists_registration_and_redirects_to_dashboard(monkeypatch
     existing_tracking_ids = set(CargoRecord.objects.values_list('tracking_id', flat=True))
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
@@ -400,7 +400,7 @@ def test_same_origin_and_destination_cannot_be_submitted(monkeypatch):
     existing_tracking_ids = set(CargoRecord.objects.values_list('tracking_id', flat=True))
     wizard = create_booking_wizard_view(
         CargoRegistration(DjangoCargoRepository()),
-        DjangoLocationRepository(),
+        DjangoLocationRepository().find_all,
     )
 
     response = wizard(
