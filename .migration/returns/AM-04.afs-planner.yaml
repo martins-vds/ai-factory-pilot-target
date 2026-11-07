@@ -1,0 +1,17 @@
+role: afs-planner
+ticket: AM-04
+issue: martins-vds/ai-factory-pilot-target#257
+plan: .migration/plan/admin-live-map.md
+slices:
+  - name: Admin live map
+    anchor: Admin map page → htmx markers partial → cargo and handling state
+    tickets: 6
+    blocked_by: []
+design_tickets:
+  - AM-04A — Design the admin-map marker behavior
+data_slices: []
+unmapped_capabilities: []
+open_questions:
+  - Resolve quirk #253 for the NOT_RECEIVED + Unknown sentinel case before implementing that marker behavior.
+  - Confirm the target destination and URL contract for marker click-through; the current target has no admin cargo-detail page.
+  - Confirm provisional /admin/live-map/ and /admin/live-map/markers/ route names before approving the plan.
