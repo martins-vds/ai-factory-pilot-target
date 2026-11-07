@@ -26,3 +26,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T03:57:31+00:00 | crap-coverage-final | 0 | 24.46 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `e3734c9281b15347` |  |  |
 | 2026-11-07T03:57:31+00:00 | crap-lizard-final | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T03:57:31+00:00 | crap-threshold-final | 0 | 0.02 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `df94388d8dc116c8` |  | gate=crap max=19.0 threshold=30 over=0 methods=139 |
+| 2026-11-07T04:14:40+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
