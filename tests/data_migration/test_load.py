@@ -1,3 +1,4 @@
+import copy
 import csv
 import hashlib
 import json
@@ -6,6 +7,7 @@ from datetime import UTC, date, datetime
 import pytest
 import yaml
 from django.core.management import call_command
+from django.core.management.base import CommandError
 
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
 from cargotracker.handling.infrastructure.models import HandlingEventRecord
@@ -216,10 +218,10 @@ TABLE_ROWS = {
 }
 
 
-def _snapshot(directory):
+def _snapshot(directory, table_rows=TABLE_ROWS):
     directory.mkdir()
     tables = {}
-    for table, (header, rows) in TABLE_ROWS.items():
+    for table, (header, rows) in table_rows.items():
         path = directory / f'{table}.csv'
         with path.open('w', encoding='utf-8', newline='') as stream:
             writer = csv.writer(stream)
@@ -313,3 +315,59 @@ def test_load_snapshot_is_idempotent_restores_cycle_and_realigns_sequences(tmp_p
     assert new_event.pk > 35
     assert new_leg.pk > 50
     assert new_movement.pk > 55
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_applies_mapping_transforms(tmp_path):
+    snapshot = tmp_path / 'snapshot'
+    table_rows = {
+        table: (header.copy(), [row.copy() for row in rows])
+        for table, (header, rows) in TABLE_ROWS.items()
+    }
+    table_rows['LOCATION'][1][0][1:3] = [' USNYC ', ' New York ']
+    table_rows['CARGO'][1][0][1] = '17.25'
+    table_rows['CARGO'][1][0][6] = '0'
+    table_rows['CARGO'][1][0][9] = 'yes'
+    table_rows['CARGO'][1][0][10] = ''
+    _snapshot(snapshot, table_rows)
+
+    mapping = copy.deepcopy(MAPPING)
+    tables = {table['target']: table for table in mapping['tables']}
+    tables['location']['columns']['id'] = {'from': 'ID', 'as': 'int'}
+    tables['location']['columns']['unlocode'] = {'from': 'UNLOCODE', 'as': 'trim'}
+    tables['location']['columns']['name'] = {'from': 'NAME', 'as': 'trim'}
+    tables['cargo']['columns']['tracking_id'] = {'from': 'TRACKING_ID', 'as': 'decimal'}
+    tables['cargo']['columns']['transport_status'] = {
+        'from': 'TRANSPORT_STATUS',
+        'as': {'map': {'0': 'NOT_RECEIVED'}},
+    }
+    tables['cargo']['columns']['eta'] = {'from': 'ETA', 'as': 'null_if_empty'}
+    mapping_file = tmp_path / 'mapping.yaml'
+    mapping_file.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+    call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_file))
+
+    location = LocationRecord.objects.get(pk=4)
+    cargo = CargoRecord.objects.get(pk=15)
+    assert location.unlocode == 'USNYC'
+    assert location.name == 'New York'
+    assert cargo.tracking_id == '17.25'
+    assert cargo.transport_status == 'NOT_RECEIVED'
+    assert cargo.misdirected
+    assert cargo.eta is None
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_rejects_invalid_boolean_transform(tmp_path):
+    snapshot = tmp_path / 'snapshot'
+    table_rows = {
+        table: (header.copy(), [row.copy() for row in rows])
+        for table, (header, rows) in TABLE_ROWS.items()
+    }
+    table_rows['CARGO'][1][0][9] = 'sometimes'
+    _snapshot(snapshot, table_rows)
+    mapping = tmp_path / 'mapping.yaml'
+    mapping.write_text(yaml.safe_dump(MAPPING), encoding='utf-8')
+
+    with pytest.raises(CommandError, match='not a boolean'):
+        call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))

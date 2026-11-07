@@ -31,3 +31,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T05:53:57+00:00 | crap-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T05:54:00+00:00 | crap-score | 1 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `5cfa4d5970f1aefc` |  | gate=crap max=64.2 threshold=30 over=2 methods=151 |
 | 2026-11-07T05:57:13+00:00 | mutation-changed | 1 | 176.75 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `3d5674fad37a0529` | afs-mutation: FAILED score=0.590 threshold=0.8 killed=174 survived=121 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.590 threshold=0.8 killed=174 survived=121 files=3 base=origin/main |
+| 2026-11-07T05:59:16+00:00 | loader-transform-tests | 0 | 1.18 | `pytest -q tests/data_migration/test_load.py` | `fc9523279c6881ef` |  |  |
