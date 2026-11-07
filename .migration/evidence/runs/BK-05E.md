@@ -57,3 +57,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T21:40:12+00:00 | dashboard-regression-tests | 0 | 3.37 | `pytest -q tests/booking/application/test_dashboard.py tests/booking/interfaces/test_dashboard.py tests/booking/interfaces/test_cargo_details.py` | `2d0ea00fa33633a6` |  |  |
 | 2026-11-07T21:40:20+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
 | 2026-11-07T21:40:20+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `5eb321ace635f2f7` |  |  |
+| 2026-11-07T21:40:36+00:00 | build-compileall | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T21:40:37+00:00 | build-django-check | 0 | 0.32 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T21:40:41+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T21:40:41+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `5eb321ace635f2f7` |  |  |
+| 2026-11-07T21:41:27+00:00 | behavior-tests | 0 | 42.29 | `pytest -q` | `fddb6e4fb88365ba` |  |  |
+| 2026-11-07T21:42:13+00:00 | crap-coverage | 0 | 42.07 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `bdee467ad53514ec` |  |  |
+| 2026-11-07T21:42:13+00:00 | crap-lizard | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T21:42:13+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
+| 2026-11-07T21:42:47+00:00 | mutation-changed | 0 | 30.99 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |
