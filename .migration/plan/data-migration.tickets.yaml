@@ -1,0 +1,56 @@
+# Backfilled from the plan and its published tickets (harness #98).
+slice: data-migration
+tickets:
+- id: DM-05A
+  title: 'Add the carrier_movement table (ruling #254)'
+  role: afs-specialist-migrator
+  specialty: data
+  files:
+  - tests/voyage/
+  blocked_by: []
+- id: DM-05B
+  title: Snapshot mapping and the approved profile commands
+  role: afs-specialist-migrator
+  specialty: data
+  files:
+  - .migration/data/mapping.yaml
+  - .migration/profile.yaml
+  blocked_by:
+  - DM-05A
+- id: DM-05C
+  title: 'Idempotent loader: load_data_snapshot'
+  role: afs-specialist-migrator
+  specialty: data
+  files:
+  - src/cargotracker/data_migration/
+  - src/cargotracker/settings.py
+  - tests/data_migration/test_load.py
+  blocked_by:
+  - DM-05B
+- id: DM-05D
+  title: 'Target export: export_data_snapshot'
+  role: afs-specialist-migrator
+  specialty: data
+  files:
+  - src/cargotracker/data_migration/management/commands/export_data_snapshot.py
+  - tests/data_migration/test_export.py
+  blocked_by:
+  - DM-05C
+- id: DM-05E
+  title: Reconcile the snapshot
+  role: afs-specialist-migrator
+  specialty: data
+  files:
+  - .migration/evidence/data-migration/reconciliation.md
+  - .migration/ledger/data.*.yaml
+  blocked_by:
+  - DM-05C
+  - DM-05D
+- id: DM-05F
+  title: Business invariants on the loaded data
+  role: afs-specialist-migrator
+  specialty: data
+  files:
+  - tests/data_migration/test_invariants.py
+  blocked_by:
+  - DM-05C
