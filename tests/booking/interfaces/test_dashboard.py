@@ -84,6 +84,7 @@ def test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_
     assert re.findall(r'data-tracking-id="([^"]+)"', not_routed_table) == ['DEF789']
     assert re.findall(r'data-tracking-id="([^"]+)"', claimed_table) == ['MNO456']
     assert routed_table.index('JKL567') < routed_table.index('ABC123')
+    assert 'href="/admin/cargo/JKL567/"' in routed_table
     assert 'Origin' in routed_table and 'CNHKG' in routed_table
     assert 'Destination' in routed_table and 'FIHEL' in routed_table
     assert 'Last Known Location' in routed_table and 'Unknown' in routed_table
