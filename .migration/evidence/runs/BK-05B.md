@@ -1,0 +1,129 @@
+# Run journal: BK-05B
+
+Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-256 identifies the exact log. Result is the gate tool's own `AFS-RESULT` line.
+
+| UTC | Gate | Exit | Seconds | Command | Log SHA-256 | First highlight | Result |
+|---|---|---|---|---|---|---|---|
+| 2026-11-07T04:09:16+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:13:45+00:00 | red-routing | 2 | 1.99 | `pytest -q tests/pathfinder/test_routing.py` | `3c1bad0393671bb2` | ______________ ERROR collecting tests/pathfinder/test_routing.py _______________ |  |
+| 2026-11-07T04:14:06+00:00 | routing-service | 0 | 0.77 | `pytest -q tests/pathfinder/test_routing.py` | `689cba347b5af559` |  |  |
+| 2026-11-07T04:14:50+00:00 | red-pathfinder-api | 2 | 0.59 | `pytest -q tests/pathfinder/test_api.py` | `e2c8c9cdf835cd06` | ________________ ERROR collecting tests/pathfinder/test_api.py _________________ |  |
+| 2026-11-07T04:15:05+00:00 | pathfinder-tests | 0 | 0.87 | `pytest -q tests/pathfinder` | `a97fe8d679efa4e9` |  |  |
+| 2026-11-07T04:15:48+00:00 | pathfinder-tests | 0 | 0.8 | `pytest -q tests/pathfinder` | `d5d6c7e3d74efa9f` |  |  |
+| 2026-11-07T04:17:33+00:00 | idiom-ruff-check | 1 | 0.02 | `ruff check` | `35e1ef8de2e4d81f` | 44 \|                 assert parsed.utcoffset() == timedelta(0) |  |
+| 2026-11-07T04:18:02+00:00 | idiom-ruff-check-diagnostic | 1 | 0.01 | `ruff check` | `35e1ef8de2e4d81f` | 44 \|                 assert parsed.utcoffset() == timedelta(0) |  |
+| 2026-11-07T04:18:46+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:18:55+00:00 | idiom-format-check | 1 | 0.03 | `ruff format --check` | `a3d3652e21b3aa24` | 26 \|         assert all( |  |
+| 2026-11-07T04:19:03+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:19:07+00:00 | pathfinder-tests | 0 | 0.8 | `pytest -q tests/pathfinder` | `f891ca4c15593a9c` |  |  |
+| 2026-11-07T04:19:43+00:00 | build-compileall | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:19:47+00:00 | build-django-check | 0 | 0.21 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:20:17+00:00 | full-tests | 0 | 25.82 | `pytest -q` | `a2a77f16747eb24c` |  |  |
+| 2026-11-07T04:20:46+00:00 | crap-coverage | 0 | 22.14 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `d6067783288801ad` |  |  |
+| 2026-11-07T04:20:50+00:00 | crap-lizard | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:20:54+00:00 | crap-check | 0 | 0.02 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `f911be73e221b3f7` |  | gate=crap max=19.0 threshold=30 over=0 methods=138 |
+| 2026-11-07T04:21:25+00:00 | mutation-changed | 1 | 25.49 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `c90390068a2c80c6` | afs-mutation: FAILED score=0.596 threshold=0.8 killed=53 survived=36 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.596 threshold=0.8 killed=53 survived=36 files=3 base=origin/main |
+| 2026-11-07T04:23:07+00:00 | pathfinder-tests-expanded | 0 | 0.84 | `pytest -q tests/pathfinder` | `3b5a5e0db37e2ddd` |  |  |
+| 2026-11-07T04:23:11+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:23:17+00:00 | idiom-format-check | 1 | 0.01 | `ruff format --check` | `72f6c0af28fe2748` | 45  \|         assert all( |  |
+| 2026-11-07T04:23:25+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:24:00+00:00 | mutation-changed | 0 | 26.46 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `35f6e3518629d5e9` |  | gate=mutation score=0.910 threshold=0.8 killed=81 survived=8 files=3 base=origin/main |
+| 2026-11-07T04:24:48+00:00 | pathfinder-tests-final | 0 | 0.94 | `pytest -q tests/pathfinder` | `9737c558e193fb2f` |  |  |
+| 2026-11-07T04:24:51+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:24:55+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:25:30+00:00 | mutation-changed | 0 | 29.94 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `6c9514973e57f8f8` |  | gate=mutation score=0.921 threshold=0.8 killed=82 survived=7 files=3 base=origin/main |
+| 2026-11-07T04:26:03+00:00 | full-tests | 0 | 23.33 | `pytest -q` | `ca2271d987fab7f6` |  |  |
+| 2026-11-07T04:26:31+00:00 | crap-coverage | 0 | 24.33 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `e3b17e986be8d49b` |  |  |
+| 2026-11-07T04:26:36+00:00 | crap-check | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `f911be73e221b3f7` |  | gate=crap max=19.0 threshold=30 over=0 methods=138 |
+| 2026-11-07T04:30:47+00:00 | red-bk03b-goldens | 1 | 0.97 | `pytest -q tests/pathfinder` | `a74b6e60dad192ad` | assert response.status_code == 200 |  |
+| 2026-11-07T04:31:10+00:00 | pathfinder-golden-tests | 1 | 0.86 | `pytest -q tests/pathfinder` | `3bdf9b8ab9ee5643` | assert response.status_code == int((GOLDEN_DIR / f'{golden}.status').read_text()) |  |
+| 2026-11-07T04:31:25+00:00 | pathfinder-golden-tests | 0 | 0.85 | `pytest -q tests/pathfinder` | `c1b54b33b73ba0dd` |  |  |
+| 2026-11-07T04:31:47+00:00 | idiom-ruff-check | 1 | 0.01 | `ruff check` | `94af9632434b3284` |  |  |
+| 2026-11-07T04:32:02+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:32:08+00:00 | idiom-format-check | 1 | 0.01 | `ruff format --check` | `971a17d6e2a40a6c` | 87 \|     assert response.status_code == int((GOLDEN_DIR / f'{golden}.status').read_text()) |  |
+| 2026-11-07T04:32:18+00:00 | pathfinder-golden-tests | 0 | 0.92 | `pytest -q tests/pathfinder` | `6ea14800cb2dfa02` |  |  |
+| 2026-11-07T04:32:25+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:32:41+00:00 | pathfinder-golden-tests | 0 | 0.88 | `pytest -q tests/pathfinder` | `80cc85f98716f41a` |  |  |
+| 2026-11-07T04:33:07+00:00 | build-compileall | 0 | 0.02 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:33:12+00:00 | build-django-check | 0 | 0.24 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:33:44+00:00 | full-tests | 0 | 27.78 | `pytest -q` | `7ce393ae9cd21f95` |  |  |
+| 2026-11-07T04:34:15+00:00 | crap-coverage | 0 | 24.16 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `0293b891fcf085ac` |  |  |
+| 2026-11-07T04:34:20+00:00 | crap-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:34:24+00:00 | crap-check | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:34:55+00:00 | mutation-changed | 2 | 24.19 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `24b5555d82bb4747` | afs-mutation: mutmut failed on src/cargotracker/pathfinder/api.py; its mutants were not tested: | gate=mutation score=n/a error=mutmut-failed failed_files=1 files=3 base=origin/main |
+| 2026-11-07T04:35:27+00:00 | pathfinder-golden-tests | 0 | 0.85 | `pytest -q tests/pathfinder` | `80cc85f98716f41a` |  |  |
+| 2026-11-07T04:35:33+00:00 | idiom-ruff-check | 1 | 0.01 | `ruff check` | `82f1688aff908d7d` |  |  |
+| 2026-11-07T04:35:52+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:35:56+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:36:28+00:00 | mutation-changed | 0 | 25.55 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
+| 2026-11-07T04:37:10+00:00 | full-tests | 0 | 24.53 | `pytest -q` | `58d40059ff02f982` |  |  |
+| 2026-11-07T04:37:37+00:00 | crap-coverage | 0 | 22.58 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `11f750059d0d3e70` |  |  |
+| 2026-11-07T04:37:45+00:00 | crap-lizard | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:37:51+00:00 | crap-check | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:40:29+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:42:30+00:00 | final-tests | 0 | 23.62 | `pytest -q` | `43d82a5de88b6729` |  |  |
+| 2026-11-07T04:52:51+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:54:18+00:00 | build-compileall | 0 | 0.08 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:54:20+00:00 | build-django-check | 0 | 1.47 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T04:55:05+00:00 | behavior | 0 | 45.22 | `pytest -q` | `d48fc41d28e1f6b4` |  |  |
+| 2026-11-07T04:55:05+00:00 | idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T04:55:06+00:00 | idiom-format-check | 0 | 0.02 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T04:55:56+00:00 | crap-coverage | 0 | 50.24 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `1d6c5752a04c8690` |  |  |
+| 2026-11-07T04:55:56+00:00 | crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:55:56+00:00 | crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T04:56:38+00:00 | mutation-changed | 0 | 41.59 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
+| 2026-11-07T04:57:19+00:00 | regression | 0 | 41.31 | `pytest -q` | `23a6968ff832e53c` |  |  |
+| 2026-11-07T04:59:04+00:00 | endpoint-registration | 1 | 1.55 | `pytest -q tests/pathfinder/test_api.py::test_shortest_path_is_registered_in_project_urlconf` | `97946757d0c86ea5` | >       assert response.status_code == 200 |  |
+| 2026-11-07T04:59:30+00:00 | final-build-compileall | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T04:59:31+00:00 | final-build-django-check | 0 | 0.35 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T05:00:14+00:00 | final-behavior | 1 | 43.35 | `pytest -q` | `f477f921d4f92e32` | >       assert response.status_code == 200 |  |
+| 2026-11-07T05:00:14+00:00 | final-idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T05:00:14+00:00 | final-idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T05:01:05+00:00 | final-crap-coverage | 1 | 50.46 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `adbb5d5af021fd80` | >       assert response.status_code == 200 |  |
+| 2026-11-07T05:01:05+00:00 | final-crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T05:01:05+00:00 | final-crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T05:01:47+00:00 | final-mutation-changed | 0 | 41.49 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
+| 2026-11-07T05:02:30+00:00 | final-regression | 1 | 43.55 | `pytest -q` | `fbbbf5cdc99bbef0` | >       assert response.status_code == 200 |  |
+| 2026-11-07T05:04:59+00:00 | build-compileall | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T05:04:59+00:00 | build-django-check | 0 | 0.38 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T05:05:44+00:00 | behavior | 0 | 44.11 | `pytest -q` | `f7fadfc8e5073639` |  |  |
+| 2026-11-07T05:05:44+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T05:05:44+00:00 | idiom-format-check | 0 | 0.01 | `ruff format --check` | `273e81e5999dffa5` |  |  |
+| 2026-11-07T05:06:34+00:00 | crap-coverage | 0 | 50.13 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `7dbba8a0ffc77d69` |  |  |
+| 2026-11-07T05:06:34+00:00 | crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T05:06:34+00:00 | crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `4d0820355807d2c9` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T05:07:16+00:00 | mutation-changed | 0 | 41.83 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
+| 2026-11-07T05:07:58+00:00 | regression | 0 | 41.93 | `pytest -q` | `7d85ba376bc98757` |  |  |
+| 2026-11-07T12:45:10+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:46:33+00:00 | test-port-pool-red | 1 | 2.76 | `pytest -q tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool` | `e3da711b72da50e1` | >       assert all( |  |
+| 2026-11-07T12:47:29+00:00 | pathfinder-targeted | 1 | 1.37 | `pytest -q tests/pathfinder/test_routing.py tests/pathfinder/test_api.py` | `3bb30a251bf73e8a` | assert 3 <= len(paths) <= 5 |  |
+| 2026-11-07T12:47:58+00:00 | pathfinder-targeted-green | 0 | 1.31 | `pytest -q tests/pathfinder/test_routing.py tests/pathfinder/test_api.py` | `788043ddf474f825` |  |  |
+| 2026-11-07T12:49:14+00:00 | build-compile | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:49:18+00:00 | build-django-check | 0 | 0.34 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T12:49:21+00:00 | idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:49:25+00:00 | idiom-ruff-format | 1 | 0.02 | `ruff format --check` | `08540416e822c589` | -     assert all(later_ports <= earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports)) |  |
+| 2026-11-07T12:49:37+00:00 | idiom-ruff-format-rerun | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T12:50:18+00:00 | behavior | 0 | 37.28 | `pytest -q` | `baeb7f267bb152c2` |  |  |
+| 2026-11-07T12:50:59+00:00 | crap-coverage | 0 | 37.12 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `8990d5011cc8e96e` |  |  |
+| 2026-11-07T12:51:03+00:00 | crap-lizard | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:51:06+00:00 | crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `62d7d492fa5c2dd3` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T12:51:49+00:00 | mutation-changed | 0 | 38.72 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `d3e1d896b12e88f3` |  | gate=mutation score=0.920 threshold=0.8 killed=92 survived=8 files=5 base=origin/main |
+| 2026-11-07T12:52:35+00:00 | regression | 0 | 38.91 | `pytest -q` | `7f47aabb34bb88b8` |  |  |
+| 2026-11-07T12:53:18+00:00 | idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:53:54+00:00 | test-port-pool-strong-green | 0 | 1.24 | `pytest -q tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool` | `aa4ec373bf9e8ac7` |  |  |
+| 2026-11-07T12:54:05+00:00 | idiom-format-final | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T12:54:11+00:00 | idiom-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:54:54+00:00 | behavior-final | 0 | 39.9 | `pytest -q` | `bd9ab2be0ca54cfa` |  |  |
+| 2026-11-07T12:55:38+00:00 | mutation-changed-final | 0 | 39.72 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `49279b3106b73a63` |  | gate=mutation score=0.930 threshold=0.8 killed=93 survived=7 files=5 base=origin/main |
+| 2026-11-07T12:56:20+00:00 | regression-final | 0 | 38.13 | `pytest -q` | `b97d89d3dc92bb05` |  |  |
+| 2026-11-07T13:28:39+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:30:14+00:00 | verify-build-compileall | 0 | 0.1 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:30:18+00:00 | verify-build-django-check | 0 | 1.23 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T13:31:07+00:00 | verify-behavior | 0 | 46.3 | `pytest -q` | `3142694eb797b787` |  |  |
+| 2026-11-07T13:31:10+00:00 | verify-idiom-ruff-format | 0 | 0.03 | `ruff format --check` | `b419319d53a87522` |  |  |
+| 2026-11-07T13:31:10+00:00 | verify-idiom-ruff-check | 0 | 0.03 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T13:31:58+00:00 | verify-crap-coverage | 0 | 43.83 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `070a49b48f2f769a` |  |  |
+| 2026-11-07T13:32:00+00:00 | verify-crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T13:32:04+00:00 | verify-crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `9b154802edd85c61` |  | gate=crap max=19.0 threshold=30 over=0 methods=148 |
+| 2026-11-07T13:32:51+00:00 | verify-mutation-changed | 0 | 44.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `49279b3106b73a63` |  | gate=mutation score=0.930 threshold=0.8 killed=93 survived=7 files=5 base=origin/main |
+| 2026-11-07T13:33:40+00:00 | verify-regression | 0 | 43.23 | `pytest -q` | `d37271164c6ec88e` |  |  |
