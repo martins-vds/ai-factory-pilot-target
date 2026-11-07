@@ -40,7 +40,7 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeyp
             }
             for field in ('fromDate', 'toDate'):
                 value = edge[field]
-                parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+                parsed = datetime.fromisoformat(value)
                 assert parsed.utcoffset() == timedelta(0)
 
     first_result = response.json()

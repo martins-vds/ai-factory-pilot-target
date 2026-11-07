@@ -2,6 +2,7 @@ import random
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from itertools import pairwise
 
 SAMPLE_PORT_CODES = (
     'CNHKG',
@@ -59,9 +60,10 @@ class RoutingService:
             )
             edges = []
             departure = _as_utc(self._clock())
-            for index, (from_port, to_port) in enumerate(zip(route, route[1:])):
-                if index:
-                    departure = arrival + timedelta(
+            previous_arrival = None
+            for from_port, to_port in pairwise(route):
+                if previous_arrival is not None:
+                    departure = previous_arrival + timedelta(
                         days=1, hours=self._random_source.randint(-8, 8)
                     )
                 arrival = departure + timedelta(hours=12)
@@ -74,6 +76,7 @@ class RoutingService:
                         to_date=arrival,
                     )
                 )
+                previous_arrival = arrival
             paths.append(TransitPath(tuple(edges)))
         return tuple(paths)
 

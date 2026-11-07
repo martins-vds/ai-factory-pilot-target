@@ -1,5 +1,6 @@
 import random
 from datetime import UTC, datetime
+from itertools import pairwise
 
 from cargotracker.pathfinder.routing import SAMPLE_PORT_CODES, RoutingService
 
@@ -23,9 +24,8 @@ def test_seeded_paths_have_random_candidates_and_connected_increasing_legs():
         assert all(edge.voyage_number in SAMPLE_VOYAGES for edge in edges)
         assert all(edge.from_date < edge.to_date for edge in edges)
         assert all(
-            previous.to_port == current.from_port
-            and previous.to_date < current.from_date
-            for previous, current in zip(edges, edges[1:])
+            previous.to_port == current.from_port and previous.to_date < current.from_date
+            for previous, current in pairwise(edges)
         )
     sample_order = {port: index for index, port in enumerate(SAMPLE_PORT_CODES)}
     assert any(
@@ -36,12 +36,8 @@ def test_seeded_paths_have_random_candidates_and_connected_increasing_legs():
 
 
 def test_seeded_random_source_is_repeatable_and_changes_candidate_paths():
-    first = RoutingService(random.Random(29), lambda: NOW).find_shortest_paths(
-        'CNHKG', 'USNYC'
-    )
-    repeated = RoutingService(random.Random(29), lambda: NOW).find_shortest_paths(
-        'CNHKG', 'USNYC'
-    )
+    first = RoutingService(random.Random(29), lambda: NOW).find_shortest_paths('CNHKG', 'USNYC')
+    repeated = RoutingService(random.Random(29), lambda: NOW).find_shortest_paths('CNHKG', 'USNYC')
     different_seed = RoutingService(random.Random(30), lambda: NOW).find_shortest_paths(
         'CNHKG', 'USNYC'
     )
