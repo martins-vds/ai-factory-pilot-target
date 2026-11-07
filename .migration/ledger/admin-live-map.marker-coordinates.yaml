@@ -18,7 +18,7 @@ evidence:
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_marker_coordinate_selection_and_source_offsets"
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_non_not_received_unknown_location_fails_marker_creation"
   - ".migration/evidence/runs/AM-03.md"
-quirks:
+quirks: [martins-vds/ai-factory-pilot-target#205, martins-vds/ai-factory-pilot-target#206, martins-vds/ai-factory-pilot-target#253]
   - martins-vds/ai-factory-pilot-target#205
   - martins-vds/ai-factory-pilot-target#206
 notes: "Ruling #205 explicitly approves exact configured city coordinates for this admin map, without random offsets; this is not inferred from Track Cargo ruling #14. Ruling #206 approves listing unknown or unmapped cargo separately with its tracking link and no fabricated point."

@@ -17,5 +17,5 @@ evidence:
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_cargo_source_shape_and_baseline_sentinel"
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_handling_registration_acceptance_golden"
   - ".migration/evidence/runs/AM-03.md"
-quirks: ["martins-vds/ai-factory-pilot-target#206"]
+quirks: [martins-vds/ai-factory-pilot-target#206, martins-vds/ai-factory-pilot-target#253]
 notes: "The query chain continues through JpaCargoRepository.findAll and Cargo.findAll to the Cargo entity; Cargo embeds Delivery and references Location for origin/last-known location. Reuse existing track-cargo.data-cargo and track-cargo.data-location entries; do not duplicate or reset them."
