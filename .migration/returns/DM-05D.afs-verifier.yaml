@@ -1,0 +1,22 @@
+role: afs-verifier
+ticket: DM-05D
+issue: martins-vds/ai-factory-pilot-target#369
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/371
+verdict: pass
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 26.0
+  mutation_changed: 0.981
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/DM-05D.md
+findings: []
+tests_added:
+  - test_export_round_trips_fixture_with_the_loader_mapping
+  - test_model_index_excludes_proxy_and_auto_created_models
+  - test_export_interprets_naive_and_offsetless_datetimes_in_mapping_timezone
+  - test_export_command_help_and_required_arguments
+ledger_issues: []
+quirk_tickets: []
