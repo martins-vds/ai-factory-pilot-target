@@ -46,3 +46,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T12:55:06+00:00 | final-verification-suite | 0 | 47.28 | `pytest -q` | `4b50492ad0ad82c6` |  |  |
 | 2026-11-07T15:06:53+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T15:08:57+00:00 | templates-red | 1 | 3.53 | `pytest -q tests/cargo/interfaces/test_admin_live_map_templates.py` | `db9fe5e270672cdf` | /opt/hostedtoolcache/Python/3.13.18/x64/lib/python3.13/site-packages/django/core/handlers/exception.py:55: in inner |  |
+| 2026-11-07T15:09:27+00:00 | templates-green | 1 | 1.63 | `pytest -q tests/cargo/interfaces/test_admin_live_map_templates.py` | `d86d0431de50f498` | assert response.status_code == 200 |  |
+| 2026-11-07T15:09:38+00:00 | templates-green | 0 | 1.55 | `pytest -q tests/cargo/interfaces/test_admin_live_map_templates.py` | `70b912527987b8d6` |  |  |

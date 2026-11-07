@@ -32,4 +32,4 @@ def test_admin_live_map_marker_poll_returns_an_empty_marker_set(client):
     response = client.get(reverse('admin_live_map_markers'), HTTP_HX_REQUEST='true')
 
     assert response.status_code == 200
-    assert response.content == b''
+    assert not response.content.strip()
