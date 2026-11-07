@@ -1,0 +1,31 @@
+role: afs-analyst
+ticket: AM-02
+issue: martins-vds/ai-factory-pilot-target#228
+graphs:
+  knowledge: .migration/graphs/source/full/knowledge-graph.json
+  domain: .migration/graphs/source/full/domain-graph.json
+  nodes: 1009
+  edges: 2093
+  flows: 1
+ledger:
+  entries: 11
+  by_kind: {structural: 1, behavioral: 3, ui: 4, integration: 2, data: 1}
+risk_map:
+  path: .migration/risk-map/admin-live-map/
+  methods: 40
+  above_threshold: 3
+  hot_spots:
+    - "mapFrame.xhtml:init — CRAP 110, CCN 10"
+    - "Delivery.calculateNextExpectedActivity — CRAP 156, CCN 12 (shared dependency)"
+    - "Delivery.calculateTransportStatus — CRAP 56, CCN 7 (shared dependency)"
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#205
+  - martins-vds/ai-factory-pilot-target#206
+  - martins-vds/ai-factory-pilot-target#207
+graph_discrepancies:
+  - "Knowledge-graph summary says mapFrame renders voyage paths; pinned source renders cargo markers only."
+handoff: .migration/handoffs/AM-02.md
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/229
+evidence_logs:
+  - .migration/evidence/runs/AM-02.md
+  - .migration/evidence/admin-live-map/report.md

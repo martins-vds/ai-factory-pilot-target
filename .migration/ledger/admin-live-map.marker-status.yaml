@@ -1,0 +1,19 @@
+id: admin-live-map.marker-status
+kind: behavioral
+title: Apply status precedence and marker color
+source:
+  graph_node: "page:src/main/webapp/admin/tracking/mapFrame.xhtml:src/main/webapp/admin/tracking/mapFrame.xhtml"
+  flow: Admin Live Cargo Map
+  location: "src/main/webapp/admin/tracking/mapFrame.xhtml:130-140,172-184"
+  risk: {crap: 110, complexity: 10, coverage: 0}
+boundary: "Status precedence is NOT_ROUTED/MISROUTED, then MISDIRECTED, then AT_DESTINATION, then transport status (default NOT_RECEIVED); the chosen status selects the grey, red, gold, green, or black Leaflet icon."
+slice: admin-live-map
+tickets: ["martins-vds/ai-factory-pilot-target#203"]
+status: pending
+verification: pending
+evidence:
+  - ".migration/evidence/admin-live-map/report.md"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsUnloadedAtFinalDestination"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testIsMisdirected"
+notes: "These legacy tests cover shared domain status derivation, not the map's JavaScript precedence or icon lookup. Shared model ledger entries remain authoritative for domain rules."
