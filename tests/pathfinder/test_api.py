@@ -54,11 +54,32 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeyp
     assert second_response.json() == first_result
 
 
+@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+def test_shortest_path_uses_the_default_in_process_service(client):
+    response = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
+
+    assert response.status_code == 200
+    assert 3 <= len(response.json()) <= 5
+
+
+@override_settings(ROOT_URLCONF='cargotracker.pathfinder.urls')
+def test_shortest_path_accepts_get_only(client):
+    response = client.post(ENDPOINT)
+
+    assert response.status_code == 405
+
+
 @pytest.mark.parametrize(
     ('query', 'field'),
     [
         ({'origin': 'USNY', 'destination': 'USNYC'}, 'origin'),
+        ({'origin': 'USNYC1', 'destination': 'USNYC'}, 'origin'),
+        ({'origin': ' CNHKG', 'destination': 'USNYC'}, 'origin'),
+        ({'origin': 'CNHKG', 'destination': 'USNY'}, 'destination'),
         ({'origin': 'CNHKG', 'destination': 'NYC'}, 'destination'),
+        ({'origin': 'CNHKG', 'destination': 'USNYC1'}, 'destination'),
+        ({'origin': 'CNHKG', 'destination': 'USNYC '}, 'destination'),
+        ({'destination': 'USNYC'}, 'origin'),
         ({'origin': 'CNHKG'}, 'destination'),
     ],
 )
