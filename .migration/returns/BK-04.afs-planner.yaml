@@ -14,3 +14,4 @@ open_questions:
   - Resolve open quirk rulings #232–#239 and #250–#252 before affected implementation.
   - Reconcile #238 deadline behavior with #89's decision comment.
   - Confirm provisional target URL mappings before dispatch.
+handoff: .migration/handoffs/BK-04.md
