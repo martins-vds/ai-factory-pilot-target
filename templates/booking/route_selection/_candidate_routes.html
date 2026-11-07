@@ -37,6 +37,16 @@
             </tbody>
           </table>
         </div>
+        <form method="post" action="/admin/cargo/{{ cargo.tracking_id.value }}/route/" class="mt-4">
+          {% csrf_token %}
+          <input type="hidden" name="candidate" value="{{ route.token }}">
+          <button
+            type="submit"
+            class="rounded bg-blue-700 px-4 py-2 font-semibold text-white hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+          >
+            Select route option {{ route.number }}
+          </button>
+        </form>
       </section>
     {% endfor %}
   </div>

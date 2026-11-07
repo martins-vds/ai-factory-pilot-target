@@ -1,3 +1,4 @@
+import re
 from datetime import UTC, datetime
 
 import pytest
@@ -109,3 +110,76 @@ def test_route_selection_renders_populated_candidates_and_numbered_legs(client):
     assert 'Rotterdam' in content and 'NLRTM' in content
     assert 'Helsinki' in content and 'FIHEL' in content
     assert '11/03/2030' in content and '11/04/2030' in content
+
+
+@pytest.mark.django_db
+@override_settings(ROOT_URLCONF=__name__)
+def test_route_screens_explain_when_no_candidates_satisfy_the_deadline(client):
+    tracking_id = _create_cargo(())
+
+    route_response = client.get(f'/admin/cargo/{tracking_id.value}/route/')
+    itinerary_response = client.get(f'/admin/cargo/{tracking_id.value}/itineraries/')
+
+    assert route_response.status_code == 200
+    assert itinerary_response.status_code == 200
+    for response in (route_response, itinerary_response):
+        content = response.content.decode()
+        assert 'No routes found that satisfy the route specification.' in content
+        assert 'arrival deadline further into the future' in content
+        assert 'Route option #' not in content
+
+
+@pytest.mark.django_db
+@override_settings(ROOT_URLCONF=__name__)
+def test_select_itinerary_renders_candidate_routes_when_available(client):
+    tracking_id = _create_cargo(_candidate_paths())
+
+    response = client.get(f'/admin/cargo/{tracking_id.value}/itineraries/')
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert 'Route option #1' in content
+    assert 'Route option #2' in content
+    assert 'CM001' in content
+    assert 'USNYC' in content and 'New York' in content
+    assert 'FIHEL' in content and 'Helsinki' in content
+
+
+@pytest.mark.django_db
+@override_settings(ROOT_URLCONF=__name__)
+def test_assigning_candidate_redirects_to_details_with_the_selected_itinerary(client):
+    tracking_id = _create_cargo(_candidate_paths())
+    route_url = f'/admin/cargo/{tracking_id.value}/route/'
+    route_response = client.get(route_url)
+    candidate_tokens = re.findall(
+        r'name="candidate" value="([^"]+)"',
+        route_response.content.decode(),
+    )
+
+    response = client.post(route_url, {'candidate': candidate_tokens[1]}, follow=True)
+
+    assert response.status_code == 200
+    assert response.redirect_chain == [(f'/admin/cargo/{tracking_id.value}/', 302)]
+    content = response.content.decode()
+    assert f'Routing Details for Cargo {tracking_id.value}' in content
+    assert 'Itinerary' in content
+    assert 'CM003' in content
+    assert 'CM001' not in content
+
+
+@pytest.mark.django_db
+@override_settings(ROOT_URLCONF=__name__)
+def test_route_assignment_rejects_a_modified_candidate(client):
+    tracking_id = _create_cargo(_candidate_paths())
+    route_url = f'/admin/cargo/{tracking_id.value}/route/'
+    route_content = client.get(route_url).content.decode()
+    candidate_token = re.search(
+        r'name="candidate" value="([^"]+)"',
+        route_content,
+    ).group(1)
+
+    response = client.post(route_url, {'candidate': f'{candidate_token}tampered'})
+
+    assert response.status_code == 404
+    details = client.get(f'/admin/cargo/{tracking_id.value}/').content.decode()
+    assert 'Not routed' in details
