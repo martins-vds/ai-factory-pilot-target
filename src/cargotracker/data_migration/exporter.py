@@ -85,7 +85,7 @@ def _format_value(value, timezone):
 
 
 def _write_table(output, table, timezone):
-    path = output / f"{table['target']}.csv"
+    path = output / f'{table["target"]}.csv'
     model = table['model']
     ordering = [field.name for field in table['key_fields']]
     try:
