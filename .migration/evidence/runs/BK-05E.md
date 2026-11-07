@@ -66,3 +66,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T21:42:13+00:00 | crap-lizard | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T21:42:13+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
 | 2026-11-07T21:42:47+00:00 | mutation-changed | 0 | 30.99 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |
+| 2026-11-07T21:45:04+00:00 | final-build-compileall | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T21:45:04+00:00 | final-build-check | 0 | 0.28 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T21:45:04+00:00 | final-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T21:45:04+00:00 | final-ruff-format | 0 | 0.01 | `ruff format --check` | `5eb321ace635f2f7` |  |  |
+| 2026-11-07T21:45:48+00:00 | final-tests | 0 | 43.87 | `pytest -q` | `b29b2fa5eafadfbf` |  |  |
+| 2026-11-07T21:46:38+00:00 | final-crap-coverage | 0 | 49.35 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `c8cb45c4e538473a` |  |  |
+| 2026-11-07T21:46:38+00:00 | final-crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T21:46:38+00:00 | final-crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b9503a992dcb184b` |  | gate=crap max=26.0 threshold=30 over=0 methods=200 |
+| 2026-11-07T21:47:09+00:00 | final-mutation-changed | 0 | 30.91 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bcb36e02130d930c` |  | gate=mutation score=1.000 threshold=0.8 killed=17 survived=0 files=2 base=origin/main |
