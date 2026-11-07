@@ -7,11 +7,17 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "The admin dashboard renders routed, not-routed and claimed cargo tables in that order inside the common admin template."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#292"]
+target:
+  components:
+    - templates/booking/dashboard/dashboard.html
+    - templates/booking/dashboard/admin_base.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
+  - ".migration/evidence/runs/BK-05E.md"
 notes: "The common admin shell provides a Live Map navigation link; the dashboard page itself includes only the three tables. No admin-live-map.* ledger files were present in this checkout, so no duplicate entry was created."

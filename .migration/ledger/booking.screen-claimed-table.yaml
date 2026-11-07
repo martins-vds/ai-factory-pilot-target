@@ -7,12 +7,17 @@ source:
   risk: {crap: 12, complexity: 3, coverage: 0.0}
 boundary: "Claimed Cargo table shows tracking ID/detail link, origin, destination and deadline, with a history tooltip."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#292"]
+target:
+  components:
+    - templates/booking/dashboard/claimed_table.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "No named JUnit class directly tests this table or its history link. The tooltip-to-routing-details mismatch is in .migration/quirks/booking-claimed-history-link.md."
+  - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
+  - ".migration/evidence/runs/BK-05E.md"
+notes: "The claimed-cargo link keeps its cargo-details destination and uses the approved tooltip text from ruling #233; no history view is added."
 quirks: [martins-vds/ai-factory-pilot-target#233]

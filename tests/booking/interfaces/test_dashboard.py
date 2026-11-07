@@ -31,9 +31,7 @@ class DashboardRepository:
 
     def find_all(self):
         return (
-            self.ordered_cargos
-            if self.ordered_cargos is not None
-            else self._repository.find_all()
+            self.ordered_cargos if self.ordered_cargos is not None else self._repository.find_all()
         )
 
 
@@ -64,10 +62,11 @@ def test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_
         ),
     )
     repository.ordered_cargos = [
-        repository.find(TrackingId(tracking_id))
-        for tracking_id in ('JKL567', 'DEF789')
+        repository.find(TrackingId(tracking_id)) for tracking_id in ('JKL567', 'DEF789')
     ]
-    repository.ordered_cargos.extend((cargo_with_unknown_last_location, repository.find(TrackingId('MNO456'))))
+    repository.ordered_cargos.extend(
+        (cargo_with_unknown_last_location, repository.find(TrackingId('MNO456')))
+    )
 
     response = client.get('/admin/dashboard/')
     content = response.content.decode()
@@ -76,8 +75,10 @@ def test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_
     claimed_table = content.split('id="claimed-cargo"', 1)[1].split('</section>', 1)[0]
 
     assert response.status_code == 200
-    assert content.index('Routed Cargo') < content.index('Not Routed Cargo') < content.index(
-        'Claimed Cargo'
+    assert (
+        content.index('Routed Cargo')
+        < content.index('Not Routed Cargo')
+        < content.index('Claimed Cargo')
     )
     assert re.findall(r'data-tracking-id="([^"]+)"', routed_table) == ['JKL567', 'ABC123']
     assert re.findall(r'data-tracking-id="([^"]+)"', not_routed_table) == ['DEF789']

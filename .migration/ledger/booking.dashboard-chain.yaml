@@ -7,11 +7,17 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "admin/dashboard.xhtml includes the three cargo table pages; request-scoped ListCargo loads CargoRoute DTOs through BookingServiceFacade.listAllCargos and JpaCargoRepository.findAll."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#292"]
+target:
+  components:
+    - cargotracker.booking.interfaces.dashboard.views.create_booking_views
+    - templates/booking/dashboard/dashboard.html
+status: migrated
 verification: characterized
 characterization_tier: A
 evidence:
   - ".migration/characterization/booking/observations.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
+  - ".migration/evidence/runs/BK-05E.md"
 notes: "Cargo, Leg, Location and Voyage persistence overlaps accepted track-cargo and handling ledger entries; this entry does not duplicate those data capabilities. The shared admin template links to the live map; dashboard content is the three tables."
