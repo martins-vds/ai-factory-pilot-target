@@ -1,0 +1,16 @@
+id: booking.destination-change
+kind: behavioral
+title: Change cargo destination and recalculate route state
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:DefaultBookingService
+  location: src/main/java/org/eclipse/cargotracker/application/internal/DefaultBookingService.java:72-85
+  risk: {crap: 20, complexity: 4, coverage: 0.0}
+boundary: "Changing destination preserves the cargo's original origin, current deadline and itinerary, creates a new RouteSpecification, updates delivery routing state, stores the cargo and logs the change."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testChangeDestination"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/CargoTest.java::testRoutingStatus"
+notes: "The dialog's option getter excludes origin and current destination by display name and mutates its backing list (.migration/quirks/booking-destination-options-mutate-state.md). The service test checks that the old itinerary remains and the cargo becomes MISROUTED."

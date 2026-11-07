@@ -1,0 +1,16 @@
+id: booking.wizard-chain
+kind: structural
+title: Resolve the booking wizard bean and service chain
+source:
+  graph_node: class:src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:Booking
+  location: src/main/java/org/eclipse/cargotracker/interfaces/booking/web/Booking.java:22-50
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "booking.xhtml, booking-destination.xhtml and booking-date.xhtml share the flow-scoped Booking bean, which calls BookingServiceFacade and DefaultBookingService before CargoRepository persistence."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRegisterNew"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/scenario/CargoLifecycleScenarioTest.java::testCargoFromHongkongToStockholm"
+notes: "No booking/routing flow exists in the source domain graph. Lizard emitted no methods for Booking.java; the risk value is the nearest measured service method, not the unmeasured bean."

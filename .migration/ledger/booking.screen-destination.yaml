@@ -1,0 +1,13 @@
+id: booking.screen-destination
+kind: ui
+title: Select a booking destination
+source:
+  graph_node: page:src/main/webapp/booking/booking-destination.xhtml:src/main/webapp/booking/booking-destination.xhtml
+  location: src/main/webapp/booking/booking-destination.xhtml:19-39
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Step 2 displays the chosen origin, offers a destination location menu, and supports Back, Cancel and Next."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "The backing bean filters the selected origin from the destination choices; no named JUnit class directly exercises this JSF screen. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

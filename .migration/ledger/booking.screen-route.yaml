@@ -1,0 +1,17 @@
+id: booking.screen-route
+kind: ui
+title: Present route candidates for assignment
+source:
+  graph_node: page:src/main/webapp/admin/route.xhtml:src/main/webapp/admin/route.xhtml
+  location: src/main/webapp/admin/route.xhtml:10-126
+  risk: {crap: 12, complexity: 3, coverage: 0.0}
+boundary: "Route page loads cargo and candidates, displays origin/destination/deadline and candidate count, shows an empty-state message or numbered itineraries with voyage, load/unload locations and dates, and lets the user select an index."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+evidence:
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testRouteCandidates"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/application/BookingServiceTest.java::testAssignRoute"
+  - "legacy-test: .source/src/test/java/org/eclipse/cargotracker/domain/model/cargo/RouteSpecificationTest.java::testIsSatisfiedBySuccess"
+notes: "Named tests cover routing behavior, not view rendering. `ItinerarySelection.assignItinerary` returns a `.html` suffix although Faces Servlet maps `*.xhtml` (.migration/quirks/booking-route-selection-redirect.md)."

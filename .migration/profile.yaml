@@ -69,7 +69,11 @@ rtk:
   version: 1.1.0
 data:
   masking: false
-  snapshot_owner: martins-vds   # exports the legacy runtime's Derby database (#1 reopened 2026-11-06, #223)
+  snapshot_owner: martins-vds   # dispatches the AFS data snapshot workflow (#1, #223, ADR-0032)
+  snapshot_java: "8"            # Payara 4.1 and the Derby exporter
+  snapshot:                     # build, start, check and stop the legacy app, then export its Derby file
+    - bash characterization/legacy-runtime/run-payara.sh
+    - python .migration/harness/tools/data_snapshot.py export --jdbc-url 'jdbc:derby:/tmp/cargo-tracker-database' --driver org.apache.derby:derby:10.14.2.0 --engine derby --database cargo-tracker --out {out}
 services:
   compose: compose.yaml   # real test services (harness ADR-0016)
   test: [db]

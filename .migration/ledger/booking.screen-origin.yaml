@@ -1,0 +1,13 @@
+id: booking.screen-origin
+kind: ui
+title: Select a booking origin
+source:
+  graph_node: page:src/main/webapp/booking/booking.xhtml:src/main/webapp/booking/booking.xhtml
+  location: src/main/webapp/booking/booking.xhtml:12-24
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Step 1 displays shipping locations by name and UN/LOCODE, allows Cancel to dashboard, and advances to destination selection."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "Backed by Booking.locations; no named JUnit class directly exercises this JSF screen. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."

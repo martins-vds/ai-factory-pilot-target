@@ -1,0 +1,13 @@
+id: booking.screen-deadline
+kind: ui
+title: Set the booking arrival deadline
+source:
+  graph_node: page:src/main/webapp/booking/booking-date.xhtml:src/main/webapp/booking/booking-date.xhtml
+  location: src/main/webapp/booking/booking-date.xhtml:12-44
+  risk: {crap: 2, complexity: 1, coverage: 0.0}
+boundary: "Step 3 uses an inline yyyy-MM-dd calendar with today as minimum, reports zero/one/multiple-day duration states, and disables Book Cargo unless bookable."
+slice: booking
+tickets: [martins-vds/ai-factory-pilot-target#225]
+status: pending
+verification: pending
+notes: "Date selection triggers an AJAX listener that updates the duration panel and button; no named JUnit class directly exercises the JSF calendar. Risk is the nearest measured registration-facade method; XHTML and Booking bean methods were not emitted by lizard."
