@@ -32,3 +32,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T05:54:00+00:00 | crap-score | 1 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `5cfa4d5970f1aefc` |  | gate=crap max=64.2 threshold=30 over=2 methods=151 |
 | 2026-11-07T05:57:13+00:00 | mutation-changed | 1 | 176.75 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `3d5674fad37a0529` | afs-mutation: FAILED score=0.590 threshold=0.8 killed=174 survived=121 skipped=0 files=3 jobs=3 base=origin/main | gate=mutation score=0.590 threshold=0.8 killed=174 survived=121 files=3 base=origin/main |
 | 2026-11-07T05:59:16+00:00 | loader-transform-tests | 0 | 1.18 | `pytest -q tests/data_migration/test_load.py` | `fc9523279c6881ef` |  |  |
+| 2026-11-07T05:59:30+00:00 | build-compile-rerun | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T05:59:33+00:00 | build-check-rerun | 0 | 0.23 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T06:00:02+00:00 | behavior-rerun | 0 | 27.3 | `pytest -q` | `a8682e0ff1abea49` |  |  |
+| 2026-11-07T06:00:05+00:00 | idiom-ruff-check-rerun | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T06:00:08+00:00 | idiom-format-check-rerun | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T06:00:37+00:00 | crap-coverage-rerun | 0 | 26.42 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `dba06c00c1425134` |  |  |
+| 2026-11-07T06:00:40+00:00 | crap-lizard-rerun | 0 | 0.09 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T06:00:43+00:00 | crap-score-rerun | 1 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `f2855acf53916c15` |  | gate=crap max=38.7 threshold=30 over=2 methods=151 |
+| 2026-11-07T06:01:54+00:00 | regression | 0 | 28.26 | `pytest -q` | `06bcc17a3b5b930b` |  |  |
