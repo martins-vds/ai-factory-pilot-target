@@ -5,6 +5,7 @@ from django.core.management import call_command
 from django.test import override_settings
 from django.urls import path
 
+from cargotracker.booking.application.dashboard import CargoDashboard
 from cargotracker.booking.interfaces.dashboard.views import create_booking_views
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
@@ -27,7 +28,7 @@ class CargoRepository:
 
 
 repository = CargoRepository()
-_, cargo_details_view = create_booking_views(repository)
+_, cargo_details_view = create_booking_views(CargoDashboard(repository))
 urlpatterns = [path('admin/cargo/<str:tracking_id>/', cargo_details_view)]
 
 

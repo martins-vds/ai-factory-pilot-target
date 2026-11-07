@@ -7,6 +7,7 @@ from django.core.management import call_command
 from django.test import override_settings
 from django.urls import path
 
+from cargotracker.booking.application.dashboard import CargoDashboard
 from cargotracker.booking.application.routing import CargoRouting
 from cargotracker.booking.interfaces.dashboard.views import create_booking_views
 from cargotracker.cargo.domain.itinerary import Itinerary
@@ -36,7 +37,7 @@ class DashboardRepository:
 
 
 repository = DashboardRepository()
-dashboard_view, cargo_details_view = create_booking_views(repository)
+dashboard_view, cargo_details_view = create_booking_views(CargoDashboard(repository))
 urlpatterns = [
     path('admin/dashboard/', dashboard_view),
     path('admin/cargo/<str:tracking_id>/', cargo_details_view),
