@@ -1,0 +1,17 @@
+role: afs-specialist-migrator
+ticket: DM-05B
+issue: martins-vds/ai-factory-pilot-target#269
+specialty: data
+pr: martins-vds/ai-factory-pilot-target#299
+gates:
+  build: "n/a: mapping/profile-only ticket; loader and exporter belong to later tickets"
+  behavior: "n/a: mapping/profile-only ticket; no target code changed"
+  idiom: "n/a: mapping/profile-only ticket; no target code changed"
+  crap: "n/a: mapping/profile-only ticket; no target code changed"
+  mutation_changed: "n/a: no mutable code changed"
+  regression: "n/a: mapping/profile-only ticket; no target code changed"
+specialty_evidence:
+  - .migration/evidence/runs/DM-05B.md
+ledger_updated: []
+quirk_tickets: []
+handoff: none
