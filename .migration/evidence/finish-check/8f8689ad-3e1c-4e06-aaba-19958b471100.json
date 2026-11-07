@@ -1,0 +1,44 @@
+[
+  {
+    "at": "2026-11-07T20:53:37Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 49079,
+    "prompt_from": "transcript",
+    "scope_lines": [
+      ".migration/ledger/data.cargo.yaml",
+      ".migration/ledger/data.carrier-movement.yaml",
+      ".migration/ledger/data.handling-event.yaml",
+      ".migration/ledger/data.leg.yaml",
+      ".migration/ledger/data.location.yaml",
+      ".migration/ledger/data.sequence.yaml",
+      ".migration/ledger/data.voyage.yaml"
+    ],
+    "enabled": true,
+    "ticket": "DM-05E",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/evidence/data-migration/reconciliation.md",
+      ".migration/evidence/runs/DM-05E.md",
+      ".migration/ledger/data.cargo.yaml",
+      ".migration/ledger/data.carrier-movement.yaml",
+      ".migration/ledger/data.handling-event.yaml",
+      ".migration/ledger/data.leg.yaml",
+      ".migration/ledger/data.location.yaml",
+      ".migration/ledger/data.sequence.yaml",
+      ".migration/ledger/data.voyage.yaml",
+      ".migration/returns/DM-05E.afs-specialist-migrator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
