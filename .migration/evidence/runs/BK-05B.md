@@ -95,3 +95,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T05:07:16+00:00 | mutation-changed | 0 | 41.83 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `63c484e9e0e4beb4` |  | gate=mutation score=0.938 threshold=0.8 killed=91 survived=6 files=3 base=origin/main |
 | 2026-11-07T05:07:58+00:00 | regression | 0 | 41.93 | `pytest -q` | `7d85ba376bc98757` |  |  |
 | 2026-11-07T12:45:10+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:46:33+00:00 | test-port-pool-red | 1 | 2.76 | `pytest -q tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool` | `e3da711b72da50e1` | >       assert all( |  |
