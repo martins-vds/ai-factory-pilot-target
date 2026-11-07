@@ -48,6 +48,17 @@ def _persist_routed_cargo():
 
 
 @pytest.mark.django_db
+def test_change_destination_raises_lookup_error_for_unknown_cargo():
+    specification = CargoSpecification(
+        DjangoCargoRepository(),
+        DjangoHandlingEventRepository(),
+    )
+
+    with pytest.raises(LookupError, match='Cargo MISSING1 not found'):
+        specification.change_destination(TrackingId('MISSING1'), DESTINATION)
+
+
+@pytest.mark.django_db
 def test_change_destination_preserves_other_specification_fields_and_resets_route_state():
     repository, original = _persist_routed_cargo()
     destination = Location(UnLocode('USLAX'), 'Los Angeles')
