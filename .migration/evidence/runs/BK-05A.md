@@ -19,3 +19,10 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T03:54:38+00:00 | mutation-changed | 0 | 10.14 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bbaa364119793b1e` |  | gate=mutation score=0.944 threshold=0.8 killed=17 survived=1 files=2 base=origin/main |
 | 2026-11-07T03:55:18+00:00 | tdd-edge | 0 | 1.08 | `pytest -q tests/booking/application` | `81e259044c81c485` |  |  |
 | 2026-11-07T03:55:32+00:00 | mutation-changed-rerun | 0 | 9.63 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bbaa364119793b1e` |  | gate=mutation score=0.944 threshold=0.8 killed=17 survived=1 files=2 base=origin/main |
+| 2026-11-07T03:56:09+00:00 | mutation-changed-final | 0 | 9.48 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `bbaa364119793b1e` |  | gate=mutation score=0.944 threshold=0.8 killed=17 survived=1 files=2 base=origin/main |
+| 2026-11-07T03:57:06+00:00 | behavior-final | 0 | 23.16 | `pytest -q` | `4d458973569f6c45` |  |  |
+| 2026-11-07T03:57:06+00:00 | idiom-lint-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T03:57:06+00:00 | idiom-format-final | 0 | 0.01 | `ruff format --check` | `8f54ec861a76fc44` |  |  |
+| 2026-11-07T03:57:31+00:00 | crap-coverage-final | 0 | 24.46 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `e3734c9281b15347` |  |  |
+| 2026-11-07T03:57:31+00:00 | crap-lizard-final | 0 | 0.07 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T03:57:31+00:00 | crap-threshold-final | 0 | 0.02 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `df94388d8dc116c8` |  | gate=crap max=19.0 threshold=30 over=0 methods=139 |
