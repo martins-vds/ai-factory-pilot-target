@@ -1,0 +1,16 @@
+role: afs-specialist-migrator
+ticket: DRILL-01
+issue: martins-vds/ai-factory-pilot-target#364
+specialty: null
+pr: martins-vds/ai-factory-pilot-target#365
+gates:
+  build: "n/a: not run for the drill"
+  behavior: "n/a: not run for the drill"
+  idiom: "n/a: not run for the drill"
+  crap: "n/a: not run for the drill"
+  mutation_changed: "n/a: not run for the drill"
+  regression: "n/a: not run for the drill"
+specialty_evidence: []
+ledger_updated: []
+quirk_tickets: []
+handoff: none
