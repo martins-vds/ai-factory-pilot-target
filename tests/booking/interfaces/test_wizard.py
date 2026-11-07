@@ -1,5 +1,6 @@
 import re
 from datetime import date
+from types import SimpleNamespace
 
 import pytest
 from django.core.management import call_command
@@ -21,7 +22,9 @@ def test_origin_step_is_open_and_defaults_to_chicago():
         DjangoLocationRepository().find_all,
     )
 
-    response = wizard(RequestFactory().get('/booking/'))
+    request = RequestFactory().get('/booking/')
+    request.user = SimpleNamespace(is_authenticated=False)
+    response = wizard(request)
     content = response.content.decode()
 
     assert response.status_code == 200
@@ -212,6 +215,8 @@ def test_deadline_change_updates_duration_and_booking_state(
 
     assert response.status_code == 200
     assert message in content
+    assert 'deadline-error' not in content
+    assert 'alert-error' not in content
     assert '<main' not in content
     assert book_button is not None
     has_disabled_attribute = re.search(r'\sdisabled(?:\s|>)', book_button.group(0))
@@ -386,6 +391,7 @@ def test_same_day_booking_is_rejected_even_when_submitted_directly(monkeypatch):
 
     assert response.status_code == 200
     assert "A journey can't start and end the same day!" in content
+    assert 'alert-error' not in content
     assert re.search(r'<button\b[^>]*id="book-cargo"[^>]*disabled', content)
     assert not CargoRecord.objects.exclude(tracking_id__in=existing_tracking_ids).exists()
 

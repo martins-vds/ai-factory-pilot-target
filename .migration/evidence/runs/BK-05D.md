@@ -54,3 +54,37 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T16:19:28+00:00 | crap-lizard-final | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T16:19:33+00:00 | crap-score-final | 0 | 0.05 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `87418f6761fb4abf` |  | gate=crap max=19.0 threshold=30 over=0 methods=155 |
 | 2026-11-07T16:20:38+00:00 | regression-tests-final | 0 | 50.82 | `pytest -q` | `be18aafc83fc484f` |  |  |
+| 2026-11-07T17:27:59+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:32:18+00:00 | verifier-build-compile | 0 | 0.09 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:32:20+00:00 | verifier-build-check | 0 | 1.81 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T17:32:20+00:00 | verifier-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T17:32:20+00:00 | verifier-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `7a340da38ae65b1f` |  |  |
+| 2026-11-07T17:33:16+00:00 | verifier-behavior-tests | 0 | 56.32 | `pytest -q` | `dfc1906e2e528bf4` |  |  |
+| 2026-11-07T17:34:07+00:00 | verifier-crap-coverage | 0 | 51.08 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `9c812e2c6ec50271` |  |  |
+| 2026-11-07T17:34:07+00:00 | verifier-crap-lizard | 0 | 0.14 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:34:07+00:00 | verifier-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b3f3e0c03758c33c` |  | gate=crap max=19.0 threshold=30 over=0 methods=163 |
+| 2026-11-07T17:34:59+00:00 | verifier-regression-tests | 0 | 51.88 | `pytest -q` | `a870191b2b696887` |  |  |
+| 2026-11-07T17:43:53+00:00 | verifier-mutation-changed | 0 | 533.2 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `7fa2ecf347cc328f` |  | gate=mutation score=0.863 threshold=0.8 killed=132 survived=21 files=1 base=origin/main |
+| 2026-11-07T17:46:40+00:00 | verifier-wizard-focused | 0 | 10.88 | `pytest -q tests/booking/interfaces/test_wizard.py` | `cd71e30771548748` |  |  |
+| 2026-11-07T17:47:05+00:00 | verifier-final-build-compile | 0 | 0.04 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:47:05+00:00 | verifier-final-build-check | 0 | 0.41 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T17:47:05+00:00 | verifier-final-idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T17:47:05+00:00 | verifier-final-idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `7a340da38ae65b1f` |  |  |
+| 2026-11-07T17:48:00+00:00 | verifier-final-behavior-tests | 0 | 54.15 | `pytest -q` | `e8b6a95d56af6bed` |  |  |
+| 2026-11-07T17:48:54+00:00 | verifier-final-crap-coverage | 0 | 54.3 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `14a58c77ec4e014a` |  |  |
+| 2026-11-07T17:48:54+00:00 | verifier-final-crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:48:54+00:00 | verifier-final-crap-score | 0 | 0.05 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b3f3e0c03758c33c` |  | gate=crap max=19.0 threshold=30 over=0 methods=163 |
+| 2026-11-07T17:49:53+00:00 | verifier-final-regression-tests | 0 | 59.09 | `pytest -q` | `846bc2869217cc5e` |  |  |
+| 2026-11-07T18:00:09+00:00 | verifier-final-mutation-changed | 0 | 615.29 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `0f708a0703601d1a` |  | gate=mutation score=0.869 threshold=0.8 killed=133 survived=20 files=1 base=origin/main |
+| 2026-11-07T18:01:08+00:00 | verifier-same-day-assertion | 0 | 2.88 | `pytest -q tests/booking/interfaces/test_wizard.py::test_same_day_booking_is_rejected_even_when_submitted_directly` | `f650984e9642926f` |  |  |
+| 2026-11-07T18:01:21+00:00 | verifier-wizard-suite | 0 | 13.1 | `pytest -q tests/booking/interfaces/test_wizard.py` | `1b0279fdf279d93a` |  |  |
+| 2026-11-07T18:01:35+00:00 | verifier-final2-build-compile | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T18:01:36+00:00 | verifier-final2-build-check | 0 | 0.53 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T18:01:36+00:00 | verifier-final2-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T18:01:36+00:00 | verifier-final2-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `7a340da38ae65b1f` |  |  |
+| 2026-11-07T18:02:31+00:00 | verifier-final2-behavior-tests | 0 | 55.37 | `pytest -q` | `1a28a06a6dfad7ca` |  |  |
+| 2026-11-07T18:03:26+00:00 | verifier-final2-crap-coverage | 0 | 54.37 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `abfb9e4c7dfe0f16` |  |  |
+| 2026-11-07T18:03:26+00:00 | verifier-final2-crap-lizard | 0 | 0.15 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T18:03:26+00:00 | verifier-final2-crap-score | 0 | 0.05 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `b3f3e0c03758c33c` |  | gate=crap max=19.0 threshold=30 over=0 methods=163 |
+| 2026-11-07T18:04:33+00:00 | verifier-final2-regression-tests | 0 | 67.25 | `pytest -q` | `e6a113fefbe51826` |  |  |
+| 2026-11-07T18:13:35+00:00 | verifier-final2-mutation-changed | 0 | 542.07 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `91a2d40ad82b3e35` |  | gate=mutation score=0.876 threshold=0.8 killed=134 survived=19 files=1 base=origin/main |
