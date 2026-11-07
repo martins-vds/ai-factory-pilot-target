@@ -98,3 +98,21 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T12:46:33+00:00 | test-port-pool-red | 1 | 2.76 | `pytest -q tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool` | `e3da711b72da50e1` | >       assert all( |  |
 | 2026-11-07T12:47:29+00:00 | pathfinder-targeted | 1 | 1.37 | `pytest -q tests/pathfinder/test_routing.py tests/pathfinder/test_api.py` | `3bb30a251bf73e8a` | assert 3 <= len(paths) <= 5 |  |
 | 2026-11-07T12:47:58+00:00 | pathfinder-targeted-green | 0 | 1.31 | `pytest -q tests/pathfinder/test_routing.py tests/pathfinder/test_api.py` | `788043ddf474f825` |  |  |
+| 2026-11-07T12:49:14+00:00 | build-compile | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:49:18+00:00 | build-django-check | 0 | 0.34 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T12:49:21+00:00 | idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:49:25+00:00 | idiom-ruff-format | 1 | 0.02 | `ruff format --check` | `08540416e822c589` | -     assert all(later_ports <= earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports)) |  |
+| 2026-11-07T12:49:37+00:00 | idiom-ruff-format-rerun | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T12:50:18+00:00 | behavior | 0 | 37.28 | `pytest -q` | `baeb7f267bb152c2` |  |  |
+| 2026-11-07T12:50:59+00:00 | crap-coverage | 0 | 37.12 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `8990d5011cc8e96e` |  |  |
+| 2026-11-07T12:51:03+00:00 | crap-lizard | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T12:51:06+00:00 | crap-check | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `62d7d492fa5c2dd3` |  | gate=crap max=19.0 threshold=30 over=0 methods=140 |
+| 2026-11-07T12:51:49+00:00 | mutation-changed | 0 | 38.72 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `d3e1d896b12e88f3` |  | gate=mutation score=0.920 threshold=0.8 killed=92 survived=8 files=5 base=origin/main |
+| 2026-11-07T12:52:35+00:00 | regression | 0 | 38.91 | `pytest -q` | `7f47aabb34bb88b8` |  |  |
+| 2026-11-07T12:53:18+00:00 | idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:53:54+00:00 | test-port-pool-strong-green | 0 | 1.24 | `pytest -q tests/pathfinder/test_routing.py::test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool` | `aa4ec373bf9e8ac7` |  |  |
+| 2026-11-07T12:54:05+00:00 | idiom-format-final | 0 | 0.01 | `ruff format --check` | `c98b86154f37b741` |  |  |
+| 2026-11-07T12:54:11+00:00 | idiom-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T12:54:54+00:00 | behavior-final | 0 | 39.9 | `pytest -q` | `bd9ab2be0ca54cfa` |  |  |
+| 2026-11-07T12:55:38+00:00 | mutation-changed-final | 0 | 39.72 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `49279b3106b73a63` |  | gate=mutation score=0.930 threshold=0.8 killed=93 survived=7 files=5 base=origin/main |
+| 2026-11-07T12:56:20+00:00 | regression-final | 0 | 38.13 | `pytest -q` | `b97d89d3dc92bb05` |  |  |

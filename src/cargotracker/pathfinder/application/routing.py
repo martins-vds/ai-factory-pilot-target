@@ -35,14 +35,14 @@ class RoutingService:
 
     def find_shortest_paths(self, origin: str, destination: str) -> tuple[TransitPath, ...]:
         candidates = self._random_source.randint(3, 5)
-        available_ports = [
-            port for port in SAMPLE_PORT_CODES if port not in {origin, destination}
-        ]
+        available_ports = [port for port in SAMPLE_PORT_CODES if port not in {origin, destination}]
         paths = []
         for _ in range(candidates):
             self._random_source.shuffle(available_ports)
             intermediate_count = (
-                self._random_source.randint(1, 5) if len(available_ports) > 4 else len(available_ports)
+                self._random_source.randint(1, 5)
+                if len(available_ports) > 4
+                else len(available_ports)
             )
             available_ports = available_ports[:intermediate_count]
             route = (

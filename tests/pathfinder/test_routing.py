@@ -65,10 +65,15 @@ def test_seeded_random_source_is_repeatable_and_changes_candidate_paths():
 
 
 def test_seeded_candidate_ports_narrow_to_the_previous_candidate_pool():
-    paths = RoutingService(random.Random(29), lambda: NOW).find_shortest_paths('CNHKG', 'USNYC')
+    paths = RoutingService(random.Random(0), lambda: NOW).find_shortest_paths('CNHKG', 'USNYC')
     candidate_ports = [{edge.from_port for edge in path.transit_edges[1:]} for path in paths]
 
-    assert all(later_ports <= earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports))
+    assert all(
+        later_ports <= earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports)
+    )
+    assert any(
+        later_ports < earlier_ports for earlier_ports, later_ports in pairwise(candidate_ports)
+    )
 
 
 def test_seeded_routes_cover_sample_ports_voyages_and_all_random_bounds():
