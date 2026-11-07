@@ -59,7 +59,8 @@ def test_change_destination_raises_lookup_error_for_unknown_cargo():
 
 
 @pytest.mark.django_db
-def test_change_destination_preserves_other_specification_fields_and_resets_route_state():
+def test_change_destination_preserves_other_specification_fields_and_resets_route_state(caplog):
+    caplog.set_level('INFO')
     repository, original = _persist_routed_cargo()
     destination = Location(UnLocode('USLAX'), 'Los Angeles')
     LocationRecord.objects.create(unlocode='USLAX', name='Los Angeles')
@@ -68,6 +69,7 @@ def test_change_destination_preserves_other_specification_fields_and_resets_rout
         original.tracking_id, destination
     )
 
+    assert f'Changed destination for cargo {original.tracking_id} to {destination}' in caplog.messages
     cargo = repository.find(original.tracking_id)
     assert cargo is not None
     assert cargo.route_specification.origin == ORIGIN
@@ -95,7 +97,8 @@ def test_change_destination_preserves_other_specification_fields_and_resets_rout
 
 
 @pytest.mark.django_db
-def test_change_deadline_preserves_other_specification_fields_and_resets_route_state():
+def test_change_deadline_preserves_other_specification_fields_and_resets_route_state(caplog):
+    caplog.set_level('INFO')
     repository, original = _persist_routed_cargo()
     earlier_deadline = datetime(2030, 11, 10, tzinfo=UTC)
 
@@ -103,6 +106,7 @@ def test_change_deadline_preserves_other_specification_fields_and_resets_route_s
         original.tracking_id, earlier_deadline
     )
 
+    assert f'Changed deadline for cargo {original.tracking_id} to {earlier_deadline}' in caplog.messages
     cargo = repository.find(original.tracking_id)
     assert cargo is not None
     assert cargo.route_specification.origin == ORIGIN

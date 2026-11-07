@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from cargotracker.cargo.domain.cargo import Cargo
@@ -7,6 +8,9 @@ from cargotracker.cargo.domain.route_specification import RouteSpecification
 from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.handling.domain.repository import HandlingEventRepository
 from cargotracker.location.domain.location import Location
+
+
+logger = logging.getLogger(__name__)
 
 
 class CargoSpecification:
@@ -25,7 +29,13 @@ class CargoSpecification:
             destination,
             cargo.route_specification.arrival_deadline,
         )
-        return self._update(cargo, specification)
+        updated_cargo = self._update(cargo, specification)
+        logger.info(
+            'Changed destination for cargo %s to %s',
+            tracking_id,
+            updated_cargo.route_specification.destination,
+        )
+        return updated_cargo
 
     def change_deadline(self, tracking_id: TrackingId, arrival_deadline: datetime) -> Cargo:
         cargo = self._find_cargo(tracking_id)
@@ -34,7 +44,13 @@ class CargoSpecification:
             cargo.route_specification.destination,
             arrival_deadline,
         )
-        return self._update(cargo, specification)
+        updated_cargo = self._update(cargo, specification)
+        logger.info(
+            'Changed deadline for cargo %s to %s',
+            tracking_id,
+            arrival_deadline,
+        )
+        return updated_cargo
 
     def _find_cargo(self, tracking_id: TrackingId) -> Cargo:
         cargo = self._cargo_repository.find(tracking_id)
