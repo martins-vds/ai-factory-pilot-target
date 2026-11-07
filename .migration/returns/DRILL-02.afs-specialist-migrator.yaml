@@ -1,0 +1,17 @@
+role: afs-specialist-migrator
+ticket: DRILL-02
+issue: martins-vds/ai-factory-pilot-target#366
+specialty: null
+pr: martins-vds/ai-factory-pilot-target#367
+gates:
+  build: "n/a: plain-text artifact drill"
+  behavior: "n/a: plain-text artifact drill"
+  idiom: "n/a: plain-text artifact drill"
+  crap: "n/a: plain-text artifact drill"
+  mutation_changed: "n/a: plain-text artifact drill"
+  regression: "n/a: plain-text artifact drill"
+specialty_evidence:
+  - .migration/evidence/runs/DRILL-02.md
+ledger_updated: []
+quirk_tickets: []
+handoff: none
