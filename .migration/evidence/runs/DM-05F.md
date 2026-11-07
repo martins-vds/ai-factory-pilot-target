@@ -25,3 +25,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T18:31:10+00:00 | mutation-changed | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-07T18:31:59+00:00 | regression | 0 | 49.15 | `pytest -q` | `aa1a98242ef7e30f` |  |  |
 | 2026-11-07T20:44:24+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T20:45:44+00:00 | invariants-independent | 0 | 5.12 | `pytest -q tests/data_migration/test_invariants.py` | `55107bafcfbdb7c1` |  |  |
+| 2026-11-07T20:45:58+00:00 | broken-itinerary-fixture | 1 | 1.87 | `pytest -q tests/data_migration/test_invariants.py::test_loaded_itinerary_legs_connect` | `b65cbfed9c72af84` | assert len(routed_cargo.itinerary.legs) == 2 |  |
+| 2026-11-07T20:46:26+00:00 | invariants-restored | 0 | 2.18 | `pytest -q tests/data_migration/test_invariants.py` | `f007a127784409c8` |  |  |

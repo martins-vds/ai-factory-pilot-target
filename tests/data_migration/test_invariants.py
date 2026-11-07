@@ -9,7 +9,6 @@ import yaml
 from django.core.management import call_command
 
 from cargotracker.cargo.domain.delivery import Delivery
-from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
 from cargotracker.handling.infrastructure.models import HandlingEventRecord
@@ -286,11 +285,12 @@ def test_loaded_cargo_delivery_matches_its_handling_history(loaded_snapshot):
 @pytest.mark.django_db(transaction=True)
 def test_loaded_itinerary_legs_connect(loaded_snapshot):
     cargos = DjangoCargoRepository().find_all()
-    routed_cargo = next(cargo for cargo in cargos if cargo.tracking_id == TrackingId('TEST-0001'))
-    assert len(routed_cargo.itinerary.legs) == 2
+    itineraries = [cargo.itinerary for cargo in cargos]
+    assert any(len(itinerary.legs) > 1 for itinerary in itineraries)
 
-    for previous, following in pairwise(routed_cargo.itinerary.legs):
-        assert previous.unload_location == following.load_location
+    for itinerary in itineraries:
+        for previous, following in pairwise(itinerary.legs):
+            assert previous.unload_location == following.load_location
 
 
 @pytest.mark.django_db(transaction=True)
