@@ -18,3 +18,8 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T16:45:39+00:00 | behavior | 2 | 1.96 | `pytest -q` | `77116fc577637b30` | ______________ ERROR collecting tests/pathfinder/test_routing.py _______________ |  |
 | 2026-11-07T17:21:41+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T17:23:27+00:00 | behavior | 0 | 25.41 | `pytest -q` | `b062d3162cd12ed3` |  |  |
+| 2026-11-07T17:24:07+00:00 | regression | 0 | 25.08 | `pytest -q` | `28ab10fd14d00307` |  |  |
+| 2026-11-07T17:24:38+00:00 | crap-coverage | 0 | 24.51 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `7deb901f9bf73a64` |  |  |
+| 2026-11-07T17:24:41+00:00 | crap-lizard | 0 | 0.08 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:24:44+00:00 | crap-score | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `33a2d7a0b3756fa4` |  | gate=crap max=19.0 threshold=30 over=0 methods=160 |
+| 2026-11-07T17:24:57+00:00 | mutation-changed | 0 | 9.6 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `49769f89644d20b0` |  | gate=mutation score=0.929 threshold=0.8 killed=13 survived=1 files=1 base=origin/main |
