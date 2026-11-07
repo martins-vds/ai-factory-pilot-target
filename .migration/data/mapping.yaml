@@ -1,0 +1,128 @@
+defaults:
+  timestamp_tz: UTC
+tables:
+  - target: location
+    source: LOCATION
+    key: [id]
+    columns:
+      id: ID
+      unlocode: UNLOCODE
+      name: NAME
+  - target: voyage
+    source: VOYAGE
+    key: [id]
+    columns:
+      id: ID
+      voyage_number: VOYAGE_NUMBER
+  - target: cargo
+    source: CARGO
+    key: [id]
+    columns:
+      id: ID
+      tracking_id: TRACKING_ID
+      origin_id: ORIGIN_ID
+      spec_origin_id: SPEC_ORIGIN_ID
+      spec_destination_id: SPEC_DESTINATION_ID
+      spec_arrival_deadline: {from: SPEC_ARRIVAL_DEADLINE, as: date}
+      transport_status:
+        from: TRANSPORT_STATUS
+        as:
+          map:
+            NOT_RECEIVED: NOT_RECEIVED
+            IN_PORT: IN_PORT
+            ONBOARD_CARRIER: ONBOARD_CARRIER
+            CLAIMED: CLAIMED
+            UNKNOWN: UNKNOWN
+      last_known_location_id: LAST_KNOWN_LOCATION_ID
+      current_voyage_id: CURRENT_VOYAGE_ID
+      misdirected: {from: MISDIRECTED, as: bool}
+      eta: {from: ETA, as: date}
+      next_expected_handling_event_type:
+        from: NEXT_EXPECTED_HANDLING_EVENT_TYPE
+        as:
+          map:
+            LOAD: LOAD
+            UNLOAD: UNLOAD
+            RECEIVE: RECEIVE
+            CLAIM: CLAIM
+            CUSTOMS: CUSTOMS
+      next_expected_location_id: NEXT_EXPECTED_LOCATION_ID
+      next_expected_voyage_id: NEXT_EXPECTED_VOYAGE_ID
+      unloaded_at_dest: {from: UNLOADED_AT_DEST, as: bool}
+      routing_status:
+        from: ROUTING_STATUS
+        as:
+          map:
+            NOT_ROUTED: NOT_ROUTED
+            ROUTED: ROUTED
+            MISROUTED: MISROUTED
+      calculated_at: {from: CALCULATED_AT, as: timestamp}
+      last_event_id: LAST_EVENT_ID
+    refs:
+      origin_id: location.id
+      spec_origin_id: location.id
+      spec_destination_id: location.id
+      last_known_location_id: location.id
+      current_voyage_id: voyage.id
+      next_expected_location_id: location.id
+      next_expected_voyage_id: voyage.id
+      last_event_id: HandlingEvent.id
+  - target: HandlingEvent
+    source: HANDLINGEVENT
+    key: [id]
+    columns:
+      id: ID
+      type:
+        from: TYPE
+        as:
+          map:
+            LOAD: LOAD
+            UNLOAD: UNLOAD
+            RECEIVE: RECEIVE
+            CLAIM: CLAIM
+            CUSTOMS: CUSTOMS
+      voyage_id: VOYAGE_ID
+      location_id: LOCATION_ID
+      completionTime: {from: COMPLETIONTIME, as: timestamp}
+      registration: {from: REGISTRATION, as: timestamp}
+      cargo_id: CARGO_ID
+    refs:
+      voyage_id: voyage.id
+      location_id: location.id
+      cargo_id: cargo.id
+  - target: leg
+    source: LEG
+    key: [id]
+    columns:
+      id: ID
+      load_time: {from: LOAD_TIME, as: timestamp}
+      unload_time: {from: UNLOAD_TIME, as: timestamp}
+      load_location_id: LOAD_LOCATION_ID
+      unload_location_id: UNLOAD_LOCATION_ID
+      voyage_id: VOYAGE_ID
+      cargo_id: CARGO_ID
+    refs:
+      load_location_id: location.id
+      unload_location_id: location.id
+      voyage_id: voyage.id
+      cargo_id: cargo.id
+  - target: carrier_movement
+    source: CARRIER_MOVEMENT
+    key: [id]
+    columns:
+      id: ID
+      arrival_time: {from: ARRIVAL_TIME, as: timestamp}
+      departure_time: {from: DEPARTURE_TIME, as: timestamp}
+      arrival_location_id: ARRIVAL_LOCATION_ID
+      departure_location_id: DEPARTURE_LOCATION_ID
+      voyage_id: VOYAGE_ID
+    refs:
+      arrival_location_id: location.id
+      departure_location_id: location.id
+      voyage_id: voyage.id
+excluded:
+  - source: SEQUENCE
+    issue: martins-vds/ai-factory-pilot-target#255
+    reason: >-
+      Exclude the provider sequence table; import explicit IDs and realign PostgreSQL-native
+      target sequences after loading.
