@@ -1,0 +1,16 @@
+role: afs-specialist-migrator
+ticket: BK-05G
+issue: martins-vds/ai-factory-pilot-target#294
+specialty: ui
+pr: null
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+specialty_evidence: []
+ledger_updated: []
+quirk_tickets: []
+handoff: .migration/handoffs/BK-05G.md
