@@ -142,7 +142,7 @@ def create_booking_wizard_view(
             return redirect('/admin/dashboard/')
         if data.get('step') == 'destination' and data.get('action') == 'back':
             return _origin_step(request, available_locations, origin, destination, deadline_value)
-        if data.get('step') == 'deadline' and data.get('action') == 'XXbackXX':
+        if data.get('step') == 'deadline' and data.get('action') == 'back':
             return _destination_step(
                 request, available_locations, origin, destination, deadline_value
             )
