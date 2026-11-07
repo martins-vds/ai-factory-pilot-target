@@ -8,8 +8,15 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0}
 boundary: "The initial label is Offline; WebSocket open sets online, each message briefly sets the misspelled mesage label before reload, close sets offline, and clicking the status box forces a reload."
 slice: admin-live-map
-tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#90", "martins-vds/ai-factory-pilot-target#100", "martins-vds/ai-factory-pilot-target#245"]
-status: pending
+tickets: ["martins-vds/ai-factory-pilot-target#203", "martins-vds/ai-factory-pilot-target#90", "martins-vds/ai-factory-pilot-target#100", "martins-vds/ai-factory-pilot-target#245", "martins-vds/ai-factory-pilot-target#282", "martins-vds/ai-factory-pilot-target#325"]
+target:
+  components:
+    - templates/admin/live_map.html
+status: dropped
+approval:
+  by: martins-vds
+  ref: martins-vds/ai-factory-pilot-target#90
+  reason: "Ruling #90 / ADR-0005 replaces the WebSocket with htmx polling and drops the online/offline label."
 verification: characterized
 characterization_tier: A
 evidence:
@@ -17,4 +24,6 @@ evidence:
   - ".migration/characterization/admin-live-map/report.md"
   - ".migration/characterization/admin-live-map/test_admin_live_map.py::test_page_frame_provider_and_connection_status"
   - ".migration/evidence/runs/AM-03.md"
+  - tests/cargo/interfaces/test_admin_live_map_templates.py::test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling
+  - .migration/evidence/runs/AM-04C.md
 notes: "The /tracking socket and online/offline label are approved intentional drops under #90 / ADR-0005 #100; list them so parity review does not mistake them for omissions."
