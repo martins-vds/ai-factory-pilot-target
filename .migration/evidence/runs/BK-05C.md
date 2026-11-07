@@ -7,3 +7,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T16:40:08+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-07T16:42:53+00:00 | candidate-red | 2 | 2.59 | `pytest -q tests/booking/application/test_routing.py` | `3179e843e9d1b415` | __________ ERROR collecting tests/booking/application/test_routing.py __________ |  |
 | 2026-11-07T16:43:24+00:00 | candidate-green | 0 | 1.42 | `pytest -q tests/booking/application/test_routing.py` | `f34bbeaad9b69d77` |  |  |
+| 2026-11-07T16:44:03+00:00 | routing-targeted | 0 | 1.66 | `pytest -q tests/booking/application/test_routing.py` | `5fab16bbbfe95d6d` |  |  |
+| 2026-11-07T16:44:21+00:00 | routing-targeted-final | 0 | 1.6 | `pytest -q tests/booking/application/test_routing.py` | `2b74d93201e1a766` |  |  |
