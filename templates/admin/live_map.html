@@ -1,0 +1,51 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live Map | Cargo Tracker</title>
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.11/dist/htmx.min.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    >
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+      defer
+    ></script>
+  </head>
+  <body>
+    <main class="mx-auto max-w-screen-2xl p-4 sm:p-6">
+      <h1 class="mb-4 text-2xl font-semibold text-gray-900">Live Map</h1>
+      <div
+        id="live-map"
+        class="h-[600px] w-full border border-gray-300"
+        role="application"
+        aria-label="Cargo location map"
+      ></div>
+      <div
+        id="live-map-markers"
+        hx-get="{% url 'admin_live_map_markers' %}"
+        hx-trigger="every {{ poll_seconds }}s"
+        hx-target="#live-map-markers"
+        hx-swap="innerHTML"
+      ></div>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const map = L.map('live-map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        }).addTo(map);
+        L.control.scale().addTo(map);
+      });
+    </script>
+  </body>
+</html>
