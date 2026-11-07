@@ -29,6 +29,17 @@
         "interactionId",
         "turnId"
       ],
+      "external_tool.completed": [
+        "requestId"
+      ],
+      "external_tool.requested": [
+        "arguments",
+        "requestId",
+        "sessionId",
+        "toolCallId",
+        "toolName",
+        "workingDirectory"
+      ],
       "hook.end": [
         "hookInvocationId",
         "hookType",
@@ -49,6 +60,41 @@
         "promptRequest",
         "requestId"
       ],
+      "session.compaction_complete": [
+        "checkpointNumber",
+        "checkpointPath",
+        "compactionTokensUsed",
+        "preCompactionMessagesLength",
+        "preCompactionTokens",
+        "requestId",
+        "serviceRequestId",
+        "success",
+        "summaryContent",
+        "tokenLimit",
+        "trigger"
+      ],
+      "session.compaction_start": [
+        "conversationTokens",
+        "currentTokens",
+        "systemTokens",
+        "tokenLimit",
+        "toolDefinitionsTokens",
+        "trigger"
+      ],
+      "session.resume": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "continuePendingWork",
+        "eventCount",
+        "eventsFileSizeBytes",
+        "reasoningEffort",
+        "remoteSteerable",
+        "resumeTime",
+        "selectedModel",
+        "sessionLimits",
+        "sessionWasActive"
+      ],
       "session.start": [
         "alreadyInUse",
         "context",
@@ -61,6 +107,11 @@
         "sessionId",
         "startTime",
         "version"
+      ],
+      "session.usage_checkpoint": [
+        "modelCacheState",
+        "totalNanoAiu",
+        "totalPremiumRequests"
       ],
       "skill.invoked": [
         "content",
@@ -137,28 +188,34 @@
       ]
     },
     "event_types": {
-      "assistant.message": 293,
-      "assistant.turn_end": 166,
-      "assistant.turn_start": 166,
-      "hook.end": 536,
-      "hook.start": 537,
-      "permission.completed": 321,
-      "permission.requested": 321,
+      "assistant.message": 305,
+      "assistant.turn_end": 178,
+      "assistant.turn_start": 178,
+      "external_tool.completed": 1,
+      "external_tool.requested": 1,
+      "hook.end": 580,
+      "hook.start": 581,
+      "permission.completed": 342,
+      "permission.requested": 342,
+      "session.compaction_complete": 1,
+      "session.compaction_start": 1,
+      "session.resume": 1,
       "session.start": 1,
+      "session.usage_checkpoint": 1,
       "skill.invoked": 11,
       "subagent.completed": 2,
       "subagent.selected": 1,
       "subagent.started": 2,
-      "system.message": 3,
+      "system.message": 4,
       "system.notification": 1,
-      "tool.execution_complete": 314,
-      "tool.execution_start": 314,
-      "user.message": 13
+      "tool.execution_complete": 336,
+      "tool.execution_start": 336,
+      "user.message": 14
     },
-    "events": 3002,
+    "events": 3220,
     "usage_fields": []
   },
-  "ended_at": "2026-11-07T16:22:02.373Z",
+  "ended_at": "2026-11-07T17:12:54.153Z",
   "event": "sessionEnd",
   "harness_tools": [
     {
@@ -207,6 +264,11 @@
       "tool": "validate.py"
     },
     {
+      "count": 2,
+      "exit": 1,
+      "tool": "validate.py"
+    },
+    {
       "count": 1,
       "exit": 0,
       "tool": "afs-cost-hook"
@@ -215,12 +277,12 @@
   "log": "/home/runner/.copilot/session-state/b23d447e-cd53-48da-b603-963bd285f10e/events.jsonl",
   "models": {
     "gpt-6-luna": {
-      "output": 127439,
-      "requests": 293
+      "output": 130101,
+      "requests": 305
     }
   },
   "prompt_head": null,
-  "recorded_at": "2026-11-07T16:22:03+00:00",
+  "recorded_at": "2026-11-07T17:12:54+00:00",
   "schema": "afs-cost/1",
   "session_id": "b23d447e-cd53-48da-b603-963bd285f10e",
   "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
