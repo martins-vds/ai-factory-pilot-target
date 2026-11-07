@@ -1,0 +1,17 @@
+role: afs-specialist-migrator
+ticket: AM-04A
+issue: martins-vds/ai-factory-pilot-target#280
+specialty: ui
+pr: martins-vds/ai-factory-pilot-target#286
+gates:
+  build: "n/a: design-only ticket; no target code changed"
+  behavior: "n/a: design-only ticket; no target code changed"
+  idiom: "n/a: design-only ticket; no target code changed"
+  crap: "n/a: design-only ticket; no target code changed"
+  mutation_changed: "n/a: no target code changed"
+  regression: "n/a: design-only ticket; no target code changed"
+specialty_evidence:
+  - .migration/design/admin-live-map.md
+ledger_updated: []
+quirk_tickets: []
+handoff: none

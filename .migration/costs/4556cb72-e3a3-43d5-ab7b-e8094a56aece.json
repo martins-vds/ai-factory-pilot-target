@@ -1,0 +1,189 @@
+{
+  "branch": "copilot/am-04a-design-admin-map-marker-behavior",
+  "diagnostics": {
+    "data_keys": {
+      "assistant.message": [
+        "apiCallId",
+        "chunkCount",
+        "chunkIndex",
+        "clientRequestId",
+        "content",
+        "encryptedContent",
+        "interactionId",
+        "messageId",
+        "model",
+        "outputTokens",
+        "phase",
+        "reasoningOpaque",
+        "requestId",
+        "rte",
+        "serviceRequestId",
+        "toolRequests",
+        "turnId"
+      ],
+      "assistant.turn_end": [
+        "turnId"
+      ],
+      "assistant.turn_start": [
+        "interactionId",
+        "turnId"
+      ],
+      "hook.end": [
+        "hookInvocationId",
+        "hookType",
+        "success"
+      ],
+      "hook.start": [
+        "hookInvocationId",
+        "hookType",
+        "input"
+      ],
+      "permission.completed": [
+        "requestId",
+        "result",
+        "toolCallId"
+      ],
+      "permission.requested": [
+        "permissionRequest",
+        "promptRequest",
+        "requestId"
+      ],
+      "session.start": [
+        "alreadyInUse",
+        "context",
+        "contextTier",
+        "copilotVersion",
+        "producer",
+        "reasoningEffort",
+        "remoteSteerable",
+        "selectedModel",
+        "sessionId",
+        "startTime",
+        "version"
+      ],
+      "skill.invoked": [
+        "content",
+        "description",
+        "model",
+        "name",
+        "path",
+        "source",
+        "trigger"
+      ],
+      "subagent.selected": [
+        "agentDisplayName",
+        "agentName",
+        "tools"
+      ],
+      "system.message": [
+        "content",
+        "interactionId",
+        "role"
+      ],
+      "tool.execution_complete": [
+        "error",
+        "interactionId",
+        "model",
+        "result",
+        "rte",
+        "success",
+        "toolCallId",
+        "toolTelemetry",
+        "turnId"
+      ],
+      "tool.execution_start": [
+        "arguments",
+        "mcpServerName",
+        "mcpToolName",
+        "model",
+        "rte",
+        "shellToolInfo",
+        "toolCallId",
+        "toolName",
+        "turnId"
+      ],
+      "user.message": [
+        "attachments",
+        "content",
+        "delivery",
+        "interactionId",
+        "parentAgentTaskId",
+        "source",
+        "supportedNativeDocumentMimeTypes",
+        "transformedContent"
+      ]
+    },
+    "event_types": {
+      "assistant.message": 85,
+      "assistant.turn_end": 62,
+      "assistant.turn_start": 62,
+      "hook.end": 232,
+      "hook.start": 233,
+      "permission.completed": 83,
+      "permission.requested": 83,
+      "session.start": 1,
+      "skill.invoked": 3,
+      "subagent.selected": 1,
+      "system.message": 1,
+      "tool.execution_complete": 103,
+      "tool.execution_start": 103,
+      "user.message": 4
+    },
+    "events": 1056,
+    "usage_fields": []
+  },
+  "ended_at": "2026-11-07T03:43:32.815Z",
+  "event": "sessionEnd",
+  "harness_tools": [
+    {
+      "count": 6,
+      "exit": 0,
+      "tool": "afs-run"
+    },
+    {
+      "count": 2,
+      "exit": 0,
+      "tool": "afs-services"
+    },
+    {
+      "count": 2,
+      "exit": 0,
+      "tool": "check_inputs.py"
+    },
+    {
+      "count": 2,
+      "exit": 1,
+      "tool": "check_return_contract.py"
+    },
+    {
+      "count": 2,
+      "exit": 0,
+      "tool": "check_runtime.py"
+    },
+    {
+      "count": 6,
+      "exit": 0,
+      "tool": "validate.py"
+    },
+    {
+      "count": 1,
+      "exit": 0,
+      "tool": "afs-cost-hook"
+    }
+  ],
+  "log": "/home/runner/.copilot/session-state/4556cb72-e3a3-43d5-ab7b-e8094a56aece/events.jsonl",
+  "models": {
+    "gpt-6-luna": {
+      "output": 31119,
+      "requests": 85
+    }
+  },
+  "prompt_head": null,
+  "recorded_at": "2026-11-07T03:43:33+00:00",
+  "schema": "afs-cost/1",
+  "session_id": "4556cb72-e3a3-43d5-ab7b-e8094a56aece",
+  "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
+  "started_at": "2026-11-07T03:36:01.672Z",
+  "surface": "coding-agent",
+  "usage_source": "assistant.message (output only, partial)"
+}
