@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cargotracker.voyage.apps.VoyageConfig',
     'cargotracker.cargo.apps.CargoConfig',
     'cargotracker.handling.apps.HandlingConfig',
+    'cargotracker.data_migration.apps.DataMigrationConfig',
 ]
 
 MIDDLEWARE = [
