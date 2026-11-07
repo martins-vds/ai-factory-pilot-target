@@ -471,19 +471,19 @@ def test_load_snapshot_includes_carrier_movement_row(tmp_path):
 @pytest.mark.django_db(transaction=True)
 def test_load_snapshot_rejects_malformed_snapshot_inputs(tmp_path):
     cases = (
-        ('missing_manifest', 'no manifest.json'),
-        ('invalid_manifest', 'invalid manifest:'),
-        ('invalid_table_list', 'tables must be an object'),
-        ('missing_table_entry', 'CARGO: table is not listed'),
-        ('missing_csv', 'LEG.csv: missing'),
-        ('hash_mismatch', 'LOCATION: sha256 differs'),
-        ('empty_file', r'empty file \(a header row is required\)'),
-        ('duplicate_header', 'duplicate columns in header'),
-        ('wrong_field_count', 'fields, header has'),
-        ('row_count_mismatch', 'CARGO: 1 rows, manifest says 2'),
-        ('missing_mapped_column', r'LOCATION: no column\(s\) MISSING in its CSV header'),
+        'missing_manifest',
+        'invalid_manifest',
+        'invalid_table_list',
+        'missing_table_entry',
+        'missing_csv',
+        'hash_mismatch',
+        'empty_file',
+        'duplicate_header',
+        'wrong_field_count',
+        'row_count_mismatch',
+        'missing_mapped_column',
     )
-    for case, message in cases:
+    for case in cases:
         case_dir = tmp_path / case
         case_dir.mkdir()
         snapshot = case_dir / 'snapshot'
@@ -532,12 +532,29 @@ def test_load_snapshot_rejects_malformed_snapshot_inputs(tmp_path):
 
         mapping_path = case_dir / 'mapping.yaml'
         mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
-        with pytest.raises(CommandError, match=message):
+        with pytest.raises(CommandError) as error:
             call_command(
                 'load_data_snapshot',
                 snapshot=str(snapshot),
                 mapping=str(mapping_path),
             )
+        expected = {
+            'missing_manifest': f'{snapshot}/manifest.json: no manifest.json',
+            'invalid_manifest': (
+                f'{snapshot}/manifest.json: invalid manifest: '
+                'Expecting property name enclosed in double quotes: line 1 column 2 (char 1)'
+            ),
+            'invalid_table_list': f'{snapshot}/manifest.json: tables must be an object',
+            'missing_table_entry': 'CARGO: table is not listed in the snapshot manifest',
+            'missing_csv': f'{snapshot}/LEG.csv: missing',
+            'hash_mismatch': 'LOCATION: sha256 differs from the snapshot manifest',
+            'empty_file': f'{snapshot}/LOCATION.csv: empty file (a header row is required)',
+            'duplicate_header': f'{snapshot}/LOCATION.csv: duplicate columns in header',
+            'wrong_field_count': f'{snapshot}/LOCATION.csv:2: 2 fields, header has 3',
+            'row_count_mismatch': 'CARGO: 1 rows, manifest says 2',
+            'missing_mapped_column': 'LOCATION: no column(s) MISSING in its CSV header',
+        }[case]
+        assert str(error.value) == expected
 
 
 @pytest.mark.django_db(transaction=True)
@@ -565,12 +582,13 @@ def test_load_snapshot_rejects_unknown_timestamp_timezone(tmp_path):
     mapping_path = tmp_path / 'mapping.yaml'
     mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
 
-    with pytest.raises(CommandError, match="unknown timestamp timezone 'Not/A_Timezone'"):
+    with pytest.raises(CommandError) as error:
         call_command(
             'load_data_snapshot',
             snapshot=str(FIXTURE_SNAPSHOT),
             mapping=str(mapping_path),
         )
+    assert str(error.value) == "unknown timestamp timezone 'Not/A_Timezone'"
 
 
 @pytest.mark.django_db(transaction=True)
@@ -665,8 +683,9 @@ def test_load_snapshot_rejects_invalid_boolean_transform(tmp_path):
     mapping = tmp_path / 'mapping.yaml'
     mapping.write_text(yaml.safe_dump(MAPPING), encoding='utf-8')
 
-    with pytest.raises(CommandError, match='not a boolean'):
+    with pytest.raises(CommandError) as error:
         call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
+    assert str(error.value) == "not a boolean: 'sometimes'"
 
 
 @pytest.mark.django_db(transaction=True)
@@ -681,8 +700,9 @@ def test_load_snapshot_rejects_unmapped_enum_value_and_rolls_back(tmp_path):
     mapping = tmp_path / 'mapping.yaml'
     mapping.write_text(yaml.safe_dump(MAPPING), encoding='utf-8')
 
-    with pytest.raises(CommandError, match='no mapping for value'):
+    with pytest.raises(CommandError) as error:
         call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping))
+    assert str(error.value) == "no mapping for value '1'"
 
     assert not LocationRecord.objects.exists()
 
@@ -692,11 +712,11 @@ def test_load_snapshot_rejects_invalid_mapping_references(tmp_path):
     cases = (
         ('no_tables', 'mapping has no tables'),
         ('duplicate_target', 'mapping targets must be unique table names'),
-        ('missing_primary_key', 'mapping must include its primary key'),
-        ('unmapped_reference_column', "reference 'origin_id' is not mapped"),
-        ('invalid_reference', "invalid reference 'location'"),
-        ('unmapped_reference_target', "reference target 'unknown' is not mapped"),
-        ('mismatched_reference', 'reference does not match the model'),
+        ('missing_primary_key', 'location: mapping must include its primary key'),
+        ('unmapped_reference_column', "cargo: reference 'origin_id' is not mapped"),
+        ('invalid_reference', "origin_id: invalid reference 'location'"),
+        ('unmapped_reference_target', "origin_id: reference target 'unknown' is not mapped"),
+        ('mismatched_reference', 'cargo.origin_id: reference does not match the model'),
         ('missing_referenced_column', 'location.missing: no referenced target column'),
     )
     for case, message in cases:
@@ -726,8 +746,9 @@ def test_load_snapshot_rejects_invalid_mapping_references(tmp_path):
         mapping_file = case_dir / 'mapping.yaml'
         mapping_file.write_text(yaml.safe_dump(mapping), encoding='utf-8')
 
-        with pytest.raises(CommandError, match=message):
+        with pytest.raises(CommandError) as error:
             call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_file))
+        assert str(error.value) == message
 
 
 @pytest.mark.django_db(transaction=True)
@@ -744,5 +765,99 @@ def test_load_snapshot_rejects_unknown_mapping_transform(tmp_path):
     mapping_file = tmp_path / 'mapping.yaml'
     mapping_file.write_text(yaml.safe_dump(mapping), encoding='utf-8')
 
-    with pytest.raises(CommandError, match="unknown transform 'unknown'"):
+    with pytest.raises(CommandError) as error:
         call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_file))
+    assert str(error.value) == "unknown transform 'unknown'"
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_rejects_transform_mapping_without_map_key(tmp_path):
+    mapping = copy.deepcopy(MAPPING)
+    mapping['tables'][2]['columns']['transport_status'] = {
+        'from': 'TRANSPORT_STATUS',
+        'as': {'values': {'0': 'NOT_RECEIVED'}},
+    }
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+    with pytest.raises(CommandError) as error:
+        call_command(
+            'load_data_snapshot',
+            snapshot=str(FIXTURE_SNAPSHOT),
+            mapping=str(mapping_path),
+        )
+
+    assert str(error.value) == "unknown transform {'values': {'0': 'NOT_RECEIVED'}}"
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_rejects_invalid_column_definitions(tmp_path):
+    for case, columns, expected in (
+        ('not_a_mapping', ['id'], 'location: mapping has no columns'),
+        ('empty_mapping', {}, 'location: mapping has no columns'),
+        (
+            'invalid_source',
+            {'id': {'from': 7}},
+            'id: mapping must name a source column',
+        ),
+    ):
+        case_dir = tmp_path / case
+        case_dir.mkdir()
+        snapshot = case_dir / 'snapshot'
+        _snapshot(snapshot)
+        mapping = copy.deepcopy(MAPPING)
+        mapping['tables'][0]['columns'] = columns
+        mapping_path = case_dir / 'mapping.yaml'
+        mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+        with pytest.raises(CommandError) as error:
+            call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_path))
+
+        assert str(error.value) == expected
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_preserves_date_and_timestamp_mapping_values(tmp_path):
+    table_rows = {
+        table: (header.copy(), [row.copy() for row in rows])
+        for table, (header, rows) in TABLE_ROWS.items()
+    }
+    cargo = table_rows['CARGO'][1][0]
+    cargo[5] = '2026-11-07'
+    cargo[10] = '2026-11-07T00:30:00+02:00'
+    cargo[16] = '2026-11-07'
+    snapshot = tmp_path / 'snapshot'
+    _snapshot(snapshot, table_rows)
+
+    mapping = copy.deepcopy(MAPPING)
+    mapping['defaults']['timestamp_tz'] = 'Asia/Tokyo'
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+    call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_path))
+
+    cargo_record = CargoRecord.objects.get(pk=15)
+    assert cargo_record.spec_arrival_deadline == date(2026, 11, 7)
+    assert cargo_record.eta == date(2026, 11, 6)
+    assert cargo_record.calculated_at == datetime(2026, 11, 6, 15, tzinfo=UTC)
+
+
+@pytest.mark.django_db(transaction=True)
+def test_load_snapshot_parses_legacy_timestamp_value(tmp_path):
+    table_rows = {
+        table: (header.copy(), [row.copy() for row in rows])
+        for table, (header, rows) in TABLE_ROWS.items()
+    }
+    table_rows['CARGO'][1][0][16] = '2026-1-2 3:4'
+    snapshot = tmp_path / 'snapshot'
+    _snapshot(snapshot, table_rows)
+    mapping = copy.deepcopy(MAPPING)
+    mapping['defaults']['timestamp_tz'] = 'Asia/Tokyo'
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping), encoding='utf-8')
+
+    call_command('load_data_snapshot', snapshot=str(snapshot), mapping=str(mapping_path))
+
+    assert CargoRecord.objects.get(pk=15).calculated_at == datetime(
+        2026, 1, 1, 18, 4, tzinfo=UTC
+    )
