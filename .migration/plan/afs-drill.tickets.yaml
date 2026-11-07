@@ -1,0 +1,10 @@
+slice: afs-drill
+tickets:
+  - id: DRILL-01
+    role: afs-specialist-migrator
+    files: [drill/hello.txt]
+    blocked_by: []
+  - id: DRILL-02
+    role: afs-specialist-migrator
+    files: [drill/a.txt]
+    blocked_by: []
