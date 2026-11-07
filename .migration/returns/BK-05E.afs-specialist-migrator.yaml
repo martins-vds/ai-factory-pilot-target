@@ -15,8 +15,6 @@ specialty_evidence:
   - tests/booking/interfaces/test_dashboard.py::test_dashboard_renders_empty_tables_without_custom_empty_state
   - tests/booking/interfaces/test_dashboard.py::test_cargo_moves_from_not_routed_to_routed_after_assignment
   - tests/booking/interfaces/test_cargo_details.py::test_cargo_details_render_route_fields_and_itinerary
-  - tests/booking/interfaces/test_cargo_details.py::test_unrouted_cargo_details_link_to_route_selection
-  - tests/booking/interfaces/test_cargo_details.py::test_misrouted_cargo_details_offer_reroute_action
   - tests/booking/interfaces/test_cargo_details.py::test_unknown_and_stale_cargo_details_return_http_404
   - .migration/evidence/runs/BK-05E.md
   - .migration/evidence/mutants/BK-05E.md

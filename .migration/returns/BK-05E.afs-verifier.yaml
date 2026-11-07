@@ -1,0 +1,23 @@
+role: afs-verifier
+ticket: BK-05E
+issue: martins-vds/ai-factory-pilot-target#380
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/383
+verdict: changes-required
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 26.0
+  mutation_changed: 0.929
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/BK-05E.md
+findings:
+  - severity: major
+    where: src/cargotracker/booking/interfaces/dashboard/views.py:14-32
+    what: "The view reads CargoRepository and partitions cargo by domain state directly instead of using a booking application use case, bypassing ADR-0001's application entry point and interface-to-application-to-domain layering."
+tests_added:
+  - tests/booking/interfaces/test_cargo_details.py::test_unrouted_cargo_details_link_to_route_selection
+  - tests/booking/interfaces/test_cargo_details.py::test_misrouted_cargo_details_offer_reroute_action
+ledger_issues: []
+quirk_tickets: []
