@@ -16,7 +16,7 @@ def test_admin_live_map_renders_leaflet_page_with_configured_htmx_polling(client
     assert 'id="live-map"' in content
     assert 'aria-label="Cargo location map"' in content
     assert 'leaflet@1.7.1/dist/leaflet.css' in content
-    assert 'openstreetmap.org' in content
+    assert 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' in content
     assert 'hx-get="/admin/live-map/markers/"' in content
     assert 'hx-trigger="every 17s"' in content
     assert 'hx-swap="innerHTML"' in content
