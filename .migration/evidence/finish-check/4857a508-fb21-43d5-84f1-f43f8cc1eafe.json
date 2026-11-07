@@ -24,5 +24,31 @@
     "blocks_before": 0,
     "decision": "block",
     "why": "block 1 of 2"
+  },
+  {
+    "at": "2026-11-07T19:32:17Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "enabled": true,
+    "ticket": "DRILL-01",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/4857a508-fb21-43d5-84f1-f43f8cc1eafe.json",
+      ".migration/evidence/runs/DRILL-01.md",
+      ".migration/returns/DRILL-01.afs-specialist-migrator.yaml",
+      "drill/hello.txt"
+    ],
+    "findings": [],
+    "blocks_before": 1,
+    "decision": "allow",
+    "why": "clean"
   }
 ]
