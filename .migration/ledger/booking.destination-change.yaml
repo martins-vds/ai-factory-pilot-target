@@ -7,8 +7,11 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Changing destination preserves the cargo's original origin, current deadline and itinerary, creates a new RouteSpecification, updates delivery routing state, stores the cargo and logs the change."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#288]
+target:
+  components:
+    - cargotracker.booking.application.specification.CargoSpecification.change_destination
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -17,4 +20,6 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
+  - "tests/booking/application/test_specification.py::test_change_destination_preserves_other_specification_fields_and_resets_route_state"
+  - ".migration/evidence/runs/BK-05A.md"
 notes: "The dialog's option getter excludes origin and current destination by display name and mutates its backing list (.migration/quirks/booking-destination-options-mutate-state.md). The service test checks that the old itinerary remains and the cargo becomes MISROUTED."

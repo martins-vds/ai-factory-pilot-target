@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 
 import pytest
 
+from cargotracker.booking.application.specification import CargoSpecification
 from cargotracker.cargo.domain.cargo import Cargo
 from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus
 from cargotracker.cargo.domain.handling_activity import HandlingActivity
@@ -20,8 +21,6 @@ from cargotracker.voyage.domain.schedule import Schedule
 from cargotracker.voyage.domain.voyage import Voyage
 from cargotracker.voyage.domain.voyage_number import VoyageNumber
 from cargotracker.voyage.infrastructure.models import VoyageRecord
-from cargotracker.booking.application.specification import CargoSpecification
-
 
 ORIGIN = Location(UnLocode('USNYC'), 'New York')
 DESTINATION = Location(UnLocode('FIHEL'), 'Helsinki')
