@@ -4,7 +4,7 @@ import pytest
 
 from cargotracker.booking.application.specification import CargoSpecification
 from cargotracker.cargo.domain.cargo import Cargo
-from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus
+from cargotracker.cargo.domain.delivery import Delivery, RoutingStatus, TransportStatus
 from cargotracker.cargo.domain.handling_activity import HandlingActivity
 from cargotracker.cargo.domain.itinerary import Itinerary
 from cargotracker.cargo.domain.leg import Leg
@@ -59,7 +59,19 @@ def test_change_destination_raises_lookup_error_for_unknown_cargo():
 
 
 @pytest.mark.django_db
-def test_change_destination_preserves_other_specification_fields_and_resets_route_state():
+def test_change_deadline_raises_lookup_error_for_unknown_cargo():
+    specification = CargoSpecification(
+        DjangoCargoRepository(),
+        DjangoHandlingEventRepository(),
+    )
+
+    with pytest.raises(LookupError, match='Cargo MISSING1 not found'):
+        specification.change_deadline(TrackingId('MISSING1'), DEADLINE)
+
+
+@pytest.mark.django_db
+def test_change_destination_preserves_other_specification_fields_and_resets_route_state(caplog):
+    caplog.set_level('INFO')
     repository, original = _persist_routed_cargo()
     destination = Location(UnLocode('USLAX'), 'Los Angeles')
     LocationRecord.objects.create(unlocode='USLAX', name='Los Angeles')
@@ -68,24 +80,38 @@ def test_change_destination_preserves_other_specification_fields_and_resets_rout
         original.tracking_id, destination
     )
 
+    assert (
+        f'Changed destination for cargo {original.tracking_id} to {destination}' in caplog.messages
+    )
     cargo = repository.find(original.tracking_id)
     assert cargo is not None
     assert cargo.route_specification.origin == ORIGIN
     assert cargo.route_specification.destination == destination
     assert cargo.route_specification.arrival_deadline == DEADLINE
     assert cargo.itinerary == original.itinerary
+    assert cargo.delivery.transport_status is TransportStatus.NOT_RECEIVED
+    assert cargo.delivery.last_known_location is None
+    assert cargo.delivery.current_voyage is None
+    assert not cargo.delivery.misdirected
     assert cargo.delivery.routing_status is RoutingStatus.MISROUTED
     assert cargo.delivery.eta is None
     assert cargo.delivery.next_expected_activity is HandlingActivity.EMPTY
+    assert not cargo.delivery.unloaded_at_destination
     record = CargoRecord.objects.get(tracking_id=original.tracking_id.value)
     assert record.spec_destination.unlocode == 'USLAX'
+    assert record.transport_status == TransportStatus.NOT_RECEIVED.value
+    assert record.last_known_location is None
+    assert record.current_voyage is None
+    assert not record.misdirected
+    assert not record.unloaded_at_dest
     assert record.routing_status == RoutingStatus.MISROUTED.value
     assert record.eta is None
     assert record.next_expected_handling_event_type is None
 
 
 @pytest.mark.django_db
-def test_change_deadline_preserves_other_specification_fields_and_resets_route_state():
+def test_change_deadline_preserves_other_specification_fields_and_resets_route_state(caplog):
+    caplog.set_level('INFO')
     repository, original = _persist_routed_cargo()
     earlier_deadline = datetime(2030, 11, 10, tzinfo=UTC)
 
@@ -93,19 +119,33 @@ def test_change_deadline_preserves_other_specification_fields_and_resets_route_s
         original.tracking_id, earlier_deadline
     )
 
+    assert (
+        f'Changed deadline for cargo {original.tracking_id} to {earlier_deadline}'
+        in caplog.messages
+    )
     cargo = repository.find(original.tracking_id)
     assert cargo is not None
     assert cargo.route_specification.origin == ORIGIN
     assert cargo.route_specification.destination == DESTINATION
     assert cargo.route_specification.arrival_deadline == earlier_deadline
     assert cargo.itinerary == original.itinerary
+    assert cargo.delivery.transport_status is TransportStatus.NOT_RECEIVED
+    assert cargo.delivery.last_known_location is None
+    assert cargo.delivery.current_voyage is None
+    assert not cargo.delivery.misdirected
     assert cargo.delivery.routing_status is RoutingStatus.MISROUTED
     assert cargo.delivery.eta is None
     assert cargo.delivery.next_expected_activity is HandlingActivity.EMPTY
+    assert not cargo.delivery.unloaded_at_destination
     record = CargoRecord.objects.get(tracking_id=original.tracking_id.value)
     assert record.spec_origin.unlocode == 'USNYC'
     assert record.spec_destination.unlocode == 'FIHEL'
     assert record.spec_arrival_deadline.isoformat() == '2030-11-10'
+    assert record.transport_status == TransportStatus.NOT_RECEIVED.value
+    assert record.last_known_location is None
+    assert record.current_voyage is None
+    assert not record.misdirected
+    assert not record.unloaded_at_dest
     assert record.routing_status == RoutingStatus.MISROUTED.value
     assert record.eta is None
     assert record.next_expected_handling_event_type is None

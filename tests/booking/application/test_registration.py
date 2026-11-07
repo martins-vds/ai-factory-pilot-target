@@ -16,7 +16,8 @@ from cargotracker.location.infrastructure.models import LocationRecord
 
 
 @pytest.mark.django_db
-def test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary():
+def test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary(caplog):
+    caplog.set_level('INFO')
     origin = Location(UnLocode('USNYC'), 'New York')
     destination = Location(UnLocode('FIHEL'), 'Helsinki')
     LocationRecord.objects.create(unlocode='USNYC', name='New York')
@@ -26,6 +27,7 @@ def test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary()
 
     tracking_id = CargoRegistration(repository).register(origin, destination, deadline)
 
+    assert f'Booked new cargo with tracking ID {tracking_id.value}' in caplog.messages
     assert isinstance(tracking_id, TrackingId)
     assert re.fullmatch(r'[0-9A-F]{8}', tracking_id.value)
     record = CargoRecord.objects.get(tracking_id=tracking_id.value)
@@ -38,6 +40,7 @@ def test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary()
     assert record.last_known_location is None
     assert record.current_voyage is None
     assert not record.misdirected
+    assert not record.unloaded_at_dest
     assert record.eta is None
     assert record.next_expected_handling_event_type is None
     assert record.next_expected_location is None
