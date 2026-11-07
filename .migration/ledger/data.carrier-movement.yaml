@@ -16,5 +16,5 @@ verification: pending
 evidence:
   - .migration/evidence/data-migration/inventory.md
   - tests/voyage/test_repository.py::test_carrier_movement_schema_preserves_source_columns_and_references
-notes: "Storage model and migration are implemented; loading and reconciliation of the snapshot rows remain pending."
+notes: "Storage model and migration implement ruling #254; loading and reconciliation of the snapshot rows remain pending."
 quirks: [martins-vds/ai-factory-pilot-target#254]
