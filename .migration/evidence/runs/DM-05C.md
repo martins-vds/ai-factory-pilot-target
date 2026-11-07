@@ -110,3 +110,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T17:55:03+00:00 | mutation-changed-final | 0 | 331.66 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `b4895cd72bffda51` |  | gate=mutation score=0.960 threshold=0.8 killed=286 survived=12 files=3 base=origin/main |
 | 2026-11-07T17:55:50+00:00 | loader-final-cases | 0 | 4.31 | `pytest -q tests/data_migration/test_load.py` | `76804d66527a1af3` |  |  |
 | 2026-11-07T18:01:39+00:00 | mutation-changed-closure | 0 | 330.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `69b0a8b9a48b9070` |  | gate=mutation score=0.966 threshold=0.8 killed=288 survived=10 files=3 base=origin/main |
+| 2026-11-07T18:02:30+00:00 | build-compile-final | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T18:02:30+00:00 | build-check-final | 0 | 0.28 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T18:02:31+00:00 | idiom-ruff-final | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T18:02:31+00:00 | idiom-format-final | 1 | 0.02 | `ruff format --check` | `caa6fbf6fa3a03ba` |  |  |
+| 2026-11-07T18:02:44+00:00 | idiom-format-final-rerun | 0 | 0.01 | `ruff format --check` | `4e91bbf655ac088f` |  |  |
+| 2026-11-07T18:03:26+00:00 | behavior-final | 0 | 41.82 | `pytest -q` | `546eced93fc282ea` |  |  |
+| 2026-11-07T18:04:00+00:00 | crap-coverage-final | 0 | 34.33 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `c5f176e513939e21` |  |  |
+| 2026-11-07T18:04:01+00:00 | crap-lizard-final | 0 | 0.11 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T18:04:01+00:00 | crap-score-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `5ed94c4cbc3849ab` |  | gate=crap max=26.0 threshold=30 over=0 methods=172 |
+| 2026-11-07T18:04:42+00:00 | regression-final | 0 | 40.84 | `pytest -q` | `3374608d4568979a` |  |  |

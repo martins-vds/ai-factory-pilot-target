@@ -909,7 +909,11 @@ def test_load_snapshot_rejects_invalid_timestamp_value(tmp_path):
 @pytest.mark.django_db(transaction=True)
 def test_load_snapshot_parses_legacy_timestamp_value(tmp_path):
     cases = (
-        ('fractional_offset', '2026-1-2 3:4:5.1+0000', datetime(2026, 1, 2, 3, 4, 5, 100000, tzinfo=UTC)),
+        (
+            'fractional_offset',
+            '2026-1-2 3:4:5.1+0000',
+            datetime(2026, 1, 2, 3, 4, 5, 100000, tzinfo=UTC),
+        ),
         ('offset', '2026-1-2 3:4:5+0000', datetime(2026, 1, 2, 3, 4, 5, tzinfo=UTC)),
         ('minute', '2026-1-2 3:4', datetime(2026, 1, 1, 18, 4, tzinfo=UTC)),
     )

@@ -16,6 +16,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
            try:
   ```
 
+  Classification: equivalent. After `strip()`, the supported `date.fromisoformat` representations in this loader are at most 10 characters; the extra length of 11 admits no additional valid date input.
+
 - `src/cargotracker/data_migration/loader.py:90 Mutant #81`
 
   ```diff
@@ -30,6 +32,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
            result.append((target_column, source_column, transform))
   ```
 
+  Classification: equivalent. The unchanged `_transform` branch accepts both `'identity'` and `None`, so scalar-column mapping yields the same value either way.
+
 - `src/cargotracker/data_migration/loader.py:101 Mutant #86`
 
   ```diff
@@ -41,6 +45,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
   +        if not model._meta.proxy or not model._meta.auto_created
        }
   ```
+
+  Classification: equivalent for the registered target models. The repository defines no proxy models, and `apps.get_models()` excludes auto-created models by default.
 
 - `src/cargotracker/data_migration/loader.py:218 Mutant #207`
 
@@ -57,6 +63,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
                ):
   ```
 
+  Classification: equivalent for the approved mapping. Every mapped reference names `.id` (`.migration/data/mapping.yaml:62-122`), whose field `column`, `name`, and `attname` are identical.
+
 - `src/cargotracker/data_migration/loader.py:233 Mutant #218`
 
   ```diff
@@ -70,6 +78,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
                        raise DataLoadError(
                            f'{entry["spec"]["target"]}.{column}: a forward reference must be nullable'
   ```
+
+  Classification: equivalent for the approved mapping. The mutant adds same-table references to the forward-reference check; no mapped table references itself.
 
 - `src/cargotracker/data_migration/loader.py:266 Mutant #251`
 
@@ -85,6 +95,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
                values[field.attname] = value
   ```
 
+  Classification: equivalent for the approved mapping. The mutant only defers same-table references, and the mapping contains no self-references.
+
 - `src/cargotracker/data_migration/loader.py:268 Mutant #254`
 
   ```diff
@@ -99,6 +111,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
                raise DataLoadError(f'{spec["source"]}: primary key cannot be NULL')
   ```
 
+  Classification: equivalent at the persisted-data boundary for the current schema. Deferred references target nullable integer foreign keys; Django/PostgreSQL persist the empty string as NULL, and the cycle test observes NULL before restoration and the original key afterward.
+
 - `src/cargotracker/data_migration/loader.py:273 Mutant #259`
 
   ```diff
@@ -111,6 +125,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
        return spec['target'], len(source_rows)
   ```
 
+  Classification: equivalent for loaded data. Changing `bulk_create` batch size from 1000 to 1001 changes only the internal batch boundary, not the rows or transaction result.
+
 - `src/cargotracker/data_migration/apps.py:5 Mutant #1`
 
   ```diff
@@ -120,6 +136,8 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
   +    default_auto_field = 'XXdjango.db.models.BigAutoFieldXX'
        name = 'cargotracker.data_migration'
   ```
+
+  Classification: equivalent. The data-migration app defines no models, so its `default_auto_field` value does not affect target schema or loaded data.
 
 - `src/cargotracker/data_migration/apps.py:5 Mutant #2`
 
@@ -131,3 +149,4 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.966, thr
        name = 'cargotracker.data_migration'
   ```
 
+  Classification: equivalent. The data-migration app defines no models, so setting `default_auto_field` to `None` has no observable effect on this loader.
