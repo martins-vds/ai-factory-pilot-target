@@ -1,0 +1,20 @@
+role: afs-characterizer
+ticket: BK-03B
+issue: martins-vds/ai-factory-pilot-target#300
+tier_used:
+  A: 1
+  B: 0
+  C: 0
+suite:
+  path: .migration/characterization/booking/pathfinder/README.md
+  cases: 6
+  passing: 6
+  run_log: .migration/evidence/runs/BK-03B.md
+predicted_vs_observed:
+  match: 6
+  differs: 0
+ledger_updated:
+  - booking.routing-pathfinder-api
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#238
+review_only_requests: []
