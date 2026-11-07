@@ -7,8 +7,11 @@ source:
   risk: {crap: 6, complexity: 2, coverage: 0.0}
 boundary: "Changing deadline preserves origin, destination and itinerary, creates a new RouteSpecification, updates delivery routing state, stores the cargo and logs the change."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#288]
+target:
+  components:
+    - cargotracker.booking.application.specification.CargoSpecification.change_deadline
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -16,5 +19,7 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "The dialog parses its current deadline with MM/dd/yyyy; ParseException is printed and swallowed, leaving the date unset (.migration/quirks/booking-deadline-dialog-parse-error.md). BookingServiceTest checks the changed date and MISROUTED state."
+  - "tests/booking/application/test_specification.py::test_change_deadline_preserves_other_specification_fields_and_resets_route_state"
+  - ".migration/evidence/runs/BK-05A.md"
+notes: "The dialog parses its current deadline with MM/dd/yyyy; ParseException is printed and swallowed, leaving the date unset (.migration/quirks/booking-deadline-dialog-parse-error.md). BookingServiceTest checks the changed date and MISROUTED state. The service emits the source deadline-change INFO log after persistence. Raising LookupError for unknown-cargo updates is an approved divergence under martins-vds/ai-factory-pilot-target#232."
 quirks: [martins-vds/ai-factory-pilot-target#234]

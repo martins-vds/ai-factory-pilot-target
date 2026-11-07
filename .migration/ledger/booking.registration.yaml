@@ -7,8 +7,11 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "Booking generates a tracking ID, resolves origin/destination, creates a RouteSpecification and Cargo, persists it, logs the booking, and returns the tracking ID to the facade."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#288]
+target:
+  components:
+    - cargotracker.booking.application.registration.CargoRegistration.register
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -16,5 +19,7 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "JpaCargoRepository creates an uppercase UUID prefix; a new cargo begins NOT_ROUTED with an empty itinerary and default delivery state. The Cargo table and embedded route/delivery fields are already covered by track-cargo.data-cargo. CargoLifecycleScenarioTest.testCargoFromHongkongToStockholm has no @Test and is not executed (.migration/quirks/booking-cargo-lifecycle-scenario-not-discovered.md)."
+  - "tests/booking/application/test_registration.py::test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary"
+  - ".migration/evidence/runs/BK-05A.md"
+notes: "JpaCargoRepository creates an uppercase UUID prefix; a new cargo begins NOT_ROUTED with an empty itinerary and default delivery state. The Cargo table and embedded route/delivery fields are already covered by track-cargo.data-cargo. CargoLifecycleScenarioTest.testCargoFromHongkongToStockholm has no @Test and is not executed (.migration/quirks/booking-cargo-lifecycle-scenario-not-discovered.md). The service emits the source booking INFO log after persisting cargo."
 quirks: [martins-vds/ai-factory-pilot-target#250]
