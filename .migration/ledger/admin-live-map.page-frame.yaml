@@ -1,0 +1,14 @@
+id: admin-live-map.page-frame
+kind: ui
+title: Embed the all-cargo map in the admin page
+source:
+  graph_node: "page:src/main/webapp/admin/tracking/map.xhtml:src/main/webapp/admin/tracking/map.xhtml"
+  flow: Admin Live Cargo Map
+  location: "src/main/webapp/admin/tracking/map.xhtml:3-9"
+boundary: "The JSF admin Live Map page uses the admin template and embeds mapFrame.xhtml at the request context path in a full-width, 960px-high iframe."
+slice: admin-live-map
+tickets: ["martins-vds/ai-factory-pilot-target#203"]
+status: pending
+verification: pending
+evidence: [".migration/evidence/admin-live-map/report.md"]
+notes: "Anchored in the Admin Live Cargo Map flow: the page contains mapFrame.xhtml, which routes to GET /cargo."

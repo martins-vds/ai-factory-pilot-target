@@ -1,0 +1,14 @@
+id: admin-live-map.rest-resource-config
+kind: structural
+title: Configure the REST resource used by the admin map
+source:
+  graph_node: "file:src/main/java/org/eclipse/cargotracker/application/util/RestConfiguration.java"
+  flow: Admin Live Cargo Map
+  location: "src/main/java/org/eclipse/cargotracker/application/util/RestConfiguration.java:15-27"
+  risk: {crap: 2, complexity: 1, coverage: 0}
+boundary: "JAX-RS is mounted at /rest, registers CargoMonitoringService, and configures MOXy JSON; the resource exposes GET /cargo."
+slice: admin-live-map
+tickets: ["martins-vds/ai-factory-pilot-target#203"]
+status: pending
+verification: pending
+evidence: [".migration/evidence/admin-live-map/report.md"]
