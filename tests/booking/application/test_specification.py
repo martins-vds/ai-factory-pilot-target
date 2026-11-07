@@ -59,6 +59,17 @@ def test_change_destination_raises_lookup_error_for_unknown_cargo():
 
 
 @pytest.mark.django_db
+def test_change_deadline_raises_lookup_error_for_unknown_cargo():
+    specification = CargoSpecification(
+        DjangoCargoRepository(),
+        DjangoHandlingEventRepository(),
+    )
+
+    with pytest.raises(LookupError, match='Cargo MISSING1 not found'):
+        specification.change_deadline(TrackingId('MISSING1'), DEADLINE)
+
+
+@pytest.mark.django_db
 def test_change_destination_preserves_other_specification_fields_and_resets_route_state(caplog):
     caplog.set_level('INFO')
     repository, original = _persist_routed_cargo()
