@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Cargo Registration | Cargo Tracker{% endblock %}
+
+{% block content %}
+  <main class="container mx-auto max-w-3xl p-4">
+    <h1 class="mb-6 text-3xl font-bold">Cargo Registration</h1>
+    <form method="post" action="/booking/" class="flex flex-col gap-6">
+      {% csrf_token %}
+      <input type="hidden" name="step" value="origin">
+      <section aria-labelledby="origin-heading" class="rounded-box border border-base-300 p-6">
+        <h2 id="origin-heading" class="mb-4 text-xl font-semibold">1. Choose the origin of the new cargo</h2>
+        <label class="label" for="origin">Origin</label>
+        <select
+          class="select select-bordered w-full focus-visible:ring-2 focus-visible:ring-blue-600"
+          id="origin"
+          name="origin"
+        >
+          {% for location in locations %}
+            <option value="{{ location.unlocode.value }}"{% if location == origin %} selected{% endif %}>
+              {{ location.name }} ({{ location.unlocode.value }})
+            </option>
+          {% endfor %}
+        </select>
+      </section>
+      <nav aria-label="Wizard actions" class="flex justify-end gap-3">
+        <button class="btn btn-ghost min-h-11" type="submit" name="action" value="cancel">Cancel</button>
+        <button class="btn btn-primary min-h-11" type="submit" name="action" value="next">Next</button>
+      </nav>
+    </form>
+  </main>
+{% endblock %}
