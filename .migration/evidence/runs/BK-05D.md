@@ -55,3 +55,7 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-07T16:19:33+00:00 | crap-score-final | 0 | 0.05 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `87418f6761fb4abf` |  | gate=crap max=19.0 threshold=30 over=0 methods=155 |
 | 2026-11-07T16:20:38+00:00 | regression-tests-final | 0 | 50.82 | `pytest -q` | `be18aafc83fc484f` |  |  |
 | 2026-11-07T17:27:59+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:32:18+00:00 | verifier-build-compile | 0 | 0.09 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-07T17:32:20+00:00 | verifier-build-check | 0 | 1.81 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-07T17:32:20+00:00 | verifier-idiom-ruff-check | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-07T17:32:20+00:00 | verifier-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `7a340da38ae65b1f` |  |  |
