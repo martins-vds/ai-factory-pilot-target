@@ -1,0 +1,57 @@
+[
+  {
+    "at": "2026-11-08T00:38:56Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "prompt_from": "none",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05F",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/95b5b28f-2a7e-4866-9487-abf3632c28ae.json",
+      ".migration/evidence/runs/BK-05F.md"
+    ],
+    "findings": [
+      "[mechanical] `.migration/returns/BK-05F.afs-specialist-migrator.yaml` exists but this branch didn't update it. Update it with this session's gates and PR, and commit it."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  },
+  {
+    "at": "2026-11-08T00:40:00Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "prompt_from": "none",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05F",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/95b5b28f-2a7e-4866-9487-abf3632c28ae.json",
+      ".migration/evidence/runs/BK-05F.md",
+      ".migration/returns/BK-05F.afs-specialist-migrator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 1,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
