@@ -20,3 +20,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T13:18:49+00:00 | booking-replay | 1 | 8.99 | `pytest -q tests/characterization/booking` | `2e7cdc4bbf212632` | assert cargo is not None |  |
 | 2026-11-08T13:19:11+00:00 | booking-replay | 1 | 6.38 | `pytest -q tests/characterization/booking` | `0effd933b2fc5343` | assert cargo is not None |  |
 | 2026-11-08T13:19:27+00:00 | booking-replay | 0 | 6.24 | `pytest -q tests/characterization/booking` | `0eaa07d048f3d215` |  |  |
+| 2026-11-08T13:20:33+00:00 | booking-replay | 0 | 6.33 | `pytest -q tests/characterization/booking` | `f6063177b17f73de` |  |  |

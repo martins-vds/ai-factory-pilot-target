@@ -11,6 +11,7 @@ from cargotracker.booking.interfaces.dashboard.views import create_booking_views
 from cargotracker.cargo.domain.itinerary import Itinerary
 from cargotracker.cargo.domain.leg import Leg
 from cargotracker.cargo.domain.tracking_id import TrackingId
+from cargotracker.cargo.infrastructure.models import CargoRecord
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
 from cargotracker.handling.infrastructure.repository import DjangoHandlingEventRepository
 from cargotracker.location.domain.un_locode import UnLocode
@@ -115,3 +116,20 @@ def test_unknown_cargo_details_match_approved_not_found_behavior(client, booking
 
     assert 'HTTP 500' in expected
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_empty_dashboard_matches_tier_a_table_fields(client, booking_recording):
+    expected = booking_recording['cases']['dashboard']['observed']
+    CargoRecord.objects.all().delete()
+
+    response = client.get('/admin/dashboard/')
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert all(title in expected for title in ('Routed Cargo', 'Not Routed Cargo', 'Claimed Cargo'))
+    assert content.index('Routed Cargo') < content.index('Not Routed Cargo') < content.index(
+        'Claimed Cargo'
+    )
+    assert 'data-tracking-id=' not in content
+    assert 'No cargo' not in content
