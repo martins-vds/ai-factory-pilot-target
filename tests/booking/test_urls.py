@@ -1,5 +1,22 @@
+import importlib
+
+import pytest
+from django.core.management import call_command
 from django.urls import get_resolver, resolve, reverse
 from django.urls.resolvers import URLPattern, URLResolver
+
+import cargotracker.booking.urls
+import cargotracker.urls
+
+
+@pytest.fixture(autouse=True)
+def reload_urlconfs():
+    from django.urls import clear_url_caches
+
+    clear_url_caches()
+    importlib.reload(cargotracker.booking.urls)
+    importlib.reload(cargotracker.urls)
+    clear_url_caches()
 
 
 def test_booking_routes_have_stable_names_and_paths():
@@ -34,11 +51,37 @@ def test_booking_routes_have_stable_names_and_paths():
         assert match.namespace == 'booking'
         assert match.kwargs == kwargs
 
+    assert reverse('track') == '/'
+    assert reverse('handling-report') == '/rest/handling/reports'
+    assert reverse('cargo_map_frame') == '/tracking/map/'
+    assert reverse('admin_live_map') == '/admin/live-map/'
+
 
 def test_booking_routes_enforce_their_supported_http_methods(client):
     assert client.put('/admin/cargo/BK05H123/route/').status_code == 405
     assert client.post('/admin/cargo/BK05H123/itineraries/').status_code == 405
     assert client.post('/rest/graph-traversal/shortest-path').status_code == 405
+
+
+@pytest.mark.django_db
+def test_booking_urls_dispatch_to_the_composed_views(client):
+    call_command('seed_sample_data')
+
+    assert client.get('/booking/').status_code == 200
+    assert client.get('/admin/dashboard/').status_code == 200
+    assert client.get('/admin/cargo/DEF789/').status_code == 200
+    assert client.get('/admin/cargo/DEF789/route/').status_code == 200
+    assert client.get('/admin/cargo/DEF789/itineraries/').status_code == 200
+    assert client.get('/admin/cargo/DEF789/destination/').status_code == 200
+    assert client.get('/admin/cargo/DEF789/deadline/').status_code == 200
+
+    response = client.post(
+        '/admin/cargo/DEF789/deadline/',
+        {'deadline': '2030-11-20'},
+    )
+
+    assert response.status_code == 302
+    assert response.url == '/admin/dashboard/'
 
 
 def _route_paths(patterns, prefix=''):
