@@ -123,6 +123,7 @@ tickets:
   - .migration/ledger/booking.dialog-chain.yaml
   - .migration/ledger/booking.dialog-deadline.yaml
   - .migration/ledger/booking.dialog-destination.yaml
+  - templates/booking/dashboard/not_routed_table.html
   capabilities:
   - booking.dialog-chain
   - booking.dialog-deadline
