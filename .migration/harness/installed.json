@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "d5bfb452c649e950722999f3e563c0efa5e08b6e",
-  "installed_at": "2026-11-08T14:26:11Z",
+  "harness_commit": "f3cedbddb5d8799e97b165a3f19b733b4e91ad17",
+  "installed_at": "2026-11-08T15:35:48Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1124,11 +1124,11 @@
         ".migration/harness/tools/extract_slice.py": "80199267a5a100fd40b2ffd383aa4977bb3a2c9ad75641ecfac66442013a3f98",
         ".migration/harness/tools/fog_rewalk.py": "338a300383b107bd3942f94989a90d9b4bd9a137c639c9b7fb4ce1d92f6ba596",
         ".migration/harness/tools/graph_gate.py": "8c0e3fd50969b5884bf129d9def93f9d036a5c046ec02afa0208d4ca772f236d",
-        ".migration/harness/tools/harness_coverage.py": "dd5531cc859b3b54a8a662fa14355d270938cec2bf72784b779ea2b4ae3f3cab",
+        ".migration/harness/tools/harness_coverage.py": "85d89cdb78fda259af762bb8b59ad60aa3ec9f1a7ba5fffead8e7e27e67b2d8e",
         ".migration/harness/tools/java/JdbcSnapshot.java": "7b234d7904fd49627577668d817dc1e03070874dca3d647acba10906ca8cd845",
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
         ".migration/harness/tools/preserve_graph.py": "04d033c67e7fcdf56122a8016aaad99a998769d38e26dc2d9252a40dc529581f",
-        ".migration/harness/tools/stack_refresh.py": "b55df017eb1f5205d21edc86af0f5bc1ee4d70a02caedffe5cc66e6c56e3868c",
+        ".migration/harness/tools/stack_refresh.py": "951d8317454d118dba78f27e0dd355d09fd39ece7cf51af4123dc0a4f012e7b1",
         ".migration/harness/tools/ticket_guard.py": "f7f1636bbc8d1723d8754804cdf289adb2f87172aac0805a4a7f800288bd133c",
         ".migration/harness/tools/understand.py": "6e8f4b43e15f323829c34f2e6932d8a1a306937f4b069a541e518d2f1c68e315",
         ".migration/harness/tools/validate.py": "f6ae232f7ec5fb9b0e5e84325d647573b59a5f63b7dcdfc8c96faf4039fc612f"

@@ -1,0 +1,166 @@
+{
+ "schema": "afs-coverage-evidence/1",
+ "note": "Written by harness_coverage.py --keep: the first evidence seen for each side of each tool and workflow, kept so it outlives GitHub's recent-runs window (ADR-0027).",
+ "paths": {
+  "tool:afs-acceptance": {
+   "fail": "journal: acceptance-tool-workflow-verification (.migration/evidence/runs)",
+   "pass": "journal: acceptance-tool-help (.migration/evidence/runs)"
+  },
+  "tool:afs-cost-hook": {
+   "pass": "agent session: 6c6dca2f-8410-4232-8531-bcea1a0095c7"
+  },
+  "tool:afs-costs": {
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42485620706"
+  },
+  "tool:afs-drill": {
+   "fail": "journal: drills-pilot-domain (.migration/evidence/runs)",
+   "pass": "journal: python3-.migration-harness-tools-afs-dri (.migration/evidence/runs)"
+  },
+  "tool:afs-finish-check": {
+   "fail": "journal: finish-check-auto (.migration/evidence/runs)",
+   "pass": "agent session: af21c454-d97b-44c6-84c4-d3c61c8021d2"
+  },
+  "tool:afs-mutation": {
+   "fail": "journal: mutation-changed-final (.migration/evidence/runs)",
+   "pass": "journal: mutation_full-0 (.migration/evidence/runs)"
+  },
+  "tool:afs-run": {
+   "fail": "journal: tier-a-record (.migration/evidence/runs)",
+   "pass": "journal: tier-a-replay (.migration/evidence/runs)"
+  },
+  "tool:afs-services": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42443459368",
+   "pass": "journal: services (.migration/evidence/runs)"
+  },
+  "tool:check_domain_coverage.py": {
+   "fail": "journal: drill-domain-coverage (.migration/evidence/runs)",
+   "pass": "journal: installed-tool-tracing (.migration/evidence/runs)"
+  },
+  "tool:check_graph.py": {
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42427856017"
+  },
+  "tool:check_graph_fresh.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42449073057",
+   "pass": "journal: graph-freshness (.migration/evidence/runs)"
+  },
+  "tool:check_inputs.py": {
+   "fail": "journal: setup-ticket-inputs (.migration/evidence/runs)",
+   "pass": "journal: named-pilot-inputs (.migration/evidence/runs)"
+  },
+  "tool:check_installed.py": {
+   "fail": "agent session: 50547942-5bc2-4735-99f7-cd5a48d3bec2",
+   "pass": "journal: installed-integrity (.migration/evidence/runs)"
+  },
+  "tool:check_plan.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42445703930",
+   "pass": "agent session: 6c6dca2f-8410-4232-8531-bcea1a0095c7"
+  },
+  "tool:check_return_contract.py": {
+   "fail": "agent session: 74309599-e731-4bff-8519-61afeb682d09",
+   "pass": "journal: attribution-169-replay (.migration/evidence/runs)"
+  },
+  "tool:check_runtime.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42443351908",
+   "pass": "journal: runtime (.migration/evidence/runs)"
+  },
+  "tool:check_signoff.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42444414300",
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42494782684"
+  },
+  "tool:check_slice_returns.py": {
+   "fail": "journal: slice-return-check (.migration/evidence/runs)",
+   "pass": "journal: coordinator-epic-guard (.migration/evidence/runs)"
+  },
+  "tool:check_stack_base.py": {
+   "fail": "agent session: 74309599-e731-4bff-8519-61afeb682d09",
+   "pass": "journal: stack-ancestry-replay (.migration/evidence/runs)"
+  },
+  "tool:crap.py": {
+   "fail": "journal: crap-score-rerun (.migration/evidence/runs)",
+   "pass": "journal: crap (.migration/evidence/runs)"
+  },
+  "tool:data_reconcile.py": {
+   "fail": "journal: fixture-reconcile (.migration/evidence/runs)",
+   "pass": "journal: fixture-snapshot-final (.migration/evidence/runs)"
+  },
+  "tool:data_snapshot.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42450098866",
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42319581479"
+  },
+  "tool:enrich_graph.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42446246381",
+   "pass": "journal: resumed-normalized-inputs (.migration/evidence/runs)"
+  },
+  "tool:extract_slice.py": {
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42443685173"
+  },
+  "tool:fog_rewalk.py": {
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42487565013"
+  },
+  "tool:graph_gate.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42449073057",
+   "pass": "journal: graph-source-flow (.migration/evidence/runs)"
+  },
+  "tool:harness_coverage.py": {
+   "fail": "journal: coverage (.migration/evidence/runs)",
+   "pass": "journal: coverage (.migration/evidence/runs)"
+  },
+  "tool:preserve_graph.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42445948338",
+   "pass": "agent session: 50547942-5bc2-4735-99f7-cd5a48d3bec2"
+  },
+  "tool:stack_refresh.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42491719817",
+   "pass": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42494782643"
+  },
+  "tool:ticket_guard.py": {
+   "fail": "journal: installed-ticket-reconciliation (.migration/evidence/runs)",
+   "pass": "agent session: dfbd7d31-b27a-468b-be41-f7574bb286e7"
+  },
+  "tool:understand.py": {
+   "fail": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42443349928",
+   "pass": "journal: installed-tool-tracing (.migration/evidence/runs)"
+  },
+  "tool:validate.py": {
+   "fail": "journal: coordinator-installed-state (.migration/evidence/runs)",
+   "pass": "journal: validate-migration (.migration/evidence/runs)"
+  },
+  "workflow:afs-acceptance.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42307720587",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42427856017"
+  },
+  "workflow:afs-costs.yml": {
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42485620706"
+  },
+  "workflow:afs-harness-check.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42491722270",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42494782645"
+  },
+  "workflow:afs-map-fog.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42072212679",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42487565013"
+  },
+  "workflow:afs-signoff.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42444414300",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42494782684"
+  },
+  "workflow:afs-snapshot.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42450098866",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42319581479"
+  },
+  "workflow:afs-stack-refresh.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42491719817",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42494782643"
+  },
+  "workflow:afs-ticket-guard.yml": {
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42487565039"
+  },
+  "workflow:afs-understand.yml": {
+   "failure": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42446246381",
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42443685173"
+  },
+  "workflow:copilot-setup-steps.yml": {
+   "success": "https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42490089065"
+  }
+ }
+}
