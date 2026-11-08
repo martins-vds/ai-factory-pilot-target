@@ -36,3 +36,14 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T04:03:58+00:00 | crap-lizard | 0 | 0.13 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-08T04:04:01+00:00 | crap-report | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `46edc5c319c80c3b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
 | 2026-11-08T04:05:05+00:00 | regression | 0 | 58.43 | `pytest -q` | `1601bb86cdc856ff` |  |  |
+| 2026-11-08T05:43:53+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T05:46:28+00:00 | mutation-changed | 0 | 57.96 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `c587806da7ea2e2c` |  | gate=mutation score=1.000 threshold=0.8 killed=38 survived=0 files=2 base=origin/main |
+| 2026-11-08T05:46:50+00:00 | build-compileall | 0 | 0.06 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T05:46:50+00:00 | build-django-check | 0 | 0.38 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-08T05:46:54+00:00 | idiom-ruff-check | 0 | 0.03 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T05:46:54+00:00 | idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `f971e9aa1333322e` |  |  |
+| 2026-11-08T05:48:02+00:00 | behavior | 0 | 64.63 | `pytest -q` | `b3dfd21e6042eff0` |  |  |
+| 2026-11-08T05:49:10+00:00 | regression | 0 | 65.32 | `pytest -q` | `de6b844e5c49831c` |  |  |
+| 2026-11-08T05:50:18+00:00 | crap-pytest-cov | 0 | 63.8 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `ac07f623cf3b3d6c` |  |  |
+| 2026-11-08T05:50:19+00:00 | crap-lizard | 0 | 0.17 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T05:50:19+00:00 | crap-report | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `46edc5c319c80c3b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
