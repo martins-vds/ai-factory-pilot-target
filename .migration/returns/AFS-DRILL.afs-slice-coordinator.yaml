@@ -1,0 +1,9 @@
+role: afs-slice-coordinator
+ticket: AFS-DRILL
+issue: null
+slice: afs-drill
+tickets: {total: 0, merged: 0, open: 0, blocked: []}
+acceptance: {report: null, gates: null, mutation_score: null, coverage_gaps: null}
+human_check: passed
+human_check_issues: []
+quirk_tickets: []
