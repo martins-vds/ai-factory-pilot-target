@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "57b4d83135e582db69b8dac3915fd45decd695b5",
-  "installed_at": "2026-11-08T13:15:41Z",
+  "harness_commit": "d5bfb452c649e950722999f3e563c0efa5e08b6e",
+  "installed_at": "2026-11-08T14:26:11Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -21,7 +21,7 @@
       "path": ".github/agents/afs-bootstrapper.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-bootstrapper.agent.md": "8f65ce9c35b58ee9d3a59be35ef0c4b1ef15cb82b62348612c8186e5b2874e99"
+        ".github/agents/afs-bootstrapper.agent.md": "7d882e23a01ca63a104b5b034e7fa68d48b9d8524dedbb21cb50ec0c63d9713c"
       }
     },
     {
@@ -1128,6 +1128,7 @@
         ".migration/harness/tools/java/JdbcSnapshot.java": "7b234d7904fd49627577668d817dc1e03070874dca3d647acba10906ca8cd845",
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
         ".migration/harness/tools/preserve_graph.py": "04d033c67e7fcdf56122a8016aaad99a998769d38e26dc2d9252a40dc529581f",
+        ".migration/harness/tools/stack_refresh.py": "b55df017eb1f5205d21edc86af0f5bc1ee4d70a02caedffe5cc66e6c56e3868c",
         ".migration/harness/tools/ticket_guard.py": "f7f1636bbc8d1723d8754804cdf289adb2f87172aac0805a4a7f800288bd133c",
         ".migration/harness/tools/understand.py": "6e8f4b43e15f323829c34f2e6932d8a1a306937f4b069a541e518d2f1c68e315",
         ".migration/harness/tools/validate.py": "f6ae232f7ec5fb9b0e5e84325d647573b59a5f63b7dcdfc8c96faf4039fc612f"
