@@ -30,6 +30,7 @@ def test_origin_step_fields_match_tier_a_recording(client, booking_recording):
     assert f'value="{origin_code}"' in selected[0]
     assert len(options) == location_count
     assert 'UN/LOCODE' in expected
+    assert any(origin_code in attrs and 'Chicago' in label for attrs, label in options)
     assert 'Cancel' in content and 'Next' in content
 
 
@@ -46,6 +47,7 @@ def test_destination_step_fields_match_tier_a_recording(client, booking_recordin
         {'step': 'origin', 'action': 'next', 'origin': origin_code},
     )
     content = response.content.decode()
+    options = re.findall(r'<option\b([^>]*)>(.*?)</option>', content, re.DOTALL)
     options_markup = re.search(
         r'<select\b[^>]*name="destination"[^>]*>(.*?)</select>', content, re.DOTALL
     ).group(1)
@@ -55,6 +57,7 @@ def test_destination_step_fields_match_tier_a_recording(client, booking_recordin
     assert f'value="{origin_code}"' not in options_markup
     assert options_markup.count('<option') == location_count
     assert 'Chicago' in content
+    assert any(destination_code in attrs and 'Dallas' in label for attrs, label in options)
     assert all(action in content for action in ('Back', 'Cancel', 'Next'))
 
 

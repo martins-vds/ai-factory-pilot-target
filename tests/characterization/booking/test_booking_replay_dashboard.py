@@ -79,6 +79,8 @@ def test_dashboard_fields_match_tier_a_recording(client, booking_recording):
     assert 'Chicago' in not_routed_table and 'Dallas' in not_routed_table
     assert 'New York' in claimed_table and 'Dallas' in claimed_table
     assert f'href="/admin/cargo/{registration.value}/route/"' in not_routed_table
+    assert f'hx-get="/admin/cargo/{registration.value}/destination/"' in not_routed_table
+    assert f'hx-get="/admin/cargo/{registration.value}/deadline/"' in not_routed_table
     assert 'href="/admin/cargo/MNO456/"' in claimed_table
     assert 'title="Click to see details"' in claimed_table
     assert 'Click to see history' not in claimed_table

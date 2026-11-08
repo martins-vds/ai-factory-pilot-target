@@ -1,9 +1,9 @@
 # BK-05I — Booking characterization replay
 
 - Source: Eclipse Cargo Tracker, tier A, `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`
-- Target replay revision: `d416b89` (the revision whose focused replay run passed)
+- Target application revision: `07ff70f` (no application code changed afterward)
 - Recordings: `.migration/characterization/booking/observations.json` and the raw Pathfinder captures under `.migration/characterization/booking/pathfinder/`
-- Focused replay: `pytest -q tests/characterization/booking` — 17 passed; durable run journal: `.migration/evidence/runs/BK-05I.md`
+- Focused replay: `pytest -q tests/characterization/booking` — 18 passed; durable run journal: `.migration/evidence/runs/BK-05I.md`
 
 ## Result
 
@@ -18,7 +18,7 @@ The randomized pathfinder was compared by response fields and route properties, 
 | `booking.cargo-not-found` | `unknown-cargo-error` | Unknown detail, route and dialog-update HTTP status | Approved divergence — #232: explicit 404 replaces the source null-dereference 500, including updates. |
 | `booking.dashboard-chain` | `dashboard` | Dashboard response and three sections in recorded order | Match |
 | `booking.dashboard-filters` | `dashboard` | Tracking IDs assigned to routed, not-routed and claimed tables | Match |
-| `booking.deadline-change` | `deadline-dialog` | Updated deadline, preserved origin/destination, refreshed row | Match; invalid input's field error is the approved #234 change. |
+| `booking.deadline-change` | `deadline-dialog` | Updated deadline, preserved origin/destination, refreshed row | Approved divergence — #234 shows a field error for invalid input; successful update fields match. |
 | `booking.destination-change` | `destination-dialog` | Updated destination, preserved origin/deadline and unrouted state | Match |
 | `booking.dialog-chain` | `destination-dialog`, `deadline-dialog` | Dialog requests, successful update responses and dashboard refresh | Approved divergence — #251 removes the unavailable-widget warning while preserving updates. |
 | `booking.dialog-deadline` | `deadline-dialog` | Initial route/deadline, invalid-date field error, successful update | Approved divergences — #234 field error and #251 warning removal. |
