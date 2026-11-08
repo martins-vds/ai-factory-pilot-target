@@ -42,6 +42,7 @@
       "hook.end": [
         "hookInvocationId",
         "hookType",
+        "output",
         "success"
       ],
       "hook.start": [
@@ -124,27 +125,27 @@
       ]
     },
     "event_types": {
-      "assistant.message": 42,
-      "assistant.turn_end": 27,
-      "assistant.turn_start": 27,
+      "assistant.message": 56,
+      "assistant.turn_end": 35,
+      "assistant.turn_start": 35,
       "external_tool.completed": 1,
       "external_tool.requested": 1,
-      "hook.end": 122,
-      "hook.start": 123,
-      "permission.completed": 65,
-      "permission.requested": 65,
+      "hook.end": 144,
+      "hook.start": 145,
+      "permission.completed": 75,
+      "permission.requested": 75,
       "session.start": 1,
       "skill.invoked": 2,
       "subagent.selected": 1,
-      "system.message": 1,
-      "tool.execution_complete": 73,
-      "tool.execution_start": 73,
-      "user.message": 3
+      "system.message": 2,
+      "tool.execution_complete": 83,
+      "tool.execution_start": 83,
+      "user.message": 4
     },
-    "events": 627,
+    "events": 743,
     "usage_fields": []
   },
-  "ended_at": "2026-11-08T01:37:13.999Z",
+  "ended_at": "2026-11-08T01:38:41.651Z",
   "event": "sessionEnd",
   "harness_tools": [
     {
@@ -201,12 +202,12 @@
   "log": "/home/runner/.copilot/session-state/7157d5d6-2252-4b2b-8b35-5ce423df51b8/events.jsonl",
   "models": {
     "gpt-6-luna": {
-      "output": 21948,
-      "requests": 42
+      "output": 28849,
+      "requests": 56
     }
   },
   "prompt_head": null,
-  "recorded_at": "2026-11-08T01:37:21+00:00",
+  "recorded_at": "2026-11-08T01:38:49+00:00",
   "schema": "afs-cost/1",
   "session_id": "7157d5d6-2252-4b2b-8b35-5ce423df51b8",
   "shutdown_wait_s": "skipped: the coding agent writes session.shutdown after session hooks",
