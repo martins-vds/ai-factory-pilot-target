@@ -44,7 +44,7 @@ def create_dialog_views(
             if location not in (route_specification.origin, route_specification.destination)
         ]
         destination_value = (
-            request.POST.get('destination', '')
+            request.POST.get('destination')
             if request.method == 'POST'
             else (destinations[0].unlocode.value if destinations else '')
         )

@@ -83,8 +83,16 @@ def test_destination_dialog_filters_options_without_mutating_locations(client):
     assert cargo.route_specification.destination.name in first_content
     assert len(first_options) == len(original_locations) - 2
     assert not excluded_codes.intersection(first_options)
+    assert f'value="{first_options[0]}" selected' in first_content
+    assert 'role="alert"' not in first_content
     assert first_options == second_options
     assert tuple(shipping_locations) == original_locations
+
+
+def test_unknown_cargo_dialog_returns_not_found(client):
+    response = client.get('/admin/cargo/MISSING1/destination/', HTTP_HX_REQUEST='true')
+
+    assert response.status_code == 404
 
 
 def test_deadline_dialog_shows_current_route_and_deadline(client):
@@ -98,6 +106,7 @@ def test_deadline_dialog_shows_current_route_and_deadline(client):
     assert cargo.route_specification.origin.name in content
     assert cargo.route_specification.destination.name in content
     assert f'value="{cargo.route_specification.arrival_deadline.date().isoformat()}"' in content
+    assert 'role="alert"' not in content
 
 
 def test_invalid_deadline_shows_field_error_and_keeps_dialog_open(client):
@@ -114,14 +123,48 @@ def test_invalid_deadline_shows_field_error_and_keeps_dialog_open(client):
     assert 'aria-invalid="true"' in content
 
 
+def test_missing_deadline_shows_error_without_fabricating_a_value(client):
+    response = client.post(
+        '/admin/cargo/DEF789/deadline/',
+        {},
+        HTTP_HX_REQUEST='true',
+    )
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert 'Enter a valid arrival deadline.' in content
+    assert 'value=""' in content
+
+
+def test_invalid_destination_shows_field_error_without_updating_cargo(client):
+    cargo = cargo_repository.find(TrackingId('DEF789'))
+    assert cargo is not None
+
+    response = client.post(
+        '/admin/cargo/DEF789/destination/',
+        {'destination': cargo.route_specification.origin.unlocode.value},
+        HTTP_HX_REQUEST='true',
+    )
+    updated = cargo_repository.find(TrackingId('DEF789'))
+    content = response.content.decode()
+
+    assert response.status_code == 200
+    assert 'Select a valid destination.' in content
+    assert 'role="alert"' in content
+    assert 'aria-invalid="true"' in content
+    assert updated is not None
+    assert updated.route_specification.destination == cargo.route_specification.destination
+
+
 def test_destination_update_redirects_and_refreshes_not_routed_row(client):
     cargo = cargo_repository.find(TrackingId('DEF789'))
     assert cargo is not None
-    destination = next(
+    destinations = [
         location
         for location in shipping_locations
         if location not in (cargo.route_specification.origin, cargo.route_specification.destination)
-    )
+    ]
+    destination = destinations[1]
 
     response = client.post(
         '/admin/cargo/DEF789/destination/',
@@ -153,14 +196,13 @@ def test_deadline_update_preserves_route_and_refreshes_not_routed_row(client):
     response = client.post(
         '/admin/cargo/DEF789/deadline/',
         {'deadline': updated_date.isoformat()},
-        HTTP_HX_REQUEST='true',
     )
     updated = cargo_repository.find(TrackingId('DEF789'))
     dashboard = client.get('/admin/dashboard/').content.decode()
     not_routed_table = dashboard.split('id="not-routed-cargo"', 1)[1].split('</section>', 1)[0]
 
-    assert response.status_code == 204
-    assert response['HX-Redirect'] == '/admin/dashboard/'
+    assert response.status_code == 302
+    assert response.url == '/admin/dashboard/'
     assert updated is not None
     assert updated.route_specification.origin == cargo.route_specification.origin
     assert updated.route_specification.destination == cargo.route_specification.destination
