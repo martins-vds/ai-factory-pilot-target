@@ -1,0 +1,29 @@
+[
+  {
+    "at": "2026-11-08T12:50:14Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 71148,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "AM-04D",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/evidence/runs/AM-04D.md",
+      ".migration/handoffs/AM-04D.md",
+      ".migration/returns/AM-04D.afs-specialist-migrator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
