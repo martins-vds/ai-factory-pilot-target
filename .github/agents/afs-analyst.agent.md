@@ -59,3 +59,5 @@ risk_map: {path: <path, or failure reason>, methods: <n>, above_threshold: <n>, 
 quirk_tickets: [<link>]
 graph_discrepancies: [<one line each>]
 ```
+
+<!-- afs-drill: hand edit -->
