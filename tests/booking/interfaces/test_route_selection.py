@@ -198,9 +198,15 @@ def test_route_assignment_rejects_a_modified_candidate(client):
 @override_settings(ROOT_URLCONF=__name__)
 def test_route_screens_reject_unsupported_http_methods(client):
     tracking_id = _create_cargo(())
+    route_page = client.get(f'/admin/cargo/{tracking_id.value}/route/')
+    itinerary_page = client.get(f'/admin/cargo/{tracking_id.value}/itineraries/')
     route_response = client.put(f'/admin/cargo/{tracking_id.value}/route/')
     itinerary_response = client.post(f'/admin/cargo/{tracking_id.value}/itineraries/')
 
+    assert route_page.status_code == 200
+    assert f'Routing Details for Cargo {tracking_id.value}' in route_page.content.decode()
+    assert itinerary_page.status_code == 200
+    assert f'Select an Itinerary for Cargo {tracking_id.value}' in itinerary_page.content.decode()
     assert route_response.status_code == 405
     assert itinerary_response.status_code == 405
 
