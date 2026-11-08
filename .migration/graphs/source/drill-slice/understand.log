@@ -1,0 +1,2 @@
+understand: invalid domain entry point: source entry point does not exist: 'src/main/java/org/eclipse/cargotracker/domain/shared/AbstractSpecification.java'
+AFS-TOOL understand.py exit=2
