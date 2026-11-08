@@ -92,7 +92,9 @@ def test_processing_receive_updates_admin_live_map_and_page_poll(client):
     )
     assert markers_response.status_code == 200
     markers = markers_response.content.decode()
-    def789_marker = next(fragment for fragment in markers.split('<template') if 'DEF789' in fragment)
+    def789_marker = next(
+        fragment for fragment in markers.split('<template') if 'DEF789' in fragment
+    )
     assert 'data-coordinates="22,114"' in def789_marker
     assert 'data-color="red"' in def789_marker
     assert 'Routing Status: Misrouted' in def789_marker
