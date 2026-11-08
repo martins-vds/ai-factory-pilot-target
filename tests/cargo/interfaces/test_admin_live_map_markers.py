@@ -1,4 +1,5 @@
 import pytest
+from django.core.management import call_command
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -110,3 +111,17 @@ def test_admin_live_map_has_no_marker_content_for_empty_data():
         'admin/_live_map_markers.html',
         {'map_data': []},
     ).strip()
+
+
+@pytest.mark.django_db
+def test_admin_live_map_marker_poll_renders_current_cargo_with_booking_link(client):
+    call_command('seed_sample_data')
+
+    response = client.get(reverse('admin_live_map_markers'), HTTP_HX_REQUEST='true')
+
+    assert response.status_code == 200
+    content = response.content.decode()
+    assert 'data-coordinates="22,114"' in content
+    assert 'data-color="grey"' in content
+    assert 'Last known location: Unknown' in content
+    assert f'href="{reverse("booking:cargo-details", args=["DEF789"])}"' in content
