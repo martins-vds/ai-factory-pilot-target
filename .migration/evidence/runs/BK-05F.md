@@ -81,3 +81,16 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T00:26:31+00:00 | build-django-check-final | 0 | 0.41 | `python manage.py check` | `1e3e63f221bde888` |  |  |
 | 2026-11-08T00:34:13+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-08T00:41:33+00:00 | route-404-http | 0 | 4.65 | `pytest -q tests/booking/interfaces/test_route_selection.py::test_route_screens_return_not_found_for_unknown_or_stale_cargo` | `2adbb35b08f0583e` |  |  |
+| 2026-11-08T00:42:15+00:00 | verify-build-compile | 0 | 0.07 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T00:42:15+00:00 | verify-build-check | 0 | 0.36 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-08T00:43:17+00:00 | verify-behavior | 0 | 61.39 | `pytest -q` | `09ce24fcf9a27490` |  |  |
+| 2026-11-08T00:43:17+00:00 | verify-idiom-ruff-check | 1 | 0.03 | `ruff check` | `c8b39487ff625003` | Found 1 error. |  |
+| 2026-11-08T00:43:17+00:00 | verify-idiom-ruff-format | 0 | 0.02 | `ruff format --check` | `c3ac60a207092b7f` |  |  |
+| 2026-11-08T00:44:15+00:00 | verify-crap-coverage | 0 | 57.5 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `da2143c0a6129e9e` |  |  |
+| 2026-11-08T00:44:15+00:00 | verify-crap-lizard | 0 | 0.16 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T00:44:15+00:00 | verify-crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `c1f7b4ca904f936a` |  | gate=crap max=26.0 threshold=30 over=0 methods=208 |
+| 2026-11-08T00:45:34+00:00 | verify-mutation-changed | 0 | 78.86 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `a9876b08b57880ba` |  | gate=mutation score=0.855 threshold=0.8 killed=53 survived=9 files=1 base=origin/main |
+| 2026-11-08T00:46:32+00:00 | verify-regression | 0 | 57.78 | `pytest -q` | `6e43cc5189a6ab03` |  |  |
+| 2026-11-08T00:47:17+00:00 | verify-idiom-ruff-check-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T00:47:17+00:00 | verify-idiom-ruff-format-final | 0 | 0.01 | `ruff format --check` | `c3ac60a207092b7f` |  |  |
+| 2026-11-08T00:47:19+00:00 | verify-route-404-http-final | 0 | 1.9 | `pytest -q tests/booking/interfaces/test_route_selection.py::test_route_screens_return_not_found_for_unknown_or_stale_cargo` | `143b4fdf641ed9ac` |  |  |
