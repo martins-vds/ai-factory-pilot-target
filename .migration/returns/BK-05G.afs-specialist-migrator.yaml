@@ -26,4 +26,4 @@ quirk_tickets:
   - martins-vds/ai-factory-pilot-target#234
   - martins-vds/ai-factory-pilot-target#235
   - martins-vds/ai-factory-pilot-target#251
-handoff: none
+handoff: martins-vds/ai-factory-pilot-target#401
