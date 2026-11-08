@@ -1,0 +1,17 @@
+role: afs-migrator
+ticket: BK-05H
+issue: martins-vds/ai-factory-pilot-target#295
+pr: null
+gates:
+  build: 0
+  behavior: null
+  idiom: 0
+  crap: null
+  mutation_changed: 0.763
+  regression: null
+evidence_logs:
+  - .migration/evidence/runs/BK-05H.md
+ledger_updated: []
+quirk_tickets: []
+new_tickets: []
+handoff: .migration/handoffs/BK-05H.md
