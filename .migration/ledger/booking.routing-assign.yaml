@@ -7,10 +7,11 @@ source:
   risk: {crap: 2, complexity: 1, coverage: 0.0}
 boundary: "The selected candidate is indexed from routeCandidates, converted back to domain locations/voyage, assigned and stored; cargo delivery routing status is recalculated, and the bean redirects to the cargo detail outcome."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#290]
+tickets: [martins-vds/ai-factory-pilot-target#290, martins-vds/ai-factory-pilot-target#293]
 target:
   components:
     - cargotracker.booking.application.routing.CargoRouting.assign_route
+    - cargotracker.booking.interfaces.route_selection.views.create_route_selection_views
 status: migrated
 verification: legacy-test
 characterization_tier: A
@@ -21,6 +22,8 @@ evidence:
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/application/test_routing.py::test_assign_route_persists_itinerary_and_recalculates_delivery"
+  - "tests/booking/interfaces/test_route_selection.py::test_assigning_candidate_redirects_to_details_with_the_selected_itinerary"
   - ".migration/evidence/runs/BK-05C.md"
-notes: "The bean returns a show.html outcome, while the running UI resolved the selected route to show.xhtml; preserve this observed result for quirk #236 review. CargoLifecycleScenarioTest.testCargoFromHongkongToStockholm has no @Test and is not executed."
+  - ".migration/evidence/runs/BK-05F.md"
+notes: "Candidate assignment uses the application use case, persists the itinerary and redirects to cargo details under ruling #236. CargoLifecycleScenarioTest.testCargoFromHongkongToStockholm has no @Test and is not executed."
 quirks: [martins-vds/ai-factory-pilot-target#236, martins-vds/ai-factory-pilot-target#250]
