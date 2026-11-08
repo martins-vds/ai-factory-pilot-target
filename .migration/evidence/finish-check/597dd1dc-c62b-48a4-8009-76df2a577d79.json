@@ -1,0 +1,39 @@
+[
+  {
+    "at": "2026-11-07T23:38:47Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 73645,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05F",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/evidence/mutants/BK-05F.md",
+      ".migration/evidence/runs/BK-05F.md",
+      ".migration/handoffs/BK-05F.md",
+      ".migration/ledger/booking.routing-assign.yaml",
+      ".migration/ledger/booking.routing-chain.yaml",
+      ".migration/ledger/booking.screen-route.yaml",
+      ".migration/ledger/booking.screen-select-itinerary.yaml",
+      ".migration/returns/BK-05F.afs-specialist-migrator.yaml",
+      "src/cargotracker/booking/interfaces/route_selection/views.py",
+      "templates/booking/route_selection/_candidate_routes.html",
+      "templates/booking/route_selection/route.html",
+      "templates/booking/route_selection/select_itinerary.html",
+      "tests/booking/interfaces/test_route_selection.py"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]

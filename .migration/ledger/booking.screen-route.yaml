@@ -7,8 +7,13 @@ source:
   risk: {crap: 12, complexity: 3, coverage: 0.0}
 boundary: "Route page loads cargo and candidates, displays origin/destination/deadline and candidate count, shows an empty-state message or numbered itineraries with voyage, load/unload locations and dates, and lets the user select an index."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#225, martins-vds/ai-factory-pilot-target#293]
+target:
+  components:
+    - cargotracker.booking.interfaces.route_selection.views.create_route_selection_views
+    - templates/booking/route_selection/route.html
+    - templates/booking/route_selection/_candidate_routes.html
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -18,4 +23,7 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "Named tests cover routing behavior, not view rendering. `ItinerarySelection.assignItinerary` returns a `.html` suffix although Faces Servlet maps `*.xhtml` (.migration/quirks/booking-route-selection-redirect.md)."
+  - "tests/booking/interfaces/test_route_selection.py::test_route_selection_renders_populated_candidates_and_numbered_legs"
+  - "tests/booking/interfaces/test_route_selection.py::test_route_screens_explain_when_no_candidates_satisfy_the_deadline"
+  - ".migration/evidence/runs/BK-05F.md"
+notes: "Named source tests cover routing behavior, not view rendering. The source bean returns `.html` although Faces Servlet maps `.xhtml`; ruling #236 requires the target to redirect to cargo details."

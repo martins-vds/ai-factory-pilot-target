@@ -7,8 +7,13 @@ source:
   risk: {crap: 20, complexity: 4, coverage: 0.0}
 boundary: "Destination dialog receives trackingId, displays origin/current destination, offers destinations excluding both, and provides Cancel and Update with a full-page refresh on completion."
 slice: booking
-tickets: [martins-vds/ai-factory-pilot-target#225]
-status: pending
+tickets: [martins-vds/ai-factory-pilot-target#225, martins-vds/ai-factory-pilot-target#294]
+target:
+  components:
+    - src/cargotracker/booking/interfaces/dialogs/views.py:create_dialog_views
+    - templates/booking/dialogs/destination.html
+    - templates/booking/dashboard/not_routed_table.html
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -16,5 +21,9 @@ evidence:
   - ".migration/characterization/booking/observations.json"
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
-notes: "The named test covers service state, not modal options, cancellation or refresh behavior; destination option filtering mutates the bean list (see quirk #235). Successful updates also emit .migration/quirks/booking-dialog-widget-console-warning.md."
+  - "tests/booking/interfaces/test_dialogs.py::test_destination_dialog_filters_options_without_mutating_locations"
+  - "tests/booking/interfaces/test_dialogs.py::test_invalid_destination_shows_field_error_without_updating_cargo"
+  - "tests/booking/interfaces/test_dialogs.py::test_destination_update_redirects_and_refreshes_not_routed_row"
+  - ".migration/evidence/runs/BK-05G.md"
+notes: "Ruling #235 approves stable filtered options without mutating stored locations; ruling #251 drops the unavailable PrimeFaces widget warning while preserving successful updates."
 quirks: [martins-vds/ai-factory-pilot-target#235, martins-vds/ai-factory-pilot-target#251]
