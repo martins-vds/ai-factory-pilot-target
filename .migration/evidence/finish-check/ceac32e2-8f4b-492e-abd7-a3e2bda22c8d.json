@@ -1,0 +1,33 @@
+[
+  {
+    "at": "2026-11-08T02:51:39Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 46452,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05H",
+    "role": "afs-migrator",
+    "changed": [
+      ".migration/evidence/mutants/BK-05H.md",
+      ".migration/evidence/runs/BK-05H.md",
+      ".migration/handoffs/BK-05H.md",
+      ".migration/returns/BK-05H.afs-migrator.yaml",
+      "src/cargotracker/booking/urls.py",
+      "src/cargotracker/urls.py",
+      "tests/booking/test_urls.py"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
