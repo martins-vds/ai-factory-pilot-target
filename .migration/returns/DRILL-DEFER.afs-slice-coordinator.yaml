@@ -1,0 +1,6 @@
+role: afs-slice-coordinator
+ticket: DRILL-DEFER
+issue: drill#0
+human_check: deferred
+human_check_issue: drill#0
+human_check_due: '2099-01-01'
