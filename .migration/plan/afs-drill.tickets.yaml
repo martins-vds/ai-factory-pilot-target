@@ -1,0 +1,10 @@
+slice: afs-drill
+tickets:
+  - id: DRILL-P1
+    role: afs-migrator
+    files: [drill/shared.py]
+    blocked_by: []
+  - id: DRILL-P2
+    role: afs-migrator
+    files: [drill/shared.py]
+    blocked_by: []
