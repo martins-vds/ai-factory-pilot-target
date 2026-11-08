@@ -35,11 +35,21 @@
         hx-trigger="every {{ poll_seconds }}s"
         hx-target="#live-map-markers"
         hx-swap="innerHTML"
+        hx-on::before-request="window.liveMapMarkers.clear()"
       ></div>
     </main>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const map = L.map('live-map').setView([0, 0], 2);
+        const markerLayer = L.layerGroup().addTo(map);
+        window.liveMapMarkers = {
+          clear() {
+            markerLayer.clearLayers();
+          },
+          add(marker) {
+            marker.addTo(markerLayer);
+          }
+        };
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
