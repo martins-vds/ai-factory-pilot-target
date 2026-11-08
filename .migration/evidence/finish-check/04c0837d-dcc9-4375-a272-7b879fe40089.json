@@ -1,0 +1,32 @@
+[
+  {
+    "at": "2026-11-08T13:33:47Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 68345,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "AM-04D",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/evidence/runs/AM-04D.md",
+      ".migration/returns/AM-04D.afs-specialist-migrator.yaml",
+      "templates/admin/_live_map_markers.html",
+      "templates/admin/live_map.html",
+      "tests/cargo/interfaces/test_admin_live_map_markers.py",
+      "tests/cargo/interfaces/test_admin_live_map_templates.py"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]

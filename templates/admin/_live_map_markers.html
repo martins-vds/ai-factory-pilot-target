@@ -1,1 +1,40 @@
-{% comment %}Marker rendering is added by AM-04D.{% endcomment %}
+{% if map_data %}<div>
+  {% for cargo in map_data %}
+    {% if cargo.coordinates %}
+      <template
+        data-live-map-marker
+        data-coordinates="{{ cargo.coordinates|join:',' }}"
+        data-color="{% if cargo.routing_status == 'NOT_ROUTED' %}grey{% elif cargo.routing_status == 'MISROUTED' or cargo.misdirected %}red{% elif cargo.at_destination %}black{% elif cargo.transport_status == 'NOT_RECEIVED' %}gold{% elif cargo.transport_status == 'IN_PORT' or cargo.transport_status == 'ONBOARD_CARRIER' %}green{% elif cargo.transport_status == 'CLAIMED' %}black{% else %}red{% endif %}"
+      >
+        <div>
+          <p>Tracking ID: <a href="{% url 'booking:cargo-details' cargo.tracking_id %}">{{ cargo.tracking_id }}</a></p>
+          <p>Routing Status: {% if cargo.routing_status == 'NOT_ROUTED' %}Not routed{% elif cargo.routing_status == 'MISROUTED' %}Misrouted{% elif cargo.routing_status == 'ROUTED' %}Routed{% else %}Unknown{% endif %}</p>
+          <p>Misdirected: {% if cargo.misdirected %}Yes{% else %}No{% endif %}</p>
+          <p>Transport Status: {% if cargo.transport_status == 'IN_PORT' %}In port{% elif cargo.transport_status == 'NOT_RECEIVED' %}Not received{% elif cargo.transport_status == 'ONBOARD_CARRIER' %}Onboard carrier{% elif cargo.transport_status == 'CLAIMED' %}Claimed{% else %}Unknown{% endif %}</p>
+          <p>At Destination: {% if cargo.at_destination %}Yes{% else %}No{% endif %}</p>
+          <p>Origin: {{ cargo.origin.name }}</p>
+          <p>Last known location: {{ cargo.last_known_location.name }}</p>
+        </div>
+      </template>
+    {% endif %}
+  {% endfor %}
+  <ul aria-label="Unknown or unmapped cargo">
+    {% for cargo in map_data %}
+      {% if not cargo.coordinates %}
+        <li><a href="{% url 'booking:cargo-details' cargo.tracking_id %}">{{ cargo.tracking_id }}</a> — {{ cargo.location.name }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+<script>
+  document.querySelectorAll('#live-map-markers template[data-live-map-marker]').forEach((template) => {
+    const [latitude, longitude] = template.dataset.coordinates.split(',').map(Number);
+    const popup = template.content.firstElementChild.cloneNode(true);
+    const marker = L.circleMarker([latitude, longitude], {
+      color: template.dataset.color,
+      fillColor: template.dataset.color,
+      fillOpacity: 0.8
+    }).bindPopup(popup);
+    window.liveMapMarkers.add(marker);
+  });
+</script>{% endif %}
