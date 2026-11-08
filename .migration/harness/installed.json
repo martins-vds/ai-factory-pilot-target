@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "622d02b011975c66266121c04bf36153c5981151",
-  "installed_at": "2026-11-08T18:06:10Z",
+  "harness_commit": "cab0a6e0aa96387ccb915594ae589f1e4ef1f011",
+  "installed_at": "2026-11-08T18:37:48Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
