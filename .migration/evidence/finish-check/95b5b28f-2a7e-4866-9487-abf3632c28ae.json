@@ -1,0 +1,33 @@
+[
+  {
+    "at": "2026-11-08T00:49:43Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 52791,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05F",
+    "role": "afs-verifier",
+    "changed": [
+      ".migration/costs/95b5b28f-2a7e-4866-9487-abf3632c28ae.json",
+      ".migration/evidence/runs/BK-05F.md",
+      ".migration/returns/BK-05F.afs-specialist-migrator.yaml",
+      ".migration/returns/BK-05F.afs-verifier.yaml",
+      "tests/booking/interfaces/test_route_selection.py"
+    ],
+    "findings": [
+      "[mechanical] You changed another role's or ticket's return file: `.migration/returns/BK-05F.afs-specialist-migrator.yaml`. A session writes only its own return (`.migration/returns/BK-05F.afs-verifier.yaml`). Restore each one exactly as it was on your base branch (`git checkout <base> -- <file>`) and commit."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  }
+]
