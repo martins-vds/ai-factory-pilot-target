@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "f3cedbddb5d8799e97b165a3f19b733b4e91ad17",
-  "installed_at": "2026-11-08T15:35:48Z",
+  "harness_commit": "f8c835a48a7ae6eb1fa499a373f1b880d0c811a5",
+  "installed_at": "2026-11-08T17:17:48Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -21,7 +21,7 @@
       "path": ".github/agents/afs-bootstrapper.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-bootstrapper.agent.md": "7d882e23a01ca63a104b5b034e7fa68d48b9d8524dedbb21cb50ec0c63d9713c"
+        ".github/agents/afs-bootstrapper.agent.md": "74035f3fd8a8dc4ebf4003c15da4bcaccb59d729a41f58b42801458d0df3450f"
       }
     },
     {
@@ -1120,7 +1120,7 @@
         ".migration/harness/tools/data_reconcile.py": "71b7dda59b5a173834d81a5c0bfe525df6ec7d818217bf2b4921cf508f34c97d",
         ".migration/harness/tools/data_snapshot.py": "b7b0010ff346ec8d958be18bd808b2ade0835613147406dbc7aad8313d011867",
         ".migration/harness/tools/drills.json": "30d5dff36e79295063d0400b774b9106b8a34d8fd185e9e8cca80210c6f78e05",
-        ".migration/harness/tools/enrich_graph.py": "f7756cd0a4822d1fa19d9bebb972f7a8079cca320d0c9637bd223d65b4603f7e",
+        ".migration/harness/tools/enrich_graph.py": "a9e7c4af35ec1d85777d8d18e6795cbad0f804c026d6ff8f595d219362102047",
         ".migration/harness/tools/extract_slice.py": "80199267a5a100fd40b2ffd383aa4977bb3a2c9ad75641ecfac66442013a3f98",
         ".migration/harness/tools/fog_rewalk.py": "338a300383b107bd3942f94989a90d9b4bd9a137c639c9b7fb4ce1d92f6ba596",
         ".migration/harness/tools/graph_gate.py": "8c0e3fd50969b5884bf129d9def93f9d036a5c046ec02afa0208d4ca772f236d",
