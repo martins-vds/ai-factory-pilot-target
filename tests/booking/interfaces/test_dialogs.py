@@ -3,7 +3,6 @@ from datetime import date
 
 import pytest
 from django.core.management import call_command
-from django.test import override_settings
 from django.urls import path
 
 from cargotracker.booking.application.dashboard import CargoDashboard
@@ -51,9 +50,9 @@ def seed_data(settings):
 
 def test_not_routed_table_exposes_destination_and_deadline_dialogs(client):
     response = client.get('/admin/dashboard/')
-    not_routed_table = response.content.decode().split('id="not-routed-cargo"', 1)[1].split(
-        '</section>', 1
-    )[0]
+    not_routed_table = (
+        response.content.decode().split('id="not-routed-cargo"', 1)[1].split('</section>', 1)[0]
+    )
 
     assert response.status_code == 200
     assert 'id="cargo-edit-dialog"' in not_routed_table
@@ -121,8 +120,7 @@ def test_destination_update_redirects_and_refreshes_not_routed_row(client):
     destination = next(
         location
         for location in shipping_locations
-        if location
-        not in (cargo.route_specification.origin, cargo.route_specification.destination)
+        if location not in (cargo.route_specification.origin, cargo.route_specification.destination)
     )
 
     response = client.post(
@@ -139,7 +137,9 @@ def test_destination_update_redirects_and_refreshes_not_routed_row(client):
     assert updated is not None
     assert updated.route_specification.origin == cargo.route_specification.origin
     assert updated.route_specification.destination == destination
-    assert updated.route_specification.arrival_deadline == cargo.route_specification.arrival_deadline
+    assert (
+        updated.route_specification.arrival_deadline == cargo.route_specification.arrival_deadline
+    )
     assert updated.itinerary == cargo.itinerary
     assert destination.name in not_routed_table
     assert 'Widget for var' not in response.content.decode()

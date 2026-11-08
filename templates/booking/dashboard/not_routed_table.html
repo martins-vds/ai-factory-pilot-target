@@ -26,13 +26,64 @@
               <span class="text-sm text-gray-600">{{ cargo.route_specification.origin.unlocode.value }}</span>
             </td>
             <td class="p-3">
-              {{ cargo.route_specification.destination.name }}<br>
-              <span class="text-sm text-gray-600">{{ cargo.route_specification.destination.unlocode.value }}</span>
+              <button
+                class="min-h-11 rounded px-2 py-1 text-left hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-600"
+                type="button"
+                hx-get="/admin/cargo/{{ cargo.tracking_id.value }}/destination/"
+                hx-target="#cargo-edit-dialog-content"
+                hx-swap="innerHTML"
+                aria-controls="cargo-edit-dialog"
+                aria-haspopup="dialog"
+                aria-label="Change destination for cargo {{ cargo.tracking_id.value }}"
+              >
+                {{ cargo.route_specification.destination.name }}<br>
+                <span class="text-sm text-gray-600">{{ cargo.route_specification.destination.unlocode.value }}</span>
+              </button>
             </td>
-            <td class="p-3">{{ cargo.route_specification.arrival_deadline|date:"m/d/Y" }}</td>
+            <td class="p-3">
+              <button
+                class="min-h-11 rounded px-2 py-1 text-left hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-600"
+                type="button"
+                hx-get="/admin/cargo/{{ cargo.tracking_id.value }}/deadline/"
+                hx-target="#cargo-edit-dialog-content"
+                hx-swap="innerHTML"
+                aria-controls="cargo-edit-dialog"
+                aria-haspopup="dialog"
+                aria-label="Change arrival deadline for cargo {{ cargo.tracking_id.value }}"
+              >
+                {{ cargo.route_specification.arrival_deadline|date:"m/d/Y" }}
+              </button>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+  <dialog
+    class="max-h-[90vh] w-full max-w-lg rounded-lg p-6 shadow-xl backdrop:bg-black/50"
+    id="cargo-edit-dialog"
+    aria-labelledby="cargo-edit-dialog-title"
+  >
+    <div id="cargo-edit-dialog-content" aria-live="polite">
+      <p role="status">Loading cargo editor…</p>
+    </div>
+  </dialog>
+  <script>
+    document.body.addEventListener('htmx:beforeRequest', (event) => {
+      if (event.detail.target.id === 'cargo-edit-dialog-content') {
+        const dialog = document.getElementById('cargo-edit-dialog');
+        if (!dialog.open) dialog.showModal();
+      }
+    });
+    document.body.addEventListener('htmx:afterSwap', (event) => {
+      if (event.detail.target.id === 'cargo-edit-dialog-content') {
+        event.detail.target.querySelector('[autofocus]')?.focus();
+      }
+    });
+    document.body.addEventListener('click', (event) => {
+      if (event.target.closest('[data-dialog-close]')) {
+        document.getElementById('cargo-edit-dialog').close();
+      }
+    });
+  </script>
 </section>

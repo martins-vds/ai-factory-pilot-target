@@ -1,0 +1,56 @@
+<form
+  id="destination-dialog-form"
+  method="post"
+  action="/admin/cargo/{{ cargo.tracking_id.value }}/destination/"
+  hx-post="/admin/cargo/{{ cargo.tracking_id.value }}/destination/"
+  hx-target="#cargo-edit-dialog-content"
+  hx-swap="innerHTML"
+  class="space-y-5"
+>
+  {% csrf_token %}
+  <div>
+    <h2 class="mb-4 text-xl font-semibold" id="cargo-edit-dialog-title">Change destination</h2>
+    <p>Origin: {{ cargo.route_specification.origin.name }}</p>
+    <p>Current destination: {{ cargo.route_specification.destination.name }}</p>
+  </div>
+  {% if destination_error %}
+    <p class="text-red-700" id="destination-error" role="alert">{{ destination_error }}</p>
+  {% endif %}
+  {% if destinations %}
+    <div>
+      <label class="mb-1 block font-medium" for="destination">New destination</label>
+      <select
+        class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 focus-visible:ring-2 focus-visible:ring-blue-600"
+        id="destination"
+        name="destination"
+        required
+        autofocus
+        {% if destination_error %}aria-invalid="true" aria-describedby="destination-error"{% endif %}
+      >
+        {% for location in destinations %}
+          <option value="{{ location.unlocode.value }}"{% if location.unlocode.value == destination_value %} selected{% endif %}>
+            {{ location.name }} ({{ location.unlocode.value }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  {% else %}
+    <p role="status">No other destinations are available.</p>
+  {% endif %}
+  <div class="flex justify-end gap-3">
+    <button
+      class="min-h-11 rounded-md px-4 py-2 font-semibold text-slate-800 hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-blue-600"
+      type="button"
+      data-dialog-close
+    >
+      Cancel
+    </button>
+    <button
+      class="min-h-11 rounded-md bg-blue-700 px-5 py-2 font-semibold text-white hover:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-600"
+      type="submit"
+      {% if not destinations %}disabled{% endif %}
+    >
+      Update
+    </button>
+  </div>
+</form>
