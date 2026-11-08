@@ -49,22 +49,6 @@
       }
     },
     {
-      "id": "flow:admin-live-cargo-map",
-      "type": "flow",
-      "name": "Admin Live Cargo Map",
-      "summary": "Admin opens the Live Map page, which embeds a frame that plots every cargo on a map and reloads on real-time tracking messages.",
-      "tags": [
-        "map",
-        "admin",
-        "realtime"
-      ],
-      "complexity": "moderate",
-      "domainMeta": {
-        "entryPoint": "src/main/webapp/admin/tracking/map.xhtml",
-        "entryType": "manual"
-      }
-    },
-    {
       "id": "step:admin-live-cargo-map:embed-map-frame",
       "type": "step",
       "name": "Embed map frame",
@@ -729,41 +713,6 @@
     }
   ],
   "edges": [
-    {
-      "source": "domain:cargo-tracking",
-      "target": "flow:admin-live-cargo-map",
-      "type": "contains_flow",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "flow:admin-live-cargo-map",
-      "target": "step:admin-live-cargo-map:embed-map-frame",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.25
-    },
-    {
-      "source": "flow:admin-live-cargo-map",
-      "target": "step:admin-live-cargo-map:fetch-cargo-list",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.5
-    },
-    {
-      "source": "flow:admin-live-cargo-map",
-      "target": "step:admin-live-cargo-map:plot-cargo-markers",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 0.75
-    },
-    {
-      "source": "flow:admin-live-cargo-map",
-      "target": "step:admin-live-cargo-map:reload-on-tracking-event",
-      "type": "flow_step",
-      "direction": "forward",
-      "weight": 1.0
-    },
     {
       "source": "domain:cargo-booking",
       "target": "flow:register-cargo",
