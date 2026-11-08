@@ -50,11 +50,19 @@ def test_booking_routes_have_stable_names_and_paths():
         assert match.url_name == name
         assert match.namespace == 'booking'
         assert match.kwargs == kwargs
+        assert callable(match.func)
 
-    assert reverse('track') == '/'
-    assert reverse('handling-report') == '/rest/handling/reports'
-    assert reverse('cargo_map_frame') == '/tracking/map/'
-    assert reverse('admin_live_map') == '/admin/live-map/'
+    for name, expected_path in (
+        ('track', '/'),
+        ('handling-report', '/rest/handling/reports'),
+        ('cargo_map_frame', '/tracking/map/'),
+        ('admin_live_map', '/admin/live-map/'),
+    ):
+        match = resolve(expected_path)
+
+        assert reverse(name) == expected_path
+        assert match.url_name == name
+        assert callable(match.func)
 
 
 def test_booking_routes_enforce_their_supported_http_methods(client):
@@ -97,6 +105,9 @@ def test_pathfinder_keeps_its_exact_public_path_without_duplicate_routes(client)
     path = '/rest/graph-traversal/shortest-path'
 
     assert reverse('pathfinder-shortest-path') == path
-    assert resolve(path).url_name == 'pathfinder-shortest-path'
+    match = resolve(path)
+
+    assert match.url_name == 'pathfinder-shortest-path'
+    assert callable(match.func)
     assert list(_route_paths(get_resolver().url_patterns)).count(path.lstrip('/')) == 1
     assert client.get(path).status_code == 400
