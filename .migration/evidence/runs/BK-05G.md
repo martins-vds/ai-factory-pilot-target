@@ -49,3 +49,9 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T00:33:53+00:00 | restored-dashboard-scope | 0 | 7.12 | `pytest -q tests/booking/interfaces/test_dialogs.py tests/booking/interfaces/test_dashboard.py` | `fa17fd845c748e59` |  |  |
 | 2026-11-08T00:35:07+00:00 | tests | 0 | 62.88 | `pytest -q` | `3cef3b8b6572c8e4` |  |  |
 | 2026-11-08T01:17:08+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T01:21:30+00:00 | verifier-dialogs-focused | 1 | 13.82 | `pytest -q tests/booking/interfaces/test_dialogs.py` | `49625d2357a875b0` | assert response.status_code == 404 |  |
+| 2026-11-08T01:21:57+00:00 | verifier-dialogs-focused | 0 | 10.11 | `pytest -q tests/booking/interfaces/test_dialogs.py` | `0971d956c4787815` |  |  |
+| 2026-11-08T01:22:03+00:00 | verifier-ruff-check | 0 | 0.03 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T01:22:06+00:00 | verifier-ruff-format | 1 | 0.03 | `ruff format --check` | `3b028adcbd5d10e1` |  |  |
+| 2026-11-08T01:22:27+00:00 | verifier-dialogs-focused | 0 | 10.45 | `pytest -q tests/booking/interfaces/test_dialogs.py` | `5dc6394305ed1e04` |  |  |
+| 2026-11-08T01:22:30+00:00 | verifier-ruff-format | 0 | 0.01 | `ruff format --check` | `c3ac60a207092b7f` |  |  |
