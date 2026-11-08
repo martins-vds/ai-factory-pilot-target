@@ -1,0 +1,18 @@
+role: afs-specialist-migrator
+ticket: AM-04D
+issue: martins-vds/ai-factory-pilot-target#283
+specialty: ui
+pr: null
+gates:
+  build: null
+  behavior: null
+  idiom: null
+  crap: null
+  mutation_changed: null
+  regression: null
+specialty_evidence:
+  - .migration/evidence/runs/AM-04D.md
+ledger_updated: []
+quirk_tickets: []
+handoff: .migration/handoffs/AM-04D.md
+notes: "Setup passed and the booking route is registered, but the existing map page exposes no Leaflet instance or refresh hook to the scoped marker partial. Work and gates await an approved integration seam."
