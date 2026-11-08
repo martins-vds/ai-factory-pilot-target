@@ -1,0 +1,63 @@
+[
+  {
+    "at": "2026-11-08T01:37:14Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 31122,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-AUDIT",
+    "role": "afs-auditor",
+    "changed": [
+      ".migration/evidence/acceptance-runs/42427856017-1.json",
+      ".migration/evidence/data-migration/DM-AUDIT.md",
+      ".migration/evidence/runs/DM-AUDIT.md",
+      ".migration/returns/DM-AUDIT.afs-auditor.yaml"
+    ],
+    "findings": [
+      "[mechanical] You changed another role's or ticket's return file: `.migration/returns/BK-05F.afs-specialist-migrator.yaml`. A session writes only its own return (`.migration/returns/DM-AUDIT.afs-auditor.yaml`). Restore each one exactly as it was on your base branch (`git checkout <base> -- <file>`) and commit."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  },
+  {
+    "at": "2026-11-08T01:38:41Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 31582,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-AUDIT",
+    "role": "afs-auditor",
+    "changed": [
+      ".migration/costs/7157d5d6-2252-4b2b-8b35-5ce423df51b8.json",
+      ".migration/evidence/acceptance-runs/42427856017-1.json",
+      ".migration/evidence/data-migration/DM-AUDIT.md",
+      ".migration/evidence/runs/DM-AUDIT.md",
+      ".migration/returns/DM-AUDIT.afs-auditor.yaml"
+    ],
+    "findings": [
+      "[mechanical] You changed another role's or ticket's return file: `.migration/returns/BK-05F.afs-specialist-migrator.yaml`. A session writes only its own return (`.migration/returns/DM-AUDIT.afs-auditor.yaml`). Restore each one exactly as it was on your base branch (`git checkout <base> -- <file>`) and commit."
+    ],
+    "blocks_before": 1,
+    "decision": "allow",
+    "why": "same failure twice; wrote .migration/handoffs/DM-AUDIT.md"
+  }
+]
