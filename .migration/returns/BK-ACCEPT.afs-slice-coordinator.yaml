@@ -1,0 +1,19 @@
+role: afs-slice-coordinator
+ticket: BK-ACCEPT
+issue: martins-vds/ai-factory-pilot-target#470
+slice: booking
+tickets:
+  total: null
+  merged: null
+  open: null
+  blocked:
+    - "Acceptance artifact download failed: could not resolve productionresultssa32.blob.core.windows.net; evidence import and acceptance remain blocked."
+acceptance:
+  report: .migration/evidence/booking/acceptance.md
+  gates: null
+  mutation_score: null
+  coverage_gaps: null
+human_check: null
+human_check_issues: []
+quirk_tickets: []
+handoff: .migration/handoffs/BK-ACCEPT.md
