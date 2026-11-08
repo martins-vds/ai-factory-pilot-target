@@ -1,0 +1,29 @@
+[
+  {
+    "at": "2026-11-08T14:13:23Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 45992,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "AM-04E",
+    "role": "afs-migrator",
+    "changed": [
+      ".migration/evidence/runs/AM-04E.md",
+      ".migration/returns/AM-04E.afs-migrator.yaml",
+      "tests/cargo/interfaces/test_admin_live_map_processing.py"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
