@@ -37,6 +37,8 @@ tickets:
   files:
   - templates/admin/_live_map_markers.html
   - tests/cargo/interfaces/test_admin_live_map_markers.py
+  - templates/admin/live_map.html
+  - tests/cargo/interfaces/test_admin_live_map_templates.py
   blocked_by:
   - AM-04A
   - AM-04B
