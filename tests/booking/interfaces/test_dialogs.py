@@ -56,6 +56,8 @@ def test_not_routed_table_exposes_destination_and_deadline_dialogs(client):
 
     assert response.status_code == 200
     assert 'id="cargo-edit-dialog"' in not_routed_table
+    assert 'aria-labelledby="cargo-edit-dialog-title"' in not_routed_table
+    assert 'id="cargo-edit-dialog-title">Edit cargo</h2>' in not_routed_table
     assert 'aria-haspopup="dialog"' in not_routed_table
     assert 'hx-get="/admin/cargo/DEF789/destination/"' in not_routed_table
     assert 'hx-get="/admin/cargo/DEF789/deadline/"' in not_routed_table
