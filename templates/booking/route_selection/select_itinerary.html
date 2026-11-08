@@ -1,0 +1,18 @@
+{% extends "booking/dashboard/admin_base.html" %}
+
+{% block title %}Select Itinerary | Cargo Tracker{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-6 text-2xl font-semibold text-gray-900">
+    Select an Itinerary for Cargo {{ cargo.tracking_id.value }}
+  </h1>
+  <dl class="mb-6 grid gap-4 sm:grid-cols-[max-content_1fr]">
+    <dt class="font-semibold text-blue-700">Origin:</dt>
+    <dd>{{ cargo.route_specification.origin.name }} ({{ cargo.route_specification.origin.unlocode.value }})</dd>
+    <dt class="font-semibold text-blue-700">Destination:</dt>
+    <dd>{{ cargo.route_specification.destination.name }} ({{ cargo.route_specification.destination.unlocode.value }})</dd>
+    <dt class="font-semibold text-blue-700">Arrival deadline:</dt>
+    <dd>{{ cargo.route_specification.arrival_deadline|date:"m/d/Y" }}</dd>
+  </dl>
+  {% include "booking/route_selection/_candidate_routes.html" %}
+{% endblock %}
