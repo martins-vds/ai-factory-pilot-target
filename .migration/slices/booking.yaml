@@ -12,7 +12,8 @@ data_paths:
     - endpoint=/admin/cargo/<tracking_id>/
     - endpoint=/admin/cargo/<tracking_id>/route/
     - endpoint=/admin/cargo/<tracking_id>/itineraries/
-    - endpoint=/admin/dashboard/not-routed/
+    - endpoint=/admin/cargo/<tracking_id>/destination/   # not-routed table actions (its rows render in the dashboard)
+    - endpoint=/admin/cargo/<tracking_id>/deadline/
 entry_points:
   target:
     - endpoint=GET /rest/graph-traversal/shortest-path
