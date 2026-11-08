@@ -8,7 +8,7 @@ gates:
   behavior: 0
   idiom: 0
   crap: 0
-  mutation_changed: 0.907
+  mutation_changed: 0.889
   regression: 0
 specialty_evidence:
   - tests/booking/interfaces/test_dialogs.py::test_not_routed_table_exposes_destination_and_deadline_dialogs
