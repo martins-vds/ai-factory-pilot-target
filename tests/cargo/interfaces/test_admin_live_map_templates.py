@@ -41,8 +41,6 @@ def test_admin_live_map_exposes_a_marker_hook_that_clears_on_each_poll(client):
 
 @pytest.mark.django_db
 def test_admin_live_map_marker_poll_returns_an_empty_marker_set(client):
-    call_command('seed_sample_data')
-
     page_response = client.get(reverse('admin_live_map'))
     response = client.get(reverse('admin_live_map_markers'), HTTP_HX_REQUEST='true')
 
