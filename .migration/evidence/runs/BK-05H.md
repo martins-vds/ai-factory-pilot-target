@@ -23,3 +23,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T02:46:59+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
 | 2026-11-08T02:47:03+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `f971e9aa1333322e` |  |  |
 | 2026-11-08T02:48:08+00:00 | mutation-changed | 1 | 59.43 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `8b2b8825c3688892` | afs-mutation: FAILED score=0.763 threshold=0.8 killed=29 survived=9 skipped=0 files=2 jobs=2 base=origin/main | gate=mutation score=0.763 threshold=0.8 killed=29 survived=9 files=2 base=origin/main |
+| 2026-11-08T03:54:58+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T03:56:07+00:00 | mutation-changed | 1 | 52.42 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `8b2b8825c3688892` | afs-mutation: FAILED score=0.763 threshold=0.8 killed=29 survived=9 skipped=0 files=2 jobs=2 base=origin/main | gate=mutation score=0.763 threshold=0.8 killed=29 survived=9 files=2 base=origin/main |
