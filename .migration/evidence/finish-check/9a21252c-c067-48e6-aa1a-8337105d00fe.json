@@ -1,0 +1,67 @@
+[
+  {
+    "at": "2026-11-08T01:42:22Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 48544,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-ACCEPT",
+    "role": "afs-slice-coordinator",
+    "changed": [
+      ".migration/evidence/acceptance-runs/42427856017-1.json",
+      ".migration/evidence/data-migration/acceptance.md",
+      ".migration/evidence/runs/DM-ACCEPT.md",
+      ".migration/evidence/ticket-reconciliation/247.yaml",
+      ".migration/handoffs/DM-ACCEPT.md",
+      ".migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml"
+    ],
+    "findings": [
+      "[mechanical] You changed another role's or ticket's return file: `.migration/returns/BK-05F.afs-specialist-migrator.yaml`. A session writes only its own return (`.migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml`). Restore each one exactly as it was on your base branch (`git checkout <base> -- <file>`) and commit."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  },
+  {
+    "at": "2026-11-08T01:43:44Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 49015,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-ACCEPT",
+    "role": "afs-slice-coordinator",
+    "changed": [
+      ".migration/costs/9a21252c-c067-48e6-aa1a-8337105d00fe.json",
+      ".migration/evidence/acceptance-runs/42427856017-1.json",
+      ".migration/evidence/data-migration/acceptance.md",
+      ".migration/evidence/runs/DM-ACCEPT.md",
+      ".migration/evidence/ticket-reconciliation/247.yaml",
+      ".migration/handoffs/DM-ACCEPT.md",
+      ".migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml"
+    ],
+    "findings": [
+      "[mechanical] You changed another role's or ticket's return file: `.migration/returns/BK-05F.afs-specialist-migrator.yaml`. A session writes only its own return (`.migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml`). Restore each one exactly as it was on your base branch (`git checkout <base> -- <file>`) and commit."
+    ],
+    "blocks_before": 1,
+    "decision": "allow",
+    "why": "same failure twice; wrote .migration/handoffs/DM-ACCEPT.md"
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "at": "2026-11-08T03:58:03Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 30306,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "PROGRAM-STATUS-1108",
+    "role": "afs-program-orchestrator",
+    "changed": [
+      ".migration/evidence/runs/PROGRAM-STATUS-1108.md",
+      ".migration/returns/PROGRAM-STATUS-1108.afs-program-orchestrator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]

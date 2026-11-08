@@ -1,0 +1,115 @@
+epic: 247
+scope: slice-epic-descendants
+issues:
+  - number: 248
+    disposition: completed
+    pull_requests: [249]
+    returns:
+      - .migration/returns/DM-02.afs-analyst.yaml
+  - number: 258
+    disposition: completed
+    pull_requests: [261]
+    returns:
+      - .migration/returns/DM-04.afs-planner.yaml
+  - number: 268
+    disposition: completed
+    pull_requests: [274, 277]
+    returns:
+      - .migration/returns/DM-05A.afs-specialist-migrator.yaml
+      - .migration/returns/DM-05A.afs-verifier.yaml
+  - number: 275
+    disposition: completed
+    pull_requests: [277]
+    returns:
+      - .migration/returns/DM-05A.afs-verifier.yaml
+  - number: 269
+    disposition: completed
+    pull_requests: [299]
+    returns:
+      - .migration/returns/DM-05B.afs-specialist-migrator.yaml
+  - number: 304
+    disposition: completed
+    pull_requests: [307]
+    returns:
+      - .migration/returns/DM-05B.afs-verifier.yaml
+  - number: 270
+    disposition: completed
+    pull_requests: [322, 326, 334, 341, 352]
+    returns:
+      - .migration/returns/DM-05C.afs-specialist-migrator.yaml
+    continuation:
+      current_return_issue: martins-vds/ai-factory-pilot-target#351
+      current_return_pr: 352
+      intermediate_work_prs: [326, 334, 341]
+      attribution: "The current same-path DM-05C return and its landed continuation history record the completed loader work."
+  - number: 324
+    disposition: completed
+    pull_requests: [326, 352]
+    returns:
+      - .migration/returns/DM-05C.afs-specialist-migrator.yaml
+  - number: 332
+    disposition: completed
+    pull_requests: [334, 352]
+    returns:
+      - .migration/returns/DM-05C.afs-specialist-migrator.yaml
+  - number: 339
+    disposition: completed
+    pull_requests: [341, 352]
+    returns:
+      - .migration/returns/DM-05C.afs-specialist-migrator.yaml
+  - number: 351
+    disposition: completed
+    pull_requests: [352]
+    returns:
+      - .migration/returns/DM-05C.afs-specialist-migrator.yaml
+  - number: 271
+    disposition: completed
+    pull_requests: [356]
+    returns:
+      - .migration/returns/DM-05D.afs-specialist-migrator.yaml
+  - number: 369
+    disposition: completed
+    pull_requests: [371]
+    returns:
+      - .migration/returns/DM-05D.afs-verifier.yaml
+  - number: 272
+    disposition: completed
+    pull_requests: [381]
+    returns:
+      - .migration/returns/DM-05E.afs-specialist-migrator.yaml
+  - number: 273
+    disposition: completed
+    pull_requests: [357]
+    returns:
+      - .migration/returns/DM-05F.afs-specialist-migrator.yaml
+  - number: 370
+    disposition: superseded
+    replacement: 379
+    failure:
+      pull_request: 374
+      return: .migration/returns/DM-05F.afs-verifier.yaml
+  - number: 379
+    disposition: retained-open
+    outstanding: "Confirm the merged PR #382 and passing verifier return, then reconcile the still-open issue state."
+    blocker: "GitHub still reports #379 open; ADR-0030 requires a closed-completed issue for a completed disposition."
+  - number: 387
+    disposition: superseded
+    replacement: 413
+    failure:
+      pull_request: 388
+      return: null
+    evidence_gap: "Closed-unmerged PR #388 did not change a coordinator return file; no failed role return exists at its head."
+  - number: 398
+    disposition: superseded
+    replacement: 414
+    failure:
+      pull_request: 399
+      return: .migration/returns/DM-AUDIT.afs-auditor.yaml
+  - number: 413
+    disposition: retained-open
+    outstanding: "Complete review and merge the DM-ACCEPT work in PR #415."
+    blocker: "Current acceptance ticket remains open until its PR is merged and human review is completed."
+  - number: 414
+    disposition: retained-open
+    outstanding: "Complete the independent gate-7 audit against acceptance run 42427856017 and its verified artifact."
+    blocker: "Auditor issue #414 / PR #416 remains open."

@@ -50,6 +50,11 @@ slice.
    push makes the approval stale. Never submit, request on someone's behalf, or relay a review or a
    sign-off yourself, even when you hold the approver's GitHub login. If they report problems, set
    `human_check: issues` and link each one.
+   **Deferral (ADR-0036).** If the operator says to defer the check, record `human_check: deferred` with
+   `human_check_issue: <link>` (an open issue assigned to an approver that lists exactly what to compare)
+   and `human_check_due: <YYYY-MM-DD>` (7 days by default, at most 30), on a PR an approver approves, as
+   for `passed`. A deferral lets dependent slices proceed; the slice epic stays open until `passed`. Never
+   defer on your own.
    **Before dispatching the Auditor**, the dispatcher starts one **AFS acceptance gates** run on `main`
    (ADR-0035). It builds the target graph for that exact commit, gates it, and runs full mutation; the
    Auditor audits that run's commit. No target-graph PR is needed, and later merges don't invalidate it.
@@ -62,7 +67,8 @@ slice.
    each issue, review the landing and role evidence, then record exactly one disposition in
    `.migration/evidence/ticket-reconciliation/<epic>.yaml`: `completed` with landing PR(s) and committed
    role return(s), `superseded` with a replacement issue plus the closed-unmerged failure PR and that
-   role's own failed return, or `retained-open` with actual outstanding work and blocker. A completed
+   role's own failed return (or, for a session killed before it could write one, `failure.session_run`: its
+   own cancelled, timed-out or failed agent run), or `retained-open` with actual outstanding work and blocker. A completed
    return must identify this issue directly or through same-path, same-ticket/role committed history; its
    owning PR must be cited and contain that return. A closed-unmerged PR counts as completed only when
    its exact head is in `main` ancestry; a later carrier PR may provide that landing. A return file, green
@@ -97,7 +103,7 @@ the return file; never paste its contents (a description can't be updated later,
 slice: <name>
 tickets: {total: <n>, merged: <n>, open: <n>, blocked: ["<link: blocker>"]}
 acceptance: {report: <path>, gates: <all-green or failing gate names>, mutation_score: <0-1>, coverage_gaps: <n>}
-human_check: <requested | passed | issues>
+human_check: <requested | passed | issues | deferred>
 human_check_issues: [<link>]
 quirk_tickets: [<link>]
 ```

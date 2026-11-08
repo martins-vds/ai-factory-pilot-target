@@ -1,0 +1,59 @@
+role: afs-program-orchestrator
+ticket: PROGRAM-STATUS-1108
+issue: martins-vds/ai-factory-pilot-target#433
+phase: 6
+decisions:
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/232: unknown or stale tracking IDs, including destination/deadline updates, return explicit not-found responses."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/233: claimed-cargo link keeps the cargo-details destination and uses the 'Click to see details' label."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/234: deadline parse failures show a field error in the dialog."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/235: destination options do not mutate the stored location list."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/236: route assignment redirects to cargo details."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/237: drop the unreachable routed-cargo debug dialog."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/239: do not count the unannotated source routing method as executed legacy-test evidence."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/250: do not count the unannotated cargo lifecycle scenario as executed legacy-test evidence."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/251: drop the unavailable PrimeFaces widget warning; preserve successful dialog updates."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/252: Select Itinerary renders candidate routes or redirects to them."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/253: NOT_RECEIVED cargo stays at its origin with an 'Unknown' tooltip; unmappable cargo remains separately listed."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/254: preserve carrier movements in a target table and migrate the 13 snapshot rows."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/422: defer the data-migration side-by-side check to 2026-11-14, subject to configured-approver review of PR #423."
+dispatched:
+  - agent: afs-verifier
+    ticket: "DM-05F verifier (#379; PR #382)"
+    status: returned
+  - agent: afs-verifier
+    ticket: "BK-05E verifier (#380; PR #383)"
+    status: returned
+  - agent: afs-specialist-migrator
+    ticket: "BK-05E fix (#384; PR #385)"
+    status: returned
+  - agent: afs-verifier
+    ticket: "BK-05E re-verification (#389; PR #390)"
+    status: returned
+  - agent: afs-migrator
+    ticket: "BK-05H (#295; PR #419)"
+    status: returned
+  - agent: afs-migrator
+    ticket: "BK-05H continuation (#435; PR #436)"
+    status: returned
+  - agent: afs-slice-coordinator
+    ticket: "DM-ACCEPT (#422; PR #423)"
+    status: returned
+  - agent: afs-specialist-migrator
+    ticket: "AM-04D (#283); blocked by BK-05H (#295), confirmed in the GitHub comment on #283"
+    status: blocked
+  - agent: afs-migrator
+    ticket: "AM-04E (#284); blocked by AM-04D"
+    status: blocked
+  - agent: afs-auditor
+    ticket: "AM-04F (#285); blocked by AM-04E"
+    status: blocked
+  - agent: afs-verifier
+    ticket: "BK-05I (#296); blocked by incomplete BK-05H (#295) and its other planned prerequisites"
+    status: blocked
+  - agent: afs-auditor
+    ticket: "BK-05J (#297); blocked by BK-05I"
+    status: blocked
+awaiting_human:
+  - "https://github.com/martins-vds/ai-factory-pilot-target/issues/418: perform and report the deferred data-migration side-by-side comparison by 2026-11-14."
+  - "https://github.com/martins-vds/ai-factory-pilot-target/pull/423: a configured approver must approve the deferral on the current PR head."
+next_step: "Obtain the configured-approver review for PR #423 and finish the BK-05H continuation; then unblock AM-04D while keeping the #418 comparison due 2026-11-14."
