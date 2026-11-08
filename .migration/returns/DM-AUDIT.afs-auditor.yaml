@@ -1,0 +1,9 @@
+role: afs-auditor
+ticket: DM-AUDIT
+issue: martins-vds/ai-factory-pilot-target#414
+scope: data-migration
+report: .migration/evidence/data-migration/DM-AUDIT.md
+capabilities_checked: 7
+gaps: []
+graph_inconsistencies: []
+verdict: complete

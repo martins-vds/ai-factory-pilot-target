@@ -1,0 +1,29 @@
+role: afs-slice-coordinator
+ticket: DM-ACCEPT
+issue: martins-vds/ai-factory-pilot-target#413
+pr: martins-vds/ai-factory-pilot-target#415
+slice: data-migration
+tickets:
+  total: 21
+  merged: 15
+  open: 3
+  blocked:
+    - "martins-vds/ai-factory-pilot-target#387 / PR #388: no failed coordinator return exists at the closed-unmerged PR head."
+    - "martins-vds/ai-factory-pilot-target#379 remains open although PR #382 and its passing verifier return are present."
+    - "martins-vds/ai-factory-pilot-target#414 / PR #416: independent gate-7 audit is still in progress."
+    - "martins-vds/ai-factory-pilot-target#413 / PR #415: current acceptance work awaits human review and merge."
+acceptance:
+  report: .migration/evidence/data-migration/acceptance.md
+  gates: all-green
+  mutation_score: 0.914
+  coverage_gaps: 0
+human_check: deferred
+human_check_issues: []
+human_check_issue: martins-vds/ai-factory-pilot-target#418
+human_check_due: '2026-11-14'
+human_check_comparison:
+  - "Compare the legacy and target exports for all six mapped tables, preserving source IDs and checking every mapped field, NULL, timestamp, foreign key, and row count."
+  - "Compare legacy sequence behavior with target-native sequence realignment, including that the next generated ID exceeds the highest imported ID."
+  - "Compare cargo delivery/history, itinerary continuity, handling-event references, and ordered carrier movements."
+quirk_tickets: []
+handoff: .migration/handoffs/DM-ACCEPT.md
