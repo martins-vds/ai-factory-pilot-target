@@ -17,3 +17,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T12:53:28+00:00 | mutation-changed | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-08T12:53:51+00:00 | booking-characterization-inventory | 0 | 1.71 | `pytest -q tests/characterization/test_booking.py` | `7ce361fd5a320180` |  |  |
 | 2026-11-08T13:14:48+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T13:18:49+00:00 | booking-replay | 1 | 8.99 | `pytest -q tests/characterization/booking` | `2e7cdc4bbf212632` | assert cargo is not None |  |
+| 2026-11-08T13:19:11+00:00 | booking-replay | 1 | 6.38 | `pytest -q tests/characterization/booking` | `0effd933b2fc5343` | assert cargo is not None |  |
+| 2026-11-08T13:19:27+00:00 | booking-replay | 0 | 6.24 | `pytest -q tests/characterization/booking` | `0eaa07d048f3d215` |  |  |
