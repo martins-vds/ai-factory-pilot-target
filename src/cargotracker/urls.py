@@ -23,6 +23,8 @@ from cargotracker.handling.composition import compose_handling_report_view
 urlpatterns = [
     path('', compose_tracking_view(), name='track'),
     path('rest/handling/reports', compose_handling_report_view(), name='handling-report'),
+    path('', include('cargotracker.booking.urls')),
+    path('', include('cargotracker.pathfinder.interfaces.urls')),
     path('tracking/map/', include('cargotracker.cargo.interfaces.tracking.map.urls')),
     path('admin/live-map/', include('cargotracker.cargo.interfaces.admin_map.urls')),
 ]
