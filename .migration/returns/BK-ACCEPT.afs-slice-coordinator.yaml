@@ -9,7 +9,7 @@ tickets:
   blocked:
     - "Acceptance artifact download failed: could not resolve productionresultssa32.blob.core.windows.net; evidence import and acceptance remain blocked."
 acceptance:
-  report: .migration/evidence/booking/acceptance.md
+  report: null
   gates: null
   mutation_score: null
   coverage_gaps: null

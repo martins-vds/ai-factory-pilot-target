@@ -1,5 +1,5 @@
 ## Handoff — afs-slice-coordinator · 2026-11-08T20:25Z
-**State:** blocked  ·  **Branch / PR:** `copilot/bk-accept-accept-booking-slice` / PR #470  ·  **Last commit:** `7648b2f2af6e74ee2770d6975138b8b8345faf1a`
+**State:** blocked  ·  **Branch / PR:** `copilot/bk-accept-accept-booking-slice` / no matching PR found  ·  **Last commit:** `7648b2f2af6e74ee2770d6975138b8b8345faf1a`
 ### Done
 - Setup checks passed with pinned source SHA `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`; migration state validation reported 0 errors.
 - GitHub confirms AFS acceptance run 42506832839, attempt 1, succeeded for commit `4462a706404d4f9b0e79e9c95af467f9d5ddfcce`. The acceptance job succeeded and logs show the full mutation gate completed.
