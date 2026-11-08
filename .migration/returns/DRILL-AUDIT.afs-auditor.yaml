@@ -1,0 +1,4 @@
+role: afs-auditor
+ticket: DRILL-AUDIT
+issue: drill#0
+verdict: complete
