@@ -1,0 +1,31 @@
+role: afs-specialist-migrator
+ticket: BK-05G
+issue: martins-vds/ai-factory-pilot-target#294
+specialty: ui
+pr: martins-vds/ai-factory-pilot-target#402
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.907
+  regression: 0
+specialty_evidence:
+  - tests/booking/interfaces/test_dialogs.py::test_not_routed_table_exposes_destination_and_deadline_dialogs
+  - tests/booking/interfaces/test_dialogs.py::test_destination_dialog_filters_options_without_mutating_locations
+  - tests/booking/interfaces/test_dialogs.py::test_invalid_deadline_shows_field_error_and_keeps_dialog_open
+  - tests/booking/interfaces/test_dialogs.py::test_destination_update_redirects_and_refreshes_not_routed_row
+  - tests/booking/interfaces/test_dialogs.py::test_deadline_update_preserves_route_and_refreshes_not_routed_row
+  - tests/booking/interfaces/test_dialogs.py::test_unknown_or_stale_cargo_dialog_returns_cargo_not_found
+  - tests/booking/interfaces/test_dialogs.py::test_dialog_update_recalculates_route_state
+  - .migration/evidence/runs/BK-05G.md
+  - .migration/evidence/mutants/BK-05G.md
+ledger_updated:
+  - booking.dialog-chain
+  - booking.dialog-deadline
+  - booking.dialog-destination
+quirk_tickets:
+  - martins-vds/ai-factory-pilot-target#234
+  - martins-vds/ai-factory-pilot-target#235
+  - martins-vds/ai-factory-pilot-target#251
+handoff: none
