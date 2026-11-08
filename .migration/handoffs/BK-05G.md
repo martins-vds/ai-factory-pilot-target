@@ -26,3 +26,20 @@ The destination and deadline dialogs cannot function without buttons to open the
 ## Files Affected
 
 - `templates/booking/dashboard/not_routed_table.html` – authorized by issue #401 for scope extension
+
+## Handoff — afs-specialist-migrator · 2026-11-08T00:31:55Z
+**State:** blocked  ·  **Branch / PR:** copilot/bk-05g-continue-dialogs-not-routed-table  ·  **Last commit:** 148883f
+### Done
+- See this branch's commits and `afs-run` journal.
+### Remaining
+- [ ] CI's validate.py will fail on this: .migration/handoffs/BK-05G.md: handoff section 1 is missing '**State:**'. Fix it and commit.
+- [ ] CI's validate.py will fail on this: .migration/handoffs/BK-05G.md: handoff section 1 is missing '### Done'. Fix it and commit.
+- [ ] CI's validate.py will fail on this: .migration/handoffs/BK-05G.md: handoff section 1 is missing '### Remaining'. Fix it and commit.
+- [ ] CI's validate.py will fail on this: .migration/handoffs/BK-05G.md: handoff section 1 is missing '### Blockers / questions'. Fix it and commit.
+- [ ] CI's validate.py will fail on this: .migration/handoffs/BK-05G.md: handoff section 1 is missing '### Next step for the next session'. Fix it and commit.
+- [ ] Your return reports a handoff (`martins-vds/ai-factory-pilot-target#401`) but this branch didn't commit it. Write the `## Handoff` section with afs-handoff and commit `martins-vds/ai-factory-pilot-target`.
+- [ ] These files are outside ticket BK-05G's planned files: `.migration/handoffs/BK-05G.bk05e-dashboard-template.md`. Don't widen your own scope: revert them, or, if the work truly needs them, write a handoff (afs-handoff) that names each file and why, set `handoff:` in your return, and stop. The operator decides.
+### Blockers / questions
+- self-check failed: `afs-finish-check` still found 7 problem(s) after its retry budget (ADR-0034). Written by the stop hook, not by the agent.
+### Next step for the next session
+Fix the items under Remaining, run `afs-finish-check`, and commit. Scope items need the operator.
