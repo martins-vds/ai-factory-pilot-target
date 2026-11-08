@@ -1,0 +1,46 @@
+role: afs-verifier
+ticket: BK-05I
+issue: martins-vds/ai-factory-pilot-target#296
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/450
+verdict: changes-required
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 26.0
+  mutation_changed: "n/a: no mutable code changed"
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/BK-05I.md
+findings:
+  - severity: major
+    where: tests/characterization/test_booking.py:42-51
+    what: >-
+      This only validates that observations are recorded; no tests/characterization/booking/
+      cases or .migration/evidence/booking/replay.md exist to compare target fields against all
+      25 tier-A capabilities. The oracle reports 24 prediction matches and one route-assignment
+      difference; #236 approves the target redirect to cargo details. Verified dispositions:
+      #232 explicit 404 (including unknown-ID updates), #233 change only the claimed-link label,
+      #234 field error on invalid deadline, #235 stable filtered options, #236 redirect to details,
+      #237 drop the orphan debug dialog, #251 drop the widget warning while preserving updates,
+      #252 render candidates, and #238 follows #89 item 5 (accept/ignore deadline; filter by arrival
+      deadline). #239 and #250 remain unannotated inventory, not executed evidence.
+  - severity: major
+    where: .migration/ledger/booking.screen-not-routed-table.yaml:14
+    what: The capability remains in-progress although BK-05E/BK-05G are complete and target evidence is listed; reconcile its status.
+tests_added: []
+ledger_issues:
+  - booking.screen-not-routed-table remains in-progress despite completed implementing tickets and target evidence.
+quirk_tickets:
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/89
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/232
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/233
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/234
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/235
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/236
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/237
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/238
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/239
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/250
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/251
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/252
