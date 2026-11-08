@@ -1,0 +1,3 @@
+root: src/main/java
+seeds: [Cargo, AbstractSpecification]
+depth: 1
