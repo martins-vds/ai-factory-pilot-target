@@ -1,6 +1,6 @@
 # Surviving mutants: BK-05F
 
-Written by `afs-mutation` on its last run (base `origin/main`): score 0.790, threshold 0.8, killed 49, survived 13. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent. The diff under each line is the change mutmut made.
+Written by `afs-mutation` on its last run (base `origin/main`): score 0.855, threshold 0.8, killed 53, survived 9. Each line is a mutant no test killed: add a test that fails on it, or simplify the code if it is equivalent. The diff under each line is the change mutmut made.
 
 - `src/cargotracker/booking/interfaces/route_selection/views.py:22 Mutant #1`
 
@@ -22,20 +22,6 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.790, thr
   -_CANDIDATE_SALT = 'booking.route_selection'
   +_CANDIDATE_SALT = None
    def create_route_selection_views(
-  ```
-
-- `src/cargotracker/booking/interfaces/route_selection/views.py:29 Mutant #5`
-
-  ```diff
-  @@ -26,7 +26,7 @@
-       cargo_routing: CargoRouting,
-       cargo_dashboard: CargoDashboard,
-   ) -> tuple[Callable[[HttpRequest, str], HttpResponse], Callable[[HttpRequest, str], HttpResponse]]:
-  -    @require_http_methods(['GET', 'POST'])
-  +
-       def route_selection(request: HttpRequest, tracking_id: str) -> HttpResponse:
-           if request.method == 'POST':
-               cargo = cargo_dashboard.get_cargo_details(TrackingId(tracking_id))
   ```
 
 - `src/cargotracker/booking/interfaces/route_selection/views.py:34 Mutant #10`
@@ -78,44 +64,6 @@ Written by `afs-mutation` on its last run (base `origin/main`): score 0.790, thr
            context = _selection_context(
                cargo_routing,
                cargo_dashboard,
-  ```
-
-- `src/cargotracker/booking/interfaces/route_selection/views.py:44 Mutant #16`
-
-  ```diff
-  @@ -41,7 +41,7 @@
-               cargo_routing,
-               cargo_dashboard,
-               tracking_id,
-  -            'Try setting an arrival deadline further into the future.',
-  +            'XXTry setting an arrival deadline further into the future.XX',
-           )
-           return render(request, 'booking/route_selection/route.html', context)
-  ```
-
-- `src/cargotracker/booking/interfaces/route_selection/views.py:48 Mutant #20`
-
-  ```diff
-  @@ -45,7 +45,6 @@
-           )
-           return render(request, 'booking/route_selection/route.html', context)
-  -    @require_http_methods(['GET'])
-       def select_itinerary(request: HttpRequest, tracking_id: str) -> HttpResponse:
-           context = _selection_context(
-               cargo_routing,
-  ```
-
-- `src/cargotracker/booking/interfaces/route_selection/views.py:54 Mutant #21`
-
-  ```diff
-  @@ -51,7 +51,7 @@
-               cargo_routing,
-               cargo_dashboard,
-               tracking_id,
-  -            'Try setting the arrival deadline further into the future (a few weeks at least).',
-  +            'XXTry setting the arrival deadline further into the future (a few weeks at least).XX',
-           )
-           return render(request, 'booking/route_selection/select_itinerary.html', context)
   ```
 
 - `src/cargotracker/booking/interfaces/route_selection/views.py:70 Mutant #27`
