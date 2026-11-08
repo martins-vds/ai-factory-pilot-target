@@ -10,7 +10,7 @@ source:
 target:
   repo: martins-vds/ai-factory-pilot-target
   stacks:
-    backend: [python-3.13, django-5]
+    backend: [python-2.7, django-5]
     frontend: [django-templates]
     data: [postgresql-17]
   architecture:
