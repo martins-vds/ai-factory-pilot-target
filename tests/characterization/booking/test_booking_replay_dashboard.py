@@ -4,10 +4,8 @@ from datetime import UTC, datetime, timedelta
 import pytest
 from django.core.management import call_command
 
-from cargotracker.booking.application.dashboard import CargoDashboard
 from cargotracker.booking.application.registration import CargoRegistration
 from cargotracker.booking.application.routing import CargoRouting
-from cargotracker.booking.interfaces.dashboard.views import create_booking_views
 from cargotracker.cargo.domain.itinerary import Itinerary
 from cargotracker.cargo.domain.leg import Leg
 from cargotracker.cargo.domain.tracking_id import TrackingId
@@ -63,9 +61,7 @@ def test_dashboard_fields_match_tier_a_recording(client, booking_recording):
     not_routed_table = content.split('id="not-routed-cargo"', 1)[1].split('</section>', 1)[0]
     claimed_table = content.split('id="claimed-cargo"', 1)[1].split('</section>', 1)[0]
     expected_routed_ids = set(
-        re.search(r'routed rows ([A-Z0-9/]+)', recorded_dashboard)
-        .group(1)
-        .split('/')
+        re.search(r'routed rows ([A-Z0-9/]+)', recorded_dashboard).group(1).split('/')
     )
 
     assert response.status_code == 200
@@ -128,8 +124,10 @@ def test_empty_dashboard_matches_tier_a_table_fields(client, booking_recording):
 
     assert response.status_code == 200
     assert all(title in expected for title in ('Routed Cargo', 'Not Routed Cargo', 'Claimed Cargo'))
-    assert content.index('Routed Cargo') < content.index('Not Routed Cargo') < content.index(
-        'Claimed Cargo'
+    assert (
+        content.index('Routed Cargo')
+        < content.index('Not Routed Cargo')
+        < content.index('Claimed Cargo')
     )
     assert 'data-tracking-id=' not in content
     assert 'No cargo' not in content

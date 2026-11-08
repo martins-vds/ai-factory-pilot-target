@@ -1,3 +1,4 @@
+import itertools
 import json
 import random
 import re
@@ -23,7 +24,6 @@ from cargotracker.pathfinder.domain.transit_edge import TransitEdge
 from cargotracker.pathfinder.domain.transit_path import TransitPath
 from cargotracker.pathfinder.interfaces import api
 from cargotracker.voyage.infrastructure.repository import DjangoVoyageRepository
-
 
 ROOT = Path(__file__).resolve().parents[3]
 PATHFINDER_RECORDINGS = ROOT / '.migration' / 'characterization' / 'booking' / 'pathfinder'
@@ -192,9 +192,10 @@ def test_pathfinder_fields_match_tier_a_recordings_and_ignore_deadline(client, m
     actual = response.json()
 
     assert response.status_code == int((PATHFINDER_RECORDINGS / 'deadline.status').read_text())
-    assert response['Content-Type'] == (
-        PATHFINDER_RECORDINGS / 'deadline.content-type'
-    ).read_text().strip()
+    assert (
+        response['Content-Type']
+        == (PATHFINDER_RECORDINGS / 'deadline.content-type').read_text().strip()
+    )
     assert 3 <= len(actual) <= 5
     assert len(deadline_expected) == 3
     assert set(actual[0]) == set(expected[0]) == {'transitEdges'}
@@ -204,7 +205,7 @@ def test_pathfinder_fields_match_tier_a_recordings_and_ignore_deadline(client, m
         assert edges
         assert edges[0]['fromUnLocode'] == 'CNHKG'
         assert edges[-1]['toUnLocode'] == 'USNYC'
-        for previous, following in zip(edges, edges[1:]):
+        for previous, following in itertools.pairwise(edges):
             assert previous['toUnLocode'] == following['fromUnLocode']
             assert datetime.fromisoformat(previous['toDate']) < datetime.fromisoformat(
                 following['fromDate']

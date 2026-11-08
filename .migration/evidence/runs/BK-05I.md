@@ -21,3 +21,22 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T13:19:11+00:00 | booking-replay | 1 | 6.38 | `pytest -q tests/characterization/booking` | `0effd933b2fc5343` | assert cargo is not None |  |
 | 2026-11-08T13:19:27+00:00 | booking-replay | 0 | 6.24 | `pytest -q tests/characterization/booking` | `0eaa07d048f3d215` |  |  |
 | 2026-11-08T13:20:33+00:00 | booking-replay | 0 | 6.33 | `pytest -q tests/characterization/booking` | `f6063177b17f73de` |  |  |
+| 2026-11-08T13:20:52+00:00 | build-compileall | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T13:20:53+00:00 | build-django-check | 0 | 0.28 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-08T13:20:53+00:00 | idiom-ruff-check | 1 | 0.02 | `ruff check` | `834c4aedf1c58f07` | 205 \|         assert edges[0]['fromUnLocode'] == 'CNHKG' |  |
+| 2026-11-08T13:21:14+00:00 | idiom-ruff-check | 1 | 0.01 | `ruff check` | `c2e6e4e0c40c865c` | Found 1 error. |  |
+| 2026-11-08T13:21:25+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T13:21:25+00:00 | idiom-ruff-format | 1 | 0.02 | `ruff format --check` | `107db0ed3986fe4c` | 126 \|     assert all(title in expected for title in ('Routed Cargo', 'Not Routed Cargo', 'Claimed Cargo')) |  |
+| 2026-11-08T13:21:34+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T13:21:34+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `d28901f31d98caab` |  |  |
+| 2026-11-08T13:21:37+00:00 | behavior | 2 | 2.3 | `pytest -q` | `ca91e8d87116ac65` | ______ ERROR collecting tests/characterization/booking/test_dashboard.py _______ |  |
+| 2026-11-08T13:21:58+00:00 | build-compileall | 0 | 0.03 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T13:21:58+00:00 | build-django-check | 0 | 0.28 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-08T13:21:58+00:00 | idiom-ruff-check | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T13:21:58+00:00 | idiom-ruff-format | 0 | 0.01 | `ruff format --check` | `d28901f31d98caab` |  |  |
+| 2026-11-08T13:22:50+00:00 | behavior | 0 | 51.52 | `pytest -q` | `abf7e492aa1972bc` |  |  |
+| 2026-11-08T13:23:42+00:00 | crap-pytest-cov | 0 | 51.81 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `025c6b1e399b6f18` |  |  |
+| 2026-11-08T13:23:42+00:00 | crap-lizard | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T13:23:42+00:00 | crap-report | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `46edc5c319c80c3b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
+| 2026-11-08T13:23:42+00:00 | mutation-changed | 0 | 0.06 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
+| 2026-11-08T13:24:32+00:00 | regression | 0 | 50.61 | `pytest -q` | `f4205d22bf7c13cf` |  |  |

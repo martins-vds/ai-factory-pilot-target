@@ -10,7 +10,6 @@ from cargotracker.cargo.domain.tracking_id import TrackingId
 from cargotracker.cargo.infrastructure.models import CargoRecord
 from cargotracker.cargo.infrastructure.repository import DjangoCargoRepository
 
-
 TODAY = date(2026, 11, 7)
 
 
@@ -168,7 +167,9 @@ def test_registration_fields_match_tier_a_recording(client, booking_recording, m
         },
     )
 
-    new_tracking_id = (set(CargoRecord.objects.values_list('tracking_id', flat=True)) - before).pop()
+    new_tracking_id = (
+        set(CargoRecord.objects.values_list('tracking_id', flat=True)) - before
+    ).pop()
     cargo = DjangoCargoRepository().find(TrackingId(new_tracking_id))
 
     assert response.status_code == 302
