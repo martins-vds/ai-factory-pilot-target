@@ -1,0 +1,58 @@
+[
+  {
+    "at": "2026-11-08T03:02:26Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 30001,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-ACCEPT",
+    "role": "afs-slice-coordinator",
+    "changed": [
+      ".migration/evidence/runs/DM-ACCEPT.md",
+      ".migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml"
+    ],
+    "findings": [
+      "[stuck] Your return reports a handoff (`.migration/handoffs/DM-ACCEPT.md`) but this branch didn't commit it. Write the `## Handoff` section with afs-handoff and commit `.migration/handoffs/DM-ACCEPT.md`."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  },
+  {
+    "at": "2026-11-08T03:03:54Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 32445,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "DM-ACCEPT",
+    "role": "afs-slice-coordinator",
+    "changed": [
+      ".migration/costs/17ba9402-ddca-4ae6-95ef-f40d020c0fa1.json",
+      ".migration/evidence/runs/DM-ACCEPT.md",
+      ".migration/handoffs/DM-ACCEPT.md",
+      ".migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 1,
+    "decision": "allow",
+    "why": "clean"
+  }
+]

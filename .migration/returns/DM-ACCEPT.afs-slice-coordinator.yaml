@@ -17,8 +17,10 @@ acceptance:
   gates: all-green
   mutation_score: 0.914
   coverage_gaps: 0
-human_check: requested
+human_check: deferred
 human_check_issues: []
+human_check_issue: martins-vds/ai-factory-pilot-target#418
+human_check_due: '2026-11-14'
 human_check_comparison:
   - "Compare the legacy and target exports for all six mapped tables, preserving source IDs and checking every mapped field, NULL, timestamp, foreign key, and row count."
   - "Compare legacy sequence behavior with target-native sequence realignment, including that the next generated ID exceeds the highest imported ID."

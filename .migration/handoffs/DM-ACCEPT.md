@@ -32,3 +32,21 @@ Ask the operator to resolve the #387 historical-return gap, finish #414 and reco
 - self-check failed: `afs-finish-check` still found 1 problem(s) after its retry budget (ADR-0034). Written by the stop hook, not by the agent.
 ### Next step for the next session
 Fix the items under Remaining, run `afs-finish-check`, and commit. Scope items need the operator.
+
+## Handoff — afs-slice-coordinator · 2026-11-08T03:02:34Z
+**State:** needs human  ·  **Branch / PR:** https://github.com/martins-vds/ai-factory-pilot-target/pull/415 ·  **Last commit:** d44d627
+### Done
+- Recorded the operator's ADR-0036 deferral in the return: `human_check: deferred`, issue `martins-vds/ai-factory-pilot-target#418`, due `2026-11-14`; preserved the comparison and all other return fields.
+- Migration validation passed with 202 files checked and 0 errors.
+- Setup probe passed (exit 0); journal log: `.migration/runs/DM-ACCEPT/20261108T030139897382Z-setup-probe.log`. No project gates were run.
+### Remaining
+- [ ] An approver listed in `signoff.approvers` must approve the current PR head commit for the deferral to count.
+- [ ] Keep the human check deferred until the approver action and the deferred comparison are resolved.
+### Decisions made
+- Recorded the operator's 2026-11-07 decision to defer the human side-by-side check through 2026-11-14.
+### Blockers / questions
+- The configured approver's approval on the current PR head is pending; no approval was requested or relayed by this agent.
+### Failing commands
+- None.
+### Next step for the next session
+Confirm that an approver listed in `signoff.approvers` has approved the current PR head; do not mark the human check complete until its deferred comparison is resolved.
