@@ -1,0 +1,92 @@
+[
+  {
+    "at": "2026-11-08T01:33:55Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "prompt_from": "none",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05G",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/74309599-e731-4bff-8519-61afeb682d09.json",
+      ".migration/evidence/mutants/BK-05G.md",
+      ".migration/evidence/runs/BK-05G.md",
+      "tests/booking/interfaces/test_dialogs.py"
+    ],
+    "findings": [
+      "[mechanical] `.migration/returns/BK-05G.afs-specialist-migrator.yaml` exists but this branch didn't update it. Update it with this session's gates and PR, and commit it."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  },
+  {
+    "at": "2026-11-08T01:35:46Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "prompt_from": "none",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05G",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/74309599-e731-4bff-8519-61afeb682d09.json",
+      ".migration/evidence/mutants/BK-05G.md",
+      ".migration/evidence/runs/BK-05G.md",
+      ".migration/returns/BK-05G.afs-specialist-migrator.yaml",
+      "tests/booking/interfaces/test_dialogs.py"
+    ],
+    "findings": [
+      "[mechanical] CI's validate.py will fail on this: .migration/returns/BK-05G.afs-specialist-migrator.yaml: gates.mutation_changed=0.907 does not match the last mutation gate run in .migration/evidence/runs/BK-05G.md when this return was last committed (score=0.889); report the score afs-mutation printed. Fix it and commit."
+    ],
+    "blocks_before": 1,
+    "decision": "block",
+    "why": "block 2 of 2"
+  },
+  {
+    "at": "2026-11-08T01:36:47Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 0,
+    "prompt_from": "none",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05G",
+    "role": "afs-specialist-migrator",
+    "changed": [
+      ".migration/costs/74309599-e731-4bff-8519-61afeb682d09.json",
+      ".migration/evidence/mutants/BK-05G.md",
+      ".migration/evidence/runs/BK-05G.md",
+      ".migration/returns/BK-05G.afs-specialist-migrator.yaml",
+      "tests/booking/interfaces/test_dialogs.py"
+    ],
+    "findings": [],
+    "blocks_before": 2,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
