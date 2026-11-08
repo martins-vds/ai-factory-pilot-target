@@ -25,3 +25,12 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T13:28:03+00:00 | crap | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `46edc5c319c80c3b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
 | 2026-11-08T13:28:08+00:00 | mutation-changed | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
 | 2026-11-08T13:28:52+00:00 | endpoint-test | 0 | 2.4 | `pytest -q tests/cargo/interfaces/test_admin_live_map_markers.py::test_admin_live_map_marker_poll_renders_current_cargo_with_booking_link` | `c3875cce419d1114` |  |  |
+| 2026-11-08T13:29:18+00:00 | idiom-ruff-check-final | 0 | 0.02 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T13:29:18+00:00 | build-compile-final | 0 | 0.07 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T13:29:18+00:00 | idiom-ruff-format-final | 0 | 0.02 | `ruff format --check` | `507ad0521c6e9ec2` |  |  |
+| 2026-11-08T13:29:19+00:00 | build-check-final | 0 | 0.42 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-08T13:30:27+00:00 | tests-final | 0 | 65.6 | `pytest -q` | `8e6806c2f94867fe` |  |  |
+| 2026-11-08T13:31:38+00:00 | crap-coverage-final | 0 | 66.83 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `3448353175d7de3e` |  |  |
+| 2026-11-08T13:31:46+00:00 | crap-lizard-final | 0 | 0.16 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T13:31:49+00:00 | crap-final | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `46edc5c319c80c3b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
+| 2026-11-08T13:31:53+00:00 | mutation-changed-final | 0 | 0.08 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `36603172da4a0d74` |  | gate=mutation score=n/a reason=no-mutable-code-changed base=origin/main |
