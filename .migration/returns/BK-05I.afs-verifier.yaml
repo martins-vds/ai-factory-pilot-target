@@ -1,0 +1,45 @@
+role: afs-verifier
+ticket: BK-05I
+issue: martins-vds/ai-factory-pilot-target#296
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/450
+verdict: pass
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 26.0
+  mutation_changed: "n/a: no mutable code changed"
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/BK-05I.md
+findings: []
+tests_added:
+  - tests/characterization/booking/test_booking_replay_wizard.py::test_origin_step_fields_match_tier_a_recording
+  - tests/characterization/booking/test_booking_replay_wizard.py::test_destination_step_fields_match_tier_a_recording
+  - tests/characterization/booking/test_booking_replay_wizard.py::test_deadline_step_fields_match_tier_a_recording
+  - tests/characterization/booking/test_booking_replay_wizard.py::test_wizard_chain_preserves_recorded_selections_and_actions
+  - tests/characterization/booking/test_booking_replay_wizard.py::test_registration_fields_match_tier_a_recording
+  - tests/characterization/booking/test_booking_replay_dashboard.py::test_dashboard_fields_match_tier_a_recording
+  - tests/characterization/booking/test_booking_replay_dashboard.py::test_claimed_cargo_details_match_tier_a_fields
+  - tests/characterization/booking/test_booking_replay_dashboard.py::test_unknown_cargo_details_match_approved_not_found_behavior
+  - tests/characterization/booking/test_booking_replay_dashboard.py::test_empty_dashboard_matches_tier_a_table_fields
+  - tests/characterization/booking/test_booking_replay_dialogs.py::test_destination_dialog_fields_match_recording_and_apply_approved_rulings
+  - tests/characterization/booking/test_booking_replay_dialogs.py::test_deadline_dialog_fields_match_recording_and_preserve_successful_update
+  - tests/characterization/booking/test_booking_replay_dialogs.py::test_unknown_dialog_updates_return_approved_not_found
+  - tests/characterization/booking/test_booking_replay_routing.py::test_route_candidates_and_assignment_match_recorded_fields_and_ruling
+  - tests/characterization/booking/test_booking_replay_routing.py::test_short_deadline_and_unknown_cargo_fields_match_recordings
+  - tests/characterization/booking/test_booking_replay_routing.py::test_pathfinder_fields_match_tier_a_recordings_and_ignore_deadline
+  - tests/characterization/booking/test_booking_replay_routing.py::test_pathfinder_validation_matches_exact_recorded_fields
+ledger_issues:
+  - booking.screen-not-routed-table remains in-progress despite completed implementing tickets and target evidence.
+quirk_tickets:
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/89
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/232
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/233
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/234
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/235
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/236
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/237
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/238
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/251
+  - https://github.com/martins-vds/ai-factory-pilot-target/issues/252
