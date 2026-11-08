@@ -1,0 +1,2 @@
+AFS-TOOL check_runtime.py exit=0
+runtimes OK: python 3.13.18

@@ -1,0 +1,59 @@
+AFS-TOOL graph_gate.py exit=0
+# Graph gate: target
+
+- 564 nodes, 1373 edges
+- Edges added by harness enrichers: 782
+
+## Required types (profile graph.require)
+
+- node `table`: 7
+- node `endpoint`: 13
+- edge `reads_from`: 26
+- edge `writes_to`: 14
+- edge `routes`: 36
+- edge `calls`: 535
+
+## Data paths (slice specs data_paths)
+
+- `admin-live-map` **endpoint=/admin/live-map/**: `/admin/live-map/` →routes `compose_admin_map_views` →calls `DjangoCargoRepository` →contains `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 2 data node(s): cargo, leg
+- `admin-live-map` **endpoint=/admin/live-map/markers/**: `/admin/live-map/markers/` →routes `compose_admin_map_views` →calls `DjangoCargoRepository` →contains `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 2 data node(s): cargo, leg
+- `booking` **endpoint=/booking/**: `/booking/` →routes `create_booking_wizard_view` →calls `CargoRegistration` →contains `CargoRegistration.register` →calls `CargoRepository.upsert` ←implements `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 2 data node(s): cargo, leg
+- `booking` **endpoint=/admin/dashboard/**: `/admin/dashboard/` →routes `create_booking_views` →calls `CargoDashboard` →calls `CargoRepository` →contains `CargoRepository.upsert` ←implements `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+- `booking` **endpoint=/admin/cargo/<tracking_id>/**: `/admin/cargo/<str:tracking_id>/` →routes `create_booking_views` →calls `CargoDashboard` →calls `CargoRepository` →contains `CargoRepository.upsert` ←implements `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+- `booking` **endpoint=/admin/cargo/<tracking_id>/route/**: `/admin/cargo/<str:tracking_id>/route/` →routes `create_route_selection_views` →calls `CargoRouting` →contains `CargoRouting.assign_route` →calls `HandlingEventRepository.lookup_handling_history_of_cargo` ←implements `DjangoHandlingEventRepository.lookup_handling_history_of_cargo` →reads_from `HandlingEvent` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+- `booking` **endpoint=/admin/cargo/<tracking_id>/itineraries/**: `/admin/cargo/<str:tracking_id>/itineraries/` →routes `create_route_selection_views` →calls `CargoRouting` →contains `CargoRouting.assign_route` →calls `HandlingEventRepository.lookup_handling_history_of_cargo` ←implements `DjangoHandlingEventRepository.lookup_handling_history_of_cargo` →reads_from `HandlingEvent` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+- `booking` **endpoint=/admin/cargo/<tracking_id>/destination/**: `/admin/cargo/<str:tracking_id>/destination/` →routes `create_dialog_views` →calls `CargoDashboard` →calls `CargoRepository` →contains `CargoRepository.upsert` ←implements `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+- `booking` **endpoint=/admin/cargo/<tracking_id>/deadline/**: `/admin/cargo/<str:tracking_id>/deadline/` →routes `create_dialog_views` →calls `CargoDashboard` →calls `CargoRepository` →contains `CargoRepository.upsert` ←implements `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+- `data-migration` **command=load_data_snapshot**: `load_data_snapshot` →writes_to `location` — reaches 6 data node(s): HandlingEvent, cargo, carrier_movement, leg, location, voyage
+- `handling-registration` **endpoint=POST /rest/handling/reports**: `POST /rest/handling/reports` →routes `compose_handling_report_view` →calls `DjangoAttemptSubmissionRepository` →contains `DjangoAttemptSubmissionRepository.submit` →writes_to `handling_registration_attempt`
+- `handling-registration` **command=process_handling_attempts**: `process_handling_attempts` →routes `Command` →calls `DjangoCargoRepository` →contains `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 6 data node(s): HandlingEvent, cargo, handling_registration_attempt, leg, location, voyage
+- `track-cargo` **endpoint=/**: `/` →routes `compose_tracking_view` →calls `DjangoCargoRepository` →contains `DjangoCargoRepository.upsert` →reads_from `cargo` — reaches 5 data node(s): HandlingEvent, cargo, leg, location, voyage
+
+## Entry points owned by a slice (ADR-0026)
+
+- 17 owned, 0 not owned
+
+## Entry points reaching data (for review)
+
+- 19 of 34 pages/endpoints
+  - no path: page `templates/booking/cargo_details.html`
+  - no path: page `templates/booking/route_selection/route.html`
+  - no path: page `templates/booking/route_selection/select_itinerary.html`
+  - no path: page `templates/booking/wizard/origin.html`
+  - no path: page `templates/booking/wizard/destination.html`
+  - no path: page `templates/admin/_live_map_markers.html`
+  - no path: page `src/cargotracker/cargo/templates/cargo/interfaces/tracking/map/frame.html`
+  - no path: endpoint `GET /rest/graph-traversal/shortest-path`
+  - no path: endpoint `/tracking/map/`
+  - no path: page `templates/base.html`
+  - no path: page `templates/booking/dashboard/admin_base.html`
+  - no path: page `templates/booking/dashboard/claimed_table.html`
+  - no path: page `templates/booking/dashboard/routed_table.html`
+  - no path: page `templates/booking/route_selection/_candidate_routes.html`
+  - no path: page `templates/tracking/result.html`
+
+## Gate
+
+- PASS
+
+AFS-RESULT gate=graph side=target verdict=pass failures=0 entry_points=34 reaching_data=19 enriched_edges=782

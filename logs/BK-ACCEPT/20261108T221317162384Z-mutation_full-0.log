@@ -1,0 +1,34 @@
+AFS-TOOL afs-mutation exit=0
+afs-mutation: ok score=0.931 threshold=0.8 killed=2065 survived=153 skipped=0 files=83 jobs=4 base=all
+AFS-RESULT gate=mutation score=0.931 threshold=0.8 killed=2065 survived=153 files=83 base=all
+  tests: coverage; runner for src/cargotracker/booking/application/dashboard.py: /opt/hostedtoolcache/Python/3.13.18/x64/bin/python /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/harness/tools/afs-mutation --pytest -q -x -p no:cacheprovider --no-cov 'tests/booking/application/test_dashboard.py::test_cargo_details_returns_the_requested_cargo' 'tests/
+  survived: src/cargotracker/data_migration/loader.py:52 Mutant #49
+  survived: src/cargotracker/data_migration/loader.py:90 Mutant #81
+  survived: src/cargotracker/data_migration/loader.py:101 Mutant #86
+  survived: src/cargotracker/data_migration/loader.py:218 Mutant #207
+  survived: src/cargotracker/data_migration/loader.py:233 Mutant #218
+  survived: src/cargotracker/data_migration/loader.py:266 Mutant #251
+  survived: src/cargotracker/data_migration/loader.py:268 Mutant #254
+  survived: src/cargotracker/data_migration/loader.py:273 Mutant #259
+  survived: src/cargotracker/data_migration/exporter.py:59 Mutant #328
+  survived: src/cargotracker/data_migration/exporter.py:95 Mutant #355
+  survived: src/cargotracker/handling/infrastructure/attempt_submission_repository.py:16 Mutant #379
+  survived: src/cargotracker/handling/infrastructure/attempt_submission_repository.py:43 Mutant #387
+  survived: src/cargotracker/handling/infrastructure/attempt_submission_repository.py:54 Mutant #392
+  survived: src/cargotracker/pathfinder/application/routing.py:44 Mutant #428
+  survived: src/cargotracker/pathfinder/application/routing.py:72 Mutant #441
+  survived: src/cargotracker/pathfinder/application/routing.py:72 Mutant #442
+  survived: src/cargotracker/pathfinder/interfaces/api.py:12 Mutant #450
+  survived: src/cargotracker/pathfinder/interfaces/api.py:59 Mutant #487
+  survived: src/cargotracker/cargo/domain/route_specification.py:26 Mutant #500
+  survived: src/cargotracker/cargo/management/commands/seed_sample_data.py:15 Mutant #513
+  survived: src/cargotracker/cargo/management/commands/seed_sample_data.py:15 Mutant #514
+  survived: src/cargotracker/cargo/management/commands/seed_sample_data.py:17 Mutant #515
+  survived: src/cargotracker/cargo/management/commands/seed_sample_data.py:26 Mutant #517
+  survived: src/cargotracker/cargo/domain/handling_activity.py:22 Mutant #537
+  survived: src/cargotracker/cargo/domain/handling_activity.py:24 Mutant #541
+  survived: src/cargotracker/location/domain/un_locode.py:16 Mutant #568
+  survived: src/cargotracker/cargo/domain/delivery.py:76 Mutant #27
+  survived: src/cargotracker/cargo/domain/delivery.py:85 Mutant #29
+  survived: src/cargotracker/cargo/domain/delivery.py:87 Mutant #31
+  survived: src/cargotracker/cargo/domain/delivery.py:89 Mutant #33

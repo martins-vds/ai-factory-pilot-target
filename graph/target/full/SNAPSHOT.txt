@@ -1,0 +1,7 @@
+side: target
+scope: full
+target_commit: 135c70a276d4b20d377d701e064c9c819de4151c
+tree.src: 2b8dbea633e8cb0e80c5ced292856425f4dc3358
+tree.templates: 179209eaf66c393b325742efba8417e0ad1ff169
+understand_anything: 4e6d3299017a7432da15957874992837a315c5b4
+run: https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42528425964

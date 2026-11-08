@@ -1,0 +1,2 @@
+AFS-TOOL check_graph_fresh.py exit=0
+graphs OK: fresh = .migration/graphs/source/full, /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/runs/acceptance-42528425964-1/graph/target/full

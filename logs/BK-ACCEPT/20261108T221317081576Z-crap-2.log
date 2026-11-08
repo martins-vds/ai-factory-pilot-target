@@ -1,0 +1,32 @@
+AFS-TOOL crap.py exit=0
+# CRAP risk map
+
+- Methods: 213 · coverage input: yes
+- Above 30: **0** (0.0%)
+
+## Top 20
+
+| CRAP | CCN | Cov | Method | File:lines |
+|---:|---:|---:|---|---|
+| 26 | 26 | 100% | `_prepare_tables( mapping , models )` | src/cargotracker/data_migration/loader.py:172-226 |
+| 23 | 23 | 100% | `_transform( value , transform , timezone )` | src/cargotracker/data_migration/loader.py:22-76 |
+| 19 | 19 | 97% | `create_booking_wizard_view.wizard( request : HttpRequest )` | src/cargotracker/booking/interfaces/wizard/views.py:127-182 |
+| 19 | 19 | 100% | `__init__( self , events : Iterable [ HandlingEvent ] , event_ids : Iterable [ in` | src/cargotracker/handling/domain/handling_history.py:15-50 |
+| 19 | 19 | 100% | `_prepare_tables( mapping , models )` | src/cargotracker/data_migration/exporter.py:29-62 |
+| 15 | 15 | 100% | `__post_init__( self )` | src/cargotracker/handling/domain/registration_attempt.py:30-53 |
+| 14 | 14 | 94% | `__post_init__( self )` | src/cargotracker/handling/domain/handling_event.py:33-53 |
+| 14 | 14 | 100% | `__post_init__( self )` | src/cargotracker/cargo/domain/delivery.py:109-132 |
+| 14 | 14 | 100% | `_read_source_rows( snapshot , source , manifest )` | src/cargotracker/data_migration/loader.py:125-161 |
+| 11 | 11 | 100% | `_to_domain( self , record : CargoRecord )` | src/cargotracker/cargo/infrastructure/repository.py:98-149 |
+| 9 | 9 | 100% | `_deadline_step( request : HttpRequest , registration : CargoRegistration , origi` | src/cargotracker/booking/interfaces/wizard/views.py:90-120 |
+| 8 | 8 | 100% | `__post_init__( self )` | src/cargotracker/cargo/domain/handling_activity.py:16-24 |
+| 8 | 8 | 100% | `process_registration_attempt( attempts : RegistrationProcessingRepository , carg` | src/cargotracker/handling/application/process_registration_attempt.py:36-60 |
+| 8 | 8 | 100% | `handle( self , * args , ** options )` | src/cargotracker/handling/management/commands/process_handling_attempts.py:20-44 |
+| 8 | 8 | 100% | `_format_value( value , timezone )` | src/cargotracker/data_migration/exporter.py:73-84 |
+| 8 | 8 | 100% | `get_dashboard( self )` | src/cargotracker/booking/application/dashboard.py:20-35 |
+| 8 | 8 | 100% | `destination_dialog( request : HttpRequest , tracking_id : str )` | src/cargotracker/booking/interfaces/dialogs/views.py:38-71 |
+| 7 | 7 | 100% | `upsert( self , cargo : Cargo )` | src/cargotracker/cargo/infrastructure/repository.py:22-70 |
+| 7 | 7 | 100% | `__post_init__( self )` | src/cargotracker/cargo/domain/cargo.py:18-30 |
+| 7 | 7 | 100% | `_process_registration_attempt_once( attempts : RegistrationProcessingRepository ` | src/cargotracker/handling/application/process_registration_attempt.py:63-101 |
+
+AFS-RESULT gate=crap max=26.0 threshold=30 over=0 methods=213

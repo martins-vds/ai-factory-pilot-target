@@ -1,0 +1,1051 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "cargotracker",
+    "languages": [
+      "python",
+      "html"
+    ],
+    "frameworks": [
+      "Django",
+      "HTMX"
+    ],
+    "description": "Cargo shipping system covering booking, routing, handling and tracking.",
+    "analyzedAt": "2026-11-08T22:10:53.304954Z",
+    "gitCommitHash": "135c70a276d4b20d377d701e064c9c819de4151c",
+    "analyzedCommit": "278f6555e94e811138aeb24a5dc6f5ba45f111b3"
+  },
+  "nodes": [
+    {
+      "id": "domain:cargo-booking",
+      "type": "domain",
+      "name": "Cargo Booking & Routing",
+      "summary": "Lets administrators register new cargo, assign routes and change route specifications. Coordinates with the pathfinder to obtain candidate itineraries.",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "complex",
+      "domainMeta": {
+        "entities": [
+          "Cargo",
+          "RouteSpecification",
+          "Itinerary",
+          "Leg",
+          "TrackingId"
+        ],
+        "businessRules": [
+          "A route specification needs an origin, destination and arrival deadline",
+          "An itinerary must satisfy the route specification to be assigned"
+        ],
+        "crossDomainInteractions": [
+          "Requests candidate routes from Pathfinder",
+          "Reads handling-derived delivery status from Handling & Tracking"
+        ]
+      }
+    },
+    {
+      "id": "domain:handling-tracking",
+      "type": "domain",
+      "name": "Handling & Tracking",
+      "summary": "Accepts handling reports, processes them asynchronously into handling events, and exposes public tracking and map views of cargo progress.",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "complex",
+      "domainMeta": {
+        "entities": [
+          "HandlingEvent",
+          "RegistrationAttempt",
+          "HandlingHistory",
+          "Delivery"
+        ],
+        "businessRules": [
+          "Handling events are deduplicated and ordered chronologically",
+          "Delivery status is derived from the itinerary and handling history"
+        ],
+        "crossDomainInteractions": [
+          "Updates Cargo delivery from handling events",
+          "Resolves Location and Voyage references"
+        ]
+      }
+    },
+    {
+      "id": "domain:route-planning",
+      "type": "domain",
+      "name": "Route Planning (Pathfinder)",
+      "summary": "Generates candidate transit paths between two ports for booking.",
+      "tags": [
+        "route-planning"
+      ],
+      "complexity": "simple",
+      "domainMeta": {
+        "entities": [
+          "TransitPath",
+          "TransitEdge"
+        ],
+        "businessRules": [
+          "Origin and destination must be valid UN/LOCODEs"
+        ],
+        "crossDomainInteractions": [
+          "Serves Cargo Booking & Routing"
+        ]
+      }
+    },
+    {
+      "id": "domain:locations-voyages",
+      "type": "domain",
+      "name": "Locations & Voyages",
+      "summary": "Reference data: UN/LOCODE locations and voyages with schedules of carrier movements.",
+      "tags": [
+        "locations-voyages"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entities": [
+          "Location",
+          "UnLocode",
+          "Voyage",
+          "Schedule",
+          "CarrierMovement"
+        ],
+        "businessRules": [
+          "Locations are identified by validated UN/LOCODE",
+          "Schedules are immutable ordered movements"
+        ],
+        "crossDomainInteractions": [
+          "Referenced by Cargo, Handling and Pathfinder"
+        ]
+      }
+    },
+    {
+      "id": "flow:register-cargo",
+      "type": "flow",
+      "name": "Register Cargo",
+      "summary": "Multi-step HTMX wizard that books a new cargo.",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "GET/POST booking wizard",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:register-cargo:select-origin",
+      "type": "step",
+      "name": "Select Origin",
+      "summary": "Choose origin location",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/wizard/views.py"
+    },
+    {
+      "id": "step:register-cargo:select-destination",
+      "type": "step",
+      "name": "Select Destination",
+      "summary": "Choose destination location",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/wizard/views.py"
+    },
+    {
+      "id": "step:register-cargo:set-deadline",
+      "type": "step",
+      "name": "Set Deadline",
+      "summary": "Enter arrival deadline",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/wizard/views.py"
+    },
+    {
+      "id": "step:register-cargo:register-cargo",
+      "type": "step",
+      "name": "Register Cargo",
+      "summary": "Generate tracking id, build route specification and persist the cargo",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/registration.py"
+    },
+    {
+      "id": "flow:assign-route",
+      "type": "flow",
+      "name": "Assign Route to Cargo",
+      "summary": "Select a candidate itinerary for a not-yet-routed cargo.",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "Route selection page",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:assign-route:request-candidate-routes",
+      "type": "step",
+      "name": "Request Candidate Routes",
+      "summary": "Ask the pathfinder for candidate routes",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/routing.py"
+    },
+    {
+      "id": "step:assign-route:convert-to-itineraries",
+      "type": "step",
+      "name": "Convert To Itineraries",
+      "summary": "Convert transit paths into itineraries",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/routing.py"
+    },
+    {
+      "id": "step:assign-route:list-candidates",
+      "type": "step",
+      "name": "List Candidates",
+      "summary": "Show candidate itineraries to the admin",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/route_selection/views.py"
+    },
+    {
+      "id": "step:assign-route:assign-itinerary",
+      "type": "step",
+      "name": "Assign Itinerary",
+      "summary": "Persist selected itinerary on the cargo",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/routing.py"
+    },
+    {
+      "id": "flow:change-route-specification",
+      "type": "flow",
+      "name": "Change Route Specification",
+      "summary": "Change destination or arrival deadline of a cargo.",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "HTMX dialog",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:change-route-specification:open-dialog",
+      "type": "step",
+      "name": "Open Dialog",
+      "summary": "Load edit dialog from dashboard",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/dialogs/views.py"
+    },
+    {
+      "id": "step:change-route-specification:validate-input",
+      "type": "step",
+      "name": "Validate Input",
+      "summary": "Validate the submitted destination or deadline",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/dialogs/views.py"
+    },
+    {
+      "id": "step:change-route-specification:update-specification",
+      "type": "step",
+      "name": "Update Specification",
+      "summary": "Update specification and persist cargo",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/specification.py"
+    },
+    {
+      "id": "step:change-route-specification:refresh-dashboard",
+      "type": "step",
+      "name": "Refresh Dashboard",
+      "summary": "Re-render dashboard tables",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/dashboard/views.py"
+    },
+    {
+      "id": "flow:view-booking-dashboard",
+      "type": "flow",
+      "name": "View Booking Dashboard",
+      "summary": "Lists routed, not-routed and claimed cargo.",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "Booking dashboard page",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:view-booking-dashboard:load-cargos",
+      "type": "step",
+      "name": "Load Cargos",
+      "summary": "Read all cargos from repository",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/dashboard.py"
+    },
+    {
+      "id": "step:view-booking-dashboard:build-listings",
+      "type": "step",
+      "name": "Build Listings",
+      "summary": "Group cargo into routed/not routed/claimed listings",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/application/dashboard.py"
+    },
+    {
+      "id": "step:view-booking-dashboard:render-dashboard",
+      "type": "step",
+      "name": "Render Dashboard",
+      "summary": "Render dashboard templates",
+      "tags": [
+        "cargo-booking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/booking/interfaces/dashboard/views.py"
+    },
+    {
+      "id": "flow:submit-handling-report",
+      "type": "flow",
+      "name": "Submit Handling Report",
+      "summary": "Accept a handling report via REST and queue it.",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "POST handling report",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:submit-handling-report:validate-report",
+      "type": "step",
+      "name": "Validate Report",
+      "summary": "Validate tracking id, event type, UN/LOCODE, voyage, time",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/interfaces/rest.py"
+    },
+    {
+      "id": "step:submit-handling-report:accept-report",
+      "type": "step",
+      "name": "Accept Report",
+      "summary": "Submit a registration attempt",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/application/accept_registration.py"
+    },
+    {
+      "id": "step:submit-handling-report:persist-attempt",
+      "type": "step",
+      "name": "Persist Attempt",
+      "summary": "Store the pending attempt",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/infrastructure/attempt_submission_repository.py"
+    },
+    {
+      "id": "flow:process-handling-attempts",
+      "type": "flow",
+      "name": "Process Handling Attempts",
+      "summary": "Drain queued attempts into handling events and update cargo.",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "manage.py process_handling_attempts",
+        "entryType": "cli"
+      }
+    },
+    {
+      "id": "step:process-handling-attempts:claim-attempt",
+      "type": "step",
+      "name": "Claim Attempt",
+      "summary": "Claim next pending attempt atomically",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/infrastructure/attempt_processing_repository.py"
+    },
+    {
+      "id": "step:process-handling-attempts:resolve-references",
+      "type": "step",
+      "name": "Resolve References",
+      "summary": "Resolve cargo, location and voyage",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/application/process_registration_attempt.py"
+    },
+    {
+      "id": "step:process-handling-attempts:create-handling-event",
+      "type": "step",
+      "name": "Create Handling Event",
+      "summary": "Build and store the HandlingEvent",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/application/process_registration_attempt.py"
+    },
+    {
+      "id": "step:process-handling-attempts:update-delivery",
+      "type": "step",
+      "name": "Update Delivery",
+      "summary": "Recompute cargo delivery from handling history",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/domain/delivery.py"
+    },
+    {
+      "id": "step:process-handling-attempts:mark-attempt-done",
+      "type": "step",
+      "name": "Mark Attempt Done",
+      "summary": "Mark the attempt terminal status",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/handling/infrastructure/attempt_processing_repository.py"
+    },
+    {
+      "id": "flow:track-cargo",
+      "type": "flow",
+      "name": "Track Cargo",
+      "summary": "Public lookup of a cargo by tracking id.",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "Tracking page",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:track-cargo:validate-tracking-id",
+      "type": "step",
+      "name": "Validate Tracking Id",
+      "summary": "Validate tracking id form",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/forms.py"
+    },
+    {
+      "id": "step:track-cargo:lookup-cargo",
+      "type": "step",
+      "name": "Lookup Cargo",
+      "summary": "Find cargo and handling history",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/tracking.py"
+    },
+    {
+      "id": "step:track-cargo:format-status",
+      "type": "step",
+      "name": "Format Status",
+      "summary": "Produce status text, ETA, next activity",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/status_text.py"
+    },
+    {
+      "id": "step:track-cargo:format-history",
+      "type": "step",
+      "name": "Format History",
+      "summary": "Convert events to display rows",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/history.py"
+    },
+    {
+      "id": "step:track-cargo:render-tracking",
+      "type": "step",
+      "name": "Render Tracking",
+      "summary": "Render full page or HTMX partial",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/tracking/views.py"
+    },
+    {
+      "id": "flow:view-admin-live-map",
+      "type": "flow",
+      "name": "View Admin Live Map",
+      "summary": "Shows all cargo on a map with status markers.",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "Admin live map page",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:view-admin-live-map:load-cargos",
+      "type": "step",
+      "name": "Load Cargos",
+      "summary": "Fetch all cargos",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/admin_map.py"
+    },
+    {
+      "id": "step:view-admin-live-map:compute-map-status",
+      "type": "step",
+      "name": "Compute Map Status",
+      "summary": "Map cargo to status code",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/map_status.py"
+    },
+    {
+      "id": "step:view-admin-live-map:build-markers",
+      "type": "step",
+      "name": "Build Markers",
+      "summary": "Build marker data with coordinates",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/admin_map.py"
+    },
+    {
+      "id": "step:view-admin-live-map:serve-markers",
+      "type": "step",
+      "name": "Serve Markers",
+      "summary": "Serve markers JSON",
+      "tags": [
+        "handling-tracking"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/interfaces/admin_map/views.py"
+    },
+    {
+      "id": "flow:find-shortest-path",
+      "type": "flow",
+      "name": "Find Shortest Path",
+      "summary": "JSON API returning candidate transit paths.",
+      "tags": [
+        "route-planning"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "GET pathfinder shortest-path",
+        "entryType": "http"
+      }
+    },
+    {
+      "id": "step:find-shortest-path:validate-endpoints",
+      "type": "step",
+      "name": "Validate Endpoints",
+      "summary": "Validate origin and destination",
+      "tags": [
+        "route-planning"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/pathfinder/interfaces/api.py"
+    },
+    {
+      "id": "step:find-shortest-path:generate-paths",
+      "type": "step",
+      "name": "Generate Paths",
+      "summary": "Generate sample transit paths between ports",
+      "tags": [
+        "route-planning"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/pathfinder/application/routing.py"
+    },
+    {
+      "id": "step:find-shortest-path:return-json",
+      "type": "step",
+      "name": "Return Json",
+      "summary": "Serialize transit paths",
+      "tags": [
+        "route-planning"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/pathfinder/interfaces/api.py"
+    },
+    {
+      "id": "flow:seed-sample-data",
+      "type": "flow",
+      "name": "Seed Sample Data",
+      "summary": "Populate locations, voyages, cargos and handling events.",
+      "tags": [
+        "locations-voyages"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "manage.py seed_sample_data",
+        "entryType": "cli"
+      }
+    },
+    {
+      "id": "step:seed-sample-data:wire-repositories",
+      "type": "step",
+      "name": "Wire Repositories",
+      "summary": "Wire Django repositories",
+      "tags": [
+        "locations-voyages"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/management/commands/seed_sample_data.py"
+    },
+    {
+      "id": "step:seed-sample-data:seed-locations-voyages",
+      "type": "step",
+      "name": "Seed Locations Voyages",
+      "summary": "Create locations and voyages",
+      "tags": [
+        "locations-voyages"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/sample_data.py"
+    },
+    {
+      "id": "step:seed-sample-data:seed-cargos",
+      "type": "step",
+      "name": "Seed Cargos",
+      "summary": "Create cargos, legs and handling events",
+      "tags": [
+        "locations-voyages"
+      ],
+      "complexity": "simple",
+      "filePath": "src/cargotracker/cargo/application/sample_data.py"
+    }
+  ],
+  "edges": [
+    {
+      "source": "domain:cargo-booking",
+      "target": "flow:register-cargo",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:register-cargo",
+      "target": "step:register-cargo:select-origin",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.25
+    },
+    {
+      "source": "flow:register-cargo",
+      "target": "step:register-cargo:select-destination",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:register-cargo",
+      "target": "step:register-cargo:set-deadline",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.75
+    },
+    {
+      "source": "flow:register-cargo",
+      "target": "step:register-cargo:register-cargo",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:cargo-booking",
+      "target": "flow:assign-route",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:assign-route",
+      "target": "step:assign-route:request-candidate-routes",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.25
+    },
+    {
+      "source": "flow:assign-route",
+      "target": "step:assign-route:convert-to-itineraries",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:assign-route",
+      "target": "step:assign-route:list-candidates",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.75
+    },
+    {
+      "source": "flow:assign-route",
+      "target": "step:assign-route:assign-itinerary",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:cargo-booking",
+      "target": "flow:change-route-specification",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:change-route-specification",
+      "target": "step:change-route-specification:open-dialog",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.25
+    },
+    {
+      "source": "flow:change-route-specification",
+      "target": "step:change-route-specification:validate-input",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:change-route-specification",
+      "target": "step:change-route-specification:update-specification",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.75
+    },
+    {
+      "source": "flow:change-route-specification",
+      "target": "step:change-route-specification:refresh-dashboard",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:cargo-booking",
+      "target": "flow:view-booking-dashboard",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:view-booking-dashboard",
+      "target": "step:view-booking-dashboard:load-cargos",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.33
+    },
+    {
+      "source": "flow:view-booking-dashboard",
+      "target": "step:view-booking-dashboard:build-listings",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.67
+    },
+    {
+      "source": "flow:view-booking-dashboard",
+      "target": "step:view-booking-dashboard:render-dashboard",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-tracking",
+      "target": "flow:submit-handling-report",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:submit-handling-report",
+      "target": "step:submit-handling-report:validate-report",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.33
+    },
+    {
+      "source": "flow:submit-handling-report",
+      "target": "step:submit-handling-report:accept-report",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.67
+    },
+    {
+      "source": "flow:submit-handling-report",
+      "target": "step:submit-handling-report:persist-attempt",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-tracking",
+      "target": "flow:process-handling-attempts",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:process-handling-attempts",
+      "target": "step:process-handling-attempts:claim-attempt",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:process-handling-attempts",
+      "target": "step:process-handling-attempts:resolve-references",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.4
+    },
+    {
+      "source": "flow:process-handling-attempts",
+      "target": "step:process-handling-attempts:create-handling-event",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:process-handling-attempts",
+      "target": "step:process-handling-attempts:update-delivery",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "flow:process-handling-attempts",
+      "target": "step:process-handling-attempts:mark-attempt-done",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-tracking",
+      "target": "flow:track-cargo",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:validate-tracking-id",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:lookup-cargo",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.4
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:format-status",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:format-history",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "flow:track-cargo",
+      "target": "step:track-cargo:render-tracking",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:handling-tracking",
+      "target": "flow:view-admin-live-map",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:view-admin-live-map",
+      "target": "step:view-admin-live-map:load-cargos",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.25
+    },
+    {
+      "source": "flow:view-admin-live-map",
+      "target": "step:view-admin-live-map:compute-map-status",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:view-admin-live-map",
+      "target": "step:view-admin-live-map:build-markers",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.75
+    },
+    {
+      "source": "flow:view-admin-live-map",
+      "target": "step:view-admin-live-map:serve-markers",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:route-planning",
+      "target": "flow:find-shortest-path",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:find-shortest-path",
+      "target": "step:find-shortest-path:validate-endpoints",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.33
+    },
+    {
+      "source": "flow:find-shortest-path",
+      "target": "step:find-shortest-path:generate-paths",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.67
+    },
+    {
+      "source": "flow:find-shortest-path",
+      "target": "step:find-shortest-path:return-json",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:locations-voyages",
+      "target": "flow:seed-sample-data",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:seed-sample-data",
+      "target": "step:seed-sample-data:wire-repositories",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.33
+    },
+    {
+      "source": "flow:seed-sample-data",
+      "target": "step:seed-sample-data:seed-locations-voyages",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.67
+    },
+    {
+      "source": "flow:seed-sample-data",
+      "target": "step:seed-sample-data:seed-cargos",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:cargo-booking",
+      "target": "domain:route-planning",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Requests candidate transit paths",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:handling-tracking",
+      "target": "domain:cargo-booking",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Handling events update cargo delivery status",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:cargo-booking",
+      "target": "domain:locations-voyages",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Uses locations for specifications and legs",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:handling-tracking",
+      "target": "domain:locations-voyages",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Resolves locations and voyages for events",
+      "weight": 0.6
+    }
+  ],
+  "layers": [],
+  "tour": []
+}

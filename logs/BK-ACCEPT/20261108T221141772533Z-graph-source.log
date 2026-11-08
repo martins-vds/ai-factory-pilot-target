@@ -1,0 +1,52 @@
+AFS-TOOL graph_gate.py exit=0
+# Graph gate: source
+
+- 1054 nodes, 2139 edges
+- Edges added by harness enrichers: 1350
+
+## Required types (profile graph.require)
+
+- node `table`: 7
+- node `page`: 23
+- node `endpoint`: 4
+- edge `reads_from`: 23
+- edge `writes_to`: 7
+- edge `routes`: 25
+- edge `calls`: 632
+
+## Data paths (slice specs data_paths)
+
+- `admin-live-map` **page=src/main/webapp/admin/tracking/map.xhtml**: `src/main/webapp/admin/tracking/map.xhtml` →contains `src/main/webapp/admin/tracking/mapFrame.xhtml` →routes `GET /cargo` →routes `CargoMonitoringService.getAllCargo` →calls `CargoRepository.findAll` ←implements `JpaCargoRepository.findAll` →reads_from `Cargo`
+- `admin-live-map` **page=src/main/webapp/admin/tracking/mapFrame.xhtml**: `src/main/webapp/admin/tracking/mapFrame.xhtml` →routes `GET /cargo` →routes `CargoMonitoringService.getAllCargo` →calls `CargoRepository.findAll` ←implements `JpaCargoRepository.findAll` →reads_from `Cargo`
+- `booking` **src/main/webapp/booking/booking.xhtml**: `src/main/webapp/booking/booking.xhtml` →routes `Booking` →contains `Booking.init` →calls `BookingServiceFacade.listShippingLocations` ←implements `DefaultBookingServiceFacade.listShippingLocations` →calls `LocationRepository.findAll` ←implements `JpaLocationRepository.findAll` →reads_from `Location` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+- `booking` **src/main/webapp/admin/dashboard.xhtml**: `src/main/webapp/admin/dashboard.xhtml` →contains `src/main/webapp/admin/tables/listRouted.xhtml` →routes `ListCargo` →contains `ListCargo.init` →calls `BookingServiceFacade.listAllCargos` ←implements `DefaultBookingServiceFacade.listAllCargos` →calls `CargoRepository.findAll` ←implements `JpaCargoRepository.findAll` →reads_from `Cargo` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+- `booking` **src/main/webapp/admin/route.xhtml**: `src/main/webapp/admin/route.xhtml` →routes `CargoDetails` →contains `CargoDetails.load` →calls `BookingServiceFacade.loadCargoForRouting` ←implements `DefaultBookingServiceFacade.loadCargoForRouting` →calls `CargoRepository.find` ←implements `JpaCargoRepository.find` →reads_from `Cargo` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+- `booking` **src/main/webapp/admin/selectItinerary.xhtml**: `src/main/webapp/admin/selectItinerary.xhtml` →routes `ItinerarySelection` →contains `ItinerarySelection.load` →calls `BookingServiceFacade.loadCargoForRouting` ←implements `DefaultBookingServiceFacade.loadCargoForRouting` →calls `CargoRepository.find` ←implements `JpaCargoRepository.find` →reads_from `Cargo` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+- `booking` **src/main/webapp/admin/tables/listNotRouted.xhtml**: `src/main/webapp/admin/tables/listNotRouted.xhtml` →routes `ListCargo` →contains `ListCargo.init` →calls `BookingServiceFacade.listAllCargos` ←implements `DefaultBookingServiceFacade.listAllCargos` →calls `CargoRepository.findAll` ←implements `JpaCargoRepository.findAll` →reads_from `Cargo` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+- `data-migration` **table=Cargo**: `Cargo`
+- `data-migration` **table=Leg**: `Leg`
+- `data-migration` **table=HandlingEvent**: `HandlingEvent`
+- `data-migration` **table=Location**: `Location`
+- `data-migration` **table=Voyage**: `Voyage`
+- `data-migration` **table=carrier_movement**: `carrier_movement`
+- `handling-registration` **endpoint=POST /handling/reports**: `POST /handling/reports` →routes `HandlingReportService.submitReport` →calls `ApplicationEvents.receivedHandlingEventRegistrationAttempt` ←implements `JmsApplicationEvents.receivedHandlingEventRegistrationAttempt` →publishes `java:app/jms/HandlingEventRegistrationAttemptQueue` →triggers `HandlingEventRegistrationAttemptConsumer.onMessage` →calls `HandlingEventService.registerHandlingEvent` ←implements `DefaultHandlingEventService.registerHandlingEvent` →calls `HandlingEventRepository.store` ←implements `JpaHandlingEventRepository.store` →writes_to `HandlingEvent` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+- `track-cargo` **src/main/webapp/public/track.xhtml**: `src/main/webapp/public/track.xhtml` →routes `Track` →contains `Track.onTrackById` →calls `CargoRepository.find` ←implements `JpaCargoRepository.find` →reads_from `Cargo` — reaches 3 data node(s): Cargo, HandlingEvent, Leg
+- `track-cargo` **src/main/webapp/admin/tracking/track.xhtml**: `src/main/webapp/admin/tracking/track.xhtml` →routes `Track` →contains `Track.init` →calls `BookingServiceFacade.listAllTrackingIds` ←implements `DefaultBookingServiceFacade.listAllTrackingIds` →calls `CargoRepository.findAll` ←implements `JpaCargoRepository.findAll` →reads_from `Cargo` — reaches 5 data node(s): Cargo, HandlingEvent, Leg, Location, Voyage
+
+## Entry points reaching data (for review)
+
+- 19 of 27 pages/endpoints
+  - no path: endpoint `GET /graph-traversal/shortest-path`
+  - no path: endpoint `WS /tracking`
+  - no path: page `src/main/webapp/WEB-INF/templates/common/admin.xhtml`
+  - no path: page `src/main/webapp/WEB-INF/templates/common/public.xhtml`
+  - no path: page `src/main/webapp/admin/about.xhtml`
+  - no path: page `src/main/webapp/index.xhtml`
+  - no path: page `src/main/webapp/public/about.xhtml`
+  - no path: page `src/main/webapp/public/mapFrame.xhtml`
+
+## Gate
+
+- PASS
+
+AFS-RESULT gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=19 enriched_edges=1350
