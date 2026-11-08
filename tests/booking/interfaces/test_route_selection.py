@@ -133,11 +133,9 @@ def test_route_screens_explain_when_no_candidates_satisfy_the_deadline(client):
         route_content,
     )
     assert 'No routes found that satisfy the route specification.' in itinerary_content
-    assert (
-        re.search(
-            r'(?<!\w)Try setting the arrival deadline further into the future \(a few weeks at least\)\.(?!\w)',
-            itinerary_content,
-        )
+    assert re.search(
+        r'(?<!\w)Try setting the arrival deadline further into the future \(a few weeks at least\)\.(?!\w)',
+        itinerary_content,
     )
     assert 'Route option #' not in route_content
     assert 'Route option #' not in itinerary_content

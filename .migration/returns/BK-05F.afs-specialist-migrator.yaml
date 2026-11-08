@@ -2,14 +2,46 @@ role: afs-specialist-migrator
 ticket: BK-05F
 issue: martins-vds/ai-factory-pilot-target#293
 specialty: ui
-pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/394
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/406
 gates:
   build: 0
   behavior: 0
   idiom: 0
   crap: 26.0
-  mutation_changed: 0.790
+  mutation_changed: 0.855
   regression: 0
+mutation_survivor_classifications:
+  - >-
+    #1, views.py:22, `_CANDIDATE_SALT` changes from
+    `'booking.route_selection'` to `'XXbooking.route_selectionXX'`: equivalent;
+    token creation and verification use the same salt, and this is the only signing
+    use in the application, so only the opaque token changes.
+  - >-
+    #2, views.py:22, `_CANDIDATE_SALT` changes to `None`: equivalent; both
+    signing calls use Django's same default salt and the generated token remains
+    verifiable.
+  - >-
+    #10, views.py:34, unknown-cargo `Http404` text is wrapped in `XX`: equivalent
+    at the normal UI boundary; the response remains the standard 404 page.
+  - >-
+    #13, views.py:37, route-specification `Http404` text is wrapped in `XX`:
+    equivalent at the normal UI boundary; the response remains the standard 404 page.
+  - >-
+    #14, views.py:39, `quote(..., safe="")` changes to `safe="XXXX"`: equivalent;
+    `X` is unreserved and always left unquoted, so the redirect URL is unchanged.
+  - >-
+    #27, views.py:70, unknown-cargo `Http404` text is wrapped in `XX`: equivalent
+    at the normal UI boundary; the response remains the standard 404 page.
+  - >-
+    #40, views.py:95, missing candidate fallback changes from `''` to `'XXXX'`:
+    equivalent; both values fail signature validation, which is converted to the
+    same 404 response.
+  - >-
+    #44, views.py:97, `BadSignature` diagnostic text is wrapped in `XX`:
+    equivalent; the exception is caught and converted to the same 404 response.
+  - >-
+    #46, views.py:100, invalid-route `Http404` text is wrapped in `XX`: equivalent
+    at the normal UI boundary; the response remains the standard 404 page.
 specialty_evidence:
   - tests/booking/interfaces/test_route_selection.py::test_route_selection_renders_populated_candidates_and_numbered_legs
   - tests/booking/interfaces/test_route_selection.py::test_route_screens_explain_when_no_candidates_satisfy_the_deadline
@@ -26,4 +58,4 @@ ledger_updated:
   - booking.screen-select-itinerary
   - booking.routing-assign
 quirk_tickets: []
-handoff: .migration/handoffs/BK-05F.md
+handoff: none

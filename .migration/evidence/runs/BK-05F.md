@@ -64,3 +64,18 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T00:17:35+00:00 | mutation-changed-after-method-test | 0 | 78.71 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `851d59a7d8b83729` |  | gate=mutation score=0.823 threshold=0.8 killed=51 survived=11 files=1 base=origin/main |
 | 2026-11-08T00:18:23+00:00 | route-tests-guidance | 0 | 1.93 | `pytest -q tests/booking/interfaces/test_route_selection.py::test_route_screens_explain_when_no_candidates_satisfy_the_deadline` | `67ecf94f55b8e441` |  |  |
 | 2026-11-08T00:19:46+00:00 | mutation-changed-after-copy-assertions | 0 | 79.57 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `a9876b08b57880ba` |  | gate=mutation score=0.855 threshold=0.8 killed=53 survived=9 files=1 base=origin/main |
+| 2026-11-08T00:20:51+00:00 | idiom-ruff-check | 0 | 0.07 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T00:20:51+00:00 | build-compile | 0 | 0.12 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T00:20:51+00:00 | idiom-ruff-format | 1 | 0.06 | `ruff format --check` | `c7fe47a84195bdd7` | 135 \|     assert 'No routes found that satisfy the route specification.' in itinerary_content |  |
+| 2026-11-08T00:20:51+00:00 | build-django-check | 0 | 0.48 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-08T00:21:02+00:00 | idiom-ruff-format-after-fix | 0 | 0.01 | `ruff format --check` | `c3ac60a207092b7f` |  |  |
+| 2026-11-08T00:22:17+00:00 | behavior | 0 | 71.56 | `pytest -q` | `0ea2ca208be44284` |  |  |
+| 2026-11-08T00:23:31+00:00 | regression | 0 | 70.41 | `pytest -q` | `317df10af64605a7` |  |  |
+| 2026-11-08T00:24:45+00:00 | crap-coverage | 0 | 69.92 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `28d6e291ccd9f796` |  |  |
+| 2026-11-08T00:24:49+00:00 | crap-lizard | 0 | 0.16 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T00:24:59+00:00 | crap-score | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `c1f7b4ca904f936a` |  | gate=crap max=26.0 threshold=30 over=0 methods=208 |
+| 2026-11-08T00:26:25+00:00 | mutation-changed-final | 0 | 79.79 | `python .migration/harness/tools/afs-mutation --changed-since origin/main` | `a9876b08b57880ba` |  | gate=mutation score=0.855 threshold=0.8 killed=53 survived=9 files=1 base=origin/main |
+| 2026-11-08T00:26:31+00:00 | idiom-ruff-format-final | 0 | 0.03 | `ruff format --check` | `c3ac60a207092b7f` |  |  |
+| 2026-11-08T00:26:31+00:00 | idiom-ruff-check-final | 0 | 0.03 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-08T00:26:31+00:00 | build-compile-final | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-08T00:26:31+00:00 | build-django-check-final | 0 | 0.41 | `python manage.py check` | `1e3e63f221bde888` |  |  |
