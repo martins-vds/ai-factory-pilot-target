@@ -1,0 +1,19 @@
+role: afs-specialist-migrator
+ticket: AM-04D
+issue: martins-vds/ai-factory-pilot-target#283
+specialty: ui
+pr: martins-vds/ai-factory-pilot-target#457
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: "n/a: no mutable code changed"
+  regression: 0
+specialty_evidence:
+  - .migration/evidence/runs/AM-04D.md
+  - tests/cargo/interfaces/test_admin_live_map_markers.py
+  - tests/cargo/interfaces/test_admin_live_map_templates.py
+ledger_updated: []
+quirk_tickets: []
+handoff: none
