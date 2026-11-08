@@ -1,0 +1,475 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "cargotracker-domain",
+    "languages": [
+      "java"
+    ],
+    "frameworks": [
+      "Jakarta EE"
+    ],
+    "description": "Domain layer of Eclipse Cargo Tracker: cargo routing, handling/delivery tracking and specification pattern.",
+    "analyzedAt": "2026-11-08T03:45:00Z",
+    "gitCommitHash": "f3beacf78de4f6d34edc4971ac87e38a5c6fe59d",
+    "analyzedCommit": "da9394b3cc1aae77114f85449d732d5cfb64671a"
+  },
+  "nodes": [
+    {
+      "id": "domain:specification-rules",
+      "type": "domain",
+      "name": "Specification Rules",
+      "summary": "Reusable business-rule objects built on the Specification pattern; rules can be combined with and/or/not and are used to decide whether a cargo itinerary meets its route requirements.",
+      "tags": [
+        "specification",
+        "ddd"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entities": [
+          "Specification",
+          "AbstractSpecification",
+          "AndSpecification",
+          "OrSpecification",
+          "NotSpecification"
+        ],
+        "businessRules": [
+          "A composite specification is satisfied per the boolean combination of its wrapped specifications"
+        ],
+        "crossDomainInteractions": [
+          "RouteSpecification (cargo-routing) extends AbstractSpecification"
+        ]
+      }
+    },
+    {
+      "id": "domain:cargo-routing",
+      "type": "domain",
+      "name": "Cargo Routing",
+      "summary": "Models a cargo shipment, its required route (origin, destination, deadline) and the itinerary of legs it is assigned to.",
+      "tags": [
+        "cargo",
+        "routing"
+      ],
+      "complexity": "complex",
+      "domainMeta": {
+        "entities": [
+          "Cargo",
+          "RouteSpecification",
+          "Itinerary",
+          "Leg",
+          "TrackingId",
+          "Location"
+        ],
+        "businessRules": [
+          "An itinerary satisfies a route spec only if origin, destination match and arrival is before the deadline",
+          "Changing route or itinerary updates delivery synchronously"
+        ],
+        "crossDomainInteractions": [
+          "Uses Specification Rules; consumes handling history from Cargo Handling"
+        ]
+      }
+    },
+    {
+      "id": "domain:cargo-handling",
+      "type": "domain",
+      "name": "Cargo Handling and Delivery",
+      "summary": "Tracks handling events (receive, load, unload, customs, claim) and derives the cargo delivery status from them.",
+      "tags": [
+        "handling",
+        "delivery"
+      ],
+      "complexity": "complex",
+      "domainMeta": {
+        "entities": [
+          "HandlingEvent",
+          "HandlingHistory",
+          "Delivery"
+        ],
+        "businessRules": [
+          "LOAD/UNLOAD events require a voyage; other events must not have one",
+          "Transport status is derived from the last handling event"
+        ],
+        "crossDomainInteractions": [
+          "Updates Cargo delivery; routing status uses RouteSpecification"
+        ]
+      }
+    },
+    {
+      "id": "flow:compose-specifications",
+      "type": "flow",
+      "name": "Compose and Evaluate Specifications",
+      "summary": "Combine business rules via and/or/not on AbstractSpecification and evaluate them against a candidate with isSatisfiedBy.",
+      "tags": [
+        "specification",
+        "composition"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "org/eclipse/cargotracker/domain/shared/AbstractSpecification.java",
+        "entryType": "manual"
+      }
+    },
+    {
+      "id": "step:compose-specifications:declare-rule",
+      "type": "step",
+      "name": "Declare rule via isSatisfiedBy",
+      "summary": "AbstractSpecification declares the abstract isSatisfiedBy(T) that concrete rules implement.",
+      "tags": [
+        "specification"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/shared/AbstractSpecification.java",
+      "lineRange": [
+        12,
+        13
+      ]
+    },
+    {
+      "id": "step:compose-specifications:compose-and-or-not",
+      "type": "step",
+      "name": "Compose with and/or/not",
+      "summary": "and() and or() wrap this and another specification into AndSpecification/OrSpecification; not() wraps the given specification in NotSpecification.",
+      "tags": [
+        "specification"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/shared/AbstractSpecification.java",
+      "lineRange": [
+        19,
+        37
+      ]
+    },
+    {
+      "id": "step:compose-specifications:evaluate-and",
+      "type": "step",
+      "name": "Evaluate conjunction",
+      "summary": "AndSpecification is satisfied only when both wrapped specifications are satisfied.",
+      "tags": [
+        "specification"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/shared/AndSpecification.java",
+      "lineRange": [
+        26,
+        29
+      ]
+    },
+    {
+      "id": "step:compose-specifications:evaluate-or",
+      "type": "step",
+      "name": "Evaluate disjunction",
+      "summary": "OrSpecification is satisfied when either wrapped specification is satisfied.",
+      "tags": [
+        "specification"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/shared/OrSpecification.java",
+      "lineRange": [
+        26,
+        29
+      ]
+    },
+    {
+      "id": "step:compose-specifications:evaluate-not",
+      "type": "step",
+      "name": "Evaluate negation",
+      "summary": "NotSpecification returns the negation of the wrapped specification.",
+      "tags": [
+        "specification"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/shared/NotSpecification.java",
+      "lineRange": [
+        23,
+        26
+      ]
+    },
+    {
+      "id": "step:compose-specifications:apply-route-spec",
+      "type": "step",
+      "name": "Apply to route requirements",
+      "summary": "RouteSpecification extends AbstractSpecification for Itinerary: origin, destination and arrival deadline must be met.",
+      "tags": [
+        "specification"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/RouteSpecification.java",
+      "lineRange": [
+        71,
+        75
+      ]
+    },
+    {
+      "id": "flow:reroute-cargo",
+      "type": "flow",
+      "name": "Route or Reroute Cargo",
+      "summary": "Assign a new route specification or itinerary to a cargo and refresh its delivery synchronously.",
+      "tags": [
+        "routing"
+      ],
+      "complexity": "moderate",
+      "domainMeta": {
+        "entryPoint": "Cargo.specifyNewRoute / Cargo.assignToRoute",
+        "entryType": "manual"
+      }
+    },
+    {
+      "id": "step:reroute-cargo:specify-route",
+      "type": "step",
+      "name": "Specify new route",
+      "summary": "Validates and stores a new RouteSpecification, then updates delivery.",
+      "tags": [
+        "routing"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/Cargo.java",
+      "lineRange": [
+        132,
+        138
+      ]
+    },
+    {
+      "id": "step:reroute-cargo:assign-itinerary",
+      "type": "step",
+      "name": "Assign itinerary",
+      "summary": "Validates and stores an Itinerary, then updates delivery.",
+      "tags": [
+        "routing"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/Cargo.java",
+      "lineRange": [
+        140,
+        146
+      ]
+    },
+    {
+      "id": "step:reroute-cargo:check-route-spec",
+      "type": "step",
+      "name": "Check itinerary against route spec",
+      "summary": "Routing status is NOT_ROUTED, ROUTED or MISROUTED depending on RouteSpecification.isSatisfiedBy.",
+      "tags": [
+        "routing"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/Delivery.java",
+      "lineRange": [
+        311,
+        321
+      ]
+    },
+    {
+      "id": "flow:derive-delivery-progress",
+      "type": "flow",
+      "name": "Derive Delivery Progress",
+      "summary": "Recompute a cargo delivery snapshot from its handling history.",
+      "tags": [
+        "delivery"
+      ],
+      "complexity": "complex",
+      "domainMeta": {
+        "entryPoint": "Cargo.deriveDeliveryProgress",
+        "entryType": "manual"
+      }
+    },
+    {
+      "id": "step:derive-delivery-progress:latest-event",
+      "type": "step",
+      "name": "Find most recent completed event",
+      "summary": "HandlingHistory returns the latest completed handling event.",
+      "tags": [
+        "delivery"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/handling/HandlingHistory.java",
+      "lineRange": [
+        43,
+        51
+      ]
+    },
+    {
+      "id": "step:derive-delivery-progress:derive-delivery",
+      "type": "step",
+      "name": "Derive delivery snapshot",
+      "summary": "Cargo delegates to Delivery.derivedFrom with route spec, itinerary and history.",
+      "tags": [
+        "delivery"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/Cargo.java",
+      "lineRange": [
+        164,
+        166
+      ]
+    },
+    {
+      "id": "step:derive-delivery-progress:transport-status",
+      "type": "step",
+      "name": "Calculate transport status",
+      "summary": "Maps the last event type to NOT_RECEIVED, ONBOARD_CARRIER, IN_PORT, CLAIMED or UNKNOWN.",
+      "tags": [
+        "delivery"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/Delivery.java",
+      "lineRange": [
+        213,
+        230
+      ]
+    },
+    {
+      "id": "step:derive-delivery-progress:expected-event",
+      "type": "step",
+      "name": "Check event expected by itinerary",
+      "summary": "Itinerary.isExpected tests whether a handling event matches the itinerary.",
+      "tags": [
+        "delivery"
+      ],
+      "complexity": "simple",
+      "filePath": "org/eclipse/cargotracker/domain/model/cargo/Itinerary.java",
+      "lineRange": [
+        56,
+        105
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "domain:cargo-routing",
+      "target": "domain:specification-rules",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "RouteSpecification is a specification of required cargo route",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:cargo-handling",
+      "target": "domain:cargo-routing",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Delivery derivation reads route specification and itinerary of the Cargo",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:cargo-routing",
+      "target": "domain:cargo-handling",
+      "type": "cross_domain",
+      "direction": "forward",
+      "description": "Cargo holds a Delivery recalculated from handling history",
+      "weight": 0.6
+    },
+    {
+      "source": "domain:specification-rules",
+      "target": "flow:compose-specifications",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:compose-specifications",
+      "target": "step:compose-specifications:declare-rule",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:compose-specifications",
+      "target": "step:compose-specifications:compose-and-or-not",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.3
+    },
+    {
+      "source": "flow:compose-specifications",
+      "target": "step:compose-specifications:evaluate-and",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:compose-specifications",
+      "target": "step:compose-specifications:evaluate-or",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "flow:compose-specifications",
+      "target": "step:compose-specifications:evaluate-not",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "flow:compose-specifications",
+      "target": "step:compose-specifications:apply-route-spec",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:cargo-routing",
+      "target": "flow:reroute-cargo",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:reroute-cargo",
+      "target": "step:reroute-cargo:specify-route",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.3
+    },
+    {
+      "source": "flow:reroute-cargo",
+      "target": "step:reroute-cargo:assign-itinerary",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "flow:reroute-cargo",
+      "target": "step:reroute-cargo:check-route-spec",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "domain:cargo-handling",
+      "target": "flow:derive-delivery-progress",
+      "type": "contains_flow",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "flow:derive-delivery-progress",
+      "target": "step:derive-delivery-progress:latest-event",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.2
+    },
+    {
+      "source": "flow:derive-delivery-progress",
+      "target": "step:derive-delivery-progress:derive-delivery",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "flow:derive-delivery-progress",
+      "target": "step:derive-delivery-progress:transport-status",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "flow:derive-delivery-progress",
+      "target": "step:derive-delivery-progress:expected-event",
+      "type": "flow_step",
+      "direction": "forward",
+      "weight": 1.0
+    }
+  ],
+  "layers": [],
+  "tour": []
+}
