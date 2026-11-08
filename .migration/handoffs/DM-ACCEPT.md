@@ -21,3 +21,14 @@
 - None. `afs-acceptance verify` passed; reconciliation is blocked by missing historical return evidence and open descendants, not by a failed gate.
 ### Next step for the next session
 Ask the operator to resolve the #387 historical-return gap, finish #414 and reconcile #379, then revalidate `.migration/evidence/ticket-reconciliation/247.yaml` before any slice-completion or sign-off request.
+
+## Handoff — afs-slice-coordinator · 2026-11-08T01:43:52Z
+**State:** blocked  ·  **Branch / PR:** copilot/dm-accept-accept-data-migration-slice-again  ·  **Last commit:** 45dba62
+### Done
+- See this branch's commits and `afs-run` journal.
+### Remaining
+- [ ] You changed another role's or ticket's return file: `.migration/returns/BK-05F.afs-specialist-migrator.yaml`. A session writes only its own return (`.migration/returns/DM-ACCEPT.afs-slice-coordinator.yaml`). Restore each one exactly as it was on your base branch (`git checkout <base> -- <file>`) and commit.
+### Blockers / questions
+- self-check failed: `afs-finish-check` still found 1 problem(s) after its retry budget (ADR-0034). Written by the stop hook, not by the agent.
+### Next step for the next session
+Fix the items under Remaining, run `afs-finish-check`, and commit. Scope items need the operator.
