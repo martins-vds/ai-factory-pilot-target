@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "412d98d78bc02fa6a63ba312da2895759b40c393",
-  "installed_at": "2026-11-08T20:51:03Z",
+  "harness_commit": "bedfe4118be17e7a2cd74b6d5458a881df8bf43f",
+  "installed_at": "2026-11-09T04:35:28Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -14,7 +14,7 @@
       "path": ".github/agents/afs-auditor.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-auditor.agent.md": "549f5d52446227e2f8a6121da6f765a70a88bd9a8b4d9a7039c2fcf99d11efed"
+        ".github/agents/afs-auditor.agent.md": "5a1809631c2001876300c5ede8e6f3d233cdd5fa4997a602f1c48c1e30620361"
       }
     },
     {
@@ -49,21 +49,21 @@
       "path": ".github/agents/afs-program-orchestrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-program-orchestrator.agent.md": "4a0e60c1571543b3491ff996236669d855900438da1aa71992b71ac0acfbac4e"
+        ".github/agents/afs-program-orchestrator.agent.md": "7c2b55af542a0dcd83cbff37e1f841260cfbf5ac74d4d4311ce095f1ffc873b0"
       }
     },
     {
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "5cd70f51a5137297b0c6d91904bc61cecb218f1978a9f22795cbf3ec64066406"
+        ".github/agents/afs-slice-coordinator.agent.md": "02011e927d32dc80fa3a19f0c83603b40897333cd948efcd090af49527f2ac70"
       }
     },
     {
       "path": ".github/agents/afs-specialist-migrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-specialist-migrator.agent.md": "94be3c84306761fc8dad8c50643b384c3634a29cb42d1acc8ce9ba0a02360b8a"
+        ".github/agents/afs-specialist-migrator.agent.md": "870bd7cced2e6929c60cdf6423dba0fcbcf27532e9476e15383177cb9392b21c"
       }
     },
     {
@@ -751,6 +751,23 @@
       }
     },
     {
+      "path": ".github/skills/prototype",
+      "kind": "skill",
+      "origin": "menu",
+      "install": "upstream",
+      "repo": "mattpocock/skills",
+      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
+      "upstream_path": "skills/engineering/prototype",
+      "files": {
+        ".github/skills/prototype/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
+        ".github/skills/prototype/LOGIC.md": "f61c7d249e786a79ef289018901c348271e1798dd0b0bc5607b5c6f4d4a01ab9",
+        ".github/skills/prototype/PROVENANCE.md": "31f503821c86ed23bda4cf26b7dc67829ffc3857d8a20fde96357476d0d89280",
+        ".github/skills/prototype/SKILL.md": "714de632d116bb73f65cdb5a882db15b9369a6713b9a47c0fad827848f0bfbe3",
+        ".github/skills/prototype/UI.md": "723211e878acbc7b6ff09755263f3295cde724ba902ff0064da41eed51d45ad3",
+        ".github/skills/prototype/agents/openai.yaml": "5af65e43ab41a350436697b81e27b7f848d36782043b73c322bb2c9fa9cc55dc"
+      }
+    },
+    {
       "path": ".github/skills/find-skills",
       "kind": "skill",
       "origin": "menu",
@@ -1107,7 +1124,7 @@
         ".migration/harness/tools/afs_trace.py": "68e27fa4ffc01cd1f423f0120935c342d91479db3ccfd7b6f0cc4da4276110bf",
         ".migration/harness/tools/check_domain_coverage.py": "728fc0b3cf3c74ee3a05a1deb6b8261416ddd4496ca4eecb8ca882ac66f11188",
         ".migration/harness/tools/check_graph.py": "7f50c51db2306797b2d11739938b37373fa8b41815175e8dabd14cd6bc048343",
-        ".migration/harness/tools/check_graph_fresh.py": "bb44bb5211dcbb46e2bd7e6c4f92a7d0aa0808d25795fa03acae4a67917d1519",
+        ".migration/harness/tools/check_graph_fresh.py": "7c1552a0a206f6774a2d992c974e6ff4db14711a8ff66e1eb1098e109e8fff72",
         ".migration/harness/tools/check_inputs.py": "9ce77441102ed8134e2a83a5c199fe476790c8cbf113f739a5499ce772846f5e",
         ".migration/harness/tools/check_installed.py": "6f95e854ed5513ab5e7c0596898a9ae27f77a7413ba525faf8152e372bfe6c42",
         ".migration/harness/tools/check_plan.py": "c287f27b611d258c4b0d03ce8a09fac10718c6e8d596cab120870d0de3c9044a",
@@ -1129,7 +1146,7 @@
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
         ".migration/harness/tools/preserve_graph.py": "04d033c67e7fcdf56122a8016aaad99a998769d38e26dc2d9252a40dc529581f",
         ".migration/harness/tools/stack_refresh.py": "951d8317454d118dba78f27e0dd355d09fd39ece7cf51af4123dc0a4f012e7b1",
-        ".migration/harness/tools/ticket_guard.py": "f7f1636bbc8d1723d8754804cdf289adb2f87172aac0805a4a7f800288bd133c",
+        ".migration/harness/tools/ticket_guard.py": "1b7643877b8298467e1d6185004997cf968878dcc09c411b10f0e259b784c0d3",
         ".migration/harness/tools/understand.py": "6e8f4b43e15f323829c34f2e6932d8a1a306937f4b069a541e518d2f1c68e315",
         ".migration/harness/tools/validate.py": "f6ae232f7ec5fb9b0e5e84325d647573b59a5f63b7dcdfc8c96faf4039fc612f"
       }
