@@ -25,5 +25,33 @@
     "blocks_before": 0,
     "decision": "allow",
     "why": "clean"
+  },
+  {
+    "at": "2026-11-09T04:35:12Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 76295,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-05J",
+    "role": "afs-auditor",
+    "changed": [
+      ".migration/costs/9804b3a3-255e-4799-8df8-81e07b65ff26.json",
+      ".migration/evidence/booking/report.md",
+      ".migration/evidence/runs/BK-05J.md",
+      ".migration/returns/BK-05J.afs-auditor.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
   }
 ]
