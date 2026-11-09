@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "741a8a841cef5c02a8650a8f7de4fef3602dcbee",
-  "installed_at": "2026-11-09T05:02:53Z",
+  "harness_commit": "95ce44ee7a107b235b319777cba053b1518e1150",
+  "installed_at": "2026-11-09T12:43:53Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -56,7 +56,7 @@
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "02011e927d32dc80fa3a19f0c83603b40897333cd948efcd090af49527f2ac70"
+        ".github/agents/afs-slice-coordinator.agent.md": "afe82a4bb09da232a504b7df6b300de6f7eb4682c3ab6f85cf9b501bb483ca27"
       }
     },
     {
@@ -1147,7 +1147,7 @@
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
         ".migration/harness/tools/preserve_graph.py": "04d033c67e7fcdf56122a8016aaad99a998769d38e26dc2d9252a40dc529581f",
         ".migration/harness/tools/stack_refresh.py": "951d8317454d118dba78f27e0dd355d09fd39ece7cf51af4123dc0a4f012e7b1",
-        ".migration/harness/tools/ticket_guard.py": "1b7643877b8298467e1d6185004997cf968878dcc09c411b10f0e259b784c0d3",
+        ".migration/harness/tools/ticket_guard.py": "01111eb41daef7abd178a2af93e1ecbaf5bdb9141c44a1ef0906742ba0654725",
         ".migration/harness/tools/understand.py": "6e8f4b43e15f323829c34f2e6932d8a1a306937f4b069a541e518d2f1c68e315",
         ".migration/harness/tools/validate.py": "f6ae232f7ec5fb9b0e5e84325d647573b59a5f63b7dcdfc8c96faf4039fc612f"
       }
