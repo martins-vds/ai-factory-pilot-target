@@ -34,12 +34,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-09T03:29:25+00:00 | acceptance-fetch | 0 | 0.31 | `python .migration/harness/tools/afs-acceptance fetch --run-id 42528425964 --attempt 1 --dest .migration/runs/acceptance-42528425964-1` | `15c2f15c155f27d8` |  |  |
 | 2026-11-09T03:29:28+00:00 | acceptance-verify | 2 | 0.05 | `python .migration/harness/tools/afs-acceptance verify .migration/runs/acceptance-42528425964-1 --commit 135c70a276d4b20d377d701e064c9c819de4151c --run-id 42528425964 --attempt 1` | `1d432f27f2d34ce2` |  |  |
 | 2026-11-09T03:30:18+00:00 | acceptance-verify-executed-tree | 0 | 0.08 | `python .migration/harness/tools/afs-acceptance verify /home/runner/work/ai-factory-pilot-target/ai-factory-pilot-target/.migration/runs/acceptance-42528425964-1 --commit 135c70a276d4b20d377d701e064c9c819de4151c --run-id 42528425964 --attempt 1` | `36cc4a271fd56ca9` |  | gate=acceptance-evidence status=verified commit=135c70a276d4b20d377d701e064c9c819de4151c run_id=42528425964 attempt=1 |
-| 2026-11-09T03:32:02+00:00 | booking-ledger-review | 0 | 0.05 | `python -c 'from pathlib import Path; import yaml; entries=[]; missing=[]; bad=[]
-for p in sorted(Path(".migration/ledger").glob("booking.*.yaml")):
- d=yaml.safe_load(p.read_text());
- if not isinstance(d,dict) or not d.get("id"): continue
- entries.append(d)
- if d.get("status") != "migrated": bad.append((d["id"],d.get("status")))
- for c in d.get("target",{}).get("components",[]):
-  if not Path(c).ex` | `8b5e8fb8d12c9274` |  |  |
+| 2026-11-09T03:32:02+00:00 | booking-ledger-review | 0 | 0.05 | `python -c 'from pathlib import Path; import yaml; entries=[]; missing=[]; bad=[];\nfor p in sorted(Path(".migration/ledger").glob("booking.*.yaml")):\n d=yaml.safe_load(p.read_text());\n if not isinstance(d,dict) or not d.get("id"): continue\n entries.append(d)\n if d.get("status") != "migrated": bad.append((d["id"],d.get("status")))\n for c in d.get("target",{}).get("components",[]):\n  if not Path(c).exists(): missing.append((d["id"],c))\n for e in d.get("evidence",[]):\n  s=e.removeprefix("legacy-test: ").split("::",1)[0]\n  if not Path(s).exists(): missing.append((d["id"],s))\nprint(f"booking entries={len(entries)} status_not_migrated={bad} missing_component_or_evidence_paths={missing}")'` | `8b5e8fb8d12c9274` |  |  |
 | 2026-11-09T03:34:16+00:00 | validate-audit-outputs | 0 | 1.13 | `python .migration/harness/tools/validate.py .migration` | `bf7e7b29be6a839d` |  |  |
+| 2026-11-09T03:35:57+00:00 | validate-final-audit | 0 | 1.13 | `python .migration/harness/tools/validate.py .migration` | `bf7e7b29be6a839d` |  |  |
