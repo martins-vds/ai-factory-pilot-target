@@ -17,7 +17,7 @@ acceptance:
   gates: all-green
   mutation_score: 0.931
   coverage_gaps: 1
-human_check: requested
+human_check: passed
 human_check_issues: []
 human_check_comparison:
   - "Compare the legacy and target registration wizards side by side: defaults and destination options, Back/Cancel/Next state, date bounds and same-day disabled booking, and successful registration and dashboard redirect."

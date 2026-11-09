@@ -64,7 +64,7 @@ Every booking ledger entry is now `migrated`; the `screen-not-routed-table` entr
 | `booking.wizard-chain` | migrated |
 | `booking.wizard-input-rules` | migrated |
 
-## Human check requested
+## Human check
 
 The operator should compare the pinned legacy application with the target side by side:
 
@@ -73,4 +73,4 @@ The operator should compare the pinned legacy application with the target side b
 - **Routing:** candidate itineraries' endpoints, connected legs, voyages and date ordering; deadline filtering in booking; selection persistence and the approved #236 redirect to cargo details. Compare pathfinder response field names/order, date format, validation status/body, and the preserved #89 item 5 behavior that accepts but ignores `deadline`.
 - **Destination/deadline dialogs:** initial values, filtered destination choices without mutation, visible invalid-deadline errors, successful updates preserving the other specification fields and resetting route state, and refreshed not-routed rows.
 
-The human check is **requested**, not passed. The anonymous BK-05J audit gap and still-open descendant issues also remain unresolved; this evidence does not claim final slice sign-off.
+The operator reports that **"Everything [matched]. All good"** (martins-vds, 2026-11-08), covering all four side-by-side comparisons above: the registration wizard; dashboard and cargo details; routing and pathfinder API; and destination and deadline dialogs.
