@@ -1,6 +1,7 @@
 role: afs-auditor
 ticket: BK-05J
 issue: martins-vds/ai-factory-pilot-target#297
+acceptance_run: .migration/evidence/acceptance-runs/42528425964-1.json
 scope: booking
 report: .migration/evidence/booking/report.md
 capabilities_checked: 25
