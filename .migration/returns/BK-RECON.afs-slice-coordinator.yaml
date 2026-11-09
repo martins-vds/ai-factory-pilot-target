@@ -8,10 +8,12 @@ tickets:
   merged: 35
   open: 2
   blocked:
-    - "Issue #470 is closed as not planned, but its closed-unmerged PR #471 contains no supported explicit failure outcome for the coordinator return."
+    - "CI run 42564426328 rejected #262 and #276: the BK-04 return names #256 but has no owning PR or same-path return snapshots attributing either restart issue."
+    - "CI run 42564426328 rejected #470: PR #471's coordinator return has no supported explicit failure outcome."
+    - "CI run 42564426328 rejected #477: PR #478 updates the same-path BK-05J return, but its issue field remains #297 and the guard cannot attribute it to #477."
 acceptance:
   report: .migration/evidence/ticket-reconciliation/224.yaml
-  gates: pending GitHub Actions ticket reconciliation check
+  gates: "failing: ticket reconciliation (CI run 42564426328, four attribution failures)"
   mutation_score: "n/a: reconciliation-only ticket"
   coverage_gaps: 0
 human_check: passed

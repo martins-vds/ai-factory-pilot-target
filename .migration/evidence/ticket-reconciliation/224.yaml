@@ -80,7 +80,7 @@ issues:
       current_return_issue: martins-vds/ai-factory-pilot-target#297
       current_return_pr: 478
       return_path: .migration/returns/BK-05J.afs-auditor.yaml
-      attribution: "PR #478 contains the re-audited BK-05J return at the same path and closes continuation #477."
+      attribution: "PR #478 closes continuation #477 and updates the same-path BK-05J return, whose issue field remains #297."
   - number: 300
     disposition: completed
     pull_requests: [301]
@@ -111,7 +111,7 @@ issues:
       current_return_issue: martins-vds/ai-factory-pilot-target#256
       current_return_pr: 279
       return_path: .migration/returns/BK-04.afs-planner.yaml
-      attribution: "PR #264 contains the same-path BK-04 planner return for this plan revision; the current return path remains owned by the parent planner ticket #256."
+      attribution: "PR #264 closes #262 and PR #279 carries the later same-path plan revision; the committed BK-04 return still names parent ticket #256."
   - number: 276
     disposition: completed
     pull_requests: [279]
@@ -121,7 +121,7 @@ issues:
       current_return_issue: martins-vds/ai-factory-pilot-target#256
       current_return_pr: 279
       return_path: .migration/returns/BK-04.afs-planner.yaml
-      attribution: "PR #279 contains the same-path BK-04 planner return for the restarted revision; it is the continuation of parent ticket #256."
+      attribution: "PR #279 closes #276 and carries the restarted plan revision; the committed BK-04 return still names parent ticket #256."
   - number: 303
     disposition: completed
     pull_requests: [305, 319]
