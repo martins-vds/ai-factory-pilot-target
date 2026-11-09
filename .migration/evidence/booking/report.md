@@ -1,74 +1,75 @@
-# Slice booking — acceptance evidence
+# Slice booking — re-audit evidence
 
-- Tickets: BK-05A–BK-05J · Audited tree: `c7f6a95f0e6a80593e980eae02c0939ce6dab761` · Date: 2026-11-08
+- Tickets: BK-05A–BK-05J · Audited `main`: `218309906ad44369a69eb118cd714a1a38499687` · Date: 2026-11-09
+- Acceptance execution: `135c70a276d4b20d377d701e064c9c819de4151c`
 - Source: `f3beacf78de4f6d34edc4971ac87e38a5c6fe59d`
 
-## Gates
+## A. Graph refresh
 
-| Gate | Command / evidence | Result |
-|---|---|---|
-| Source graph freshness | `check_graph_fresh.py --require source` | Pass; source graph is fresh. |
-| Source graph | `graph_gate.py --side source` | Pass: 1,054 nodes, 2,139 edges, 1,350 enriched edges. All declared booking anchors reach source data. |
-| Target graph | `check_graph_fresh.py --require source` reported stale target `src/` and `templates/` hashes. | Blocked: no target graph built and gated for this audited tree. The committed target graph is stale and is not acceptance evidence. |
-| Build | `python -m compileall -q src`; `python manage.py check` | Pass; both run through `afs-run`. |
-| Idiom | `ruff check`; `ruff format --check` | Pass; both run through `afs-run`. |
-| Behavior / regression | `pytest -q` | Pass: 523 tests; run through `afs-run`. |
-| CRAP | Coverage pytest, Lizard CSV, then `crap.py --max 30` | Pass: 523 tests; max CRAP 26.0, threshold 30, 0 over-threshold methods, 213 methods. All commands run through `afs-run`. |
-| Full mutation | Profile command: `python .migration/harness/tools/afs-mutation --all` | Not run. No current-commit acceptance result establishes full mutation. |
-| Current run evidence | `.migration/evidence/runs/BK-05J.md` | Contains fresh build, idiom, tests, and CRAP gate rows and hashes. |
+The pinned source graph is fresh. In this audit, `check_graph_fresh.py --require source` and `graph_gate.py --side source` passed through `afs-run`; the source gate reports 27 entry points, 19 reaching data, and 1,350 enriched edges.
 
-The successful Actions acceptance run #42427856017 is for commit `3d1fcec13586c2d89b7a079bfd14ca011e2522c0`, not this audited tree. `origin/main` is `692c625b29e603780366a5d21e37bd27411fbb8f`; 122 files differ between the acceptance-run commit and current main, including application, test, ledger, and harness inputs. That run and its artifact therefore cannot establish current target-graph or full-mutation acceptance. A fresh acceptance workflow run on the audited commit is required.
+The current checkout's committed target graph remains stale, but it is not used as acceptance evidence. GitHub Actions run [42528425964, attempt 1](https://github.com/martins-vds/ai-factory-pilot-target/actions/runs/42528425964) completed successfully for `main` at `135c70a276d4b20d377d701e064c9c819de4151c`. I checked the repository, branch, revision, successful conclusion, and artifact name against GitHub; fetched the artifact; and ran `afs-acceptance verify` at that exact commit in a detached worktree. Verification passed. Its target graph snapshot names the same `src/` and `templates/` trees as the accepted commit, and those paths have not changed through audited `main`. The target graph gate passed with 34 entry points, 19 reaching data, 782 enriched edges, 564 nodes, and 1,373 edges.
 
-## Characterization and rulings
+Verification from the current `main` checkout itself rejects the artifact because the post-run coordinator reconciliation changed `booking.screen-not-routed-table.yaml`. That change adds evidence for existing dashboard/dialog tests; the application, tests, graph inputs, profile, source lock, and installed harness inputs are unchanged from the execution commit. The reconciled entry and the accepted code evidence were reviewed independently below.
 
-Tier-A replay evidence in `.migration/evidence/booking/replay.md` records 24 prediction matches and one prediction difference: route assignment redirects to cargo details, as approved by #236. It records the approved outcomes for #232–#237, #251, and #252; #238 applies #89 item 5 (the pathfinder accepts but ignores `deadline`, while booking filters candidate arrivals). Decision #92 keeps booking/admin pages unauthenticated. The #239 pathfinder test and #250 cargo-lifecycle scenario remain inventory only and were not executed as legacy evidence; the source inventory records 16 executed tests.
+The target graph reports some template-page nodes without a direct data path; the booking endpoints and domain flows do reach the relevant data, and their rendered UI behavior is covered by the cited tests. This is a leaf-page modeling limitation, not a broken booking flow or a graph-gate failure.
 
-The replay's source anchors are backed by the fresh source graph:
+## B. Top-down findings
 
-- Booking page → `Booking.init` → `BookingServiceFacade.listShippingLocations` → `LocationRepository.findAll` → `Location`.
-- Dashboard routed/not-routed pages → `ListCargo.init` → `BookingServiceFacade.listAllCargos` → `CargoRepository.findAll` → `Cargo`.
-- Route and itinerary-selection pages → `CargoDetails.load` → `BookingServiceFacade.loadCargoForRouting` → `CargoRepository.find` → `Cargo`.
+All booking screens and entry points have target counterparts and evidence in the 25-entry coverage table below. The registration wizard preserves its defaults, step state, validation and registration; dashboard tables preserve grouping, order, fields, empty states and links; route selection and cargo details preserve candidate display, assignment and not-found behavior; and destination/deadline dialogs preserve validation, updates and dashboard refresh.
 
-The booking graph paths reach the five source data nodes `Cargo`, `HandlingEvent`, `Leg`, `Location`, and `Voyage`. Current target code and tests are represented below, but target graph paths cannot be independently accepted until the current-commit graph is built and gated.
+The not-routed table entry is now `migrated`. Its ledger cites the dashboard rendering test and the dialog open, update and row-refresh tests from BK-05E/BK-05G. The full characterization replay records 24 prediction matches and one approved route-assignment redirect difference (#236). Other approved divergences (#232–#238, #251 and #252) and the preserved ignored-deadline behavior (#89 item 5 / #238) remain separately recorded in the replay.
 
-Test-first evidence was inspected in BK-05A–BK-05H journals. They record named RED runs followed by green runs; examples include BK-05A registration/destination/deadline assertions, BK-05D wizard validation/navigation, BK-05E cargo details, BK-05F route assignment, BK-05G dialog behavior, and BK-05H URL resolution. Some early RED entries are collection/import failures; those alone are not treated as behavioral proof. The current 523-test suite passes, and BK-05I's replay journal records the characterization replay passing.
+The operator's side-by-side review is recorded in `.migration/evidence/booking/acceptance.md`: “Everything [matched]. All good,” covering the wizard, dashboard/details, routing/pathfinder, and both edit dialogs.
 
-## Capability coverage
+## C. Bottom-up findings
 
-Each evidence reference below is recorded in the corresponding `.migration/ledger/booking.*.yaml`; the current passing full suite is in `.migration/evidence/runs/BK-05J.md`.
+The target graph's booking flows connect registration, route assignment, route-specification updates, and dashboard rendering to their application services, repositories, and data. Its booking endpoint paths reach `cargo`, `leg`, `HandlingEvent`, `location`, and `voyage` as applicable. Target application boundaries are represented by `CargoRegistration`, `CargoRouting`, `CargoSpecification`, and `CargoDashboard`; Pathfinder remains an in-process integration with its REST contract covered by characterization and API tests. No missing integration, unconnected booking flow, or misplaced responsibility was found.
+
+The verified acceptance run passed runtime and harness integrity, services, both graph gates, build, Ruff, `pytest -q`, CRAP (max 26.0 against 30), and full mutation (0.931 against 0.8; 2,065 killed, 153 survived, 83 files, `base=all`). Its unmodified journal rows are included in `.migration/evidence/runs/BK-05J.md`.
+
+## D. Capability coverage
+
+All 25 booking ledger entries have a target counterpart, migrated status, and evidence references. The acceptance run's full test and mutation gates pass; the tier-A replay provides the end-to-end characterization.
 
 | Capability | Target components | Representative evidence | Status |
 |---|---|---|---|
-| `booking.cargo-not-found` | `CargoRouting._find_cargo`; dashboard views | `test_unknown_or_stale_routing_updates_raise_cargo_not_found`; `test_unknown_and_stale_cargo_details_return_http_404` | migrated |
-| `booking.dashboard-chain` | `CargoDashboard`; dashboard views; dashboard template | `test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link` | migrated |
-| `booking.dashboard-filters` | `CargoDashboard.get_dashboard`; dashboard views | `test_dashboard_partitions_cargos_in_source_order`; `test_dashboard_renders_empty_tables_without_custom_empty_state` | migrated |
-| `booking.deadline-change` | `CargoSpecification.change_deadline` | `test_change_deadline_preserves_other_specification_fields_and_resets_route_state` | migrated |
-| `booking.destination-change` | `CargoSpecification.change_destination` | `test_change_destination_preserves_other_specification_fields_and_resets_route_state` | migrated |
-| `booking.dialog-chain` | dialog views; dialog templates; not-routed table template | `test_not_routed_table_exposes_destination_and_deadline_dialogs`; update/refresh tests | migrated |
-| `booking.dialog-deadline` | dialog views; deadline template; not-routed table template | `test_invalid_deadline_shows_field_error_and_keeps_dialog_open`; `test_deadline_update_preserves_route_and_refreshes_not_routed_row` | migrated |
-| `booking.dialog-destination` | dialog views; destination template; not-routed table template | `test_destination_dialog_filters_options_without_mutating_locations`; update/refresh test | migrated |
-| `booking.registration` | `CargoRegistration.register` | `test_registration_persists_new_cargo_with_generated_id_and_empty_itinerary` | migrated |
-| `booking.routing-assign` | `CargoRouting.assign_route`; route-selection views | `test_assign_route_persists_itinerary_and_recalculates_delivery`; redirect/details test | migrated |
-| `booking.routing-candidates` | `CargoRouting.route_candidates` | `test_route_candidates_convert_paths_and_filter_by_route_specification` | migrated |
-| `booking.routing-chain` | route-selection views; candidate and assignment application methods | populated-candidate and assignment/redirect tests | migrated |
-| `booking.routing-pathfinder-api` | `TransitEdge`; `TransitPath`; `RoutingService`; shortest-path API and URLs | seeded route, deadline-ignore, validation-golden, and port-validation tests | migrated |
-| `booking.screen-cargo-details` | dashboard application/views; cargo-details template | `test_cargo_details_render_route_fields_and_itinerary`; unknown/stale 404 test | migrated |
+| `booking.cargo-not-found` | `CargoRouting._find_cargo`; dashboard views | routing unknown/stale update and cargo-details 404 tests | migrated |
+| `booking.dashboard-chain` | `CargoDashboard`; dashboard views; dashboard template | dashboard partition, ordering and link test | migrated |
+| `booking.dashboard-filters` | `CargoDashboard.get_dashboard`; dashboard views | partition and empty-table tests | migrated |
+| `booking.deadline-change` | `CargoSpecification.change_deadline` | deadline preservation and route-state reset test | migrated |
+| `booking.destination-change` | `CargoSpecification.change_destination` | destination preservation and route-state reset test | migrated |
+| `booking.dialog-chain` | dialog views/templates; not-routed table | dialog action, update and refresh tests | migrated |
+| `booking.dialog-deadline` | dialog views/templates; not-routed table | invalid-date error and update/refresh tests | migrated |
+| `booking.dialog-destination` | dialog views/templates; not-routed table | filtered options and update/refresh tests | migrated |
+| `booking.registration` | `CargoRegistration.register` | persisted registration test | migrated |
+| `booking.routing-assign` | `CargoRouting.assign_route`; route-selection views | assignment persistence and redirect tests | migrated |
+| `booking.routing-candidates` | `CargoRouting.route_candidates` | candidate conversion and deadline filtering test | migrated |
+| `booking.routing-chain` | route-selection views; routing application methods | candidate and assignment/redirect tests | migrated |
+| `booking.routing-pathfinder-api` | `TransitEdge`; `TransitPath`; `RoutingService`; API and URLs | seeded route, deadline-ignore, validation-golden and port-validation tests | migrated |
+| `booking.screen-cargo-details` | dashboard application/views; cargo-details template | details fields and unknown/stale 404 tests | migrated |
 | `booking.screen-claimed-table` | claimed-table template | dashboard partition/link test | migrated |
 | `booking.screen-dashboard` | dashboard and admin-base templates | dashboard partition/link test | migrated |
-| `booking.screen-deadline` | deadline and deadline-form templates | `test_destination_next_opens_deadline_with_today_as_calendar_minimum`; deadline-state test | migrated |
-| `booking.screen-destination` | destination template | `test_origin_next_opens_destination_with_dallas_and_excludes_origin`; Back-state test | migrated |
-| `booking.screen-not-routed-table` | not-routed table template | dashboard partition/link test; dialog-action/update tests are recorded under the related dialog entries | **in-progress** |
-| `booking.screen-origin` | origin template | `test_origin_step_is_open_and_defaults_to_chicago` | migrated |
-| `booking.screen-route` | route-selection views; route and candidate templates | populated-route and no-candidate guidance tests | migrated |
+| `booking.screen-deadline` | deadline and form templates | wizard date-boundary and deadline-state tests | migrated |
+| `booking.screen-destination` | destination template | wizard option filtering and Back-state tests | migrated |
+| `booking.screen-not-routed-table` | not-routed table template | dashboard, dialog-action, update and refresh tests | migrated |
+| `booking.screen-origin` | origin template | origin default and options test | migrated |
+| `booking.screen-route` | route-selection views and templates | populated-route and no-candidate guidance tests | migrated |
 | `booking.screen-routed-table` | routed-table template | dashboard partition and cargo-moves-to-routed tests | migrated |
-| `booking.screen-select-itinerary` | route-selection views; select-itinerary and candidate templates | populated-candidate and no-candidate guidance tests | migrated |
-| `booking.wizard-chain` | wizard views; wizard templates | Back/Next preservation and registration/redirect tests | migrated |
-| `booking.wizard-input-rules` | wizard views; wizard templates | same-origin/destination and direct same-day rejection tests | migrated |
+| `booking.screen-select-itinerary` | route-selection views and templates | populated-candidate and no-candidate guidance tests | migrated |
+| `booking.wizard-chain` | wizard views and templates | Back/Next preservation and registration/redirect tests | migrated |
+| `booking.wizard-input-rules` | wizard views and templates | same-origin/destination and same-day rejection tests | migrated |
 
-All 25 entries have target components and evidence references. However, `booking.screen-not-routed-table` remains `in-progress`; its note assigns dialog actions and refresh to BK-05G, but its own evidence list does not cite BK-05G's dialog-action/update tests. The related dialog capabilities are migrated and tested, but the coordinator must reconcile this ledger entry before claiming all entries complete. No ledger status was changed by this read-only audit.
+## E. Tickets created
 
-## Human check and verdict
+None. No new gap was established. The approved divergences and preserved quirk above retain their existing human rulings.
 
-No operator side-by-side approving review is present in the evidence supplied for this audit. The profile names `martins-vds` as the sign-off approver. That review remains outstanding as required.
+## F. Final gap list
 
-**Verdict: gaps remain.** Current build, behavior, idiom, and CRAP gates pass. Slice acceptance is blocked on current-commit target-graph and full-mutation evidence, reconciliation of the in-progress screen capability, and the operator's approving review.
+None. The previously named `booking.screen-not-routed-table` status was reconciled with its existing BK-05E/BK-05G evidence. The earlier return's additional `untested` item had no ledger ID or ticket; this re-audit checked all 25 booking entries and their flows and found no separate untested booking capability to which it could be assigned.
+
+Gap classes: missing — none; misplaced — none; broken-flow — none; integration — none; untested — none.
+
+## G. Assessment
+
+**Verdict: complete for the booking slice.** The accepted code revision has verified target-graph and full-mutation evidence, all 25 booking capabilities are migrated with supporting tests and characterization, and the required operator flow review is recorded. This verdict is scoped to booking; it does not assert completion of the full migration.

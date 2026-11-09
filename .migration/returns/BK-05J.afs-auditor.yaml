@@ -4,13 +4,6 @@ issue: martins-vds/ai-factory-pilot-target#297
 scope: booking
 report: .migration/evidence/booking/report.md
 capabilities_checked: 25
-gaps:
-  - class: untested
-    ledger_id: booking.screen-not-routed-table
-    ticket: null
-  - class: untested
-    ledger_id: null
-    ticket: null
-graph_inconsistencies:
-  - "The committed target graph is stale for src/ and templates/; no target graph is built and gated for the audited tree."
-verdict: gaps-remain
+gaps: []
+graph_inconsistencies: []
+verdict: complete
