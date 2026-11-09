@@ -28,5 +28,36 @@
     "blocks_before": 0,
     "decision": "allow",
     "why": "clean"
+  },
+  {
+    "at": "2026-11-09T00:52:36Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 60793,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-ACCEPT",
+    "role": "afs-slice-coordinator",
+    "changed": [
+      ".migration/costs/95a958b6-e799-445b-a398-58da51679d0b.json",
+      ".migration/evidence/acceptance-runs/42528425964-1.json",
+      ".migration/evidence/booking/acceptance.md",
+      ".migration/evidence/runs/BK-ACCEPT.md",
+      ".migration/evidence/ticket-reconciliation/224.yaml",
+      ".migration/ledger/booking.screen-not-routed-table.yaml",
+      ".migration/returns/BK-ACCEPT.afs-slice-coordinator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
   }
 ]
