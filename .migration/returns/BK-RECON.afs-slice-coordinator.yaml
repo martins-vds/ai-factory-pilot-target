@@ -1,0 +1,21 @@
+role: afs-slice-coordinator
+ticket: BK-RECON
+issue: martins-vds/ai-factory-pilot-target#481
+pr: martins-vds/ai-factory-pilot-target#482
+slice: booking reconciliation
+tickets:
+  total: 39
+  merged: 35
+  open: 2
+  blocked:
+    - "CI run 42564426328 rejected #262 and #276: the BK-04 return names #256 but has no owning PR or same-path return snapshots attributing either restart issue."
+    - "CI run 42564426328 rejected #470: PR #471's coordinator return has no supported explicit failure outcome."
+    - "CI run 42564426328 rejected #477: PR #478 updates the same-path BK-05J return, but its issue field remains #297 and the guard cannot attribute it to #477."
+acceptance:
+  report: .migration/evidence/ticket-reconciliation/224.yaml
+  gates: "failing: ticket reconciliation (CI run 42564426328, four attribution failures)"
+  mutation_score: "n/a: reconciliation-only ticket"
+  coverage_gaps: 0
+human_check: passed
+human_check_issues: []
+quirk_tickets: []

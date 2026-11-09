@@ -1,0 +1,29 @@
+[
+  {
+    "at": "2026-11-09T05:02:58Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 41199,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "BK-RECON",
+    "role": "afs-slice-coordinator",
+    "changed": [
+      ".migration/evidence/runs/BK-RECON.md",
+      ".migration/evidence/ticket-reconciliation/224.yaml",
+      ".migration/returns/BK-RECON.afs-slice-coordinator.yaml"
+    ],
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]

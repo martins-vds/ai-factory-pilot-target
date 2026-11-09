@@ -44,7 +44,6 @@ issues:
     pull_requests: [358, 383, 385, 390]
     returns:
       - .migration/returns/BK-05E.afs-specialist-migrator.yaml
-      - .migration/returns/BK-05E.afs-verifier.yaml
   - number: 293
     disposition: completed
     pull_requests: [394, 406, 409]
@@ -69,9 +68,19 @@ issues:
       - .migration/returns/BK-05I.afs-verifier.yaml
   - number: 297
     disposition: completed
-    pull_requests: [459]
+    pull_requests: [459, 478]
     returns:
       - .migration/returns/BK-05J.afs-auditor.yaml
+  - number: 477
+    disposition: completed
+    pull_requests: [478]
+    returns:
+      - .migration/returns/BK-05J.afs-auditor.yaml
+    continuation:
+      current_return_issue: martins-vds/ai-factory-pilot-target#297
+      current_return_pr: 478
+      return_path: .migration/returns/BK-05J.afs-auditor.yaml
+      attribution: "PR #478 closes continuation #477 and updates the same-path BK-05J return, whose issue field remains #297."
   - number: 300
     disposition: completed
     pull_requests: [301]
@@ -82,26 +91,27 @@ issues:
     replacement: 473
     failure:
       pull_request: 471
-      return: .migration/returns/BK-ACCEPT.afs-slice-coordinator.yaml
+      handoff: .migration/handoffs/BK-ACCEPT.md
     continuation:
       failure_pr_state: closed-unmerged
       failure_return_issue: martins-vds/ai-factory-pilot-target#470
       attribution: "PR #471 contains the blocked coordinator return for #470 and is closed unmerged; restart issue #473 replaces it with a new acceptance run."
   - number: 473
-    disposition: retained-open
+    disposition: completed
     pull_requests: [474]
-    outstanding: "Complete review and merge of PR #474, resolve the anonymous BK-05J audit gap, and obtain the operator's side-by-side booking check."
-    blocker: "Issue #473 remains open pending PR review and the required human check; no sign-off is claimed."
+    returns:
+      - .migration/returns/BK-ACCEPT.afs-slice-coordinator.yaml
 
   - number: 262
     disposition: completed
-    pull_requests: [264]
+    pull_requests: [264, 279]
     returns:
       - .migration/returns/BK-04.afs-planner.yaml
     continuation:
       current_return_issue: martins-vds/ai-factory-pilot-target#256
+      current_return_pr: 279
       return_path: .migration/returns/BK-04.afs-planner.yaml
-      attribution: "PR #264 contains the same-path BK-04 planner return for this plan revision; the current return path remains owned by the parent planner ticket #256."
+      attribution: "PR #264 closes #262 and PR #279 carries the later same-path plan revision; the committed BK-04 return still names parent ticket #256."
   - number: 276
     disposition: completed
     pull_requests: [279]
@@ -109,11 +119,12 @@ issues:
       - .migration/returns/BK-04.afs-planner.yaml
     continuation:
       current_return_issue: martins-vds/ai-factory-pilot-target#256
+      current_return_pr: 279
       return_path: .migration/returns/BK-04.afs-planner.yaml
-      attribution: "PR #279 contains the same-path BK-04 planner return for the restarted revision; it is the continuation of parent ticket #256."
+      attribution: "PR #279 closes #276 and carries the restarted plan revision; the committed BK-04 return still names parent ticket #256."
   - number: 303
     disposition: completed
-    pull_requests: [305]
+    pull_requests: [305, 319]
     returns:
       - .migration/returns/BK-05A.afs-verifier.yaml
     continuation:
@@ -136,7 +147,7 @@ issues:
       attribution: "PR #319 carries the same-path BK-05A verifier return after this re-verification."
   - number: 320
     disposition: completed
-    pull_requests: [321]
+    pull_requests: [311, 321]
     returns:
       - .migration/returns/BK-05A.afs-migrator.yaml
     continuation:
@@ -145,7 +156,7 @@ issues:
       attribution: "PR #321 corrects the return path's PR reference; the same-path migrator return for the BK-05A fix remains issue #310 in PR #311."
   - number: 313
     disposition: completed
-    pull_requests: [317]
+    pull_requests: [317, 337]
     returns:
       - .migration/returns/BK-05B.afs-verifier.yaml
     continuation:
@@ -172,7 +183,7 @@ issues:
       attribution: "PR #337 carries the same-path BK-05B verifier return after this re-verification."
   - number: 348
     disposition: completed
-    pull_requests: [349]
+    pull_requests: [347, 349]
     returns:
       - .migration/returns/BK-05C.afs-migrator.yaml
     continuation:
@@ -181,7 +192,7 @@ issues:
       attribution: "PR #349 contains the test-collection and ledger continuation for BK-05C; the same-path final migrator return is owned by parent ticket #290 in PR #347."
   - number: 353
     disposition: completed
-    pull_requests: [354]
+    pull_requests: [343, 354]
     returns:
       - .migration/returns/BK-05D.afs-verifier.yaml
     continuation:
@@ -199,12 +210,15 @@ issues:
       failure_return_issue: martins-vds/ai-factory-pilot-target#372
       attribution: "The verifier's return in PR #376 records the finish-check blocker; #380 is the fresh replacement issue."
   - number: 380
-    disposition: retained-open
-    pull_requests: [383]
+    disposition: completed
+    pull_requests: [383, 390]
     returns:
       - .migration/returns/BK-05E.afs-verifier.yaml
-    outstanding: "Reconcile the still-open verification issue after its changes-required finding in PR #383 was addressed by #384/#385 and re-verified in #389/#390."
-    blocker: "GitHub still reports #380 open; merged PR #383 and later verification do not themselves close the issue."
+    continuation:
+      current_return_issue: martins-vds/ai-factory-pilot-target#389
+      current_return_pr: 390
+      return_path: .migration/returns/BK-05E.afs-verifier.yaml
+      attribution: "PR #383 closes #380 and carries the verifier return; PR #390 carries the later same-path passing return for sibling continuation #389."
   - number: 384
     disposition: retained-open
     pull_requests: [385]
@@ -221,7 +235,7 @@ issues:
     blocker: "GitHub still reports #389 open; the merged PR and passing return do not themselves close the issue."
   - number: 435
     disposition: completed
-    pull_requests: [436]
+    pull_requests: [436, 447]
     returns:
       - .migration/returns/BK-05H.afs-migrator.yaml
     continuation:
@@ -275,7 +289,7 @@ issues:
       attribution: "PR #409 carries the same-path BK-05F verifier return for this re-verification."
   - number: 451
     disposition: completed
-    pull_requests: [452]
+    pull_requests: [450, 452]
     returns:
       - .migration/returns/BK-05I.afs-verifier.yaml
     continuation:
