@@ -1,0 +1,19 @@
+role: afs-slice-coordinator
+ticket: BK-RECON
+issue: martins-vds/ai-factory-pilot-target#481
+pr: martins-vds/ai-factory-pilot-target#482
+slice: booking reconciliation
+tickets:
+  total: 39
+  merged: 35
+  open: 2
+  blocked:
+    - "Issue #470 is closed as not planned, but its closed-unmerged PR #471 contains no supported explicit failure outcome for the coordinator return."
+acceptance:
+  report: .migration/evidence/ticket-reconciliation/224.yaml
+  gates: pending GitHub Actions ticket reconciliation check
+  mutation_score: "n/a: reconciliation-only ticket"
+  coverage_gaps: 0
+human_check: passed
+human_check_issues: []
+quirk_tickets: []
