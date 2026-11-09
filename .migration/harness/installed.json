@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "bedfe4118be17e7a2cd74b6d5458a881df8bf43f",
-  "installed_at": "2026-11-09T04:35:28Z",
+  "harness_commit": "95ce44ee7a107b235b319777cba053b1518e1150",
+  "installed_at": "2026-11-09T12:43:53Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -21,7 +21,7 @@
       "path": ".github/agents/afs-bootstrapper.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-bootstrapper.agent.md": "74035f3fd8a8dc4ebf4003c15da4bcaccb59d729a41f58b42801458d0df3450f"
+        ".github/agents/afs-bootstrapper.agent.md": "6b9ce11fa246c38967b9f7f63d156c73cc05e23eb1829023c4462dfccbdf6d61"
       }
     },
     {
@@ -56,7 +56,7 @@
       "path": ".github/agents/afs-slice-coordinator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-slice-coordinator.agent.md": "02011e927d32dc80fa3a19f0c83603b40897333cd948efcd090af49527f2ac70"
+        ".github/agents/afs-slice-coordinator.agent.md": "afe82a4bb09da232a504b7df6b300de6f7eb4682c3ab6f85cf9b501bb483ca27"
       }
     },
     {
@@ -1133,6 +1133,7 @@
         ".migration/harness/tools/check_signoff.py": "21e3e3e50393ce28bcecd4ccf855b16a97cd78b27d1971d6756ef1272fb01233",
         ".migration/harness/tools/check_slice_returns.py": "a0eadbef5fa7cb3d75650a60a595fc05a8fd572f001efc379c25c8dd6dc34f67",
         ".migration/harness/tools/check_stack_base.py": "8b7430f4241b0409581d82cca1ccc3505d1e998bff0b8d09ffe3ccb6bf92b66d",
+        ".migration/harness/tools/close_gap_issues.py": "7b8c8542a94ed4682aa18ef19a5e39066dcff1c9e8b491a7d53168fc81ebb5ee",
         ".migration/harness/tools/crap.py": "78f19ab57dcdeca3bb7f024ba731f00d8a31671ed670aff6ab292d0c3f3f2797",
         ".migration/harness/tools/data_reconcile.py": "71b7dda59b5a173834d81a5c0bfe525df6ec7d818217bf2b4921cf508f34c97d",
         ".migration/harness/tools/data_snapshot.py": "b7b0010ff346ec8d958be18bd808b2ade0835613147406dbc7aad8313d011867",
@@ -1146,7 +1147,7 @@
         ".migration/harness/tools/locks/graphify.lock": "839bca8d206e908492e43d3fddee58e8aec44dc7a2c24a5c687fdb57a839852f",
         ".migration/harness/tools/preserve_graph.py": "04d033c67e7fcdf56122a8016aaad99a998769d38e26dc2d9252a40dc529581f",
         ".migration/harness/tools/stack_refresh.py": "951d8317454d118dba78f27e0dd355d09fd39ece7cf51af4123dc0a4f012e7b1",
-        ".migration/harness/tools/ticket_guard.py": "1b7643877b8298467e1d6185004997cf968878dcc09c411b10f0e259b784c0d3",
+        ".migration/harness/tools/ticket_guard.py": "01111eb41daef7abd178a2af93e1ecbaf5bdb9141c44a1ef0906742ba0654725",
         ".migration/harness/tools/understand.py": "6e8f4b43e15f323829c34f2e6932d8a1a306937f4b069a541e518d2f1c68e315",
         ".migration/harness/tools/validate.py": "f6ae232f7ec5fb9b0e5e84325d647573b59a5f63b7dcdfc8c96faf4039fc612f"
       }
