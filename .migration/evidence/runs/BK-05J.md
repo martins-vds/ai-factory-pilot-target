@@ -13,3 +13,6 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-08T14:07:57+00:00 | crap-coverage | 0 | 51.12 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `4583ff68924c4c30` |  |  |
 | 2026-11-08T14:08:00+00:00 | crap-lizard | 0 | 0.12 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-08T14:08:03+00:00 | crap-report | 0 | 0.03 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `46edc5c319c80c3b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
+| 2026-11-09T03:28:26+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-09T03:28:42+00:00 | graph-source-fresh | 0 | 0.05 | `python .migration/harness/tools/check_graph_fresh.py --require source` | `90cd01282d340dfc` |  |  |
+| 2026-11-09T03:28:51+00:00 | graph-source-gate | 0 | 0.14 | `python .migration/harness/tools/graph_gate.py --side source` | `97aa7c12f0569f31` |  | gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=19 enriched_edges=1350 |
