@@ -1,0 +1,27 @@
+role: afs-slice-coordinator
+ticket: BK-ACCEPT
+issue: martins-vds/ai-factory-pilot-target#473
+pr: martins-vds/ai-factory-pilot-target#474
+slice: booking
+tickets:
+  total: 38
+  merged: 32
+  open: 4
+  blocked:
+    - "Issue #470 remains open though superseded by #473; close it through coordinator issue reconciliation."
+    - "Issues #380, #384, and #389 remain open despite their merged PRs; reconcile their live issue states."
+    - "Issue #473 / PR #474 awaits review and merge, and the requested operator side-by-side check."
+    - "BK-05J's return records one additional untested gap with null ledger_id and ticket; request Auditor clarification."
+acceptance:
+  report: .migration/evidence/booking/acceptance.md
+  gates: all-green
+  mutation_score: 0.931
+  coverage_gaps: 1
+human_check: passed
+human_check_issues: []
+human_check_comparison:
+  - "Compare the legacy and target registration wizards side by side: defaults and destination options, Back/Cancel/Next state, date bounds and same-day disabled booking, and successful registration and dashboard redirect."
+  - "Compare dashboard table membership, source order, fields, empty states and links; cargo details; and unknown/stale tracking IDs returning 404."
+  - "Compare candidate itinerary fields and assignment persistence, deadline filtering, and the approved redirect to cargo details; compare the pathfinder REST fields/order, date format, validation responses, and preserved ignored-deadline behavior."
+  - "Compare destination/deadline dialog values and validation, filtered options without mutation, field preservation and route-state reset on update, and refreshed not-routed rows."
+quirk_tickets: []

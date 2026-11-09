@@ -11,7 +11,7 @@ tickets: ["martins-vds/ai-factory-pilot-target#292"]
 target:
   components:
     - templates/booking/dashboard/not_routed_table.html
-status: in-progress
+status: migrated
 verification: legacy-test
 characterization_tier: A
 evidence:
@@ -21,5 +21,9 @@ evidence:
   - ".migration/characterization/booking/source-tests.json"
   - "tests/characterization/test_booking.py::test_booking_observation_is_recorded"
   - "tests/booking/interfaces/test_dashboard.py::test_dashboard_partitions_cargo_in_source_order_and_renders_claimed_details_link"
+  - "tests/booking/interfaces/test_dialogs.py::test_not_routed_table_exposes_destination_and_deadline_dialogs"
+  - "tests/booking/interfaces/test_dialogs.py::test_destination_update_redirects_and_refreshes_not_routed_row"
+  - "tests/booking/interfaces/test_dialogs.py::test_deadline_update_preserves_route_and_refreshes_not_routed_row"
   - ".migration/evidence/runs/BK-05E.md"
-notes: "BK-05E renders the not-routed rows and route links; destination/deadline dialog actions and refresh remain with BK-05G."
+  - ".migration/evidence/runs/BK-05G.md"
+notes: "BK-05E renders the not-routed rows and route links; BK-05G implements the destination/deadline dialog actions and refresh, covered by the cited interface tests."
