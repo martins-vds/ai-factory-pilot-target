@@ -220,19 +220,15 @@ issues:
       return_path: .migration/returns/BK-05E.afs-verifier.yaml
       attribution: "PR #383 closes #380 and carries the verifier return; PR #390 carries the later same-path passing return for sibling continuation #389."
   - number: 384
-    disposition: retained-open
+    disposition: completed
     pull_requests: [385]
     returns:
       - .migration/returns/BK-05E.afs-specialist-migrator.yaml
-    outstanding: "Reconcile the still-open remediation issue after the dashboard application-use-case fix landed in PR #385."
-    blocker: "GitHub still reports #384 open; the merged PR does not itself close the issue."
   - number: 389
-    disposition: retained-open
+    disposition: completed
     pull_requests: [390]
     returns:
       - .migration/returns/BK-05E.afs-verifier.yaml
-    outstanding: "Reconcile the still-open re-verification issue after its passing return landed in PR #390."
-    blocker: "GitHub still reports #389 open; the merged PR and passing return do not themselves close the issue."
   - number: 435
     disposition: completed
     pull_requests: [436, 447]
