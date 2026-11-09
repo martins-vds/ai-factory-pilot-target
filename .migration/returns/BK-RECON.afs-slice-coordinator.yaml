@@ -1,0 +1,21 @@
+role: afs-slice-coordinator
+ticket: BK-RECON
+issue: martins-vds/ai-factory-pilot-target#475
+slice: booking reconciliation
+tickets:
+  total: 38
+  merged: null
+  open: null
+  blocked:
+    - "GitHub CLI authentication is unavailable: neither GH_TOKEN nor GITHUB_TOKEN is set."
+    - "Issue #297 has a completed-with-findings Auditor return, but no current guard disposition accepts it."
+    - "Issue #372 names #380 as replacement, but #380 is still open."
+acceptance:
+  report: .migration/evidence/booking/acceptance.md
+  gates: "blocked: ticket_guard cannot query GitHub without GH_TOKEN"
+  mutation_score: null
+  coverage_gaps: 1
+human_check: passed
+human_check_issues: []
+quirk_tickets: []
+handoff: .migration/handoffs/BK-RECON.md
