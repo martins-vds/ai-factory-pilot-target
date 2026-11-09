@@ -91,7 +91,7 @@ issues:
     replacement: 473
     failure:
       pull_request: 471
-      return: .migration/returns/BK-ACCEPT.afs-slice-coordinator.yaml
+      handoff: .migration/handoffs/BK-ACCEPT.md
     continuation:
       failure_pr_state: closed-unmerged
       failure_return_issue: martins-vds/ai-factory-pilot-target#470
