@@ -16,3 +16,13 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-09T03:28:26+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-09T03:28:42+00:00 | graph-source-fresh | 0 | 0.05 | `python .migration/harness/tools/check_graph_fresh.py --require source` | `90cd01282d340dfc` |  |  |
 | 2026-11-09T03:28:51+00:00 | graph-source-gate | 0 | 0.14 | `python .migration/harness/tools/graph_gate.py --side source` | `97aa7c12f0569f31` |  | gate=graph side=source verdict=pass failures=0 entry_points=27 reaching_data=19 enriched_edges=1350 |
+| 2026-11-09T03:29:25+00:00 | acceptance-fetch | 0 | 0.31 | `python .migration/harness/tools/afs-acceptance fetch --run-id 42528425964 --attempt 1 --dest .migration/runs/acceptance-42528425964-1` | `15c2f15c155f27d8` |  |  |
+| 2026-11-09T03:29:28+00:00 | acceptance-verify | 2 | 0.05 | `python .migration/harness/tools/afs-acceptance verify .migration/runs/acceptance-42528425964-1 --commit 135c70a276d4b20d377d701e064c9c819de4151c --run-id 42528425964 --attempt 1` | `1d432f27f2d34ce2` |  |  |
+| 2026-11-09T03:32:02+00:00 | booking-ledger-review | 0 | 0.05 | `python -c 'from pathlib import Path; import yaml; entries=[]; missing=[]; bad=[]
+for p in sorted(Path(".migration/ledger").glob("booking.*.yaml")):
+ d=yaml.safe_load(p.read_text());
+ if not isinstance(d,dict) or not d.get("id"): continue
+ entries.append(d)
+ if d.get("status") != "migrated": bad.append((d["id"],d.get("status")))
+ for c in d.get("target",{}).get("components",[]):
+  if not Path(c).ex` | `8b5e8fb8d12c9274` |  |  |
