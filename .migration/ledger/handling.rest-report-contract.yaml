@@ -18,9 +18,9 @@ tickets:
 target:
   components:
     - cargotracker.handling.composition.compose_handling_report_view
-    - cargotracker.handling.interfaces.rest.submit_handling_report
+    - cargotracker.handling.interfaces.rest.create_handling_report_view
     - cargotracker.handling.interfaces.rest.HandlingReportForm
-    - cargotracker.handling.interfaces.urls.urlpatterns
+    - cargotracker.urls.urlpatterns
 status: migrated
 verification: characterized
 characterization_tier: A
