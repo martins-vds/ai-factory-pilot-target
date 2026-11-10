@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "f14c8c605dc599c2e678986a906a49c8b762eed6",
-  "installed_at": "2026-11-10T14:50:01Z",
+  "harness_commit": "0c676af3d802718446cffb5f585eb5e93b19f931",
+  "installed_at": "2026-11-10T17:21:01Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -35,7 +35,7 @@
       "path": ".github/agents/afs-migrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-migrator.agent.md": "a188bf95d21ce402dfcf3b37f345eef354eedb64077070ece3c1849fed7b81b5"
+        ".github/agents/afs-migrator.agent.md": "f493a8e3ab1cc866b1b8c93572baaa0e6ee5b340bde83a0c7cf6261e9fdb4f37"
       }
     },
     {
