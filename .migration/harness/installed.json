@@ -1,7 +1,7 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "0c676af3d802718446cffb5f585eb5e93b19f931",
-  "installed_at": "2026-11-10T17:21:01Z",
+  "harness_commit": "810f1946a277d6bf2bd413cc6947764d671028ec",
+  "installed_at": "2026-11-10T19:04:57Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
@@ -1118,7 +1118,7 @@
         ".migration/harness/tools/afs-costs": "f3cc1d4b9de512fd18c8e35f6f9690070ba5060ca0284271e842257df786a9ab",
         ".migration/harness/tools/afs-drill": "ed8ba2f25075cf2644facf21a73fdb14bd5c8cb2df8b0df4d2d65e5f6b12186b",
         ".migration/harness/tools/afs-finish-check": "bec3e8a07cf0a9ca5256a8087204210c6cab0723aa548b6a0935172006d6deee",
-        ".migration/harness/tools/afs-mutation": "470b99f1c49cac1291bf7b67643dc0c755ba4d2b472a90bbca572702645fa24f",
+        ".migration/harness/tools/afs-mutation": "a22388825b66b01c8733ab2710f1b1dfaf92ec3512abfab028b95c4ab386a2ab",
         ".migration/harness/tools/afs-run": "71b8fa2e46cbff8098becb7567577dcbf41983e0c408de59e69c9f10b039179a",
         ".migration/harness/tools/afs-services": "9ba61468eef1d55329963d02ae05bee14d8ad3ed2afcb620208ca3e9c16f2669",
         ".migration/harness/tools/afs_trace.py": "68e27fa4ffc01cd1f423f0120935c342d91479db3ccfd7b6f0cc4da4276110bf",
@@ -1139,7 +1139,7 @@
         ".migration/harness/tools/data_reconcile.py": "71b7dda59b5a173834d81a5c0bfe525df6ec7d818217bf2b4921cf508f34c97d",
         ".migration/harness/tools/data_snapshot.py": "b7b0010ff346ec8d958be18bd808b2ade0835613147406dbc7aad8313d011867",
         ".migration/harness/tools/drills.json": "30d5dff36e79295063d0400b774b9106b8a34d8fd185e9e8cca80210c6f78e05",
-        ".migration/harness/tools/enrich_graph.py": "9e7335b9ad8b14bc94915b69226c7ec6376147829a68b9f2e589cf06b251044d",
+        ".migration/harness/tools/enrich_graph.py": "dbd23c1fcf310cc9d0edd1ee9ac81af611452987007c57cfd4575a6b37342729",
         ".migration/harness/tools/extract_slice.py": "80199267a5a100fd40b2ffd383aa4977bb3a2c9ad75641ecfac66442013a3f98",
         ".migration/harness/tools/fog_rewalk.py": "338a300383b107bd3942f94989a90d9b4bd9a137c639c9b7fb4ce1d92f6ba596",
         ".migration/harness/tools/graph_gate.py": "d1863a3a3af1cacc75f0798765150954e31fd7ea9a16e9ed353ee0bfcf5b4dc4",
