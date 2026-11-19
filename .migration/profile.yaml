@@ -54,7 +54,7 @@ gates:
   idiom: ["ruff check", "ruff format --check", "python .migration/harness/tools/check_layers.py", "python .migration/harness/tools/check_ui.py"]
   tests: ["pytest -q"]
   crap: ["pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov", "lizard --csv src > .migration/runs/lizard.csv", "python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30"]
-  mutation_changed: ["python .migration/harness/tools/afs-mutation --changed-since origin/main"]
+  mutation_changed: ["python .migration/harness/tools/afs-mutation"]   # diffs against $AFS_BASE (CI: the PR base), else origin/main
   mutation_full: ["python .migration/harness/tools/afs-mutation --all"]
 layering:                    # ADR-0001's layers as import contracts, checked in the idiom gate (harness ADR-0043)
   source_root: src
