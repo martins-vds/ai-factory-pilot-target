@@ -1,55 +1,55 @@
 {
   "harness_version": "0.2.0",
-  "harness_commit": "964664efa59aa090633f148a571729b3e92f45dd",
-  "installed_at": "2026-11-19T19:20:26Z",
+  "harness_commit": "79592f6613877246b27f2e494e4be56af5673896",
+  "installed_at": "2026-11-20T23:47:47Z",
   "entries": [
     {
       "path": ".github/agents/afs-analyst.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-analyst.agent.md": "cc8bee0691b443f76e17a9cfe6bd2c4ef8cb7b77976e09274712ec591defc137"
+        ".github/agents/afs-analyst.agent.md": "b1bac1ddf562e70fc7edaa4d2ed95cf5eecfb41dc31cd449674c10736f40d305"
       }
     },
     {
       "path": ".github/agents/afs-auditor.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-auditor.agent.md": "5a1809631c2001876300c5ede8e6f3d233cdd5fa4997a602f1c48c1e30620361"
+        ".github/agents/afs-auditor.agent.md": "4e74679ebd49955197e0da4179eecd940fd29247b8b0c63e3a6df003e5f590de"
       }
     },
     {
       "path": ".github/agents/afs-characterizer.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-characterizer.agent.md": "8072d11ac4d3475b87525a93cacae22b2a3dee211682b9ea694e21e9427b4083"
+        ".github/agents/afs-characterizer.agent.md": "9cd36e33a8fece591e1eab25bd563de2afc1ab53941060d431291e2912e6a7bc"
       }
     },
     {
       "path": ".github/agents/afs-migrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-migrator.agent.md": "80785fdf5712392860ca38b930d7d64d3ad54aa12185eddec5142d53fc880b98"
+        ".github/agents/afs-migrator.agent.md": "268c10d5b3dfa03c4150675ead515eccf45557e2ba8db1f726abe510be111ed2"
       }
     },
     {
       "path": ".github/agents/afs-planner.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-planner.agent.md": "fcf4e55f47225c175130140f0aba2d801721272860361d725c1cf70c392b5753"
+        ".github/agents/afs-planner.agent.md": "b91bf5e8c71140acadd01de2e7de001723fc7f6b2bc8a0bd06f6c178d04c551e"
       }
     },
     {
       "path": ".github/agents/afs-program-orchestrator.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-program-orchestrator.agent.md": "c8c84c57575881c0e5a99489500c78625fa386d54cd0abebd2ce879064efecc4"
+        ".github/agents/afs-program-orchestrator.agent.md": "435e3b65b66af33fcd3ae58efb9bdcd73c5e0ae013e8d4b7fcd683f03a9ac77a"
       }
     },
     {
       "path": ".github/agents/afs-verifier.agent.md",
       "kind": "agent",
       "files": {
-        ".github/agents/afs-verifier.agent.md": "9c876911ee5858e32b3de84b14832e4008ab2fcb0b3b0c939a57804e04fa6015"
+        ".github/agents/afs-verifier.agent.md": "64c466d808a6a779e035c799b03d9f19fcdc3f64b820d094c723b362f623940c"
       }
     },
     {
@@ -58,12 +58,13 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-migration-contract/SKILL.md": "fdb2ced7379ba525a222910f945170550ea3b9e46653e667f122544e1fb5ad5e",
+        ".github/skills/afs-migration-contract/SKILL.md": "9778b00acdbb80836779d5ce74d11dc3daaefa5cc5cba94c450d1e00a7e61af0",
         ".github/skills/afs-migration-contract/references/capability-coverage.md": "a0b43baddc3a0e2be7396e68361704d9db49761698c10c3753545038c8782ffd",
         ".github/skills/afs-migration-contract/references/characterization.md": "0c4677646e45898b00e5afc35566697d1c52cdd72d56bf77bcf277f7d63cf3e3",
         ".github/skills/afs-migration-contract/references/final-verification.md": "847e361034d3f5a7f0ddcf26a0602183588b752cb91206c298c55c4c3cfcb12b",
-        ".github/skills/afs-migration-contract/references/gates.md": "383ce3b1380759cbd111ff21252b97f3804ae3295c1e43f5e8f748ed7540ecc3",
-        ".github/skills/afs-migration-contract/references/lifecycle.md": "0ade5f4d93757c3f9de0e175c55f4d024d6e8be0098cef302e5fcbbdfb9b378f"
+        ".github/skills/afs-migration-contract/references/gates.md": "abbc7361c00f5a1056ee813c4f6bc8012c9ff85065fed41fbc49c7ff34f31990",
+        ".github/skills/afs-migration-contract/references/lifecycle.md": "0ade5f4d93757c3f9de0e175c55f4d024d6e8be0098cef302e5fcbbdfb9b378f",
+        ".github/skills/afs-migration-contract/references/verification.md": "afdc2152809c34327d4b2c4365b80e4a826f9c6728842005ca38d5269ef97105"
       }
     },
     {
@@ -109,7 +110,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-specialty/SKILL.md": "0206f8bd0a5c5026fb05989216b8183477bdcd5efea748c1efca7d864f64d72b"
+        ".github/skills/afs-specialty/SKILL.md": "9bd795e69a5004498b775f712a236910a32124f3a21c95b44e00f9d83215c210"
       }
     },
     {
@@ -136,7 +137,7 @@
       "origin": "menu",
       "install": "harness",
       "files": {
-        ".github/skills/afs-evidence/SKILL.md": "87686c23881caa90d87026870c3321fbd4081c409a1f39eb3ad560245dd7f2ce"
+        ".github/skills/afs-evidence/SKILL.md": "c097238f03f6f7ff41abab1424cf74977252bd396ca21019b11282cf7ad5acf5"
       }
     },
     {
@@ -384,40 +385,6 @@
       }
     },
     {
-      "path": ".github/skills/refactoring",
-      "kind": "skill",
-      "origin": "menu",
-      "install": "upstream",
-      "repo": "ciembor/agent-rules-books",
-      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
-      "upstream_path": "refactoring",
-      "files": {
-        ".github/skills/refactoring/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
-        ".github/skills/refactoring/PROVENANCE.md": "fb7c20abe6de9dcfc4df0209781e71fa2266ccbd5d2906821e3ad88a6afdcead",
-        ".github/skills/refactoring/SKILL.md": "d21cd1a2c17a92a44ec073a8ed341ed2a14986b01d09b9b27a61e5513130517c",
-        ".github/skills/refactoring/refactoring.md": "d7b9cf2b5ca26f3576943ff59cdeee61b65138213777b0e03bfe1075cbd966fc",
-        ".github/skills/refactoring/refactoring.mini.md": "dc3dc62dad43d9178a57aa768cab7be909bf48bbeb0f040401f90a22cd7c8c2c",
-        ".github/skills/refactoring/refactoring.nano.md": "ce32dbb86b42fa948106ebea928cbe2996d61b7bf8ab0370824fc2c32cc0ab5b"
-      }
-    },
-    {
-      "path": ".github/skills/refactoring-guru",
-      "kind": "skill",
-      "origin": "menu",
-      "install": "upstream",
-      "repo": "ciembor/agent-rules-books",
-      "commit": "893a88a6fce3a80c565bf39ac65021b43a8b2990",
-      "upstream_path": "refactoring-guru",
-      "files": {
-        ".github/skills/refactoring-guru/LICENSE": "c21def7bbce1900717a361a06af67399903d31bd3a695757fff534d6698d1bdb",
-        ".github/skills/refactoring-guru/PROVENANCE.md": "93035dba63fab5de316ee66af8618ac4e216b33e7e5c52a867b71a43e14e30cd",
-        ".github/skills/refactoring-guru/SKILL.md": "66c509c4c9977e3bc5de880968030861325698603a3e9472609a2873b2434228",
-        ".github/skills/refactoring-guru/refactoring-guru.md": "c92bdfcb8fc5d64a21f10fe268a02bf6a9a9ce6228f83ac85743905cba4b2497",
-        ".github/skills/refactoring-guru/refactoring-guru.mini.md": "c7c752b794400cbc0527c5a721c323531dfe3c0e963ab95f7c92c51603006054",
-        ".github/skills/refactoring-guru/refactoring-guru.nano.md": "ee7982dedb94d827d2c9462074d3949687d25b7cfd1c98c644be334cd33ba9b4"
-      }
-    },
-    {
       "path": ".github/skills/clean-code",
       "kind": "skill",
       "origin": "menu",
@@ -481,20 +448,6 @@
       }
     },
     {
-      "path": ".github/skills/verification-before-completion",
-      "kind": "skill",
-      "origin": "menu",
-      "install": "upstream",
-      "repo": "obra/superpowers",
-      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
-      "upstream_path": "skills/verification-before-completion",
-      "files": {
-        ".github/skills/verification-before-completion/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
-        ".github/skills/verification-before-completion/PROVENANCE.md": "aa800bcb71c543d4bcda8c8d1bee6c9f86422fa647960ceadaa371ffb4a7c0ad",
-        ".github/skills/verification-before-completion/SKILL.md": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
-      }
-    },
-    {
       "path": ".github/skills/code-review",
       "kind": "skill",
       "origin": "menu",
@@ -507,36 +460,6 @@
         ".github/skills/code-review/PROVENANCE.md": "69ea09257aabd5da248d89351a8e01cb24e1439fd71d1c094f9eefd46bf983ee",
         ".github/skills/code-review/SKILL.md": "9c921a8d88138a41401d8897ca1bb852088ab1b7b605cdd04edc13e3e8aab6dd",
         ".github/skills/code-review/agents/openai.yaml": "8229ca854e11dc8e6aef2131ee03f31fb1561cf905fab9ccc325180cf3331352"
-      }
-    },
-    {
-      "path": ".github/skills/pr",
-      "kind": "skill",
-      "origin": "menu",
-      "install": "upstream",
-      "repo": "mattpocock/skills",
-      "commit": "a496f5513d4a4cf889bc48e189e579f4b0bdf6aa",
-      "upstream_path": "skills/engineering/pr",
-      "files": {
-        ".github/skills/pr/CREDITS.md": "a7a087127665d7298a72280ef6e19c41ad8404523712a788c8dc3ab414bc2497",
-        ".github/skills/pr/LICENSE": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5",
-        ".github/skills/pr/PROVENANCE.md": "de1cf0fa433f1d40fc0d02e9599652d5b71323ba823a1ec0721fa9958b861919",
-        ".github/skills/pr/SKILL.md": "ab63f1cf78647389edcd386c9427c5dfca27ed2836930c24773ffee834c19bcd",
-        ".github/skills/pr/agents/openai.yaml": "2295b586624db4ef546f3fd4695492f039d941a46d8a1593a702ce3ca511b8ad"
-      }
-    },
-    {
-      "path": ".github/skills/receiving-code-review",
-      "kind": "skill",
-      "origin": "menu",
-      "install": "upstream",
-      "repo": "obra/superpowers",
-      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
-      "upstream_path": "skills/receiving-code-review",
-      "files": {
-        ".github/skills/receiving-code-review/LICENSE": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
-        ".github/skills/receiving-code-review/PROVENANCE.md": "1076fc88c6cc5e2e05f848337b36eacad4ef3c73deb5eeb0250e1e62c43c4833",
-        ".github/skills/receiving-code-review/SKILL.md": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
       }
     },
     {
@@ -1136,7 +1059,7 @@
         ".migration/harness/tools/check_inputs.py": "9ce77441102ed8134e2a83a5c199fe476790c8cbf113f739a5499ce772846f5e",
         ".migration/harness/tools/check_installed.py": "6f95e854ed5513ab5e7c0596898a9ae27f77a7413ba525faf8152e372bfe6c42",
         ".migration/harness/tools/check_layers.py": "347b5af292d8b8abf69bf7d7bf134a6837b2f5d304cc3a4a6192c1ca0c9373d0",
-        ".migration/harness/tools/check_plan.py": "9203ee6a06f7feaa8aee9c1b4c1f8400be2f193d1ef5259e0a82cb2ecd4a9f88",
+        ".migration/harness/tools/check_plan.py": "9a18013cca213648e7541546e5783ce3bfb44478352778c9984b2969c39cd03a",
         ".migration/harness/tools/check_return_contract.py": "358439d9d68a5f222462b42167d57a265900bf8021a2c22b1fff2ab99e550263",
         ".migration/harness/tools/check_runtime.py": "ba09b4b13ba86cbb29586feb54824646abcefaf952b76b1e40e3c32276fda547",
         ".migration/harness/tools/check_signoff.py": "fd056c86edfaaaec09b57f2a5e63f9a9f831a86b000dbf52f6fb2b352c8b1b9d",
@@ -1161,7 +1084,7 @@
         ".migration/harness/tools/stack_refresh.py": "6dafe2568a432d2221aa40cfa7e6d84501aea8e026ecb16c526c329c11acc71c",
         ".migration/harness/tools/ticket_guard.py": "30636800b1b2cd6d1e22195c10c395ff7e84adf8abfc19d99297b0eb13b88bb4",
         ".migration/harness/tools/understand.py": "6e8f4b43e15f323829c34f2e6932d8a1a306937f4b069a541e518d2f1c68e315",
-        ".migration/harness/tools/validate.py": "2a98f88bda0eb809d3a33440c85e935273cb2988ff9eaccb9980a381c46bd5f5"
+        ".migration/harness/tools/validate.py": "49c4ff5ffa7faa1b4d243b2650af9a677d723289819cac2d9c0972be7ffc96ea"
       }
     },
     {
