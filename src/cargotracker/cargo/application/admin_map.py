@@ -1,10 +1,9 @@
 from collections.abc import Mapping
 
-from cargotracker.cargo.domain.repository import CargoRepository
 from cargotracker.cargo.application.admin_map_data import (
-    UNKNOWN_LOCATION,
     cargo_map_data,
 )
+from cargotracker.cargo.domain.repository import CargoRepository
 
 
 def build_admin_map_data(
