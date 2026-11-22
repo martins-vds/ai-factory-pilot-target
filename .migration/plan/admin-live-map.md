@@ -123,3 +123,13 @@ These are planned fates, not claims that target implementation is complete. Ever
 - Resolve quirk #253: for a `NOT_RECEIVED` cargo whose `lastKnownLocation` is `Unknown` but whose origin is known, does ruling #206 require the unmapped list, or should the origin marker remain?
 - Keep the marker click-through URL provisional until the revised booking plan names the BK-05 cargo-details route.
 - Confirm the provisional `/admin/live-map/` and `/admin/live-map/markers/` route names before approving the plan.
+
+## REF-20261122-ADMIN-LIVE-MAP: Move src/cargotracker/cargo/application/admin_map.py's private helpers into their own module, preserving behaviour
+
+**Role:** `afs-migrator`, ticket `REF-20261122-ADMIN-LIVE-MAP`: **restructure `src/cargotracker/cargo/application/admin_map.py` without changing what it does** (ADR-0072, a periodic refactor of the `admin-live-map` slice).
+
+`src/cargotracker/cargo/application/admin_map.py` keeps 2 private helpers: `_cargo_map_data`, `_location_data`. Move them into a new module in `src/cargotracker/cargo/application/`, as public functions named for what they do, and have the code that used them import them from there. Every page, response, command output and stored value stays exactly as it is.
+
+**Tests are the safety net, not part of the job.** Change an existing test only if the restructuring itself makes it fail, and for every test you change say why in your return's `notes`. Don't keep aliases or wrappers so the old private names still work. The tests you had to change are this ticket's measurement: each one knows how the code is built, not what it does.
+
+Load `afs-migration-contract` and run `afs-setup-check` first. Run every gate through `afs-run`: build, behaviour, spec, idiom, CRAP, mutation on the changed code, regression. Commit your return `.migration/returns/REF-20261122-ADMIN-LIVE-MAP.afs-migrator.yaml`, or a handoff.

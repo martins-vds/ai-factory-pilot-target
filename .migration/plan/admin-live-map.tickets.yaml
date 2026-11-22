@@ -61,3 +61,16 @@ tickets:
   - .migration/evidence/admin-live-map/acceptance.md
   blocked_by:
   - AM-04E
+- id: REF-20261122-ADMIN-LIVE-MAP
+  title: Move src/cargotracker/cargo/application/admin_map.py's private helpers into their own module, preserving behaviour
+  role: afs-migrator
+  specialty: null
+  files:
+  - src/cargotracker/cargo/application/
+  - tests/cargo/interfaces/test_admin_live_map_data.py
+  - tests/cargo/interfaces/test_admin_live_map_markers.py
+  - tests/cargo/interfaces/test_admin_live_map_processing.py
+  - tests/cargo/interfaces/test_admin_live_map_templates.py
+  capabilities: []
+  blocked_by: []
+  refactor: true
