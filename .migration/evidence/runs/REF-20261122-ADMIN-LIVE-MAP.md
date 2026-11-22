@@ -28,3 +28,4 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-22T23:53:06+00:00 | final-ruff-check | 1 | 0.01 | `ruff check` | `8bd8b7309d96680f` |  |  |
 | 2026-11-22T23:53:11+00:00 | final-map-tests | 0 | 4.72 | `pytest -q tests/cargo/interfaces/test_admin_live_map_data.py tests/cargo/interfaces/test_admin_live_map_markers.py tests/cargo/interfaces/test_admin_live_map_processing.py tests/cargo/interfaces/test_admin_live_map_templates.py` | `02d129fab13ea9e4` |  |  |
 | 2026-11-22T23:53:38+00:00 | final-ruff-check-rerun | 1 | 0.01 | `ruff check` | `35e37249e3119d29` | Found 1 error. |  |
+| 2026-11-22T23:55:57+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |

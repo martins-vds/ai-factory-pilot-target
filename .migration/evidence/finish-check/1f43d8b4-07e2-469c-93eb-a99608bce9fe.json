@@ -1,0 +1,38 @@
+[
+  {
+    "at": "2026-11-22T23:55:15Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 17778,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "REF-20261122-ADMIN-LIVE-MAP",
+    "role": "afs-migrator",
+    "changed": [
+      ".migration/evidence/mutants/REF-20261122-ADMIN-LIVE-MAP.md",
+      ".migration/evidence/runs/REF-20261122-ADMIN-LIVE-MAP.md",
+      ".migration/handoffs/REF-20261122-ADMIN-LIVE-MAP.md",
+      ".migration/returns/REF-20261122-ADMIN-LIVE-MAP.afs-migrator.yaml",
+      "src/cargotracker/cargo/application/admin_map.py",
+      "src/cargotracker/cargo/application/admin_map_data.py"
+    ],
+    "test_health": {
+      "block": true,
+      "findings": []
+    },
+    "findings": [
+      "[mechanical] `.migration/returns/REF-20261122-ADMIN-LIVE-MAP.afs-migrator.yaml` has no `gates.mutation_changed`. Copy the score `afs-mutation` printed for your changed files from your journal; if it truly doesn't apply, write `n/a: <reason>` (e.g. `n/a: no mutable code changed`, or `n/a: not run, handed off`). It can't be left empty."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
+  }
+]
