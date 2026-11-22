@@ -19,6 +19,20 @@ of the code, so a refactor that keeps the behaviour can't break one.
   `.migration/runs/spec-results.json`) for `render`. A capability whose ledger status isn't `in-progress` or
   `migrated` isn't built yet: its cases are reported as pending, not run, so the Characterizer can write
   the spec before the Migrator builds the code (ADR-0062). `--all` runs them anyway.
+* A **replay** case (ADR-0067) names a recorded legacy exchange (`when.replay: {recording, exchange}`): the
+  runner sends its request and compares the response with the recorded one (`then.replay: {body, mask}`), so
+  the recording itself is the oracle and no value is copied by hand. With --require, every tier-A capability
+  with a spec replays at least one exchange, or its ledger entry says why not (`no_replay: <why>`).
+* **Contracts at a boundary** (ADR-0068): `then.schema` (a JSON Schema, inline or a file from the repo root)
+  checks the shape of a JSON response, for an API whose values can't be fixed; `given.gateways` puts a real
+  local HTTP stub in front of each named gateway (`afs_spec_stub.py`; the profile's `spec.gateways` says how the
+  target finds it), answering as the case says, and `then.sent` lists the requests the target must have sent.
+  With --require, an `integration` capability with a spec has a contract case or a `no_contract` reason.
+* A **property** case (ADR-0069) has `forall:` instead of examples: named ranges (`int`, `number`, `date`) or
+  lists (`one_of`). The runner tries each range's edges, its middle and seeded random values (the seed is the
+  case's id, so every run tries the same inputs; `--samples` sets how many), and on a failure searches toward
+  the start of each range for the smallest input that still fails, which is the one it reports. `then.number`
+  checks a number taken from the response against bounds, which is how a property states an invariant.
 * `render`: the slice's living spec, as one readable page: capability, rule, cases and their last results.
 
 This file is the harness's. A target's agents may not change it or its adapter, and only a Characterizer
@@ -26,8 +40,10 @@ ticket may change `.migration/spec/` (ADR-0061, ADR-0062).
 """
 import argparse
 import contextlib
+import random
 import copy
 import datetime as dt
+import html
 import json
 import pathlib
 import re
@@ -85,6 +101,89 @@ def ledger_rules(ledger_dir, capability):
 BUILT = {"in-progress", "migrated"}
 
 
+def ledger_field(ledger_dir, capability, key):
+    path = pathlib.Path(ledger_dir) / f"{capability}.yaml"
+    if not path.exists():
+        return None
+    return (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get(key)
+
+
+def load_exchange(root, replay):
+    """The recorded exchange a replay case names, or a SpecError saying what is wrong."""
+    path = pathlib.Path(root) / replay["recording"]
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        raise SpecError(f"recording {replay['recording']!r} can't be read as JSON: {e}")
+    if replay.get("under") and isinstance(doc, dict):
+        doc = doc.get(replay["under"])
+    ex = doc.get(replay["exchange"]) if isinstance(doc, dict) else None
+    if not isinstance(ex, dict) or not isinstance(ex.get("request"), dict) or not isinstance(ex.get("response"), dict):
+        raise SpecError(f"recording {replay['recording']!r} has no exchange {replay['exchange']!r} with a request "
+                        f"and a response (it has: {', '.join(list(doc)[:8]) if isinstance(doc, dict) else 'no names'})")
+    req = ex["request"]
+    if not str(req.get("path", "")).startswith("/") or str(req.get("method", "")).upper() not in (
+            "GET", "POST", "PUT", "PATCH", "DELETE"):
+        raise SpecError(f"exchange {replay['exchange']!r} in {replay['recording']!r} needs request.method and a "
+                        "request.path starting with /")
+    return ex
+
+
+def forall_problems(case, path, i):
+    out = []
+    if case.get("examples"):
+        out.append(f"{path}: case {i + 1} has both `forall` and `examples`: a property draws its own inputs")
+    for name, gen in case["forall"].items():
+        try:
+            kind, lo, hi = bounds(gen)
+        except (StopIteration, ValueError, TypeError, KeyError) as e:
+            out.append(f"{path}: case {i + 1}: forall {name} isn't a valid range ({e})")
+            continue
+        if kind != "one_of" and lo > hi:
+            out.append(f"{path}: case {i + 1}: forall {name} runs from {lo} down to {hi}")
+    used = set(PLACEHOLDER.findall(json.dumps([case.get("given"), case["when"], case["then"]])))
+    missing = used - set(case["forall"])
+    if missing:
+        out.append(f"{path}: case {i + 1} uses {{{', '.join(sorted(missing))}}} but its forall has no such name")
+    return out
+
+
+def schema_problems(root, case, path, i):
+    schema = case["then"].get("schema")
+    if schema is None:
+        return []
+    try:
+        if isinstance(schema, str):
+            schema = json.loads((pathlib.Path(root) / schema).read_text(encoding="utf-8"))
+        import jsonschema
+        jsonschema.Draft202012Validator.check_schema(schema)
+    except ImportError:
+        return []
+    except (OSError, ValueError) as e:
+        return [f"{path}: case {i + 1}: schema {case['then']['schema']!r} can't be read as JSON: {e}"]
+    except Exception as e:  # noqa: BLE001 (jsonschema's SchemaError)
+        return [f"{path}: case {i + 1}: schema isn't a valid JSON Schema: {str(e).splitlines()[0]}"]
+    return []
+
+
+def replay_problems(root, case, path, i):
+    out = []
+    if "replay" not in case["then"]:
+        out.append(f"{path}: case {i + 1} replays an exchange but `then` has no `replay` (body: exact, text, json or "
+                   "ignore) to compare it with")
+    for row in example_rows(case):
+        try:
+            load_exchange(root, substitute(case["when"]["replay"], row))
+        except (SpecError, KeyError) as e:
+            out.append(f"{path}: case {i + 1}: {e}")
+    return out
+
+
+def example_rows(case):
+    ex = case.get("examples")
+    return [dict(zip(ex["columns"], r)) for r in ex["rows"]] if ex else [{}]
+
+
 def ledger_status(ledger_dir, capability):
     path = pathlib.Path(ledger_dir) / f"{capability}.yaml"
     if not path.exists():
@@ -124,12 +223,22 @@ def check(spec_dir, ledger_dir, require=False):
             problems.append(f"{path}: capability {cap} has no ledger entry (.migration/ledger/{cap}.yaml)")
             continue
         root = pathlib.Path(spec_dir).resolve().parent.parent
+        replays = contracts = 0
         for i, case in enumerate(doc["cases"]):
+            if "schema" in case["then"] or "sent" in case["then"]:
+                contracts += 1
+            problems += schema_problems(root, case, path, i)
+            replay = (case.get("when") or {}).get("replay")
+            if replay:
+                replays += 1
+                problems += replay_problems(root, case, path, i)
+            elif "replay" in case.get("then", {}):
+                problems.append(f"{path}: case {i + 1} has `then.replay` but no `when.replay` to compare with")
             oracle = case.get("oracle")
             if oracle and not (root / oracle).exists():
                 problems.append(f"{path}: case {i + 1} ({case.get('title')!r}) names oracle {oracle!r}, which "
                                 "doesn't exist: point it at the recorded legacy output the values come from")
-            if require and not oracle and not case.get("ruling"):
+            if require and not oracle and not replay and not case.get("ruling"):     # a replay is its own oracle
                 problems.append(f"{path}: case {i + 1} ({case.get('title')!r}) says neither where its expected "
                                 "values come from (`oracle:` a recorded legacy output) nor which quirk ruling "
                                 "sets them (`ruling:`)")
@@ -138,6 +247,8 @@ def check(spec_dir, ledger_dir, require=False):
                     problems.append(f"{path}: case {i + 1} ({case.get('title')!r}) names rule {rule!r}, which "
                                     f"{cap} doesn't list (its rules: {', '.join(sorted(known)) or 'none'})")
                 proved.setdefault(cap, set()).add(rule)
+            if case.get("forall"):
+                problems += forall_problems(case, path, i)
             ex = case.get("examples")
             if ex:
                 width = len(ex["columns"])
@@ -150,6 +261,15 @@ def check(spec_dir, ledger_dir, require=False):
                 if missing:
                     problems.append(f"{path}: case {i + 1} uses {{{', '.join(sorted(missing))}}} but its examples "
                                     "have no such column")
+        if require and not contracts and ledger_field(ledger_dir, cap, "kind") == "integration" \
+                and not ledger_field(ledger_dir, cap, "no_contract"):
+            problems.append(f"{path}: {cap} is an integration, so its contract is checked at the boundary: add a case "
+                            "with `then.schema` (the shape of what it answers) or `given.gateways` and `then.sent` "
+                            "(what it sends), or say why none can be in its ledger entry (`no_contract`)")
+        if require and not replays and ledger_field(ledger_dir, cap, "characterization_tier") == "A" \
+                and not ledger_field(ledger_dir, cap, "no_replay"):
+            problems.append(f"{path}: {cap} was characterized at tier A, so its recorded exchanges can be replayed: add "
+                            "a replay case (`when.replay`), or say why none can be in its ledger entry (`no_replay`)")
         if require:
             for rule in sorted((known or set()) - proved.get(cap, set()) - unspecced_rules(ledger_dir, cap)):
                 problems.append(f"{path}: rule {rule!r} of {cap} has no case; add one that proves it, or a "
@@ -180,11 +300,54 @@ def merge_given(*parts):
     return out
 
 
-def expand(doc, path):
+def spec_root(path):
+    """The repository root of a spec file at <root>/.migration/spec/<slice>/<file>.yaml."""
+    parents = pathlib.Path(path).resolve().parents
+    return parents[3] if len(parents) > 3 else pathlib.Path(".")
+
+
+def resolve_replay(case, root):
+    """A replay case as the HTTP request it replays, with the recorded response to compare against (ADR-0067)."""
+    replay = case["when"].get("replay")
+    if not replay:
+        return case
+    ex = load_exchange(root, replay)
+    req, resp = ex["request"], ex["response"]
+    http = {"method": str(req["method"]).upper(), "path": req["path"]}
+    for key in ("form", "json", "headers"):
+        if req.get(key) is not None:
+            http[key] = req[key]
+    then = dict(case["then"])
+    then.setdefault("status", resp.get("status"))
+    then["replay"] = dict(then["replay"], expected=resp.get("body", ""),
+                          source=f"{replay['recording']}#{replay['exchange']}")
+    return dict(case, when={"http": http}, then=then)
+
+
+def resolve_schema(case, root):
+    schema = case["then"].get("schema")
+    if isinstance(schema, str):
+        try:
+            loaded = json.loads((pathlib.Path(root) / schema).read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return case                                 # check reports it; the verdict fails with the path
+        return dict(case, then=dict(case["then"], schema=loaded))
+    return case
+
+
+def expand(doc, path, root=None):
     """The concrete cases of one spec file, with the background and example rows applied."""
     bg = (doc.get("background") or {}).get("given")
+    root = root or spec_root(path)
     out = []
     for i, case in enumerate(doc["cases"]):
+        if case.get("forall"):
+            cid = f"{path}#{i + 1}"
+            out.append({"id": cid, "title": case["title"], "capability": doc["capability"], "rules": case_rules(case),
+                        "property": {"forall": case["forall"], "samples": samples(case["forall"], cid, SAMPLES[0])},
+                        "template": {"given": merge_given(bg, case.get("given")), "when": case["when"],
+                                     "then": case["then"]}, "root": str(root)})
+            continue
         ex = case.get("examples")
         rows = [dict(zip(ex["columns"], r)) for r in ex["rows"]] if ex else [{}]
         for j, row in enumerate(rows):
@@ -194,7 +357,98 @@ def expand(doc, path):
                         "given": substitute(merge_given(bg, case.get("given")), row),
                         "when": substitute(copy.deepcopy(case["when"]), row),
                         "then": substitute(copy.deepcopy(case["then"]), row)})
+            out[-1] = resolve_schema(resolve_replay(out[-1], root), root)
     return out
+
+
+SAMPLES = [25]           # inputs tried per property case; `run --samples` sets it
+
+
+def bounds(gen):
+    """(kind, low, high) of a range generator, or ("one_of", values, None)."""
+    if "one_of" in gen:
+        return "one_of", list(gen["one_of"]), None
+    kind = next(k for k in ("int", "number", "date") if k in gen)
+    r = gen[kind]
+    if kind == "date":
+        return kind, dt.date.fromisoformat(str(r["from"])), dt.date.fromisoformat(str(r["to"]))
+    return kind, r["from"], r["to"]
+
+
+def pick(gen, rng, where):
+    """A value of a generator: `where` is "low", "high", "mid", "low+1", "high-1" or "random"."""
+    kind, lo, hi = bounds(gen)
+    if kind == "one_of":
+        return lo[{"low": 0, "high": -1}.get(where, rng.randrange(len(lo)))] if where != "mid" else lo[len(lo) // 2]
+    span = (hi - lo).days if kind == "date" else hi - lo
+    step = 1 if kind != "number" else 10 ** -(gen["number"].get("places", 2))
+    offset = {"low": 0, "high": span, "mid": span / 2, "low+1": min(step, span), "high-1": max(span - step, 0)}.get(where)
+    if offset is None:
+        offset = rng.uniform(0, span) if kind == "number" else rng.randint(0, int(span))
+    if kind == "date":
+        return (lo + dt.timedelta(days=int(offset))).isoformat()
+    if kind == "int":
+        return int(lo + int(offset))
+    return round(lo + offset, gen["number"].get("places", 2))
+
+
+def samples(forall, seed, n):
+    """The inputs a property case tries: every range's edges and middle (others at their low end), then seeded
+    random combinations, without repeats, n in all."""
+    rng = random.Random(seed)
+    names = sorted(forall)
+    out, seen = [], set()
+
+    def add(row):
+        key = json.dumps(row, sort_keys=True, default=str)
+        if key not in seen:
+            seen.add(key)
+            out.append(row)
+    for name in names:
+        for where in ("low", "low+1", "mid", "high-1", "high"):
+            add({k: pick(forall[k], rng, where if k == name else "low") for k in names})
+    tries = 0
+    while len(out) < n and tries < n * 20:
+        tries += 1
+        add({k: pick(forall[k], rng, "random") for k in names})
+    return out[:n]
+
+
+def shrink(forall, row, fails, budget=24):
+    """The smallest input that still fails: for each range, binary search from its low end toward the failing
+    value (a list moves toward its first value). `fails(row)` runs the case."""
+    best = dict(row)
+    for name in sorted(forall):
+        kind, lo, _ = bounds(forall[name])
+        if kind == "one_of":
+            for v in lo:
+                if v == best[name] or budget <= 0:
+                    break
+                budget -= 1
+                trial = dict(best, **{name: v})
+                if fails(trial):
+                    best = trial
+                    break
+            continue
+        as_num = (lambda v: dt.date.fromisoformat(v).toordinal()) if kind == "date" else (lambda v: v)
+        from_num = (lambda x: dt.date.fromordinal(int(x)).isoformat()) if kind == "date" else (
+            (lambda x: int(x)) if kind == "int" else (lambda x: round(x, forall[name]["number"].get("places", 2))))
+        low, high = as_num(lo.isoformat() if kind == "date" else lo), as_num(best[name])
+        step = 1 if kind != "number" else 10 ** -(forall[name]["number"].get("places", 2))
+        while high - low > step and budget > 0:
+            budget -= 1
+            mid = from_num((low + high) / 2)
+            trial = dict(best, **{name: mid})
+            if fails(trial):
+                best, high = trial, as_num(mid)
+            else:
+                low = as_num(mid)
+        if budget > 0 and best[name] != from_num(low):
+            budget -= 1
+            trial = dict(best, **{name: from_num(low)})
+            if fails(trial):
+                best = trial
+    return best
 
 
 def contains(actual, expected):
@@ -234,11 +488,101 @@ def verdict(then, result):
     for t in then.get("not_text") or []:
         if str(t) in body:
             failed.append(f"not_text: {t!r} found")
+    if "replay" in then:
+        failed += replay_verdict(then["replay"], result)
+    if "sent" in then:
+        failed += sent_verdict(then["sent"], result.get("sent") or {})
+    if "number" in then:
+        failed += number_verdict(then["number"], result)
+    if "schema" in then:
+        failed += schema_verdict(then["schema"], result)
     for k, v in (then.get("headers") or {}).items():
         got = (result.get("headers") or {}).get(k.lower())
         if got != v:
             failed.append(f"header {k}: expected {v!r}, got {got!r}")
     return failed
+
+
+def number_verdict(spec, result):
+    """A number taken from the body (the pattern's first group) is within bounds."""
+    m = re.search(spec["pattern"], result.get("text") or "")
+    if not m:
+        return [f"number: {spec['pattern']!r} not found"]
+    try:
+        value = float(m.group(1) if m.groups() else m.group(0))
+    except ValueError:
+        return [f"number: {m.group(0)!r} isn't a number"]
+    out = []
+    if "min" in spec and value < float(spec["min"]):
+        out.append(f"number: {value:g} is below {spec['min']}")
+    if "max" in spec and value > float(spec["max"]):
+        out.append(f"number: {value:g} is above {spec['max']}")
+    return out
+
+
+def sent_verdict(expected, sent):
+    """Each gateway got exactly these requests, in order: method and path equal, body containing the given text."""
+    failed = []
+    for name, want in expected.items():
+        got = sent.get(name)
+        if got is None:
+            failed.append(f"sent {name}: the case didn't put a stub in front of {name} (given.gateways)")
+            continue
+        ok = len(got) == len(want) and all(
+            g["method"] == w["method"].upper() and g["path"] == w["path"] and str(w.get("body", "")) in g["body"]
+            for g, w in zip(got, want))
+        if not ok:
+            failed.append(f"sent {name}: expected\n" + printer(want) + "the target sent\n"
+                          + printer([{k: g[k] for k in ("method", "path", "body") if g.get(k) or k != "body"} for g in got]))
+    return failed
+
+
+def schema_verdict(schema, result):
+    if isinstance(schema, str):
+        return [f"schema: {schema!r} can't be read as a JSON Schema"]
+    try:
+        import jsonschema
+    except ImportError:
+        return ["schema: jsonschema isn't installed, so the contract can't be checked"]
+    body = result.get("json")
+    if body is None:
+        return ["schema: expected a JSON body, got none"]
+    errs = sorted(jsonschema.Draft202012Validator(schema).iter_errors(body), key=lambda e: list(e.absolute_path))
+    return [f"schema: {'/'.join(str(p) for p in e.absolute_path) or '(top)'}: {e.message}" for e in errs[:10]]
+
+
+TAG = re.compile(r"<[^>]+>")
+
+
+def normalize(body, mode, masks):
+    text = str(body or "")
+    if mode == "text":
+        text = " ".join(html.unescape(TAG.sub(" ", text)).split())
+    elif mode == "exact":
+        text = "\n".join(line.rstrip() for line in text.replace("\r\n", "\n").split("\n")).strip("\n")
+    for m in masks or []:
+        text = re.sub(m, "<masked>", text)
+    return text
+
+
+def replay_verdict(replay, result):
+    """The recorded body against the target's, after the case's normalization and masks."""
+    mode, masks = replay["body"], replay.get("mask")
+    if mode == "ignore":
+        return []
+    if mode == "json":
+        try:
+            want = json.loads(normalize(replay["expected"], "json", masks))
+            got = json.loads(normalize(result.get("text"), "json", masks))
+        except ValueError as e:
+            return [f"replay {replay.get('source')}: body isn't JSON on both sides ({e})"]
+        if want == got:
+            return []
+        return [f"replay {replay.get('source')}: JSON differs; recorded\n" + printer(want) + "target\n" + printer(got)]
+    want, got = normalize(replay["expected"], mode, masks), normalize(result.get("text"), mode, masks)
+    if want == got:
+        return []
+    return [f"replay {replay.get('source')}: body ({mode}) differs\n  recorded: {want[:400]!r}\n  target:   {got[:400]!r}"]
 
 
 def printer(value):
@@ -248,11 +592,11 @@ def printer(value):
 
 # ---------------------------------------------------------------- running
 
-def adapter_for(name):
+def adapter_for(name, gateways=None):
     if name == "django":
         sys.path.insert(0, str(HERE))
         import afs_spec_django
-        return afs_spec_django.DjangoAdapter()
+        return afs_spec_django.DjangoAdapter(gateways=gateways)
     raise SpecError(f"no spec adapter {name!r} (the stack pack's profile names one under spec.adapter)")
 
 
@@ -267,15 +611,46 @@ def run_cases(cases, adapter, pending=()):
         adapter.setup()
         stack.callback(adapter.teardown)
         for case in cases:
-            try:
-                with adapter.case(case["given"]):
-                    result = adapter.act(case["when"])
-                failed = verdict(case["then"], result)
-            except Exception as e:                     # a setup or action that raises is a failure, shown as one
-                failed, result = [f"error: {type(e).__name__}: {e}"], {}
+            failed = run_property(case, adapter) if case.get("property") else run_one(case, adapter)
             results.append({"id": case["id"], "title": case["title"], "capability": case["capability"],
                             "rules": case["rules"], "passed": not failed, "failures": failed})
     return results
+
+
+def run_one(case, adapter):
+    try:
+        with adapter.case(case["given"]):
+            result = adapter.act(case["when"])
+        return verdict(case["then"], result)
+    except Exception as e:                     # a setup or action that raises is a failure, shown as one
+        return [f"error: {type(e).__name__}: {e}"]
+
+
+def run_property(case, adapter):
+    """Every sample must pass; the first that fails is shrunk to the smallest failing input and reported."""
+    prop, tpl = case["property"], case["template"]
+
+    def concrete(row):
+        c = {"given": substitute(copy.deepcopy(tpl["given"]), row), "when": substitute(copy.deepcopy(tpl["when"]), row),
+             "then": substitute(copy.deepcopy(tpl["then"]), row)}
+        return resolve_schema(resolve_replay(c, case["root"]), case["root"])
+
+    for row in prop["samples"]:
+        failed = run_one(concrete(row), adapter)
+        if failed:
+            smallest = shrink(prop["forall"], row, lambda r: bool(run_one(concrete(r), adapter)))
+            again = run_one(concrete(smallest), adapter) or failed
+            shown = ", ".join(f"{k}={v}" for k, v in sorted(smallest.items()))
+            return [f"fails for {shown} (the smallest failing input found, from {len(prop['samples'])} tried)"] + again
+    return []
+
+
+def profile_gateways(profile=".migration/profile.yaml"):
+    try:
+        doc = yaml.safe_load(pathlib.Path(profile).read_text(encoding="utf-8")) or {}
+    except OSError:
+        return {}
+    return ((doc.get("spec") or {}).get("gateways")) or {}
 
 
 def profile_adapter(profile=".migration/profile.yaml"):
@@ -312,6 +687,10 @@ def render(slice_, spec_dir, ledger_dir, results=None):
                 lines.append(f"- expected values from the legacy app: `{case['oracle']}`")
             if case.get("ruling"):
                 lines.append(f"- expected values set by quirk ruling {case['ruling']}")
+            for name, gen in (case.get("forall") or {}).items():
+                kind, lo, hi = bounds(gen)
+                lines.append(f"- for every **{name}** " + (f"in {', '.join(map(str, lo))}" if kind == "one_of"
+                                                            else f"from {lo} to {hi}"))
             lines.append("")
             lines.append(f"When {describe(case['when'])}, then {describe_then(case['then'])}.")
             ex = case.get("examples")
@@ -339,6 +718,9 @@ def mark(result):
 
 
 def describe(when):
+    if "replay" in when:
+        r = when["replay"]
+        return f"the recorded exchange `{r['exchange']}` (`{r['recording']}`) is replayed"
     if "http" in when:
         h = when["http"]
         return f"`{h['method']} {h['path']}`"
@@ -348,11 +730,21 @@ def describe(when):
 
 def describe_then(then):
     parts = []
+    if "replay" in then:
+        parts.append(f"the same status and body as recorded ({then['replay']['body']})")
+    if "schema" in then:
+        parts.append("a body shaped as " + (f"`{then['schema']}`" if isinstance(then["schema"], str) else "the contract"))
+    for name, reqs in (then.get("sent") or {}).items():
+        parts.append(f"{name} was sent " + (", ".join(f"`{r['method']} {r['path']}`" for r in reqs) or "nothing"))
     if "status" in then:
         parts.append(str(then["status"]))
     if "json" in then:
         parts.append(json.dumps(then["json"], ensure_ascii=False))
     parts += [f"shows {t!r}" for t in then.get("text") or []]
+    if "number" in then:
+        n = then["number"]
+        parts.append(f"`{n['pattern']}` is " + " and ".join(
+            x for x in (f"at least {n['min']}" if "min" in n else "", f"at most {n['max']}" if "max" in n else "") if x))
     parts += [f"never {t!r}" for t in then.get("not_text") or []]
     return ", ".join(parts)
 
@@ -372,6 +764,7 @@ def main(argv=None):
             p.add_argument("--slice")
             p.add_argument("--adapter")
             p.add_argument("--all", action="store_true", help="also run capabilities that aren't built yet")
+            p.add_argument("--samples", type=int, default=25, help="inputs each property case tries (default 25)")
             p.add_argument("--results", default=".migration/runs/spec-results.json")
         if name == "render":
             p.add_argument("slice")
@@ -392,11 +785,13 @@ def main(argv=None):
                 print(p)
             print(f"AFS-RESULT gate=spec cases=0 failed=0 problems={len(problems)}")
             return 1
+        SAMPLES[0] = max(1, a.samples)
         cases = [c for path in spec_files(a.spec, a.slice) for c in expand(load(path), path)]
         pending = set() if a.all else {c["capability"] for c in cases
                                         if ledger_status(a.ledger, c["capability"]) not in BUILT}
         runnable = [c for c in cases if c["capability"] not in pending]
-        results = run_cases(cases, adapter_for(a.adapter or profile_adapter()) if runnable else None, pending)
+        adapter = adapter_for(a.adapter or profile_adapter(), profile_gateways()) if runnable else None
+        results = run_cases(cases, adapter, pending)
         for cap in sorted(pending):
             print(f"PEND {cap}: not built yet (ledger status {ledger_status(a.ledger, cap)!r}); its cases run "
                   "once the status is in-progress or migrated")

@@ -9,7 +9,7 @@ from this session, or verified durable Actions output for identical execution in
 | 1 · Build | Compiles, loads and configures cleanly? (`gates.build`) | every PR |
 | 2 · Behavior | Characterization and transcribed legacy tests pass at the boundary? (`gates.tests`) | every PR |
 | 2s · Spec | The slice's customer spec passes for every capability the ticket builds? (`gates.spec`, `afs-spec run`, [spec.md](spec.md)). Reported as `gates.spec: <exit>` by a Migrator ticket whose capability has a spec, run after the ledger marks it `migrated` so its cases aren't skipped as pending (ADR-0063). At slice acceptance, `afs-mutation --all --spec` reports how many mutants the spec alone kills (`spec_mutation_score`, a report, not a threshold) | every PR / slice |
-| 3 · Idiom & architecture | Idiomatic for the target (`gates.idiom`); conforms to target ADRs — layers, DI, domain boundaries (review with `clean-architecture`, `domain-driven-design`, `code-review`) | every PR |
+| 3 · Idiom & architecture | Idiomatic for the target (`gates.idiom`); conforms to target ADRs — layers, DI, domain boundaries (review with `clean-architecture`, `domain-driven-design`, `code-review`). The layers are the profile's `layering.contracts`, run by `check_layers.py`; a target with code must declare them (ADR-0066) | every PR |
 | 4 · CRAP | No method above `thresholds.crap_max_per_method` (`gates.crap`) | every PR |
 | 5 · Mutation | Mutation score on the **files a PR changes** ≥ `thresholds.mutation_score_min` (`gates.mutation_changed`, run by `afs-mutation`: changed files only, each mutant runs its context's tests, shards run in parallel; CI runs it too). The full run (`gates.mutation_full`) happens **once, at slice acceptance**, never per ticket | every PR / slice |
 | 6 · Regression | Full suite green; earlier slices unaffected | every PR (CI) |
@@ -31,6 +31,9 @@ clock, randomness, the network, a gateway adapter. Don't patch the project's own
 private names (`_helper`, `obj._cache`), and don't assert which internal call was made (`assert_called_*` on
 your own code). The coupling guard (`afs-test-health --check`) flags these on the lines your branch adds. A
 line that truly needs one ends with `# afs: allow-mock <why>`; the reason is reviewed with the PR.
+In a browser test, assert with Playwright's `expect(...)`, which waits for the page, not with `assert` on
+`is_visible()` or `inner_text()`, which read once; and look headers up by their lowercase name (ADR-0065,
+`# afs: allow-browser <why>`).
 
 ## Test isolation
 Tests leave shared state as they found it. A test that commits for real (a browser test against a live
@@ -39,6 +42,11 @@ for the tests after it. Prefer one project-wide setting to per-test marks (Djang
 `django_db_serialized_rollback` fixture returning `True` in `tests/conftest.py`). The profile's
 `target.shared_test_files` lists where that setting lives; any ticket may change those files. Run the full
 suite in its default order before finishing: a test that passes alone can still break another one.
+
+A gate that fails and then passes on the same code is flaky, not fixed. `afs-run` notices (`AFS-FLAKY`) and
+records the failing tests in `.migration/evidence/flaky/<ticket>.md`. Commit that file and name the tests in
+your return's notes, and don't rerun gates until one passes. The AFS flaky tests workflow opens a ticket per
+test (ADR-0070).
 
 ## Differential fidelity
 
