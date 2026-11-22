@@ -8,7 +8,7 @@ gates:
   spec: 0
   idiom: 1
   crap: null
-  mutation_changed: null
+  mutation_changed: 1.000
   regression: null
 evidence_logs:
   - .migration/evidence/runs/REF-20261122-ADMIN-LIVE-MAP.md
