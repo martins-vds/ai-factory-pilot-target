@@ -32,3 +32,15 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-23T00:00:05+00:00 | setup-probe-resume | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-23T00:00:26+00:00 | resume-ruff-check | 0 | 0.06 | `ruff check` | `82b3e6a6c090a576` |  |  |
 | 2026-11-23T00:00:33+00:00 | resume-map-tests | 0 | 7.92 | `pytest -q tests/cargo/interfaces/test_admin_live_map_data.py tests/cargo/interfaces/test_admin_live_map_markers.py tests/cargo/interfaces/test_admin_live_map_processing.py tests/cargo/interfaces/test_admin_live_map_templates.py` | `93ef6510ce8231c8` |  |  |
+| 2026-11-23T00:00:41+00:00 | build-compile-resume | 0 | 0.05 | `python -m compileall -q src` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-23T00:00:43+00:00 | build-check-resume | 0 | 0.37 | `python manage.py check` | `1e3e63f221bde888` |  |  |
+| 2026-11-23T00:02:00+00:00 | behavior-resume | 0 | 74.29 | `pytest -q` | `732ec8dbaec820c7` |  |  |
+| 2026-11-23T00:02:03+00:00 | spec-resume | 0 | 0.07 | `python .migration/harness/tools/afs-spec run` | `1b0b939f3e1e502f` |  | gate=spec cases=0 failed=0 pending=0 |
+| 2026-11-23T00:02:05+00:00 | format-resume | 0 | 0.03 | `ruff format --check` | `b221fa32ed80fb2e` |  |  |
+| 2026-11-23T00:02:08+00:00 | layers-resume | 0 | 0.16 | `python .migration/harness/tools/check_layers.py` | `59bfd54275a9b5a4` | src/cargotracker/booking/application/routing.py:1: known, not failing: use cases don't depend on web adapters or persist | gate=layering contracts=3 violations=0 known=3 |
+| 2026-11-23T00:02:11+00:00 | ui-resume | 0 | 0.34 | `python .migration/harness/tools/check_ui.py` | `b9ae03306fe277bb` |  | gate=ui scope="templates changed since origin/main" templates=0 findings=0 |
+| 2026-11-23T00:03:26+00:00 | crap-coverage-resume | 0 | 72.52 | `pytest -q --cov=src --cov-report=lcov:.migration/runs/crap.lcov` | `bed6990c4d3debe2` |  |  |
+| 2026-11-23T00:03:34+00:00 | crap-lizard-resume | 0 | 0.17 | `bash -c 'lizard --csv src > .migration/runs/lizard.csv'` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-23T00:03:36+00:00 | crap-threshold-resume | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `dbeb57242d6b2a6b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
+| 2026-11-23T00:05:03+00:00 | mutation-changed-resume | 0 | 84.24 | `python .migration/harness/tools/afs-mutation` | `ca55ae869b106a3e` |  | gate=mutation score=0.973 threshold=0.8 killed=36 survived=1 files=2 base=origin/main |
+| 2026-11-23T00:06:30+00:00 | regression-resume | 0 | 73.55 | `pytest -q` | `43a8607e09f1116c` |  |  |
