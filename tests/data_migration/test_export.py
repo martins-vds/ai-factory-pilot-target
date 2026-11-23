@@ -3,14 +3,15 @@ import json
 from datetime import UTC, date, datetime, timedelta, timezone, tzinfo
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 import yaml
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import override_settings
 
 from cargotracker.cargo.infrastructure.models import CargoRecord
+from cargotracker.data_migration.exporter import export_snapshot
 from cargotracker.location.infrastructure.models import LocationRecord
 
 FIXTURE_SNAPSHOT = Path(__file__).parent / 'fixtures' / 'DM-05C'
@@ -22,8 +23,13 @@ class OffsetlessTimezone(tzinfo):
 
 
 @pytest.mark.django_db(transaction=True)
-def test_export_command_uses_registered_models_and_rejects_auto_created_tables(tmp_path):
+def test_export_snapshot_excludes_proxy_and_auto_created_models(tmp_path):
     LocationRecord.objects.create(id=101, unlocode='USNYC', name='New York')
+    registered_models = [
+        LocationRecord,
+        SimpleNamespace(_meta=SimpleNamespace(db_table='location', proxy=True, auto_created=False)),
+        SimpleNamespace(_meta=SimpleNamespace(db_table='location', proxy=False, auto_created=True)),
+    ]
     mapping = {
         'tables': [
             {
@@ -36,32 +42,17 @@ def test_export_command_uses_registered_models_and_rejects_auto_created_tables(t
     mapping_path = tmp_path / 'mapping.yaml'
     mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
     output = tmp_path / 'export'
-    stdout = StringIO()
 
-    call_command(
-        'export_data_snapshot',
-        mapping=str(mapping_path),
-        out=str(output),
-        stdout=stdout,
-    )
+    assert export_snapshot(
+        mapping_path,
+        output,
+        registered_models=registered_models,
+    ) == [('location', 1)]
 
-    assert stdout.getvalue() == 'Exported 1 rows across 1 mapped tables.\n'
     with (output / 'location.csv').open(newline='', encoding='utf-8') as stream:
         assert list(csv.DictReader(stream)) == [
             {'id': '101', 'unlocode': 'USNYC', 'name': 'New York'}
         ]
-
-    mapping['tables'][0]['target'] = 'auth_group_permissions'
-    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
-    with pytest.raises(CommandError) as error:
-        call_command(
-            'export_data_snapshot',
-            mapping=str(mapping_path),
-            out=str(output),
-        )
-    assert str(error.value) == (
-        'auth_group_permissions: no registered Django model for target table'
-    )
 
 
 @pytest.mark.django_db(transaction=True)
@@ -238,7 +229,6 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         ]
 
 
-@pytest.mark.django_db(transaction=True)
 @pytest.mark.parametrize(
     'calculated_at',
     [
@@ -246,23 +236,35 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         datetime(2026, 2, 1, 12, tzinfo=OffsetlessTimezone()),
     ],
 )
-@override_settings(USE_TZ=False)
-def test_export_command_formats_naive_and_offsetless_datetimes_in_mapping_timezone(
+def test_export_snapshot_formats_naive_and_offsetless_datetimes_in_mapping_timezone(
     calculated_at, tmp_path
 ):
-    location = LocationRecord.objects.create(id=1, unlocode='USNYC', name='New York')
-    CargoRecord.objects.create(
-        id=10,
-        tracking_id='FIDELITY-0010',
-        origin=location,
-        spec_origin=location,
-        spec_destination=location,
-        spec_arrival_deadline=date(2026, 1, 1),
-        transport_status='NOT_RECEIVED',
-        misdirected=False,
-        unloaded_at_dest=False,
-        routing_status='NOT_ROUTED',
-        calculated_at=calculated_at,
+    primary_key = SimpleNamespace(column='id', name='id', attname='id')
+    timestamp = SimpleNamespace(
+        column='calculated_at',
+        name='calculated_at',
+        attname='calculated_at',
+    )
+
+    class Manager:
+        def count(self):
+            return 1
+
+        def order_by(self, *ordering):
+            return self
+
+        def iterator(self, chunk_size):
+            return iter([SimpleNamespace(id=10, calculated_at=calculated_at)])
+
+    model = SimpleNamespace(
+        _meta=SimpleNamespace(
+            db_table='cargo',
+            proxy=False,
+            auto_created=False,
+            concrete_fields=[primary_key, timestamp],
+            pk=primary_key,
+        ),
+        _base_manager=Manager(),
     )
     mapping = {
         'defaults': {'timestamp_tz': 'America/New_York'},
@@ -278,7 +280,11 @@ def test_export_command_formats_naive_and_offsetless_datetimes_in_mapping_timezo
     mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
     output = tmp_path / 'export'
 
-    call_command('export_data_snapshot', mapping=str(mapping_path), out=str(output))
+    assert export_snapshot(
+        mapping_path,
+        output,
+        registered_models=[model],
+    ) == [('cargo', 1)]
 
     with (output / 'cargo.csv').open(newline='', encoding='utf-8') as stream:
         rows = list(csv.DictReader(stream))

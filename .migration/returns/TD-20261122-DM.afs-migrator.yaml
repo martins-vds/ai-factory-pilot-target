@@ -1,0 +1,27 @@
+role: afs-migrator
+ticket: TD-20261122-DM
+issue: martins-vds/ai-factory-pilot-target#515
+pr: martins-vds/ai-factory-pilot-target#518
+gates:
+  build: 0
+  behavior: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.979
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TD-20261122-DM.md
+ledger_updated: []
+quirk_tickets: []
+new_tickets: []
+rules: []
+no_rules: {}
+handoff: none
+notes: >-
+  Added an optional registered_models argument to export_snapshot so proxy and
+  auto-created model selection can be tested through the public export use case;
+  its default still uses Django's app registry. The serialization cases also run
+  through export_snapshot to preserve naive and offsetless datetime behavior.
+  No default export or load behavior changed. The spec gate passed with 0 cases,
+  0 failures, and 0 pending. Two surviving mutants are documented in
+  .migration/evidence/mutants/TD-20261122-DM.md.
