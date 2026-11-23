@@ -1,15 +1,25 @@
+import random
 import re
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 import pytest
 from django.test import override_settings
 
+from cargotracker.pathfinder.application.routing import RoutingService
+from cargotracker.pathfinder.interfaces import api
+
+NOW = datetime(2026, 11, 7, 12, 0, tzinfo=UTC)
 ENDPOINT = '/rest/graph-traversal/shortest-path'
 URLCONF = 'cargotracker.pathfinder.interfaces.urls'
 
 
 @override_settings(ROOT_URLCONF=URLCONF)
-def test_shortest_path_returns_transit_json_and_ignores_deadline(client):
+def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeypatch):
+    monkeypatch.setattr(  # afs: allow-mock seeded randomness and a fixed clock make the comparison deterministic
+        api,
+        'routing_service',
+        RoutingService(random_source=random.Random(29), clock=lambda: NOW),
+    )
     response = client.get(
         ENDPOINT,
         {
@@ -38,6 +48,16 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client):
                 assert re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z', value)
                 parsed = datetime.fromisoformat(value)
                 assert parsed.utcoffset() == timedelta(0)
+
+    monkeypatch.setattr(  # afs: allow-mock reset boundary inputs for an equivalent no-deadline request
+        api,
+        'routing_service',
+        RoutingService(random_source=random.Random(29), clock=lambda: NOW),
+    )
+    without_deadline = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
+
+    assert without_deadline.status_code == 200
+    assert without_deadline.json() == paths
 
 
 @override_settings(ROOT_URLCONF=URLCONF)
