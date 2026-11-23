@@ -148,3 +148,18 @@ open_questions:
   - Define permanent-rejection reason codes and messages.
   - Define the retry backoff schedule and approximately-15-minute error-log behavior.
 ```
+
+## TD-20261122-HR: Rewrite the registration-processing tests that patch the project's own code
+
+**Test debt** in the `handling-registration` slice: lines `afs-test-health` flags in tests written before the coupling guard (ADR-0064, ADR-0065):
+
+  - `tests/handling/test_registration_processing.py:52` own-code patch: `cargotracker.handling.management.commands.process_handling_attempts.process_registration_attempt`
+  - `tests/handling/test_registration_processing.py:81` own-code patch: `cargotracker.handling.management.commands.process_handling_attempts.process_registration_attempt`
+  - `tests/handling/test_registration_processing.py:109` own-code patch: `cargotracker.handling.management.commands.process_handling_attempts.process_registration_attempt`
+  - `tests/handling/test_registration_processing.py:496` own-code patch: `cargotracker.handling.infrastructure.attempt_processing_repository.DjangoAttemptProcessingRepository.mark_registered`
+  - `tests/differential/test_handling_registration.py:439` own-code patch: `cargotracker.handling.infrastructure.attempt_processing_repository.DjangoAttemptProcessingRepository.mark_registered`
+  - `tests/differential/test_handling_registration.py:445` private access: `processing._process_registration_attempt_once`
+
+Rewrite each one to check the outcome through a public entry point (the command, the use case, the HTTP client) instead of patching the project's own functions or reading private names (ADR-0064). Where a line is a genuine boundary seam (randomness, the clock, a simulated crash or I/O failure that can't be reached otherwise), keep it and end it with `# afs: allow-mock <why>`; the reason is reviewed.
+
+**Behaviour doesn't change.** Change production code only to expose a clean seam a test needs, and say why in your return's `notes`. Every rewritten test must still fail if the behaviour it covers breaks. When you finish, `python .migration/harness/tools/afs-test-health` must list none of these lines (an exempted line with a reason is fine).

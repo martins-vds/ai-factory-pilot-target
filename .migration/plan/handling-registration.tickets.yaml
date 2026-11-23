@@ -88,3 +88,13 @@ tickets:
   - .migration/returns/HR-04F.afs-auditor.yaml
   blocked_by:
   - HR-04E
+- id: TD-20261122-HR
+  title: Rewrite the registration-processing tests that patch the project's own code
+  role: afs-migrator
+  specialty: null
+  files:
+  - tests/handling/test_registration_processing.py
+  - tests/differential/test_handling_registration.py
+  - src/cargotracker/handling/
+  capabilities: []
+  blocked_by: []

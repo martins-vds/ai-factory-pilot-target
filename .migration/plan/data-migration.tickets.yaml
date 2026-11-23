@@ -54,3 +54,13 @@ tickets:
   - tests/data_migration/test_invariants.py
   blocked_by:
   - DM-05C
+- id: TD-20261122-DM
+  title: Rewrite the export and load tests that reach into private helpers
+  role: afs-migrator
+  specialty: null
+  files:
+  - tests/data_migration/test_export.py
+  - tests/data_migration/test_load.py
+  - src/cargotracker/data_migration/
+  capabilities: []
+  blocked_by: []
