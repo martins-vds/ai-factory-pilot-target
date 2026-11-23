@@ -19,6 +19,7 @@ handoff: none
 rules: []
 no_rules: {}
 notes: >-
-  The API test now verifies response invariants through the Django HTTP client,
-  using a past deadline to prove the endpoint still returns paths. It no longer
-  requires seeded randomness or a frozen clock, so no production seam was needed.
+  The API test retains the past-deadline success check and now compares its JSON
+  with an otherwise identical request without a deadline. The service is reset
+  to the same random seed and fixed clock for each request; these are documented
+  boundary mocks because the public API has no injection mechanism for them.
