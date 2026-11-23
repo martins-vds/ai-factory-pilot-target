@@ -3,19 +3,22 @@ ticket: REF-20261122-ADMIN-LIVE-MAP
 issue: martins-vds/ai-factory-pilot-target#511
 pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/512
 gates:
-  build: null
-  behavior: null
+  build: 0
+  behavior: 0
   spec: 0
-  idiom: 1
-  crap: null
-  mutation_changed: 1.000
-  regression: null
+  idiom: 0
+  crap: 0
+  mutation_changed: 0.973
+  regression: 0
 evidence_logs:
   - .migration/evidence/runs/REF-20261122-ADMIN-LIVE-MAP.md
 ledger_updated: []
 quirk_tickets: []
 new_tickets: []
-handoff: .migration/handoffs/REF-20261122-ADMIN-LIVE-MAP.md
+handoff: none
 rules: []
 no_rules: {}
-notes: No tests changed. Build, behavior, CRAP, mutation, and regression need fresh runs after the final import adjustment.
+notes: >-
+  No tests changed. Final gates passed after the import fix. Changed-code mutation
+  score 0.973 (36 killed, 1 survived); survivor changes the preserved
+  UNKNOWN_LOCATION module attribute to None.
