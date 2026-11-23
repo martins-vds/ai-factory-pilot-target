@@ -30,3 +30,5 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-22T23:53:38+00:00 | final-ruff-check-rerun | 1 | 0.01 | `ruff check` | `35e37249e3119d29` | Found 1 error. |  |
 | 2026-11-22T23:55:57+00:00 | setup-probe | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
 | 2026-11-23T00:00:05+00:00 | setup-probe-resume | 0 | 0.0 | `true` | `e3b0c44298fc1c14` |  |  |
+| 2026-11-23T00:00:26+00:00 | resume-ruff-check | 0 | 0.06 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-23T00:00:33+00:00 | resume-map-tests | 0 | 7.92 | `pytest -q tests/cargo/interfaces/test_admin_live_map_data.py tests/cargo/interfaces/test_admin_live_map_markers.py tests/cargo/interfaces/test_admin_live_map_processing.py tests/cargo/interfaces/test_admin_live_map_templates.py` | `93ef6510ce8231c8` |  |  |
