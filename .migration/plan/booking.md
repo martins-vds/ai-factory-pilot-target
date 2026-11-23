@@ -176,3 +176,14 @@ The admin cargo-details URL is provisionally `/admin/cargo/<tracking_id>/` so AM
 **Open questions for the Program Orchestrator:**
 
 - Confirm the provisional target URL contracts for the wizard, dashboard, route-selection, and dialog flows before approving the plan. The admin cargo-details route is provisionally `/admin/cargo/<tracking_id>/` and is the AM-04D destination.
+
+## TD-20261122-PF: Give the pathfinder API test a clean seam for randomness and the clock
+
+**Test debt** in the `booking` slice: lines `afs-test-health` flags in tests written before the coupling guard (ADR-0064, ADR-0065):
+
+  - `tests/pathfinder/test_api.py:18` own-code patch: `cargotracker.pathfinder.interfaces.api.routing_service`
+  - `tests/pathfinder/test_api.py:54` own-code patch: `cargotracker.pathfinder.interfaces.api.routing_service`
+
+Rewrite each one to check the outcome through a public entry point (the command, the use case, the HTTP client) instead of patching the project's own functions or reading private names (ADR-0064). Where a line is a genuine boundary seam (randomness, the clock, a simulated crash or I/O failure that can't be reached otherwise), keep it and end it with `# afs: allow-mock <why>`; the reason is reviewed.
+
+**Behaviour doesn't change.** Change production code only to expose a clean seam a test needs, and say why in your return's `notes`. Every rewritten test must still fail if the behaviour it covers breaks. When you finish, `python .migration/harness/tools/afs-test-health` must list none of these lines (an exempted line with a reason is fine).

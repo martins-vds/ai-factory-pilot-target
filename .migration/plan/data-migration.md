@@ -50,3 +50,19 @@ Do not edit `.migration/profile.yaml` in this planning ticket. After approval, p
 - Resolve #255: decide how to handle source SEQUENCE metadata after importing explicit IDs, including target-native sequence alignment.
 - Approve the mapping/loader strategy for the nullable CARGO.last_event_id ↔ HANDLINGEVENT.cargo_id cycle.
 - Approve the proposed `profile.data.load` and `profile.data.export` commands above.
+
+## TD-20261122-DM: Rewrite the export and load tests that reach into private helpers
+
+**Test debt** in the `data-migration` slice: lines `afs-test-health` flags in tests written before the coupling guard (ADR-0064, ADR-0065):
+
+  - `tests/data_migration/test_export.py:28` own-code patch: `cargotracker.data_migration.exporter.apps.get_models`
+  - `tests/data_migration/test_export.py:30` private access: `exporter._model_index`
+  - `tests/data_migration/test_export.py:214` private access: `exporter._format_value`
+  - `tests/data_migration/test_export.py:216` private access: `exporter._format_value`
+  - `tests/data_migration/test_load.py:395` private access: `loader._set_deferred_references`
+  - `tests/data_migration/test_load.py:403` own-code patch: `cargotracker.data_migration.loader._set_deferred_references`
+  - `tests/data_migration/test_load.py:1035` own-code patch: `cargotracker.data_migration.loader.connection.vendor`
+
+Rewrite each one to check the outcome through a public entry point (the command, the use case, the HTTP client) instead of patching the project's own functions or reading private names (ADR-0064). Where a line is a genuine boundary seam (randomness, the clock, a simulated crash or I/O failure that can't be reached otherwise), keep it and end it with `# afs: allow-mock <why>`; the reason is reviewed.
+
+**Behaviour doesn't change.** Change production code only to expose a clean seam a test needs, and say why in your return's `notes`. Every rewritten test must still fail if the behaviour it covers breaks. When you finish, `python .migration/harness/tools/afs-test-health` must list none of these lines (an exempted line with a reason is fine).

@@ -184,3 +184,12 @@ tickets:
   - .migration/returns/BK-05K.afs-migrator.yaml
   capabilities: []
   blocked_by: []
+- id: TD-20261122-PF
+  title: Give the pathfinder API test a clean seam for randomness and the clock
+  role: afs-migrator
+  specialty: null
+  files:
+  - tests/pathfinder/test_api.py
+  - src/cargotracker/pathfinder/
+  capabilities: []
+  blocked_by: []
