@@ -101,9 +101,13 @@ def test_worker_processes_attempts_before_polling(
     )  # afs: allow-mock stop the public worker after it drains the queue
     fail_update, registered_updates = _fail_registered_updates(1)
 
-    with connection.execute_wrapper(fail_update):  # afs: allow-mock simulate one transient database write failure
-        with pytest.raises(StopWorker):
-            call_command('process_handling_attempts')
+    with (
+        connection.execute_wrapper(
+            fail_update
+        ),  # afs: allow-mock simulate one transient database write failure
+        pytest.raises(StopWorker),
+    ):
+        call_command('process_handling_attempts')
 
     first_status = RegistrationAttemptRecord.objects.get(pk=first_attempt.id).status
     second_status = RegistrationAttemptRecord.objects.get(pk=second_attempt.id).status
@@ -112,8 +116,7 @@ def test_worker_processes_attempts_before_polling(
     assert retry_delays == [expected_retry]
     assert sleeps == [expected_poll]
     assert (
-        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
-        == events_before + 2
+        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 2
     )
 
 
@@ -499,11 +502,13 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
         processing, 'sleep', advance_clock, raising=False
     )  # afs: allow-mock control retry timing without waiting 15 minutes
 
-    with caplog.at_level(logging.ERROR, logger=processing.__name__):
-        with connection.execute_wrapper(
+    with (
+        caplog.at_level(logging.ERROR, logger=processing.__name__),
+        connection.execute_wrapper(
             fail_update
-        ):  # afs: allow-mock simulate transient database write failures
-            assert _process() is True
+        ),  # afs: allow-mock simulate transient database write failures
+    ):
+        assert _process() is True
 
     attempt_record = RegistrationAttemptRecord.objects.get(pk=attempt.id)
     assert attempt_record.status == 'registered'

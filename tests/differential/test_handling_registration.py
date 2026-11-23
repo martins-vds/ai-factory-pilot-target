@@ -457,7 +457,6 @@ def test_registration_and_inspection_updates_roll_back_together(client):
     assert attempt.status == 'registered'
     assert len(registered_updates) == 2
     assert (
-        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
-        == events_before + 1
+        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 1
     )
     assert DjangoCargoRepository().find(TrackingId('ABC123')).delivery != delivery_before
