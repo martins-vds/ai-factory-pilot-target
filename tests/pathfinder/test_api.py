@@ -49,7 +49,7 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeyp
                 parsed = datetime.fromisoformat(value)
                 assert parsed.utcoffset() == timedelta(0)
 
-    monkeypatch.setattr(  # afs: allow-mock reset boundary inputs for an equivalent no-deadline request
+    monkeypatch.setattr(  # afs: allow-mock repeat the seed and clock for deterministic comparison
         api,
         'routing_service',
         RoutingService(random_source=random.Random(29), clock=lambda: NOW),
