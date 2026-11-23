@@ -1,5 +1,5 @@
 import re
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta
 
 import pytest
 from django.test import override_settings
