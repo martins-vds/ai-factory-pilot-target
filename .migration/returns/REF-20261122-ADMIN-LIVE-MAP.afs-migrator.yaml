@@ -21,4 +21,6 @@ no_rules: {}
 notes: >-
   No tests changed. Final gates passed after the import fix. Changed-code mutation
   score 0.973 (36 killed, 1 survived); survivor changes the preserved
-  UNKNOWN_LOCATION module attribute to None.
+  UNKNOWN_LOCATION module attribute to None. After the final source state,
+  idiom reruns `idiom-ruff-final`, `idiom-format-final`,
+  `idiom-layers-final`, and `idiom-ui-final` all passed.
