@@ -44,3 +44,7 @@ Written by `afs-run`, one row per gate run. Raw logs are not committed; the SHA-
 | 2026-11-23T00:03:36+00:00 | crap-threshold-resume | 0 | 0.04 | `python .migration/harness/tools/crap.py .migration/runs/lizard.csv --lcov .migration/runs/crap.lcov --max 30` | `dbeb57242d6b2a6b` |  | gate=crap max=26.0 threshold=30 over=0 methods=213 |
 | 2026-11-23T00:05:03+00:00 | mutation-changed-resume | 0 | 84.24 | `python .migration/harness/tools/afs-mutation` | `ca55ae869b106a3e` |  | gate=mutation score=0.973 threshold=0.8 killed=36 survived=1 files=2 base=origin/main |
 | 2026-11-23T00:06:30+00:00 | regression-resume | 0 | 73.55 | `pytest -q` | `43a8607e09f1116c` |  |  |
+| 2026-11-23T00:08:14+00:00 | idiom-ruff-final | 0 | 0.01 | `ruff check` | `82b3e6a6c090a576` |  |  |
+| 2026-11-23T00:08:16+00:00 | idiom-format-final | 0 | 0.01 | `ruff format --check` | `b221fa32ed80fb2e` |  |  |
+| 2026-11-23T00:08:19+00:00 | idiom-layers-final | 0 | 0.17 | `python .migration/harness/tools/check_layers.py` | `59bfd54275a9b5a4` | src/cargotracker/booking/application/routing.py:1: known, not failing: use cases don't depend on web adapters or persist | gate=layering contracts=3 violations=0 known=3 |
+| 2026-11-23T00:08:21+00:00 | idiom-ui-final | 0 | 0.36 | `python .migration/harness/tools/check_ui.py` | `b9ae03306fe277bb` |  | gate=ui scope="templates changed since origin/main" templates=0 findings=0 |

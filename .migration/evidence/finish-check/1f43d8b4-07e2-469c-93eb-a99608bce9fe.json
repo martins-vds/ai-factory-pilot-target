@@ -69,5 +69,42 @@
     "blocks_before": 1,
     "decision": "allow",
     "why": "clean"
+  },
+  {
+    "at": "2026-11-23T00:07:38Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 38738,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "REF-20261122-ADMIN-LIVE-MAP",
+    "role": "afs-migrator",
+    "changed": [
+      ".migration/costs/1f43d8b4-07e2-469c-93eb-a99608bce9fe.json",
+      ".migration/evidence/mutants/REF-20261122-ADMIN-LIVE-MAP.md",
+      ".migration/evidence/runs/REF-20261122-ADMIN-LIVE-MAP.md",
+      ".migration/handoffs/REF-20261122-ADMIN-LIVE-MAP.md",
+      ".migration/returns/REF-20261122-ADMIN-LIVE-MAP.afs-migrator.yaml",
+      "src/cargotracker/cargo/application/admin_map.py",
+      "src/cargotracker/cargo/application/admin_map_data.py"
+    ],
+    "test_health": {
+      "block": true,
+      "findings": []
+    },
+    "findings": [
+      "[mechanical] You changed `src/cargotracker/cargo/application/admin_map.py` after your last run of `idiom`, so those results don't describe the code CI will check. Re-run each through afs-run and copy the new results into your return."
+    ],
+    "blocks_before": 0,
+    "decision": "block",
+    "why": "block 1 of 2"
   }
 ]
