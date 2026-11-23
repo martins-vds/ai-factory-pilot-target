@@ -11,23 +11,48 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 
 from cargotracker.cargo.infrastructure.models import CargoRecord
-from cargotracker.data_migration import exporter
+from cargotracker.data_migration.exporter import export_snapshot
 from cargotracker.location.infrastructure.models import LocationRecord
 
 FIXTURE_SNAPSHOT = Path(__file__).parent / 'fixtures' / 'DM-05C'
 
 
-def test_model_index_excludes_proxy_and_auto_created_models(monkeypatch):
-    models = [
-        SimpleNamespace(
-            _meta=SimpleNamespace(db_table='location', proxy=False, auto_created=False)
-        ),
+class OffsetlessTimezone(tzinfo):
+    def utcoffset(self, dt):
+        return None
+
+
+@pytest.mark.django_db(transaction=True)
+def test_export_snapshot_excludes_proxy_and_auto_created_models(tmp_path):
+    LocationRecord.objects.create(id=101, unlocode='USNYC', name='New York')
+    registered_models = [
+        LocationRecord,
         SimpleNamespace(_meta=SimpleNamespace(db_table='location', proxy=True, auto_created=False)),
         SimpleNamespace(_meta=SimpleNamespace(db_table='location', proxy=False, auto_created=True)),
     ]
-    monkeypatch.setattr(exporter.apps, 'get_models', lambda: models)
+    mapping = {
+        'tables': [
+            {
+                'target': 'location',
+                'key': ['id'],
+                'columns': {'id': 'ID', 'unlocode': 'UNLOCODE', 'name': 'NAME'},
+            }
+        ]
+    }
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
+    output = tmp_path / 'export'
 
-    assert exporter._model_index() == {'location': models[0]}
+    assert export_snapshot(
+        mapping_path,
+        output,
+        registered_models=registered_models,
+    ) == [('location', 1)]
+
+    with (output / 'location.csv').open(newline='', encoding='utf-8') as stream:
+        assert list(csv.DictReader(stream)) == [
+            {'id': '101', 'unlocode': 'USNYC', 'name': 'New York'}
+        ]
 
 
 @pytest.mark.django_db(transaction=True)
@@ -204,21 +229,66 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         ]
 
 
-def test_export_interprets_naive_and_offsetless_datetimes_in_mapping_timezone():
-    class OffsetlessTimezone(tzinfo):
-        def utcoffset(self, dt):
-            return None
-
-    mapping_timezone = timezone(timedelta(hours=-5))
-    expected = '2026-02-01T17:00:00+00:00'
-    assert exporter._format_value(datetime(2026, 2, 1, 12), mapping_timezone) == expected
-    assert (
-        exporter._format_value(
-            datetime(2026, 2, 1, 12, tzinfo=OffsetlessTimezone()),
-            mapping_timezone,
-        )
-        == expected
+@pytest.mark.parametrize(
+    'calculated_at',
+    [
+        datetime(2026, 2, 1, 12),
+        datetime(2026, 2, 1, 12, tzinfo=OffsetlessTimezone()),
+    ],
+)
+def test_export_snapshot_formats_naive_and_offsetless_datetimes_in_mapping_timezone(
+    calculated_at, tmp_path
+):
+    primary_key = SimpleNamespace(column='id', name='id', attname='id')
+    timestamp = SimpleNamespace(
+        column='calculated_at',
+        name='calculated_at',
+        attname='calculated_at',
     )
+
+    class Manager:
+        def count(self):
+            return 1
+
+        def order_by(self, *ordering):
+            return self
+
+        def iterator(self, chunk_size):
+            return iter([SimpleNamespace(id=10, calculated_at=calculated_at)])
+
+    model = SimpleNamespace(
+        _meta=SimpleNamespace(
+            db_table='cargo',
+            proxy=False,
+            auto_created=False,
+            concrete_fields=[primary_key, timestamp],
+            pk=primary_key,
+        ),
+        _base_manager=Manager(),
+    )
+    mapping = {
+        'defaults': {'timestamp_tz': 'America/New_York'},
+        'tables': [
+            {
+                'target': 'cargo',
+                'key': ['id'],
+                'columns': {'id': 'ID', 'calculated_at': 'CALCULATED_AT'},
+            }
+        ],
+    }
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
+    output = tmp_path / 'export'
+
+    assert export_snapshot(
+        mapping_path,
+        output,
+        registered_models=[model],
+    ) == [('cargo', 1)]
+
+    with (output / 'cargo.csv').open(newline='', encoding='utf-8') as stream:
+        rows = list(csv.DictReader(stream))
+    assert rows == [{'id': '10', 'calculated_at': '2026-02-01T17:00:00+00:00'}]
 
 
 def test_export_command_help_and_required_arguments(capsys, tmp_path):

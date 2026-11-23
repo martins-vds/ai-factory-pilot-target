@@ -11,10 +11,12 @@ class DataExportError(Exception):
     pass
 
 
-def _model_index():
+def _model_index(registered_models=None):
+    if registered_models is None:
+        registered_models = apps.get_models()
     return {
         model._meta.db_table: model
-        for model in apps.get_models()
+        for model in registered_models
         if not model._meta.proxy and not model._meta.auto_created
     }
 
@@ -104,7 +106,7 @@ def _write_table(output, table, timezone):
         raise DataExportError(f'{path}: {error}') from error
 
 
-def export_snapshot(mapping_path, output_path):
+def export_snapshot(mapping_path, output_path, *, registered_models=None):
     mapping_file = Path(mapping_path)
     try:
         mapping = yaml.safe_load(mapping_file.read_text(encoding='utf-8'))
@@ -116,7 +118,7 @@ def export_snapshot(mapping_path, output_path):
         raise DataExportError(f'{mapping_file}: mapping must be an object')
 
     timezone = _timestamp_timezone(mapping)
-    tables = _prepare_tables(mapping, _model_index())
+    tables = _prepare_tables(mapping, _model_index(registered_models))
     output = Path(output_path)
     try:
         output.mkdir(parents=True, exist_ok=True)
