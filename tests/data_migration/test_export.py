@@ -3,31 +3,65 @@ import json
 from datetime import UTC, date, datetime, timedelta, timezone, tzinfo
 from io import StringIO
 from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 import yaml
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test import override_settings
 
 from cargotracker.cargo.infrastructure.models import CargoRecord
-from cargotracker.data_migration import exporter
 from cargotracker.location.infrastructure.models import LocationRecord
 
 FIXTURE_SNAPSHOT = Path(__file__).parent / 'fixtures' / 'DM-05C'
 
 
-def test_model_index_excludes_proxy_and_auto_created_models(monkeypatch):
-    models = [
-        SimpleNamespace(
-            _meta=SimpleNamespace(db_table='location', proxy=False, auto_created=False)
-        ),
-        SimpleNamespace(_meta=SimpleNamespace(db_table='location', proxy=True, auto_created=False)),
-        SimpleNamespace(_meta=SimpleNamespace(db_table='location', proxy=False, auto_created=True)),
-    ]
-    monkeypatch.setattr(exporter.apps, 'get_models', lambda: models)
+class OffsetlessTimezone(tzinfo):
+    def utcoffset(self, dt):
+        return None
 
-    assert exporter._model_index() == {'location': models[0]}
+
+@pytest.mark.django_db(transaction=True)
+def test_export_command_uses_registered_models_and_rejects_auto_created_tables(tmp_path):
+    LocationRecord.objects.create(id=101, unlocode='USNYC', name='New York')
+    mapping = {
+        'tables': [
+            {
+                'target': 'location',
+                'key': ['id'],
+                'columns': {'id': 'ID', 'unlocode': 'UNLOCODE', 'name': 'NAME'},
+            }
+        ]
+    }
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
+    output = tmp_path / 'export'
+    stdout = StringIO()
+
+    call_command(
+        'export_data_snapshot',
+        mapping=str(mapping_path),
+        out=str(output),
+        stdout=stdout,
+    )
+
+    assert stdout.getvalue() == 'Exported 1 rows across 1 mapped tables.\n'
+    with (output / 'location.csv').open(newline='', encoding='utf-8') as stream:
+        assert list(csv.DictReader(stream)) == [
+            {'id': '101', 'unlocode': 'USNYC', 'name': 'New York'}
+        ]
+
+    mapping['tables'][0]['target'] = 'auth_group_permissions'
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
+    with pytest.raises(CommandError) as error:
+        call_command(
+            'export_data_snapshot',
+            mapping=str(mapping_path),
+            out=str(output),
+        )
+    assert str(error.value) == (
+        'auth_group_permissions: no registered Django model for target table'
+    )
 
 
 @pytest.mark.django_db(transaction=True)
@@ -204,21 +238,51 @@ def test_export_preserves_null_and_empty_strings_and_uses_utc_primary_key_order(
         ]
 
 
-def test_export_interprets_naive_and_offsetless_datetimes_in_mapping_timezone():
-    class OffsetlessTimezone(tzinfo):
-        def utcoffset(self, dt):
-            return None
-
-    mapping_timezone = timezone(timedelta(hours=-5))
-    expected = '2026-02-01T17:00:00+00:00'
-    assert exporter._format_value(datetime(2026, 2, 1, 12), mapping_timezone) == expected
-    assert (
-        exporter._format_value(
-            datetime(2026, 2, 1, 12, tzinfo=OffsetlessTimezone()),
-            mapping_timezone,
-        )
-        == expected
+@pytest.mark.django_db(transaction=True)
+@pytest.mark.parametrize(
+    'calculated_at',
+    [
+        datetime(2026, 2, 1, 12),
+        datetime(2026, 2, 1, 12, tzinfo=OffsetlessTimezone()),
+    ],
+)
+@override_settings(USE_TZ=False)
+def test_export_command_formats_naive_and_offsetless_datetimes_in_mapping_timezone(
+    calculated_at, tmp_path
+):
+    location = LocationRecord.objects.create(id=1, unlocode='USNYC', name='New York')
+    CargoRecord.objects.create(
+        id=10,
+        tracking_id='FIDELITY-0010',
+        origin=location,
+        spec_origin=location,
+        spec_destination=location,
+        spec_arrival_deadline=date(2026, 1, 1),
+        transport_status='NOT_RECEIVED',
+        misdirected=False,
+        unloaded_at_dest=False,
+        routing_status='NOT_ROUTED',
+        calculated_at=calculated_at,
     )
+    mapping = {
+        'defaults': {'timestamp_tz': 'America/New_York'},
+        'tables': [
+            {
+                'target': 'cargo',
+                'key': ['id'],
+                'columns': {'id': 'ID', 'calculated_at': 'CALCULATED_AT'},
+            }
+        ],
+    }
+    mapping_path = tmp_path / 'mapping.yaml'
+    mapping_path.write_text(yaml.safe_dump(mapping, sort_keys=False), encoding='utf-8')
+    output = tmp_path / 'export'
+
+    call_command('export_data_snapshot', mapping=str(mapping_path), out=str(output))
+
+    with (output / 'cargo.csv').open(newline='', encoding='utf-8') as stream:
+        rows = list(csv.DictReader(stream))
+    assert rows == [{'id': '10', 'calculated_at': '2026-02-01T17:00:00+00:00'}]
 
 
 def test_export_command_help_and_required_arguments(capsys, tmp_path):

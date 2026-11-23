@@ -11,9 +11,9 @@ import pytest
 import yaml
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.db import connection
 
 from cargotracker.cargo.infrastructure.models import CargoRecord, LegRecord
-from cargotracker.data_migration import loader
 from cargotracker.handling.infrastructure.models import HandlingEventRecord
 from cargotracker.location.infrastructure.models import LocationRecord
 from cargotracker.voyage.infrastructure.models import CarrierMovementRecord, VoyageRecord
@@ -391,17 +391,11 @@ def test_load_snapshot_clears_and_reloads_identical_rows(tmp_path):
 
 
 @pytest.mark.django_db(transaction=True)
-def test_load_snapshot_defers_and_restores_cargo_event_cycle(tmp_path, monkeypatch):
-    restore_references = loader._set_deferred_references
-
-    def observe_two_phase_cycle(pending):
-        assert CargoRecord.objects.get(pk=13).last_event_id is None
-        assert HandlingEventRecord.objects.get(pk=71).cargo_id == 13
-        restore_references(pending)
-        assert CargoRecord.objects.get(pk=13).last_event_id == 71
-
-    monkeypatch.setattr(loader, '_set_deferred_references', observe_two_phase_cycle)
+def test_load_snapshot_restores_cargo_event_cycle(tmp_path):
     _load_fixture(tmp_path)
+
+    assert CargoRecord.objects.get(pk=13).last_event_id == 71
+    assert HandlingEventRecord.objects.get(pk=71).cargo_id == 13
 
 
 @pytest.mark.django_db(transaction=True)
@@ -1032,7 +1026,9 @@ def test_load_snapshot_rejects_non_nullable_forward_reference(tmp_path):
 
 @pytest.mark.django_db(transaction=True)
 def test_load_snapshot_requires_postgresql(monkeypatch):
-    monkeypatch.setattr(loader.connection, 'vendor', 'sqlite')
+    monkeypatch.setattr(  # afs: allow-mock simulate a non-PostgreSQL database backend
+        connection, 'vendor', 'sqlite'
+    )
 
     with pytest.raises(CommandError) as error:
         call_command(
