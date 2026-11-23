@@ -1,0 +1,25 @@
+role: afs-migrator
+ticket: TD-20261122-PF
+issue: martins-vds/ai-factory-pilot-target#517
+pr: https://github.com/martins-vds/ai-factory-pilot-target/pull/520
+gates:
+  build: 0
+  behavior: 0
+  spec: 0
+  idiom: 0
+  crap: 0
+  mutation_changed: "n/a: no mutable code changed"
+  regression: 0
+evidence_logs:
+  - .migration/evidence/runs/TD-20261122-PF.md
+ledger_updated: []
+quirk_tickets: []
+new_tickets: []
+handoff: none
+rules: []
+no_rules: {}
+notes: >-
+  The API test retains the past-deadline success check and now compares its JSON
+  with an otherwise identical request without a deadline. The service is reset
+  to the same random seed and fixed clock for each request; these are documented
+  boundary mocks because the public API has no injection mechanism for them.

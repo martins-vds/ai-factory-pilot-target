@@ -15,18 +15,17 @@ URLCONF = 'cargotracker.pathfinder.interfaces.urls'
 
 @override_settings(ROOT_URLCONF=URLCONF)
 def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeypatch):
-    monkeypatch.setattr(
+    monkeypatch.setattr(  # afs: allow-mock seeded randomness and a fixed clock make the comparison deterministic
         api,
         'routing_service',
         RoutingService(random_source=random.Random(29), clock=lambda: NOW),
     )
-
     response = client.get(
         ENDPOINT,
         {
             'origin': 'CNHKG',
             'destination': 'USNYC',
-            'deadline': '2030-01-01T00:00:00Z',
+            'deadline': '1900-01-01T00:00:00Z',
         },
     )
 
@@ -50,15 +49,15 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeyp
                 parsed = datetime.fromisoformat(value)
                 assert parsed.utcoffset() == timedelta(0)
 
-    first_result = response.json()
-    monkeypatch.setattr(
+    monkeypatch.setattr(  # afs: allow-mock repeat the seed and clock for deterministic comparison
         api,
         'routing_service',
         RoutingService(random_source=random.Random(29), clock=lambda: NOW),
     )
-    second_response = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
+    without_deadline = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
 
-    assert second_response.json() == first_result
+    assert without_deadline.status_code == 200
+    assert without_deadline.json() == paths
 
 
 @override_settings(ROOT_URLCONF=URLCONF)

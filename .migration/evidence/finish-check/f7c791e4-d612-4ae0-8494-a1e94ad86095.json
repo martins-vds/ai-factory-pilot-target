@@ -1,0 +1,68 @@
+[
+  {
+    "at": "2026-11-23T04:13:34Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 22416,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "TD-20261122-PF",
+    "role": "afs-migrator",
+    "changed": [
+      ".migration/costs/f7c791e4-d612-4ae0-8494-a1e94ad86095.json",
+      ".migration/evidence/runs/TD-20261122-PF.md",
+      ".migration/returns/TD-20261122-PF.afs-migrator.yaml",
+      "tests/pathfinder/test_api.py"
+    ],
+    "snapshot_tests": "ok",
+    "test_health": {
+      "block": true,
+      "findings": []
+    },
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  },
+  {
+    "at": "2026-11-23T05:10:01Z",
+    "python": "/opt/hostedtoolcache/Python/3.13.18/x64/bin/python3",
+    "payload_keys": [
+      "cwd",
+      "sessionId",
+      "stopReason",
+      "stop_hook_active",
+      "timestamp",
+      "transcriptPath"
+    ],
+    "prompt_chars": 43543,
+    "prompt_from": "transcript",
+    "scope_lines": [],
+    "enabled": true,
+    "ticket": "TD-20261122-PF",
+    "role": "afs-migrator",
+    "changed": [
+      ".migration/costs/f7c791e4-d612-4ae0-8494-a1e94ad86095.json",
+      ".migration/evidence/runs/TD-20261122-PF.md",
+      ".migration/returns/TD-20261122-PF.afs-migrator.yaml",
+      "tests/pathfinder/test_api.py"
+    ],
+    "snapshot_tests": "ok",
+    "test_health": {
+      "block": true,
+      "findings": []
+    },
+    "findings": [],
+    "blocks_before": 0,
+    "decision": "allow",
+    "why": "clean"
+  }
+]
