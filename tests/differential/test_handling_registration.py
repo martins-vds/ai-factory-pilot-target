@@ -8,7 +8,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import pytest
 from django.core.management import call_command
-from django.db import OperationalError
+from django.db import OperationalError, connection
 
 import cargotracker.handling.application.process_registration_attempt as processing
 from cargotracker.cargo.domain.tracking_id import TrackingId
@@ -120,11 +120,12 @@ def _post_report(client, report):
     )
 
 
-def _process_next_attempt():
+def _process_next_attempt(retry_backoff_seconds=1.0):
     return processing.process_registration_attempt(
         DjangoAttemptProcessingRepository(),
         DjangoCargoRepository(),
         DjangoHandlingEventRepository(),
+        retry_backoff_seconds=retry_backoff_seconds,
     )
 
 
@@ -420,7 +421,7 @@ def test_accepted_handling_attempt_is_processed_after_one_second(client):
 
 
 @pytest.mark.django_db
-def test_registration_and_inspection_updates_roll_back_together(client, monkeypatch):
+def test_registration_and_inspection_updates_roll_back_together(client):
     call_command('seed_sample_data')
     report = {
         'completionTime': (TODAY + timedelta(days=1)).strftime('%Y-%m-%d 12:00'),
@@ -432,24 +433,31 @@ def test_registration_and_inspection_updates_roll_back_together(client, monkeypa
     attempt = RegistrationAttemptRecord.objects.latest('pk')
     events_before = HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
     delivery_before = DjangoCargoRepository().find(TrackingId('ABC123')).delivery
+    registered_updates = []
 
-    def fail_marking_registered(self, attempt_id):
-        raise OperationalError('force rollback after inspection update')
+    def fail_registered_update(execute, sql, params, many, context):
+        if (
+            'UPDATE' in sql.upper()
+            and RegistrationAttemptRecord._meta.db_table in sql
+            and params
+            and 'registered' in params
+        ):
+            registered_updates.append(params)
+            if len(registered_updates) == 1:
+                raise OperationalError('force rollback after inspection update')
+        return execute(sql, params, many, context)
 
-    monkeypatch.setattr(
-        DjangoAttemptProcessingRepository,
-        'mark_registered',
-        fail_marking_registered,
-    )
-    with pytest.raises(processing.TemporaryProcessingFailure):
-        processing._process_registration_attempt_once(
-            DjangoAttemptProcessingRepository(),
-            DjangoCargoRepository(),
-            DjangoHandlingEventRepository(),
-        )
+    with connection.execute_wrapper(
+        fail_registered_update
+    ):  # afs: allow-mock simulate one transient database write failure
+        assert _process_next_attempt(retry_backoff_seconds=0.001) is True
 
     attempt.refresh_from_db()
     assert response.status_code == 204
-    assert attempt.status == 'accepted'
-    assert HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before
-    assert DjangoCargoRepository().find(TrackingId('ABC123')).delivery == delivery_before
+    assert attempt.status == 'registered'
+    assert len(registered_updates) == 2
+    assert (
+        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
+        == events_before + 1
+    )
+    assert DjangoCargoRepository().find(TrackingId('ABC123')).delivery != delivery_before
