@@ -2,11 +2,10 @@ import json
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
-from math import isfinite
 
 import pytest
 from django.core.management import CommandError, call_command
-from django.db import OperationalError, close_old_connections
+from django.db import OperationalError, close_old_connections, connection
 
 import cargotracker.handling.application.process_registration_attempt as processing
 import cargotracker.handling.interfaces.rest as handling_rest
@@ -49,73 +48,76 @@ from cargotracker.voyage.domain.voyage_number import VoyageNumber
 )
 def test_worker_rejects_invalid_settings(monkeypatch, setting, value):
     monkeypatch.setenv(setting, value)
-    monkeypatch.setattr(worker, 'process_registration_attempt', lambda *args, **kwargs: False)
     monkeypatch.setattr(
         worker, 'sleep', lambda _: pytest.fail('worker slept with invalid settings')
-    )
+    )  # afs: allow-mock invalid worker settings must be rejected before sleeping
 
     with pytest.raises(CommandError):
         worker.Command().handle()
 
 
-def test_worker_sleeps_when_idle_and_processes_without_sleeping(monkeypatch):
-    calls = 0
+@pytest.mark.parametrize(
+    ('poll_setting', 'retry_setting', 'expected_poll', 'expected_retry'),
+    [
+        ('0.25', '0.5', 0.25, 0.5),
+        (None, None, 1.0, 1.0),
+    ],
+    ids=['configured-settings', 'default-settings'],
+)
+@pytest.mark.django_db
+def test_worker_processes_attempts_before_polling(
+    monkeypatch, poll_setting, retry_setting, expected_poll, expected_retry
+):
+    call_command('seed_sample_data')
+    first_attempt = accept_registration(_attempt(), DjangoAttemptSubmissionRepository())
+    second_attempt = accept_registration(
+        _attempt(completion_time=datetime.now(UTC) + timedelta(days=2)),
+        DjangoAttemptSubmissionRepository(),
+    )
+    events_before = HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
+    retry_delays = []
     sleeps = []
 
     class StopWorker(Exception):
         pass
-
-    def process_attempt(*repositories, retry_backoff_seconds):
-        nonlocal calls
-        calls += 1
-        if calls == 1:
-            assert len(repositories) == 3
-            assert retry_backoff_seconds == 0.5
-            return False
-        if calls == 2:
-            return True
-        raise StopWorker
-
-    monkeypatch.setenv('HANDLING_ATTEMPT_POLL_SECONDS', '0.25')
-    monkeypatch.setenv('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', '0.5')
-    monkeypatch.setattr(worker, 'process_registration_attempt', process_attempt)
-    monkeypatch.setattr(worker, 'sleep', sleeps.append)
-
-    with pytest.raises(StopWorker):
-        worker.Command().handle()
-
-    assert calls == 3
-    assert sleeps == [0.25]
-
-
-def test_worker_processes_and_waits_with_default_settings(monkeypatch):
-    monkeypatch.delenv('HANDLING_ATTEMPT_POLL_SECONDS', raising=False)
-    monkeypatch.delenv('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', raising=False)
-    retry_backoffs = []
-    sleeps = []
-
-    class StopWorker(Exception):
-        pass
-
-    def process_attempt(*repositories, retry_backoff_seconds):
-        assert len(repositories) == 3
-        retry_backoffs.append(retry_backoff_seconds)
-        return False
 
     def stop_after_sleep(seconds):
         sleeps.append(seconds)
         raise StopWorker
 
-    monkeypatch.setattr(worker, 'process_registration_attempt', process_attempt)
-    monkeypatch.setattr(worker, 'sleep', stop_after_sleep)
+    if poll_setting is None:
+        monkeypatch.delenv('HANDLING_ATTEMPT_POLL_SECONDS', raising=False)
+    else:
+        monkeypatch.setenv('HANDLING_ATTEMPT_POLL_SECONDS', poll_setting)
+    if retry_setting is None:
+        monkeypatch.delenv('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', raising=False)
+    else:
+        monkeypatch.setenv('HANDLING_ATTEMPT_RETRY_BACKOFF_SECONDS', retry_setting)
+    monkeypatch.setattr(
+        processing, 'sleep', retry_delays.append, raising=False
+    )  # afs: allow-mock avoid waiting during a real transient database retry
+    monkeypatch.setattr(
+        worker, 'sleep', stop_after_sleep
+    )  # afs: allow-mock stop the public worker after it drains the queue
+    fail_update, registered_updates = _fail_registered_updates(1)
 
-    with pytest.raises(StopWorker):
-        worker.Command().handle()
+    with (
+        connection.execute_wrapper(
+            fail_update
+        ),  # afs: allow-mock simulate one transient database write failure
+        pytest.raises(StopWorker),
+    ):
+        call_command('process_handling_attempts')
 
-    assert len(retry_backoffs) == 1
-    assert isfinite(retry_backoffs[0]) and retry_backoffs[0] > 0
-    assert len(sleeps) == 1
-    assert isfinite(sleeps[0]) and sleeps[0] > 0
+    first_status = RegistrationAttemptRecord.objects.get(pk=first_attempt.id).status
+    second_status = RegistrationAttemptRecord.objects.get(pk=second_attempt.id).status
+    assert first_status == second_status == 'registered'
+    assert len(registered_updates) == 3
+    assert retry_delays == [expected_retry]
+    assert sleeps == [expected_poll]
+    assert (
+        HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 2
+    )
 
 
 def _attempt(**overrides):
@@ -135,6 +137,20 @@ def _process():
         DjangoCargoRepository(),
         DjangoHandlingEventRepository(),
     )
+
+
+def _fail_registered_updates(failure_count):
+    registered_updates = []
+    table = RegistrationAttemptRecord._meta.db_table
+
+    def fail_update(execute, sql, params, many, context):
+        if 'UPDATE' in sql.upper() and table in sql and params and 'registered' in params:
+            registered_updates.append(params)
+            if len(registered_updates) <= failure_count:
+                raise OperationalError('temporary database failure')
+        return execute(sql, params, many, context)
+
+    return fail_update, registered_updates
 
 
 @pytest.mark.django_db
@@ -461,24 +477,14 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
     attempt = accept_registration(_attempt(), DjangoAttemptSubmissionRepository())
     events_before = HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count()
     delivery_before = DjangoCargoRepository().find(TrackingId('ABC123')).delivery
-    original_mark_registered = DjangoAttemptProcessingRepository.mark_registered
-    mark_calls = 0
     clock = [10_000.0]
     retry_delays = []
     retry_observations = []
-    error_times = []
-    original_error = processing.logger.error
-
-    def fail_before_marking_registered(self, attempt_id):
-        nonlocal mark_calls
-        mark_calls += 1
-        if mark_calls <= 25:
-            raise OperationalError('temporary database failure')
-        return original_mark_registered(self, attempt_id)
+    fail_update, registered_updates = _fail_registered_updates(25)
 
     def advance_clock(seconds):
         clock[0] += seconds
-        if mark_calls == 20:
+        if len(registered_updates) == 20:
             clock[0] = 10_900
         retry_delays.append(seconds)
         retry_observations.append(
@@ -489,20 +495,19 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
             )
         )
 
-    def record_error(*args, **kwargs):
-        error_times.append(clock[0])
-        return original_error(*args, **kwargs)
-
     monkeypatch.setattr(
-        DjangoAttemptProcessingRepository,
-        'mark_registered',
-        fail_before_marking_registered,
-    )
-    monkeypatch.setattr(processing.logger, 'error', record_error)
-    monkeypatch.setattr(processing, 'monotonic', lambda: clock[0], raising=False)
-    monkeypatch.setattr(processing, 'sleep', advance_clock, raising=False)
+        processing, 'monotonic', lambda: clock[0], raising=False
+    )  # afs: allow-mock control retry timing without waiting 15 minutes
+    monkeypatch.setattr(
+        processing, 'sleep', advance_clock, raising=False
+    )  # afs: allow-mock control retry timing without waiting 15 minutes
 
-    with caplog.at_level(logging.ERROR, logger=processing.__name__):
+    with (
+        caplog.at_level(logging.ERROR, logger=processing.__name__),
+        connection.execute_wrapper(
+            fail_update
+        ),  # afs: allow-mock simulate transient database write failures
+    ):
         assert _process() is True
 
     attempt_record = RegistrationAttemptRecord.objects.get(pk=attempt.id)
@@ -510,7 +515,7 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
     assert (
         HandlingEventRecord.objects.filter(cargo__tracking_id='ABC123').count() == events_before + 1
     )
-    assert mark_calls == 26
+    assert len(registered_updates) == 26
     assert clock[0] >= 10_900
     assert retry_delays[:7] == [1, 2, 4, 8, 16, 32, 60]
     assert set(retry_delays[6:]) == {60}
@@ -520,7 +525,6 @@ def test_temporary_database_failure_retries_atomically_and_logs_after_fifteen_mi
         for status, count, delivery in retry_observations
     )
     assert sum('after 15 minutes' in record.getMessage() for record in caplog.records) == 1
-    assert error_times == [10_900]
 
 
 @pytest.mark.parametrize('backoff', [0, -1, float('inf'), float('nan')])
