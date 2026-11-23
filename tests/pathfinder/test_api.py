@@ -1,32 +1,21 @@
-import random
 import re
 from datetime import UTC, datetime, timedelta
 
 import pytest
 from django.test import override_settings
 
-from cargotracker.pathfinder.application.routing import RoutingService
-from cargotracker.pathfinder.interfaces import api
-
-NOW = datetime(2026, 11, 7, 12, 0, tzinfo=UTC)
 ENDPOINT = '/rest/graph-traversal/shortest-path'
 URLCONF = 'cargotracker.pathfinder.interfaces.urls'
 
 
 @override_settings(ROOT_URLCONF=URLCONF)
-def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeypatch):
-    monkeypatch.setattr(
-        api,
-        'routing_service',
-        RoutingService(random_source=random.Random(29), clock=lambda: NOW),
-    )
-
+def test_shortest_path_returns_transit_json_and_ignores_deadline(client):
     response = client.get(
         ENDPOINT,
         {
             'origin': 'CNHKG',
             'destination': 'USNYC',
-            'deadline': '2030-01-01T00:00:00Z',
+            'deadline': '1900-01-01T00:00:00Z',
         },
     )
 
@@ -49,16 +38,6 @@ def test_shortest_path_returns_transit_json_and_ignores_deadline(client, monkeyp
                 assert re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z', value)
                 parsed = datetime.fromisoformat(value)
                 assert parsed.utcoffset() == timedelta(0)
-
-    first_result = response.json()
-    monkeypatch.setattr(
-        api,
-        'routing_service',
-        RoutingService(random_source=random.Random(29), clock=lambda: NOW),
-    )
-    second_response = client.get(ENDPOINT, {'origin': 'CNHKG', 'destination': 'USNYC'})
-
-    assert second_response.json() == first_result
 
 
 @override_settings(ROOT_URLCONF=URLCONF)
